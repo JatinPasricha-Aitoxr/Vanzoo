@@ -1,0 +1,562 @@
+/**
+ * Motion layer.
+ *
+ * Ground rules, applied throughout:
+ *   1. Animate only `opacity`, `transform` and `filter`. Every one of those is
+ *      handled by the compositor, so nothing here triggers layout or paint.
+ *      The single exception is the accordion, which uses `grid-template-rows`
+ *      because there is no compositor-friendly way to animate to auto height.
+ *   2. No `will-change` left permanently on an element — it forces a layer for
+ *      the lifetime of the page and costs memory. It is set only for the
+ *      duration of an interaction, via `:hover`/`[data-shown]`.
+ *   3. Everything degrades to the finished state under `prefers-reduced-motion`.
+ *   4. Scroll-linked effects use `animation-timeline`, which runs off the main
+ *      thread. They are behind `@supports`, so browsers without it get the
+ *      static layout rather than a JS scroll handler.
+ */
+
+/* Plain :root rather than `@layer base` — this file is compiled as its own
+   PostCSS entry, so Tailwind's layer directives are not available here. */
+:root {
+  /* Entrance: decelerating, no overshoot. For things arriving on screen. */
+  --ease-entrance: cubic-bezier(0.22, 1, 0.36, 1);
+  /* Exit: accelerating. For things leaving. */
+  --ease-exit: cubic-bezier(0.55, 0, 1, 0.45);
+  /* Standard: symmetric. For hovers and state flips. */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  /* A restrained overshoot, used only on small elements like the tab dot. */
+  --ease-spring: cubic-bezier(0.34, 1.4, 0.64, 1);
+
+  --dur-fast: 180ms;
+  --dur-mid: 320ms;
+  --dur-slow: 620ms;
+
+  --reveal-delay: 0ms;
+  --reveal-step: 70ms;
+}
+
+/* ---------------------------------------------------------------------------
+ * Scroll reveals
+ *
+ * Driven by data attributes so the JS only has to flip one attribute per
+ * element — no class-string juggling, and the CSS stays in one place.
+ * ------------------------------------------------------------------------ */
+
+[data-reveal] {
+  opacity: 0;
+  transition:
+    opacity var(--dur-slow) var(--ease-entrance) var(--reveal-delay),
+    transform var(--dur-slow) var(--ease-entrance) var(--reveal-delay),
+    filter var(--dur-slow) var(--ease-entrance) var(--reveal-delay);
+}
+
+[data-reveal='up'] {
+  transform: translate3d(0, 28px, 0);
+}
+[data-reveal='left'] {
+  transform: translate3d(-32px, 0, 0);
+}
+[data-reveal='right'] {
+  transform: translate3d(32px, 0, 0);
+}
+[data-reveal='scale'] {
+  transform: scale(0.94);
+}
+[data-reveal='blur'] {
+  transform: translate3d(0, 18px, 0);
+  filter: blur(8px);
+}
+[data-reveal='fade'] {
+  transform: none;
+}
+
+[data-reveal][data-shown] {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+/* Staggered groups: each child inherits the transition and offsets its delay by
+   its index. `--i` is set by the nth-child rules below, which covers up to 12
+   children — beyond that the last delay simply repeats, which is imperceptible. */
+[data-reveal-group] > * {
+  opacity: 0;
+  transition:
+    opacity var(--dur-slow) var(--ease-entrance) calc(var(--i, 0) * var(--reveal-step)),
+    transform var(--dur-slow) var(--ease-entrance) calc(var(--i, 0) * var(--reveal-step));
+}
+
+[data-reveal-group='up'] > * {
+  transform: translate3d(0, 24px, 0);
+}
+[data-reveal-group='scale'] > * {
+  transform: scale(0.95);
+}
+[data-reveal-group='left'] > * {
+  transform: translate3d(-24px, 0, 0);
+}
+[data-reveal-group='fade'] > * {
+  transform: none;
+}
+
+[data-reveal-group][data-shown] > * {
+  opacity: 1;
+  transform: none;
+}
+
+[data-reveal-group] > *:nth-child(1) { --i: 0; }
+[data-reveal-group] > *:nth-child(2) { --i: 1; }
+[data-reveal-group] > *:nth-child(3) { --i: 2; }
+[data-reveal-group] > *:nth-child(4) { --i: 3; }
+[data-reveal-group] > *:nth-child(5) { --i: 4; }
+[data-reveal-group] > *:nth-child(6) { --i: 5; }
+[data-reveal-group] > *:nth-child(7) { --i: 6; }
+[data-reveal-group] > *:nth-child(8) { --i: 7; }
+[data-reveal-group] > *:nth-child(n + 9) { --i: 8; }
+
+/* ---------------------------------------------------------------------------
+ * Page transitions
+ *
+ * `template.tsx` remounts on every navigation, so this plays once per route.
+ * Deliberately short and opacity-led: a long or sliding page transition makes
+ * a site feel slower than it is, because the content is withheld for its
+ * duration.
+ * ------------------------------------------------------------------------ */
+
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.page-transition {
+  animation: page-in 420ms var(--ease-entrance) both;
+}
+
+/* ---------------------------------------------------------------------------
+ * Hero
+ * ------------------------------------------------------------------------ */
+
+/* Slow settle on the hero photograph. Starts slightly scaled and eases back to
+   1, which reads as the image coming to rest rather than as a zoom. */
+@keyframes hero-settle {
+  from {
+    transform: scale(1.08);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+.hero-media {
+  animation: hero-settle 1600ms var(--ease-entrance) both;
+}
+
+/* Headline lines rise in sequence; the subhead and buttons follow. Uses an
+   animation rather than the reveal system because it runs on load, not on
+   scroll, and needs to start before hydration. */
+@keyframes hero-line-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 100%, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.hero-line-mask {
+  display: block;
+  overflow: hidden;
+  /* Descenders would otherwise be clipped by the mask. */
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+
+.hero-line {
+  display: block;
+  animation: hero-line-in 900ms var(--ease-entrance) both;
+  animation-delay: calc(120ms + var(--line, 0) * 110ms);
+}
+
+@keyframes hero-fade-up {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 16px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.hero-stagger {
+  animation: hero-fade-up 760ms var(--ease-entrance) both;
+  animation-delay: calc(340ms + var(--line, 0) * 90ms);
+}
+
+/* Scroll-linked hero parallax. `view()` drives the animation from the element's
+   own position in the scrollport, entirely off the main thread — there is no
+   scroll listener anywhere on this site. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-parallax {
+      animation: hero-drift linear both;
+      animation-timeline: view();
+      animation-range: contain 0% exit 100%;
+    }
+
+    @keyframes hero-drift {
+      from {
+        transform: translate3d(0, 0, 0);
+      }
+      to {
+        transform: translate3d(0, 12%, 0);
+      }
+    }
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * Reading progress (blog articles)
+ *
+ * `scroll()` timeline against the document — again compositor-driven, so the
+ * bar tracks the scroll with no jitter and no listener.
+ * ------------------------------------------------------------------------ */
+
+@supports (animation-timeline: scroll()) {
+  .reading-progress {
+    transform-origin: 0 50%;
+    animation: progress-grow linear both;
+    animation-timeline: scroll(root block);
+  }
+
+  @keyframes progress-grow {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
+}
+
+/* Without scroll-timeline support the bar would sit at full width and read as a
+   solid rule, so it is hidden instead. */
+@supports not (animation-timeline: scroll()) {
+  .reading-progress-track {
+    display: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * Accordion
+ *
+ * `<details>` cannot transition to auto height. The grid-rows technique gets
+ * there: the panel is a grid row animating 0fr → 1fr, with the content in a
+ * min-height:0 overflow:hidden child. This is the one place a non-compositor
+ * property is animated, and it is confined to a single small subtree.
+ * ------------------------------------------------------------------------ */
+
+.accordion-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition:
+    grid-template-rows var(--dur-mid) var(--ease-standard),
+    opacity var(--dur-mid) var(--ease-standard);
+  opacity: 0;
+}
+
+details[open] .accordion-panel {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.accordion-panel > * {
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* ---------------------------------------------------------------------------
+ * Dialog
+ *
+ * @starting-style plus `transition-behavior: allow-discrete` gives the native
+ * dialog a real enter *and* exit animation, including the backdrop — without
+ * it, `display` flipping to none would cut the exit off at frame one.
+ * ------------------------------------------------------------------------ */
+
+.dialog-animated {
+  opacity: 0;
+  transform: translate3d(0, 12px, 0) scale(0.98);
+  transition:
+    opacity var(--dur-mid) var(--ease-entrance),
+    transform var(--dur-mid) var(--ease-entrance),
+    overlay var(--dur-mid) allow-discrete,
+    display var(--dur-mid) allow-discrete;
+}
+
+.dialog-animated[open] {
+  opacity: 1;
+  transform: none;
+}
+
+@starting-style {
+  .dialog-animated[open] {
+    opacity: 0;
+    transform: translate3d(0, 12px, 0) scale(0.98);
+  }
+}
+
+.dialog-animated::backdrop {
+  opacity: 0;
+  transition:
+    opacity var(--dur-mid) var(--ease-standard),
+    overlay var(--dur-mid) allow-discrete,
+    display var(--dur-mid) allow-discrete;
+}
+
+.dialog-animated[open]::backdrop {
+  opacity: 1;
+}
+
+@starting-style {
+  .dialog-animated[open]::backdrop {
+    opacity: 0;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * Mobile navigation
+ * ------------------------------------------------------------------------ */
+
+@keyframes nav-panel-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -8px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.nav-panel {
+  animation: nav-panel-in 260ms var(--ease-entrance) both;
+}
+
+@keyframes nav-item-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 14px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.nav-item {
+  animation: nav-item-in 420ms var(--ease-entrance) both;
+  animation-delay: calc(80ms + var(--i, 0) * 45ms);
+}
+
+/* ---------------------------------------------------------------------------
+ * Interactive surfaces
+ * ------------------------------------------------------------------------ */
+
+/* Card lift. `will-change` is scoped to the hover so no layer is retained on
+   the 70+ cards of the blog index while they sit idle. */
+.card-lift {
+  transition:
+    transform var(--dur-mid) var(--ease-standard),
+    border-color var(--dur-fast) var(--ease-standard),
+    box-shadow var(--dur-mid) var(--ease-standard);
+}
+
+@media (hover: hover) {
+  .card-lift:hover {
+    will-change: transform;
+    transform: translate3d(0, -4px, 0);
+  }
+}
+
+/* Paired with .card-lift on the card root: the image eases in slightly on hover.
+   Scoped to hover-capable pointers so a tap on mobile doesn't leave it zoomed. */
+.card-media {
+  transition: transform 620ms var(--ease-entrance);
+}
+
+@media (hover: hover) {
+  .group:hover .card-media {
+    transform: scale(1.045);
+  }
+}
+
+/* Underline that grows from the leading edge — used on inline "read more" and
+   service links, where a colour change alone reads as too little feedback. */
+.link-underline {
+  position: relative;
+}
+
+.link-underline::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform var(--dur-mid) var(--ease-entrance);
+}
+
+.link-underline:hover::after,
+.link-underline:focus-visible::after {
+  transform: scaleX(1);
+}
+
+/* Arrow nudge on hover, for links that end in one. */
+.arrow-nudge {
+  transition: transform var(--dur-mid) var(--ease-entrance);
+}
+
+.group:hover .arrow-nudge,
+a:hover > .arrow-nudge,
+button:hover > .arrow-nudge {
+  transform: translate3d(3px, 0, 0);
+}
+
+/* ---------------------------------------------------------------------------
+ * Tabbed explainer
+ * ------------------------------------------------------------------------ */
+
+.tab-media {
+  transition:
+    opacity 520ms var(--ease-standard),
+    transform 700ms var(--ease-entrance);
+}
+
+.tab-media[data-active='false'] {
+  opacity: 0;
+  transform: scale(1.04);
+}
+
+.tab-media[data-active='true'] {
+  opacity: 1;
+  transform: scale(1);
+}
+
+@keyframes tab-panel-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 12px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.tab-panel-in {
+  animation: tab-panel-in 420ms var(--ease-entrance) both;
+}
+
+/* Rail that fills alongside the active tab. */
+.tab-rail {
+  transform-origin: 0 0;
+  transform: scaleY(0);
+  transition: transform 420ms var(--ease-entrance);
+}
+
+.tab-rail[data-active='true'] {
+  transform: scaleY(1);
+}
+
+/* ---------------------------------------------------------------------------
+ * Header
+ * ------------------------------------------------------------------------ */
+
+.site-header {
+  transition:
+    background-color var(--dur-mid) var(--ease-standard),
+    box-shadow var(--dur-mid) var(--ease-standard),
+    backdrop-filter var(--dur-mid) var(--ease-standard),
+    transform var(--dur-mid) var(--ease-standard);
+}
+
+/* Retracts the bar when the reader is scrolling down mid-page and brings it
+   back the moment they scroll up. */
+.site-header[data-hidden='true'] {
+  transform: translate3d(0, -100%, 0);
+}
+
+.header-logo {
+  transition:
+    filter var(--dur-mid) var(--ease-standard),
+    transform var(--dur-mid) var(--ease-standard);
+}
+
+/* Sliding pill behind the active nav item. */
+.nav-pill {
+  transition:
+    transform 420ms var(--ease-entrance),
+    width 420ms var(--ease-entrance),
+    opacity var(--dur-fast) var(--ease-standard);
+}
+
+/* ---------------------------------------------------------------------------
+ * Reduced motion
+ *
+ * Everything above collapses to its finished state. Durations are near-zero
+ * rather than zero so `transitionend` listeners still fire, and scroll-driven
+ * animations are detached from their timelines entirely.
+ * ------------------------------------------------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal],
+  [data-reveal-group] > * {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    transition: none !important;
+  }
+
+  .hero-parallax,
+  .reading-progress {
+    animation-timeline: none !important;
+    animation: none !important;
+  }
+
+  .reading-progress-track {
+    display: none !important;
+  }
+
+  .hero-media,
+  .hero-line,
+  .hero-stagger,
+  .page-transition,
+  .nav-panel,
+  .nav-item,
+  .tab-panel-in {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .card-lift:hover,
+  .group:hover .card-media,
+  .group:hover .arrow-nudge {
+    transform: none !important;
+  }
+
+  .accordion-panel {
+    transition: none !important;
+  }
+}

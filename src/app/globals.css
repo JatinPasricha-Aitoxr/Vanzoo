@@ -1,0 +1,217 @@
+/* Motion system — easing tokens, keyframes, scroll-driven effects, and the
+   reduced-motion overrides for all of them. `@import` has to precede every
+   other rule, so it sits above the Tailwind directives; postcss-import inlines
+   it before Tailwind runs, and its reduced-motion rules carry `!important` so
+   they still beat utility classes further down the cascade. */
+@import './motion.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+    /* Consumed by the sticky header offset and by scroll-margin on anchors, so
+       in-page links never land underneath the header. */
+    --header-h: 68px;
+  }
+
+  @media (min-width: 1024px) {
+    :root {
+      --header-h: 84px;
+    }
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-neutral-surface font-sans text-body text-neutral-body antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* One visible focus treatment for the whole site. :focus-visible keeps it off
+     mouse clicks while guaranteeing keyboard users always see it. */
+  :focus-visible {
+    @apply outline-none ring-2 ring-brand ring-offset-2 ring-offset-white;
+  }
+
+  [id] {
+    scroll-margin-top: calc(var(--header-h) + 24px);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display font-semibold text-neutral-ink;
+    text-wrap: balance;
+  }
+
+  ::selection {
+    @apply bg-brand text-white;
+  }
+}
+
+@layer components {
+  .shell {
+    @apply mx-auto w-full max-w-shell px-5 sm:px-8 lg:px-10;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-pill font-semibold
+      transition-[background-color,color,border-color,box-shadow,transform]
+      duration-200 ease-entrance disabled:cursor-not-allowed disabled:opacity-60;
+  }
+
+  .btn-lg {
+    @apply px-7 py-3.5 text-[0.9375rem];
+  }
+
+  .btn-md {
+    @apply px-6 py-3 text-[0.9375rem];
+  }
+
+  .btn-sm {
+    @apply px-4 py-2 text-sm;
+  }
+
+  .btn-primary {
+    @apply btn bg-brand text-white hover:bg-brand-hover active:translate-y-px;
+  }
+
+  .btn-secondary {
+    @apply btn border border-neutral-line bg-white text-brand-dark hover:border-brand/40
+      hover:bg-brand-tint active:translate-y-px;
+  }
+
+  .btn-onDark {
+    @apply btn border border-white/40 bg-transparent text-white hover:bg-white/10
+      active:translate-y-px;
+  }
+
+  /* Solid white pill, for the primary action inside a teal band. */
+  .btn-inverse {
+    @apply btn bg-white text-brand-dark hover:bg-accent-gold-soft active:translate-y-px;
+  }
+
+  .eyebrow {
+    @apply text-xs font-semibold uppercase tracking-[0.16em] text-brand;
+  }
+
+  .field-label {
+    @apply mb-1.5 block text-sm font-medium text-neutral-ink;
+  }
+
+  .field {
+    @apply w-full rounded-card border border-neutral-line bg-white px-4 py-3 text-[0.9375rem]
+      text-neutral-ink transition-colors duration-200 placeholder:text-neutral-body/60
+      hover:border-brand/40 focus:border-brand focus:outline-none focus:ring-2
+      focus:ring-brand/20;
+  }
+
+  .field-invalid {
+    @apply border-red-600 hover:border-red-600 focus:border-red-600 focus:ring-red-600/20;
+  }
+
+  /* Wraps a next/image with `fill`. Reserving the aspect ratio on the wrapper is
+     what holds CLS at zero for every media block on the site. */
+  .media-frame {
+    @apply relative overflow-hidden rounded-media bg-brand-light;
+  }
+
+  /* Long-form body copy: blog articles and the policy pages. */
+  .prose-vanzoo {
+    @apply text-[1.0625rem] leading-[1.75] text-neutral-body;
+  }
+  .prose-vanzoo > * + * {
+    @apply mt-5;
+  }
+  .prose-vanzoo h2 {
+    @apply mt-12 text-display-sm;
+  }
+  .prose-vanzoo h3 {
+    @apply mt-9 text-xl font-semibold;
+  }
+  .prose-vanzoo h4 {
+    @apply mt-7 text-lg font-semibold;
+  }
+  .prose-vanzoo h2 + *,
+  .prose-vanzoo h3 + *,
+  .prose-vanzoo h4 + * {
+    @apply mt-3;
+  }
+  .prose-vanzoo ul {
+    @apply list-disc space-y-2 pl-5 marker:text-brand;
+  }
+  .prose-vanzoo ol {
+    @apply list-decimal space-y-2 pl-5 marker:font-semibold marker:text-brand;
+  }
+  .prose-vanzoo li > ul,
+  .prose-vanzoo li > ol {
+    @apply mt-2;
+  }
+  .prose-vanzoo a {
+    @apply font-medium text-brand underline decoration-brand/35 underline-offset-2
+      transition-colors hover:decoration-brand;
+  }
+  .prose-vanzoo strong {
+    @apply font-semibold text-neutral-ink;
+  }
+  .prose-vanzoo blockquote {
+    @apply border-l-2 border-accent-gold pl-5 text-neutral-ink;
+  }
+  .prose-vanzoo img {
+    @apply my-8 h-auto w-full rounded-media;
+  }
+  .prose-vanzoo figcaption {
+    @apply -mt-5 text-sm text-neutral-body/80;
+  }
+  .prose-vanzoo table {
+    @apply w-full border-collapse text-left text-[0.9375rem];
+  }
+  .prose-vanzoo th,
+  .prose-vanzoo td {
+    @apply border-b border-neutral-line px-3 py-2.5;
+  }
+  .prose-vanzoo th {
+    @apply font-semibold text-neutral-ink;
+  }
+}
+
+@layer utilities {
+  .text-pretty {
+    text-wrap: pretty;
+  }
+
+  /* Hides the scrollbar on horizontally-scrolling rails without disabling the
+     scrolling itself. */
+  .no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Every entrance animation is gated behind this query, so reduced-motion users
+   get the finished state immediately rather than a faster one. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
