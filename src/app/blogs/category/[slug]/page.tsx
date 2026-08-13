@@ -46,10 +46,8 @@ export default function BlogCategoryPage({ params }: Params) {
         eyebrow="Journal"
         title={category}
         intro={`${categoryPosts.length} article${categoryPosts.length === 1 ? '' : 's'} on ${category.toLowerCase()}.`}
-        image="/images/collage-folded-linens.jpg"
-        imageAlt="Freshly cleaned and folded linens after Vanzoo fabric care"
       >
-        <Breadcrumbs crumbs={crumbs} tone="onDark" />
+        <Breadcrumbs crumbs={crumbs} />
       </PageHeader>
 
       <Section tone="surface">

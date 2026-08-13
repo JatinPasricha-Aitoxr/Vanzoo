@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { Icon } from './ui/Icon';
 import { Reveal } from './ui/Reveal';
 import type { Service } from '@/content/marketing';
 import { cn } from '@/lib/cn';
@@ -54,10 +53,24 @@ export function ServiceRow({
             className="link-underline group inline-flex items-center gap-1.5 text-sm font-semibold text-brand transition-colors duration-200 hover:text-brand-dark"
           >
             {service.learnMore.label}
-            <Icon name="arrowRight" className="arrow-nudge" />
+            <ArrowRight />
           </Link>
         </div>
       </div>
     </Reveal>
+  );
+}
+
+function ArrowRight() {
+  return (
+    <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" className="arrow-nudge h-3.5 w-3.5">
+      <path
+        d="M3 8h10m0 0-3.5-3.5M13 8l-3.5 3.5"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
   );
 }

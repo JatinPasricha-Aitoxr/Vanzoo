@@ -23,11 +23,16 @@ export const site = {
   name: 'Vanzoo',
   legalName: 'Vaaruni Ventures LLP',
   descriptor: 'VANZOO – Premium Dry Cleaners',
-  serviceArea: 'Delhi | Gurugram | NCR',
+  /** Gurgaon only. Both stores are here and it is the one city Vanzoo operates
+   *  in, so nothing on the site claims wider Delhi-NCR coverage. */
+  city: 'Gurgaon',
+  serviceArea: 'Gurgaon, Haryana',
   description:
-    'Experience premium fabric care by Vanzoo using advanced Italian hydrocarbon technology—eco-conscious, gentle on fabrics, and powerful on tough everyday stains.',
+    'Experience premium fabric care by Vanzoo using advanced Italian hydrocarbon technology—eco-conscious, gentle on fabrics, and powerful on tough everyday stains. Free pickup and delivery across Gurgaon.',
   phone: '+91 9091671666',
   phoneHref: '+919091671666',
+  /** Digits only, country code included — the wa.me path format. */
+  whatsapp: '919091671666',
   email: 'care@vanzoo.in',
   /** Standard turnaround, quoted verbatim from the homepage FAQ. */
   turnaround: '5-7 days',
@@ -41,6 +46,7 @@ export const links = {
   facebook: 'https://www.facebook.com/profile.php?id=61581034320798',
   instagram: 'https://www.instagram.com/vanzoo._/',
   youtube: 'https://www.youtube.com/channel/UC-oPR8MnkAZpiOp0K08TNrQ',
+  whatsapp: `https://wa.me/${site.whatsapp}`,
 } as const;
 
 export const socialLinks = [
@@ -80,12 +86,123 @@ export const stores = [
 /** The address used for LocalBusiness structured data and the footer. */
 export const primaryStore = stores[0];
 
-/** Areas Vanzoo states it serves, used for `areaServed` and location copy. */
-export const serviceCities = ['Gurugram', 'Delhi', 'Noida', 'Faridabad', 'Ghaziabad'] as const;
+/** The single city Vanzoo operates in — used for `areaServed` and location copy. */
+export const serviceCities = ['Gurgaon'] as const;
 
 /**
- * Header + mobile navigation. Mirrors the live site's primary nav exactly;
- * Locate Us and Blogs live in the footer, as they do today.
+ * Gurgaon pickup coverage, grouped by corridor, for /areas-we-serve.
+ *
+ * Locality names only. Vanzoo does not publish a pincode-level coverage list,
+ * so nothing here asserts that a given neighbourhood maps to a given pincode —
+ * the page says coverage is confirmed at booking, and `PincodeChecker` matches
+ * on the Gurgaon pincode range rather than per-locality. Add exact pincodes
+ * here once operations confirm them; see README "Service areas".
+ */
+export const areaGroups = [
+  {
+    id: 'dlf-golf-course',
+    name: 'DLF & Golf Course Road',
+    blurb:
+      'Our DLF Phase IV store sits in the middle of this corridor, so it is the fastest turnaround we run.',
+    areas: [
+      'DLF Phase 1',
+      'DLF Phase 2',
+      'DLF Phase 3',
+      'DLF Phase 4',
+      'DLF Phase 5',
+      'Sushant Lok 1',
+      'Golf Course Road',
+      'Nirvana Country',
+      'Ardee City',
+    ],
+  },
+  {
+    id: 'golf-course-extension',
+    name: 'Golf Course Extension & Sohna Road',
+    blurb:
+      'Sectors either side of Golf Course Extension Road, down through Sohna Road to Badshahpur.',
+    areas: [
+      'Sector 47',
+      'Sector 48',
+      'Sector 49',
+      'Sector 50',
+      'Sector 55',
+      'Sector 56',
+      'Sector 57',
+      'Sohna Road',
+      'Badshahpur',
+    ],
+  },
+  {
+    id: 'sector-65-70',
+    name: 'Sectors 65–70',
+    blurb:
+      'Served from the Vanzoo Urbana store at M3M Urbana, Sector 67 — including the M3M, Emaar and Tulip developments.',
+    areas: [
+      'Sector 65',
+      'Sector 66',
+      'Sector 67',
+      'Sector 68',
+      'Sector 69',
+      'Sector 70',
+      'M3M Urbana',
+      'Emaar Palm Gardens',
+    ],
+  },
+  {
+    id: 'old-gurgaon',
+    name: 'Old Gurgaon & MG Road',
+    blurb: 'The original city centre, Civil Lines and the MG Road business strip.',
+    areas: [
+      'MG Road',
+      'Civil Lines',
+      'Sector 14',
+      'Sector 15',
+      'South City 1',
+      'South City 2',
+      'Sushant Lok 2',
+      'Sushant Lok 3',
+    ],
+  },
+  {
+    id: 'cyber-city',
+    name: 'Cyber City & Udyog Vihar',
+    blurb:
+      'Corporate pickups from the office parks, plus the residential pockets around them.',
+    areas: [
+      'DLF Cyber City',
+      'Udyog Vihar',
+      'Sector 18',
+      'Sector 21',
+      'Sikanderpur',
+      'Chakkarpur',
+    ],
+  },
+  {
+    id: 'new-gurgaon',
+    name: 'New Gurgaon & Dwarka Expressway',
+    blurb:
+      'The newer sectors along NH-48 and the Dwarka Expressway, and west towards Palam Vihar.',
+    areas: [
+      'Palam Vihar',
+      'Sector 81',
+      'Sector 82',
+      'Sector 84',
+      'Sector 86',
+      'Sector 92',
+      'Sector 102',
+      'Sector 109',
+      'New Palam Vihar',
+    ],
+  },
+] as const;
+
+/** Flattened locality list — the pickup widget's "Where" select reads this. */
+export const serviceAreas = areaGroups.flatMap((group) => group.areas);
+
+/**
+ * Header + mobile navigation. Mirrors the live site's primary nav, plus the
+ * Areas We Serve and Blogs pages.
  */
 export const navLinks = [
   { href: '/', label: 'Home' },
@@ -93,6 +210,8 @@ export const navLinks = [
   { href: '/couture-care-tariffs/', label: 'Couture Care Tariffs' },
   { href: '/steam-iron-tariffs/', label: 'Steam Iron Tariffs' },
   { href: '/hydrocarbon-tech/', label: 'Hydrocarbon Tech' },
+  { href: '/areas-we-serve/', label: 'Areas' },
+  { href: '/blogs/', label: 'Blogs' },
   { href: '/contact-us/', label: 'Contact Us' },
 ] as const;
 
@@ -102,11 +221,11 @@ export const footerColumns = [
     heading: 'Quick Links',
     links: [
       { label: 'About Us', href: '/about-us/' },
-      { label: 'Members Club', href: '/members-club/' },
       { label: 'Couture Care Tariffs', href: '/couture-care-tariffs/' },
       { label: 'Hydrocarbon Tech', href: '/hydrocarbon-tech/' },
       { label: 'Contact Us', href: '/contact-us/' },
       { label: 'Locate Us', href: '/locate-us/' },
+      { label: 'Areas We Serve', href: '/areas-we-serve/' },
       { label: 'Blogs', href: '/blogs/' },
     ],
   },

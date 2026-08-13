@@ -2,42 +2,14 @@ import Link from 'next/link';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { CtaBanner } from '@/components/CtaBanner';
 import { JsonLd } from '@/components/JsonLd';
-import { MediaStrip, type StripItem } from '@/components/MediaStrip';
 import { PageHeader } from '@/components/Hero';
-import { PricingTable } from '@/components/PricingTable';
 import { Section } from '@/components/ui/Section';
-import { steamIronTariffs, tariffIntro, tariffNote } from '@/content/pricing';
+import { TariffGrid } from '@/components/TariffGrid';
+import { steamIronCatalog, tariffIntro, tariffNote } from '@/content/pricing';
 import { breadcrumbSchema, buildMetadata } from '@/lib/seo';
 import { site } from '@/lib/site';
 
 const CRUMBS = [{ name: 'Steam Iron Tariffs', href: '/steam-iron-tariffs/' }];
-
-const STEAM_STRIP: readonly StripItem[] = [
-  {
-    src: '/images/persona-corporate-professionals.jpg',
-    alt: 'Freshly pressed business shirts on a wardrobe rail after Vanzoo steam ironing',
-    caption: 'Shirts & trousers',
-    icon: 'shirt',
-  },
-  {
-    src: '/images/service-bespoke-suit-couture.jpg',
-    alt: 'Suit and evening dress steam pressed and hung by Vanzoo in Gurgaon',
-    caption: 'Coats & jackets',
-    icon: 'jacket',
-  },
-  {
-    src: '/images/persona-heirlooms.jpg',
-    alt: 'Silk sarees steam pressed with a professional finish by Vanzoo',
-    caption: 'Sarees & ethnic',
-    icon: 'dress',
-  },
-  {
-    src: '/images/process-delivered-pressed.jpg',
-    alt: 'Knitwear pressed, finished and hung ready for Vanzoo doorstep delivery',
-    caption: 'Home textiles',
-    icon: 'bed',
-  },
-];
 
 export const metadata = buildMetadata({
   title: 'Steam Iron Tariffs | Pressing-Only Pricing | Vanzoo',
@@ -54,23 +26,16 @@ export default function SteamIronTariffsPage() {
       <PageHeader
         eyebrow="Steam & Iron"
         title="Steam Iron Tariffs"
-        intro={tariffIntro}
-        image="/images/process-delivered-pressed.jpg"
-        imageAlt="Knitwear steam pressed and finished by hand at Vanzoo"
+        intro={`${tariffIntro} Pressing only — for garments that are already clean and simply need a professional finish. Add pieces to your cart and send us the list.`}
+        image="/images/garment-rail-couture.jpg"
+        imageAlt="Rail of pastel couture blazers pressed and ready at the Vanzoo Gurgaon atelier"
       >
-        <Breadcrumbs crumbs={CRUMBS} tone="onDark" />
+        <Breadcrumbs crumbs={CRUMBS} tone="dark" />
       </PageHeader>
 
       <Section tone="surface">
-        <p className="max-w-2xl text-lead text-pretty text-neutral-body">
-          Pressing only — for garments that are already clean and simply need a professional
-          finish. For cleaning and finishing together, see the couture care tariffs.
-        </p>
-
-        <MediaStrip items={STEAM_STRIP} className="mt-10" />
-
-        <div className="mt-14">
-          <PricingTable groups={steamIronTariffs} />
+        <div>
+          <TariffGrid catalog={steamIronCatalog} />
         </div>
 
         <div className="mt-12 grid gap-4 sm:grid-cols-2">

@@ -8,7 +8,7 @@ import { links } from '@/lib/site';
  */
 export function CtaBanner({
   heading = 'Ready to hand over the fabric care?',
-  body = 'Free pickup and delivery across Delhi, Gurugram and the NCR. Standard turnaround is 5-7 days, with same-day and 2-4 hour express options.',
+  body = 'Free pickup and delivery across Gurgaon. Standard turnaround is 5-7 days, with same-day and 2-4 hour express options.',
   secondary,
 }: {
   heading?: string;
@@ -18,7 +18,7 @@ export function CtaBanner({
   return (
     <Reveal
       variant="scale"
-      className="overflow-hidden rounded-media bg-brand-dark px-6 py-12 text-center sm:px-12 sm:py-16"
+      className="band-dark overflow-hidden rounded-media px-6 py-12 text-center sm:px-12 sm:py-16"
     >
       <h2 className="mx-auto max-w-2xl text-display-md text-white">{heading}</h2>
       <p className="mx-auto mt-4 max-w-xl text-lead text-pretty text-white/75">{body}</p>

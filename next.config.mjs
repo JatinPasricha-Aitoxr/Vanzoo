@@ -11,21 +11,14 @@ import { readFileSync } from 'node:fs';
 const posts = JSON.parse(readFileSync('./src/content/posts.json', 'utf8'));
 
 /** Routes that must never be captured by the catch-all legacy rule. */
-const campaigns = JSON.parse(
-  readFileSync('./src/content/campaign-slugs.json', 'utf8'),
-);
-
 const RESERVED = new Set([
-  ...campaigns,
-  'members-club',
-  'menu',
-  'thank-you',
   'about-us',
   'couture-care-tariffs',
   'steam-iron-tariffs',
   'hydrocarbon-tech',
   'contact-us',
   'locate-us',
+  'areas-we-serve',
   'blogs',
   'privacy-policy',
   'terms-conditions',

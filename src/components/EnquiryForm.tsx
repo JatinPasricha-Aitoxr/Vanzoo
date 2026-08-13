@@ -2,8 +2,7 @@
 
 import { useId, useState } from 'react';
 import { contactTimes, serviceTypes } from '@/content/marketing';
-import { Icon, IconBadge } from './ui/Icon';
-import { serviceCities, site } from '@/lib/site';
+import { serviceAreas, site } from '@/lib/site';
 import { cn } from '@/lib/cn';
 
 type Errors = Partial<Record<'name' | 'email' | 'phone' | 'message', string>>;
@@ -53,7 +52,9 @@ export function EnquiryForm({ variant = 'full' }: { variant?: 'full' | 'compact'
 
     setStatus('submitting');
     try {
-      const response = await fetch('/api/enquiry', {
+      // Trailing slash matches `trailingSlash: true` in next.config — without
+      // it every submission takes a 308 round trip first.
+      const response = await fetch('/api/enquiry/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(Object.fromEntries(data.entries())),
@@ -72,10 +73,7 @@ export function EnquiryForm({ variant = 'full' }: { variant?: 'full' | 'compact'
         role="status"
         className="rounded-card border border-neutral-line bg-white p-8 text-center"
       >
-        <IconBadge name="check" tone="success" size="lg" className="mx-auto" />
-        <h3 className="mt-4 font-display text-xl font-semibold">
-          Thank you — your enquiry is in.
-        </h3>
+        <h3 className="font-display text-xl font-semibold">Thank you — your enquiry is in.</h3>
         <p className="mt-3 text-[0.9375rem] text-neutral-body">
           Our team will get back to you promptly. If it&apos;s urgent, call us on{' '}
           <a href={`tel:${site.phoneHref}`} className="font-medium text-brand">
@@ -135,15 +133,18 @@ export function EnquiryForm({ variant = 'full' }: { variant?: 'full' | 'compact'
 
         <div>
           <label htmlFor={fieldId('city')} className="field-label">
-            City
+            Area in Gurgaon
           </label>
-          <select id={fieldId('city')} name="city" className="field" defaultValue={serviceCities[0]}>
-            {serviceCities.map((city) => (
-              <option key={city} value={city}>
-                {city}
+          {/* Vanzoo serves Gurgaon only, so this picks the locality rather than
+              the city — it is what routes the pickup to the nearer store. */}
+          <select id={fieldId('city')} name="city" className="field" defaultValue="">
+            <option value="">Select your area</option>
+            {serviceAreas.map((area) => (
+              <option key={area} value={area}>
+                {area}
               </option>
             ))}
-            <option value="Other">Other</option>
+            <option value="Elsewhere in Gurgaon">Elsewhere in Gurgaon</option>
           </select>
         </div>
 
@@ -228,13 +229,8 @@ export function EnquiryForm({ variant = 'full' }: { variant?: 'full' | 'compact'
       </div>
 
       <div className="mt-7 flex flex-wrap items-center gap-4">
-        <button
-          type="submit"
-          disabled={status === 'submitting'}
-          className="btn-primary btn-lg gap-2"
-        >
+        <button type="submit" disabled={status === 'submitting'} className="btn-primary btn-lg">
           {status === 'submitting' ? 'Sending…' : 'Submit Enquiry'}
-          <Icon name="arrowRight" className="arrow-nudge" />
         </button>
         <p className="text-xs text-neutral-body">
           We&apos;ll only use these details to respond to your enquiry.
@@ -242,15 +238,12 @@ export function EnquiryForm({ variant = 'full' }: { variant?: 'full' | 'compact'
       </div>
 
       {status === 'error' ? (
-        <p role="alert" className="mt-4 flex items-start gap-2 text-sm font-medium text-red-700">
-          <Icon name="info" className="mt-0.5 text-base" />
-          <span>
+        <p role="alert" className="mt-4 text-sm font-medium text-red-700">
           Something went wrong sending your enquiry. Please try again, or call us on{' '}
           <a href={`tel:${site.phoneHref}`} className="underline">
             {site.phone}
           </a>
           .
-          </span>
         </p>
       ) : null}
     </form>

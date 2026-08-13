@@ -47,10 +47,8 @@ export default function BlogIndexPage() {
         eyebrow="Journal"
         title="Fabric care, explained"
         intro="Care guides, stain-removal how-tos and straight answers about dry cleaning — written by the team that does the work."
-        image="/images/collage-folded-linens.jpg"
-        imageAlt="Freshly cleaned and folded linens after Vanzoo fabric care"
       >
-        <Breadcrumbs crumbs={CRUMBS} tone="onDark" />
+        <Breadcrumbs crumbs={CRUMBS} />
       </PageHeader>
 
       <Section tone="surface">

@@ -1,8 +1,7 @@
 'use client';
 
 import { useId, useState } from 'react';
-import { Icon } from './ui/Icon';
-import { links, serviceCities } from '@/lib/site';
+import { links, serviceAreas } from '@/lib/site';
 import { cn } from '@/lib/cn';
 
 const PICKUP_SLOTS = ['Today', 'Tomorrow', 'This week'] as const;
@@ -18,7 +17,7 @@ const PICKUP_SLOTS = ['Today', 'Tomorrow', 'This week'] as const;
  */
 export function BookPickupWidget({ variant = 'header' }: { variant?: 'header' | 'inline' }) {
   const [slot, setSlot] = useState<string>(PICKUP_SLOTS[0]);
-  const [city, setCity] = useState<string>(serviceCities[0]);
+  const [city, setCity] = useState<string>(serviceAreas[0]);
   const groupId = useId();
 
   const href = `${links.bookPickup}&pickup=${encodeURIComponent(slot)}&city=${encodeURIComponent(city)}`;
@@ -29,8 +28,9 @@ export function BookPickupWidget({ variant = 'header' }: { variant?: 'header' | 
       aria-labelledby={groupId}
       className={cn(
         'items-center gap-1 rounded-pill border border-neutral-line bg-white p-1',
-        // Only from 2xl: below that the six nav labels plus the two-field pill
-        // do not both fit, and the nav is the more important of the two.
+        // The header no longer renders this variant — eight nav labels, the cart
+        // and the pickup button already fill the bar at every width. It survives
+        // for the inline variant inside the mobile menu.
         variant === 'header' ? 'hidden 2xl:flex' : 'flex flex-wrap',
       )}
     >
@@ -52,8 +52,8 @@ export function BookPickupWidget({ variant = 'header' }: { variant?: 'header' | 
         label="Where"
         value={city}
         onChange={setCity}
-        options={serviceCities}
-        srLabel="Pickup city"
+        options={serviceAreas}
+        srLabel="Pickup area in Gurgaon"
       />
 
       <a
@@ -102,10 +102,21 @@ function PillSelect({
           </option>
         ))}
       </select>
-      <Icon
-        name="chevronDown"
-        className="pointer-events-none absolute right-2 text-[0.65rem] text-neutral-body"
-      />
+      <ChevronDown className="pointer-events-none absolute right-2 h-3 w-3 text-neutral-body" />
     </div>
+  );
+}
+
+function ChevronDown({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 12 12" fill="none" aria-hidden="true" className={className}>
+      <path
+        d="M2.5 4.5 6 8l3.5-3.5"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
   );
 }

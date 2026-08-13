@@ -1,5 +1,3 @@
-import type { IconName } from '@/components/ui/Icon';
-
 /**
  * Marketing copy, carried over verbatim from vanzoo.in.
  *
@@ -17,10 +15,21 @@ import type { IconName } from '@/components/ui/Icon';
 export const homeHero = {
   headline: ['Luxury fabric care.', 'Delivered to your door.'],
   subhead:
-    'Italian hydrocarbon technology, couture-trained finishing, and free pickup and delivery across Delhi, Gurugram and the NCR.',
+    'Italian hydrocarbon technology, couture-trained finishing, and free pickup and delivery across Gurgaon.',
   image: '/images/hero-valet-handover.jpg',
   imageAlt:
     'Vanzoo staff member handing freshly dry-cleaned garments in protective wrap to a customer at the Gurgaon store counter',
+} as const;
+
+/**
+ * First-order offer, carried over verbatim from the live site's hero slide
+ * ("FLAT 25% OFF ON FIRST ORDER — Use Code: FIRST25"). Remove this object when
+ * the promotion ends and the hero chip disappears with it.
+ */
+export const heroOffer = {
+  lead: 'Flat 25% off your first order',
+  codeLabel: 'Use code',
+  code: 'FIRST25',
 } as const;
 
 /* -------------------------------------------------------------------------- */
@@ -33,24 +42,12 @@ export const homeHero = {
  * only capabilities the site itself claims.
  */
 export const trustMarkers = [
-  {
-    label: 'Italian hydrocarbon technology',
-    detail: 'Imported, closed-loop systems',
-    icon: 'cpu',
-  },
-  {
-    label: '99% chemical-free finish',
-    detail: 'Solvent recovered and recycled each cycle',
-    icon: 'flaskOff',
-  },
-  {
-    label: 'Free pickup & delivery',
-    detail: 'Across Delhi, Gurugram and the NCR',
-    icon: 'truck',
-  },
-  { label: 'Express turnaround', detail: 'Same-day or 2–4 hour options', icon: 'bolt' },
-  { label: 'Two Gurugram stores', detail: 'DLF Phase IV and Sector 67', icon: 'mapPin' },
-] as const satisfies ReadonlyArray<{ label: string; detail: string; icon: IconName }>;
+  { label: 'Italian hydrocarbon technology', detail: 'Imported, closed-loop systems' },
+  { label: '99% chemical-free finish', detail: 'Solvent recovered and recycled each cycle' },
+  { label: 'Free pickup & delivery', detail: 'Across every Gurgaon sector we serve' },
+  { label: 'Express turnaround', detail: 'Same-day or 2–4 hour options' },
+  { label: 'Two Gurgaon stores', detail: 'DLF Phase IV and Sector 67' },
+] as const;
 
 /* -------------------------------------------------------------------------- */
 /* Why Choose VANZOO                                                          */
@@ -163,7 +160,7 @@ export const howItWorksSteps = [
     id: 'schedule',
     tab: 'Schedule',
     title: 'Schedule a pickup in under a minute',
-    body: 'Book a pickup from the app or the website, choose a slot that suits you, and our valet collects from your door — free, across Delhi, Gurugram and the NCR.',
+    body: 'Book a pickup from the app or the website, choose a slot that suits you, and our valet collects from your door — free, anywhere in Gurgaon.',
     image: '/images/process-schedule-call.jpg',
     imageAlt: 'Customer booking a Vanzoo dry cleaning pickup by phone from home in Gurgaon',
   },
@@ -174,7 +171,7 @@ export const howItWorksSteps = [
     body: 'Every piece is assessed individually, then cleaned in a closed-loop hydrocarbon system that dissolves stains without water or harsh solvents — and recycles 99% of the solvent each cycle.',
     image: '/images/service-hydrocarbon-machine.jpg',
     imageAlt:
-      'Closed-loop hydrocarbon dry cleaning machine mid-cycle at the Vanzoo facility in Gurugram',
+      'Closed-loop hydrocarbon dry cleaning machine mid-cycle at the Vanzoo facility in Gurgaon',
   },
   {
     id: 'delivered',
@@ -185,6 +182,22 @@ export const howItWorksSteps = [
     imageAlt:
       'Cream cable-knit sweater finished, pressed and hung ready for Vanzoo doorstep delivery in Gurgaon',
   },
+] as const;
+
+/**
+ * The nine-step care process, as the live site publishes it (its homepage
+ * timeline and the nine-step process graphic both carry these stages).
+ */
+export const processSteps = [
+  'Schedule & pickup',
+  'Detailed assessment',
+  'Stain treatment',
+  'Premium cleaning',
+  'Drying',
+  'Finishing touches',
+  'Quality inspection',
+  'Secure packaging',
+  'Delivery',
 ] as const;
 
 /* -------------------------------------------------------------------------- */
@@ -272,6 +285,8 @@ export const differentiators = [
  */
 export const guarantee = {
   eyebrow: 'Our promise',
+  /** The display line; the statement below carries the substance. */
+  headline: 'Hand-finished. Every time.',
   statement:
     'Every piece is assessed individually, cleaned in a closed-loop hydrocarbon system, and hand-finished before it comes back to you. If a garment returns anything less than pristine, tell us — we will make it right.',
   ctaLabel: 'Book a pickup',
@@ -529,9 +544,11 @@ export const hydrocarbon = {
 
 /**
  * Photo-brick collage. The spans are sized to fill a 4-column grid exactly:
- * one 2×2 hero brick plus four squares complete two rows, then the wide banner
- * takes a full row of its own. Changing the count means re-checking the spans,
- * or the grid ends up with holes.
+ * one 2×2 hero brick plus four squares complete two rows. Changing the count
+ * means re-checking the spans, or the grid ends up with holes.
+ *
+ * The old wide "we care" banner tile now lives as the WeCareBanner band — real
+ * typography instead of text baked into a JPEG.
  */
 export const collage = [
   {
@@ -564,10 +581,17 @@ export const collage = [
     span: '',
     ratio: 'aspect-square',
   },
-  {
-    src: '/images/banner-we-care.jpg',
-    alt: 'Vanzoo brand banner reading not just clothes, we care for what matters, beside a cleaned leather bag',
-    span: 'col-span-2 sm:col-span-3 lg:col-span-4',
-    ratio: 'aspect-[2/1] sm:aspect-[16/5] lg:aspect-[24/5]',
-  },
 ] as const;
+
+/**
+ * Editorial statement band — headline verbatim from the live site's "we care"
+ * banner; the supporting line is AUTHORED to replace the banner's baked-in
+ * sub-copy.
+ */
+export const weCare = {
+  headline: ['Not just clothes.', 'We care for what matters.'],
+  body: 'Designer heels, heirloom saris, the jacket you wear everywhere — everything you trust to us is handled like it matters, because it does.',
+  image: '/images/service-shoes-bags-accessories.jpg',
+  imageAlt:
+    'Cleaned and conditioned leather brogues and a tan leather handbag, cared for by Vanzoo',
+} as const;

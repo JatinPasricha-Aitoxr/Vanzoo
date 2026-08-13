@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { AppPromo } from '@/components/AppPromo';
-import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { EnquiryDialog } from '@/components/EnquiryDialog';
 import { FAQAccordion } from '@/components/FAQAccordion';
 import { Hero } from '@/components/Hero';
@@ -35,7 +34,6 @@ export default function HydrocarbonTechPage() {
         imageAlt={hydrocarbon.hero.imageAlt}
         variant="band"
         secondaryCta={{ label: 'See couture care tariffs', href: '/couture-care-tariffs/' }}
-        breadcrumbs={<Breadcrumbs crumbs={CRUMBS} tone="onDark" />}
       />
 
       {/* Why Hydrocarbon? / How It Works — alternating explainer rows */}
@@ -107,57 +105,43 @@ export default function HydrocarbonTechPage() {
           <TabbedExplainer steps={howItWorksSteps} reverse />
         </div>
 
-        {/* The same nine stages exist as a tall diagram and a wide strip. Each
-            breakpoint gets the orientation that fits — and because the hidden
-            one is `display: none`, only the visible version is in the
-            accessibility tree, so the alt text is never announced twice. */}
-        <figure className="mt-16">
-          <div className="media-frame mx-auto max-w-sm lg:hidden">
-            <Image
-              src={hydrocarbon.processImage.src}
-              alt={hydrocarbon.processImage.alt}
-              width={824}
-              height={1412}
-              loading="lazy"
-              sizes="(min-width: 640px) 24rem, 100vw"
-              className="h-auto w-full"
-            />
-          </div>
-          <div className="media-frame hidden bg-neutral-ink p-5 lg:block">
-            <Image
-              src="/images/tech-process-strip.png"
-              alt={hydrocarbon.processImage.alt}
-              width={2400}
-              height={1188}
-              loading="lazy"
-              sizes="(min-width: 1280px) 1200px, 100vw"
-              className="h-auto w-full"
-            />
-          </div>
-          <figcaption className="mt-4 text-center text-sm text-neutral-body">
-            The full nine-step Vanzoo garment care process.
-          </figcaption>
-        </figure>
+        <div className="mt-16 grid gap-10 lg:grid-cols-2 lg:items-center">
+          <figure>
+            <div className="media-frame mx-auto aspect-[824/1412] max-w-sm">
+              <Image
+                src={hydrocarbon.processImage.src}
+                alt={hydrocarbon.processImage.alt}
+                fill
+                loading="lazy"
+                sizes="(min-width: 640px) 24rem, 100vw"
+                className="object-contain"
+              />
+            </div>
+            <figcaption className="mt-4 text-center text-sm text-neutral-body">
+              The full nine-step Vanzoo garment care process.
+            </figcaption>
+          </figure>
 
-        <figure className="mx-auto mt-12 max-w-3xl">
-          {/* Aspect matches the source exactly so object-contain leaves no bars. */}
-          <div className="media-frame aspect-[2400/1458]">
-            <Image
-              src={hydrocarbon.sustainabilityImage.src}
-              alt={hydrocarbon.sustainabilityImage.alt}
-              fill
-              loading="lazy"
-              sizes="(min-width: 768px) 48rem, 100vw"
-              className="object-contain"
-            />
-          </div>
-          <figcaption className="mt-4 text-center text-sm text-neutral-body">
-            Where the environmental gains come from.
-          </figcaption>
-        </figure>
+          <figure>
+            {/* Aspect matches the source exactly so object-contain leaves no bars. */}
+            <div className="media-frame aspect-[2400/1458]">
+              <Image
+                src={hydrocarbon.sustainabilityImage.src}
+                alt={hydrocarbon.sustainabilityImage.alt}
+                fill
+                loading="lazy"
+                sizes="(min-width: 1024px) 46vw, 100vw"
+                className="object-contain"
+              />
+            </div>
+            <figcaption className="mt-4 text-center text-sm text-neutral-body">
+              Where the environmental gains come from.
+            </figcaption>
+          </figure>
+        </div>
       </Section>
 
-      <Section tone="muted">
+      <Section tone="dark">
         <AppPromo />
       </Section>
 

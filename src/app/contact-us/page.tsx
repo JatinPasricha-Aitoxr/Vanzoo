@@ -3,7 +3,6 @@ import { EnquiryForm } from '@/components/EnquiryForm';
 import { FAQAccordion } from '@/components/FAQAccordion';
 import { JsonLd } from '@/components/JsonLd';
 import { PageHeader } from '@/components/Hero';
-import { Icon, IconBadge, type IconName } from '@/components/ui/Icon';
 import { Reveal } from '@/components/ui/Reveal';
 import { Section, SectionHeading } from '@/components/ui/Section';
 import { enquiryIntro, faqIntro, homeFaqs } from '@/content/marketing';
@@ -11,12 +10,6 @@ import { breadcrumbSchema, buildMetadata, localBusinessSchema } from '@/lib/seo'
 import { primaryStore, site, socialLinks, stores } from '@/lib/site';
 
 const CRUMBS = [{ name: 'Contact Us', href: '/contact-us/' }];
-
-const SOCIAL_ICONS: Record<string, IconName> = {
-  Facebook: 'facebook',
-  Instagram: 'instagram',
-  YouTube: 'youtube',
-};
 
 export const metadata = buildMetadata({
   title: 'Contact Vanzoo for Premium Fabric Care Services',
@@ -34,10 +27,8 @@ export default function ContactPage() {
         eyebrow="Get In Touch"
         title="Let's Talk with us"
         intro="Questions about a specific garment, a bulk order or an express turnaround? Our team answers every enquiry personally."
-        image="/images/process-schedule-call.jpg"
-        imageAlt="Customer speaking to the Vanzoo team about a garment care enquiry"
       >
-        <Breadcrumbs crumbs={CRUMBS} tone="onDark" />
+        <Breadcrumbs crumbs={CRUMBS} />
       </PageHeader>
 
       <Section tone="surface">
@@ -47,21 +38,12 @@ export default function ContactPage() {
             <h2 className="text-display-sm">{site.descriptor}</h2>
             <p className="mt-2 text-lead text-neutral-body">{site.serviceArea}</p>
 
-            {/* Each detail leads with a badged icon so the block can be scanned
-                for "phone" or "address" without reading the labels.
-
-                The badge sits inside the <dt> rather than beside it: a <div>
-                inside a <dl> is only valid if it contains nothing but dt/dd
-                pairs, so an icon as their sibling would break the list
-                semantics screen readers rely on. The <dd> is indented by the
-                badge's width instead, which gives the same alignment. */}
             <dl className="mt-8 space-y-6">
               <div>
-                <dt className="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.14em] text-neutral-body">
-                  <IconBadge name="phone" />
+                <dt className="text-xs font-semibold uppercase tracking-[0.14em] text-neutral-body">
                   Phone Number
                 </dt>
-                <dd className="mt-1 pl-[3.25rem]">
+                <dd className="mt-1.5">
                   <a
                     href={`tel:${site.phoneHref}`}
                     className="font-display text-xl font-semibold text-brand transition-colors hover:text-brand-dark"
@@ -72,11 +54,10 @@ export default function ContactPage() {
               </div>
 
               <div>
-                <dt className="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.14em] text-neutral-body">
-                  <IconBadge name="mail" />
+                <dt className="text-xs font-semibold uppercase tracking-[0.14em] text-neutral-body">
                   Email Address
                 </dt>
-                <dd className="mt-1 pl-[3.25rem]">
+                <dd className="mt-1.5">
                   <a
                     href={`mailto:${site.email}`}
                     className="font-display text-xl font-semibold text-brand transition-colors hover:text-brand-dark"
@@ -87,11 +68,10 @@ export default function ContactPage() {
               </div>
 
               <div>
-                <dt className="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.14em] text-neutral-body">
-                  <IconBadge name="mapPin" />
+                <dt className="text-xs font-semibold uppercase tracking-[0.14em] text-neutral-body">
                   Stores
                 </dt>
-                <dd className="mt-2 space-y-4 pl-[3.25rem]">
+                <dd className="mt-2 space-y-4">
                   {stores.map((store) => (
                     <p key={store.id} className="text-[0.9375rem] leading-relaxed">
                       <span className="font-semibold text-neutral-ink">{store.name}</span>
@@ -99,17 +79,6 @@ export default function ContactPage() {
                       <span className="text-neutral-body">{store.address}</span>
                     </p>
                   ))}
-                </dd>
-              </div>
-
-              <div>
-                <dt className="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.14em] text-neutral-body">
-                  <IconBadge name="clock" />
-                  Turnaround
-                </dt>
-                <dd className="mt-1 pl-[3.25rem] text-[0.9375rem] leading-relaxed text-neutral-body">
-                  Standard {site.turnaround}. Same-day and 2-4 hour express available on
-                  request.
                 </dd>
               </div>
             </dl>
@@ -125,9 +94,8 @@ export default function ContactPage() {
                       href={social.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="btn-secondary btn-sm gap-2"
+                      className="btn-secondary btn-sm"
                     >
-                      <Icon name={SOCIAL_ICONS[social.label]} className="text-base" />
                       {social.label}
                     </a>
                   </li>

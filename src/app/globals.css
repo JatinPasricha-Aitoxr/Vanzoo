@@ -88,18 +88,67 @@
       hover:bg-brand-tint active:translate-y-px;
   }
 
+  /* Confirmation state after "Add to Cart" — same footprint as .btn-primary so
+     the button does not resize as the label swaps. */
+  .btn-added {
+    @apply btn bg-brand-ink text-accent-gold-soft;
+  }
+
   .btn-onDark {
     @apply btn border border-white/40 bg-transparent text-white hover:bg-white/10
       active:translate-y-px;
   }
 
-  /* Solid white pill, for the primary action inside a teal band. */
+  /* Solid white pill, for the primary action inside a green band. */
   .btn-inverse {
     @apply btn bg-white text-brand-dark hover:bg-accent-gold-soft active:translate-y-px;
   }
 
+  /* Brand gold, for the one primary action sitting on a photographic hero.
+     brand.ink on gold is 9.9:1 — the green pill would carry the same label at a
+     fraction of the contrast against a dark photograph. */
+  .btn-gold {
+    @apply btn bg-accent-gold text-brand-ink hover:bg-accent-gold-soft active:translate-y-px;
+  }
+
+  /* Eyebrow, with a short gold rule leading into it. The rule is a pseudo-
+     element so the label stays a plain text node for screen readers. */
   .eyebrow {
-    @apply text-xs font-semibold uppercase tracking-[0.16em] text-brand;
+    @apply inline-flex items-center gap-2.5 text-xs font-semibold uppercase tracking-[0.16em] text-brand;
+  }
+
+  .eyebrow::before {
+    content: '';
+    @apply h-px w-6 shrink-0 bg-accent-gold;
+  }
+
+  /* Centred headings need the rule on both sides or the label sits off-axis. */
+  .text-center .eyebrow::after {
+    content: '';
+    @apply h-px w-6 shrink-0 bg-accent-gold;
+  }
+
+  /* Gold hairline that fades out — separates a heading from the margin. */
+  .rule-gold {
+    @apply h-px flex-1 bg-gradient-to-r from-accent-gold/60 to-transparent;
+  }
+
+  /* The footer's full-width VANZOO sign-off. Sized against the viewport so it
+     always spans edge to edge; the gradient gives the gold a metallic falloff
+     instead of a flat fill. Decorative only — always paired with aria-hidden. */
+  .wordmark-giant {
+    font-size: clamp(4rem, 16.5vw, 15rem);
+    line-height: 0.95;
+    letter-spacing: 0.06em;
+    background-image: linear-gradient(
+      180deg,
+      theme('colors.accent.gold') 0%,
+      theme('colors.accent.gold-soft') 55%,
+      theme('colors.accent.gold') 100%
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
   }
 
   .field-label {
@@ -115,6 +164,32 @@
 
   .field-invalid {
     @apply border-red-600 hover:border-red-600 focus:border-red-600 focus:ring-red-600/20;
+  }
+
+  /* Deep green band. The radial highlight sits behind the content and fades to
+     the flat brand.ink at the edges, so the band has a light source instead of
+     reading as a black rectangle. Both stops are brand greens — no grey. */
+  .band-dark {
+    @apply relative isolate bg-brand-ink;
+    background-image: radial-gradient(
+      120% 100% at 50% 0%,
+      theme('colors.brand.dark') 0%,
+      theme('colors.brand.ink') 70%
+    );
+  }
+
+  /* Hairline of brand gold along the top of a dark band — the one place gold is
+     allowed to touch a full-bleed edge. */
+  .band-dark::before {
+    content: '';
+    @apply pointer-events-none absolute inset-x-0 top-0 h-px;
+    background-image: linear-gradient(
+      90deg,
+      transparent 0%,
+      theme('colors.accent.gold') 50%,
+      transparent 100%
+    );
+    opacity: 0.5;
   }
 
   /* Wraps a next/image with `fill`. Reserving the aspect ratio on the wrapper is

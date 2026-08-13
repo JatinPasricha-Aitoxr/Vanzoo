@@ -73,8 +73,8 @@ export function IconFeatureGrid({
 
             <h3
               className={cn(
-                'mt-4 font-display text-base font-semibold sm:text-lg',
-                dark && 'text-white',
+                'mt-4 font-display text-lg font-semibold leading-snug sm:text-xl',
+                dark ? 'text-white' : 'text-neutral-ink',
               )}
             >
               {heading}

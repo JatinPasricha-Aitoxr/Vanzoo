@@ -5,7 +5,7 @@ type SectionProps = {
   children: React.ReactNode;
   id?: string;
   className?: string;
-  /** `muted` and `light` are the two alternate bands; `dark` is the teal band. */
+  /** `muted` and `light` are the two alternate bands; `dark` is the green band. */
   tone?: 'surface' | 'muted' | 'light' | 'dark';
   /** Tightens the vertical rhythm where two related bands sit back to back. */
   size?: 'default' | 'sm';
@@ -17,7 +17,9 @@ const TONES = {
   surface: 'bg-neutral-surface',
   muted: 'bg-neutral-muted',
   light: 'bg-brand-light',
-  dark: 'bg-brand-dark text-white',
+  // A flat fill this dark reads as a black box; the radial lift gives the band
+  // a light source and keeps it feeling like a material rather than a hole.
+  dark: 'band-dark text-white',
 } as const;
 
 export function Section({

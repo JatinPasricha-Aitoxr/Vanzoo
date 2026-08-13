@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { Icon, type IconName } from './ui/Icon';
 
 /**
  * Article share row (§3.10).
@@ -17,26 +16,13 @@ export function ShareLinks({ title, url }: { title: string; url: string }) {
   const encodedUrl = encodeURIComponent(url);
   const encodedTitle = encodeURIComponent(title);
 
-  const targets: Array<{ label: string; href: string; icon: IconName }> = [
-    {
-      label: 'WhatsApp',
-      href: `https://wa.me/?text=${encodedTitle}%20${encodedUrl}`,
-      icon: 'whatsapp',
-    },
-    {
-      label: 'Facebook',
-      href: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
-      icon: 'facebook',
-    },
-    {
-      label: 'X',
-      href: `https://x.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`,
-      icon: 'x',
-    },
+  const targets = [
+    { label: 'WhatsApp', href: `https://wa.me/?text=${encodedTitle}%20${encodedUrl}` },
+    { label: 'Facebook', href: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}` },
+    { label: 'X', href: `https://x.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}` },
     {
       label: 'LinkedIn',
       href: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
-      icon: 'linkedin',
     },
   ];
 
@@ -69,16 +55,14 @@ export function ShareLinks({ title, url }: { title: string; url: string }) {
               href={target.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-secondary btn-sm gap-2"
+              className="btn-secondary btn-sm"
             >
-              <Icon name={target.icon} className="text-base" />
               {target.label}
             </a>
           </li>
         ))}
         <li>
-          <button type="button" onClick={onNativeShare} className="btn-secondary btn-sm gap-2">
-            <Icon name={copied ? 'check' : 'externalLink'} className="text-base" />
+          <button type="button" onClick={onNativeShare} className="btn-secondary btn-sm">
             {copied ? 'Link copied' : 'Copy link'}
           </button>
         </li>

@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { Icon } from './ui/Icon';
 import { cn } from '@/lib/cn';
 
 export type Crumb = { name: string; href: string };
@@ -10,25 +9,25 @@ export type Crumb = { name: string; href: string };
  * is what Google requires for the breadcrumb rich result.
  *
  * The final crumb is the current page and is rendered as plain text, per the
- * WAI-ARIA breadcrumb pattern.
+ * WAI-ARIA breadcrumb pattern. `tone="dark"` inverts the palette for use over
+ * the photographic page header.
  */
 export function Breadcrumbs({
   crumbs,
   tone = 'light',
 }: {
   crumbs: readonly Crumb[];
-  /** `onDark` for the photographic page headers. */
-  tone?: 'light' | 'onDark';
+  tone?: 'light' | 'dark';
 }) {
   const trail = [{ name: 'Home', href: '/' }, ...crumbs];
-  const dark = tone === 'onDark';
+  const dark = tone === 'dark';
 
   return (
     <nav aria-label="Breadcrumb">
       <ol
         className={cn(
           'flex flex-wrap items-center gap-x-2 gap-y-1 text-sm',
-          dark ? 'text-white/75' : 'text-neutral-body',
+          dark ? 'text-white/70' : 'text-neutral-body',
         )}
       >
         {trail.map((crumb, index) => {
@@ -47,19 +46,18 @@ export function Breadcrumbs({
                   <Link
                     href={crumb.href}
                     className={cn(
-                      'transition-colors duration-200',
-                      dark ? 'hover:text-white' : 'hover:text-brand',
+                      'transition-colors',
+                      dark ? 'hover:text-accent-gold-soft' : 'hover:text-brand',
                     )}
                   >
                     {crumb.name}
                   </Link>
-                  <Icon
-                    name="chevronRight"
-                    className={cn(
-                      'text-[0.75rem]',
-                      dark ? 'text-white/40' : 'text-neutral-line',
-                    )}
-                  />
+                  <span
+                    aria-hidden="true"
+                    className={dark ? 'text-white/30' : 'text-neutral-line'}
+                  >
+                    /
+                  </span>
                 </>
               )}
             </li>

@@ -156,7 +156,7 @@ export default function BlogPostPage({ params }: Params) {
                   </h2>
                   <p className="mt-2 text-[0.9375rem] leading-relaxed text-neutral-body">
                     Vanzoo cleans delicate fabrics with Italian hydrocarbon technology and
-                    finishes every piece by hand — with free pickup and delivery across the NCR.
+                    finishes every piece by hand — with free pickup and delivery across Gurgaon.
                   </p>
                   <a
                     href={links.bookPickup}
@@ -185,7 +185,7 @@ export default function BlogPostPage({ params }: Params) {
         <Section tone="surface" size="sm">
           <CtaBanner
             heading="Let us handle the difficult ones"
-            body="Free pickup and delivery across Delhi, Gurugram and the NCR — cleaned with Italian hydrocarbon technology and finished by hand."
+            body="Free pickup and delivery across Gurgaon — cleaned with Italian hydrocarbon technology and finished by hand."
             secondary={{ label: 'See our tariffs', href: '/couture-care-tariffs/' }}
           />
         </Section>

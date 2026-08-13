@@ -5,8 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { BookPickupWidget } from './BookPickupWidget';
-import { Icon } from './ui/Icon';
-import campaignSlugs from '@/content/campaign-slugs.json';
+import { CartButton } from './CartButton';
 import { links, navLinks } from '@/lib/site';
 import { cn } from '@/lib/cn';
 
@@ -15,13 +14,14 @@ import { cn } from '@/lib/cn';
  * bar starts transparent with light text; everywhere else it is solid from the
  * first paint, so a heading never sits under white-on-white text.
  */
-/* Slugs only — importing the campaign array here would ship every landing
-   page's copy into the client bundle for the sake of six characters each. */
 const HERO_ROUTES = new Set([
   '/',
   '/hydrocarbon-tech/',
-  '/members-club/',
-  ...campaignSlugs.map((slug) => `/${slug}/`),
+  '/hydrocarbon-tech',
+  '/couture-care-tariffs/',
+  '/couture-care-tariffs',
+  '/steam-iron-tariffs/',
+  '/steam-iron-tariffs',
 ]);
 
 /** Distance past which the bar switches to its solid treatment. */
@@ -135,15 +135,14 @@ export function Header() {
           <DesktopNav pathname={pathname} solid={solid} />
 
           <div className="flex items-center gap-2">
-            <BookPickupWidget />
+            <CartButton solid={solid} />
+            {/* Gold in both header states: it is the one persistent conversion
+                action, and the ghost treatment let it recede over the hero. */}
             <a
               href={links.bookPickup}
               target="_blank"
               rel="noopener noreferrer"
-              className={cn(
-                'btn-sm hidden shrink-0 sm:inline-flex 2xl:hidden',
-                solid ? 'btn-primary' : 'btn-onDark',
-              )}
+              className="btn-gold btn-sm hidden shrink-0 sm:inline-flex"
             >
               Book Pickup
             </a>
@@ -154,7 +153,7 @@ export function Header() {
               aria-expanded={menuOpen}
               aria-controls="mobile-nav"
               className={cn(
-                'inline-flex h-10 w-10 items-center justify-center rounded-pill border transition-colors duration-200 lg:hidden',
+                'inline-flex h-10 w-10 items-center justify-center rounded-pill border transition-colors duration-200 xl:hidden',
                 solid
                   ? 'border-neutral-line text-neutral-ink hover:bg-neutral-muted'
                   : 'border-white/40 text-white hover:bg-white/10',
@@ -208,8 +207,11 @@ function DesktopNav({ pathname, solid }: { pathname: string; solid: boolean }) {
   }, [measure]);
 
   return (
-    <nav aria-label="Primary" className="hidden lg:block">
-      <ul ref={listRef} className="relative flex items-center gap-1">
+    /* xl rather than lg: eight labels plus the logo, cart and pickup button do
+       not fit inside the 1280px shell until then, and a wrapped nav row is
+       worse than the overlay the hamburger already gives us. */
+    <nav aria-label="Primary" className="hidden xl:block">
+      <ul ref={listRef} className="relative flex items-center gap-0.5">
         <span
           aria-hidden="true"
           className={cn(
@@ -236,7 +238,7 @@ function DesktopNav({ pathname, solid }: { pathname: string; solid: boolean }) {
                 className={cn(
                   // whitespace-nowrap is load-bearing: without it the longer
                   // labels wrap and the row grows into the logo.
-                  'relative block whitespace-nowrap rounded-pill px-2.5 py-2 text-[0.8125rem] font-medium transition-colors duration-200 xl:px-3',
+                  'relative block whitespace-nowrap rounded-pill px-2 py-2 text-[0.8125rem] font-medium transition-colors duration-200 2xl:px-3',
                   solid
                     ? active
                       ? 'text-brand-dark'
@@ -297,16 +299,15 @@ function MobileNav({
 
   if (!open) return null;
 
-  const secondary = [
-    { href: '/locate-us/', label: 'Locate Us' },
-    { href: '/blogs/', label: 'Blogs' },
-  ];
+  // Areas and Blogs graduated into the primary nav, so this is now only the
+  // links that never had a place in it.
+  const secondary = [{ href: '/locate-us/', label: 'Locate Us' }];
 
   return (
     <div
       id="mobile-nav"
       ref={panelRef}
-      className="nav-panel fixed inset-0 z-40 bg-white pt-[var(--header-h)] lg:hidden"
+      className="nav-panel fixed inset-0 z-40 bg-white pt-[var(--header-h)] xl:hidden"
     >
       <nav aria-label="Mobile" className="shell flex h-full flex-col overflow-y-auto pb-32 pt-6">
         <ul className="flex flex-col">
@@ -329,7 +330,7 @@ function MobileNav({
                   )}
                 >
                   {link.label}
-                  <Icon name="arrowRight" className="arrow-nudge text-base text-brand opacity-40" />
+                  <ArrowRight className="arrow-nudge h-4 w-4 text-brand opacity-40" />
                 </Link>
               </li>
             );
@@ -378,7 +379,7 @@ function MobileBookBar({ hidden }: { hidden: boolean }) {
         href={links.bookPickup}
         target="_blank"
         rel="noopener noreferrer"
-        className="btn-primary btn-md w-full"
+        className="btn-gold btn-md w-full"
       >
         Book Pickup
       </a>
@@ -410,5 +411,19 @@ function MenuIcon({ open }: { open: boolean }) {
         className={cn(bar, open ? 'top-1/2 -translate-y-1/2 -rotate-45' : 'top-[13px]')}
       />
     </span>
+  );
+}
+
+function ArrowRight({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" className={className}>
+      <path
+        d="M3 8h10m0 0-3.5-3.5M13 8l-3.5 3.5"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
   );
 }

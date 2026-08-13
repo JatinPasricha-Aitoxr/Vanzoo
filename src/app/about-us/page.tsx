@@ -28,10 +28,8 @@ export default function AboutPage() {
         eyebrow="About Us"
         title={about.heading}
         intro="Luxury deserves reverence — and a process built to earn it."
-        image="/images/garment-rail-couture.jpg"
-        imageAlt="Rail of couture jackets awaiting eco-friendly dry cleaning at the Vanzoo Gurgaon atelier"
       >
-        <Breadcrumbs crumbs={CRUMBS} tone="onDark" />
+        <Breadcrumbs crumbs={CRUMBS} />
       </PageHeader>
 
       {/* Why we started Vanzoo — 2-col text/image */}
@@ -85,15 +83,39 @@ export default function AboutPage() {
         </div>
       </Section>
 
-      {/* Who we serve */}
-      <Section tone="surface" aria-labelledby="serve-heading">
+      {/* Who we serve — dark band with the clientele made visible, as the old
+          site stages it, rather than a floating heading on white. */}
+      <Section tone="dark" aria-labelledby="serve-heading">
         <SectionHeading
           id="serve-heading"
           title={about.whoWeServe.heading}
           intro={about.whoWeServe.body}
           align="center"
+          tone="dark"
           className="mx-auto"
         />
+        <div className="mx-auto mt-12 grid max-w-4xl gap-6 sm:grid-cols-2">
+          <div className="media-frame aspect-[4/3] bg-brand-dark">
+            <Image
+              src="/images/persona-corporate-professionals.jpg"
+              alt="Executive selecting a freshly dry-cleaned shirt from a wardrobe rail of business wear"
+              fill
+              loading="lazy"
+              sizes="(min-width: 640px) 40vw, 90vw"
+              className="object-cover"
+            />
+          </div>
+          <div className="media-frame aspect-[4/3] bg-brand-dark">
+            <Image
+              src="/images/persona-heirlooms.jpg"
+              alt="Two generations in heritage silk sarees preserved with museum-grade Vanzoo care"
+              fill
+              loading="lazy"
+              sizes="(min-width: 640px) 40vw, 90vw"
+              className="object-cover"
+            />
+          </div>
+        </div>
       </Section>
 
       {/* Values row, reusing the homepage differentiators */}

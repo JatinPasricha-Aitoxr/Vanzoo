@@ -1,9 +1,12 @@
 import type { Metadata, Viewport } from 'next';
 import { Fraunces, Inter } from 'next/font/google';
 import Script from 'next/script';
+import { CartDrawer } from '@/components/CartDrawer';
+import { ContactRail } from '@/components/ContactRail';
 import { Footer } from '@/components/Footer';
 import { Header } from '@/components/Header';
 import { JsonLd } from '@/components/JsonLd';
+import { CartProvider } from '@/lib/cart';
 import { organizationSchema, websiteSchema } from '@/lib/seo';
 import { GOOGLE_SITE_VERIFICATION, GTM_ID, SITE_URL, site } from '@/lib/site';
 import './globals.css';
@@ -49,7 +52,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: '#1E6177',
+  themeColor: '#004A40',
   colorScheme: 'light',
 };
 
@@ -78,9 +81,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
         <JsonLd data={[organizationSchema(), websiteSchema()]} />
 
-        <Header />
-        <main id="main">{children}</main>
-        <Footer />
+        {/* The cart wraps the whole tree, not just the tariff pages: the header
+            badge and the drawer live outside those routes. */}
+        <CartProvider>
+          <Header />
+          <main id="main">{children}</main>
+          <Footer />
+          <ContactRail />
+          <CartDrawer />
+        </CartProvider>
       </body>
     </html>
   );

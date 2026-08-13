@@ -1,5 +1,4 @@
 import { guarantee } from '@/content/marketing';
-import { Icon } from './ui/Icon';
 import { Reveal } from './ui/Reveal';
 import { links } from '@/lib/site';
 
@@ -17,11 +16,13 @@ export function GuaranteeBlock() {
 
       <div aria-hidden="true" className="mt-5 flex items-center justify-center gap-1.5">
         {Array.from({ length: 5 }).map((_, index) => (
-          <Icon key={index} name="star" className="text-2xl text-accent-gold" />
+          <Star key={index} />
         ))}
       </div>
 
-      <p className="mt-7 font-display text-2xl font-semibold leading-snug text-white text-pretty sm:text-3xl">
+      <h2 className="mt-6 text-display-lg text-white">{guarantee.headline}</h2>
+
+      <p className="mt-5 text-lead leading-relaxed text-pretty text-white/80">
         {guarantee.statement}
       </p>
 
@@ -34,5 +35,13 @@ export function GuaranteeBlock() {
         {guarantee.ctaLabel}
       </a>
     </Reveal>
+  );
+}
+
+function Star() {
+  return (
+    <svg viewBox="0 0 20 20" className="h-6 w-6 text-accent-gold" fill="currentColor">
+      <path d="M10 1.6l2.47 5.28 5.53.72-4.08 3.9 1.05 5.66L10 14.4l-4.97 2.76 1.05-5.66L2 7.6l5.53-.72L10 1.6z" />
+    </svg>
   );
 }

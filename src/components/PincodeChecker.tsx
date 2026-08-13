@@ -1,26 +1,20 @@
 'use client';
 
 import { useId, useState } from 'react';
-import { Icon } from './ui/Icon';
 import { links, site } from '@/lib/site';
 
 /**
  * "Check if we deliver to your area" (§3.8, optional).
  *
- * Vanzoo publishes no pincode-level coverage list, so this deliberately does
- * not claim a definitive yes/no. It checks the pincode against the NCR prefixes
- * Vanzoo names as its service area and, for anything outside them, points the
- * visitor at the phone number rather than guessing. Replace `NCR_PREFIXES` with
- * a real serviceability lookup when one exists — see README.
+ * Vanzoo serves Gurgaon and publishes no pincode-level coverage list, so this
+ * matches on the Gurgaon prefix rather than asserting a per-locality answer it
+ * cannot back. Anything outside it is pointed at the phone number rather than
+ * guessed at. Replace this with a real serviceability lookup when one exists —
+ * see README "Service areas".
  */
-const NCR_PREFIXES: Array<{ prefix: string; area: string }> = [
-  { prefix: '122', area: 'Gurugram' },
-  { prefix: '110', area: 'Delhi' },
-  { prefix: '201', area: 'Noida & Ghaziabad' },
-  { prefix: '121', area: 'Faridabad' },
-];
+const GURGAON_PREFIX = '122';
 
-type Result = { covered: boolean; area?: string } | null;
+type Result = { covered: boolean } | null;
 
 export function PincodeChecker() {
   const inputId = useId();
@@ -39,15 +33,14 @@ export function PincodeChecker() {
     }
 
     setError(null);
-    const match = NCR_PREFIXES.find((entry) => pincode.startsWith(entry.prefix));
-    setResult(match ? { covered: true, area: match.area } : { covered: false });
+    setResult({ covered: pincode.startsWith(GURGAON_PREFIX) });
   }
 
   return (
     <div className="rounded-card border border-neutral-line bg-white p-6 sm:p-8">
-      <h3 className="font-display text-xl font-semibold">Check if we deliver to your area</h3>
+      <h3 className="font-display text-xl font-semibold">Check if we collect from your area</h3>
       <p className="mt-2 text-[0.9375rem] text-neutral-body">
-        Enter your pincode and we&apos;ll tell you whether free pickup covers it.
+        Enter your Gurgaon pincode and we&apos;ll tell you whether free pickup covers it.
       </p>
 
       <form onSubmit={onSubmit} noValidate className="mt-6">
@@ -69,8 +62,7 @@ export function PincodeChecker() {
             placeholder="122009"
             className={`field flex-1 ${error ? 'field-invalid' : ''}`}
           />
-          <button type="submit" className="btn-primary btn-md shrink-0 gap-2">
-            <Icon name="search" className="text-base" />
+          <button type="submit" className="btn-primary btn-md shrink-0">
             Check
           </button>
         </div>
@@ -84,11 +76,9 @@ export function PincodeChecker() {
       {/* aria-live so the answer is announced without moving focus. */}
       <div aria-live="polite" className="mt-5">
         {result?.covered ? (
-          <div className="flex gap-3 rounded-card border border-success/30 bg-success/5 p-4">
-            <Icon name="shieldCheck" className="mt-0.5 text-lg text-success" />
-            <div>
+          <div className="rounded-card border border-success/30 bg-success/5 p-4">
             <p className="text-[0.9375rem] font-semibold text-neutral-ink">
-              Good news — we cover {result.area}.
+              Good news — that&apos;s Gurgaon, and free pickup covers it.
             </p>
             <a
               href={links.bookPickup}
@@ -98,15 +88,13 @@ export function PincodeChecker() {
             >
               Book a pickup
             </a>
-            </div>
           </div>
         ) : null}
 
         {result && !result.covered ? (
-          <div className="flex gap-3 rounded-card border border-neutral-line bg-neutral-muted p-4">
-            <Icon name="info" className="mt-0.5 text-lg text-brand" />
+          <div className="rounded-card border border-neutral-line bg-neutral-muted p-4">
             <p className="text-[0.9375rem] text-neutral-body">
-              That pincode is outside the areas we list, but our coverage changes — call{' '}
+              That pincode is outside Gurgaon, but our coverage changes — call{' '}
               <a href={`tel:${site.phoneHref}`} className="font-semibold text-brand">
                 {site.phone}
               </a>{' '}

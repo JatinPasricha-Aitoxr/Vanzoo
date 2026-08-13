@@ -2,43 +2,14 @@ import Link from 'next/link';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { CtaBanner } from '@/components/CtaBanner';
 import { JsonLd } from '@/components/JsonLd';
-import { MediaStrip, type StripItem } from '@/components/MediaStrip';
 import { PageHeader } from '@/components/Hero';
-import { PricingTable } from '@/components/PricingTable';
 import { Section } from '@/components/ui/Section';
-import { coutureTariffs, tariffIntro, tariffNote } from '@/content/pricing';
+import { TariffGrid } from '@/components/TariffGrid';
+import { coutureCatalog, tariffIntro, tariffNote } from '@/content/pricing';
 import { breadcrumbSchema, buildMetadata } from '@/lib/seo';
 import { site } from '@/lib/site';
 
 const CRUMBS = [{ name: 'Couture Care Tariffs', href: '/couture-care-tariffs/' }];
-
-/** One tile per broad tariff family, so the tables below have a visual key. */
-const COUTURE_STRIP: readonly StripItem[] = [
-  {
-    src: '/images/service-bespoke-suit-couture.jpg',
-    alt: 'Bespoke suit and evening dress dry cleaned and pressed by Vanzoo in Gurgaon',
-    caption: 'Suits & couture',
-    icon: 'shirt',
-  },
-  {
-    src: '/images/persona-heirlooms.jpg',
-    alt: 'Silk sarees cleaned and preserved with Vanzoo heirloom garment care',
-    caption: 'Sarees & lehengas',
-    icon: 'dress',
-  },
-  {
-    src: '/images/service-shoes-bags-accessories.jpg',
-    alt: 'Leather shoes and handbag cleaned and conditioned by Vanzoo accessory care',
-    caption: 'Shoes & bags',
-    icon: 'bag',
-  },
-  {
-    src: '/images/service-curtain-cleaning.jpg',
-    alt: 'Living room curtains professionally cleaned, deinstalled and reinstalled by Vanzoo',
-    caption: 'Curtains & home',
-    icon: 'bed',
-  },
-];
 
 export const metadata = buildMetadata({
   title: 'Couture Care Tariffs and Premium Garment Pricing | Vanzoo',
@@ -55,19 +26,15 @@ export default function CoutureCareTariffsPage() {
       <PageHeader
         eyebrow="Couture Care"
         title="Couture Care Tariffs"
-        intro={tariffIntro}
-        image="/images/service-bespoke-suit-couture.jpg"
-        imageAlt="Bespoke suit and evening dress cleaned and pressed by Vanzoo in Gurgaon"
+        intro={`${tariffIntro} Add the pieces you want cleaned to your cart and send us the list — we'll confirm the quote and collect from your door, free, anywhere in Gurgaon.`}
+        image="/images/garment-rail-couture.jpg"
+        imageAlt="Rail of pastel couture blazers cleaned and pressed at the Vanzoo Gurgaon atelier"
       >
-        <Breadcrumbs crumbs={CRUMBS} tone="onDark" />
+        <Breadcrumbs crumbs={CRUMBS} tone="dark" />
       </PageHeader>
 
-      <Section tone="surface" size="sm">
-        <MediaStrip items={COUTURE_STRIP} />
-      </Section>
-
-      <Section tone="surface" size="sm" className="pt-0">
-        <PricingTable groups={coutureTariffs} />
+      <Section tone="surface">
+        <TariffGrid catalog={coutureCatalog} />
 
         <div className="mt-12 grid gap-4 sm:grid-cols-2">
           <p className="rounded-card border border-neutral-line bg-neutral-muted p-5 text-sm text-neutral-body">

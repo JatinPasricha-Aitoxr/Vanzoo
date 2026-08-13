@@ -10,12 +10,11 @@ type HeroProps = {
   imageAlt: string;
   primaryCta?: { label: string; href: string; external?: boolean };
   secondaryCta?: { label: string; href: string };
+  /** Current promotion, rendered as a gold chip above the headline. */
+  offer?: { lead: string; codeLabel: string; code: string };
   /** `full` is the homepage's full-bleed treatment; `band` is the shorter
    *  variant inner pages use so their content starts above the fold. */
   variant?: 'full' | 'band';
-  /** Breadcrumb trail, rendered above the headline. */
-  breadcrumbs?: React.ReactNode;
-  /** Anything extra below the CTA row — an offer pill, a rating, a note. */
   children?: React.ReactNode;
 };
 
@@ -32,12 +31,12 @@ export function Hero({
   imageAlt,
   primaryCta = { label: 'Book Pickup', href: links.bookPickup, external: true },
   secondaryCta,
+  offer,
   variant = 'full',
-  breadcrumbs,
   children,
 }: HeroProps) {
   return (
-    <section className="relative isolate overflow-hidden bg-brand-dark">
+    <section className="relative isolate overflow-hidden bg-brand-ink">
       {/* The image sits in its own wrapper so two independent motions can stack:
           `hero-parallax` drifts the wrapper with scroll (scroll-timeline, off
           the main thread), while `hero-media` settles the image on load. */}
@@ -53,14 +52,16 @@ export function Hero({
         />
       </div>
       {/* Two stacked scrims: a vertical one so the header stays legible, and a
-          left-weighted one so the copy column keeps AA contrast over any crop. */}
+          left-weighted one so the copy column keeps AA contrast over any crop.
+          Both are tinted with the brand green rather than a neutral black, so
+          the photograph sits in the palette instead of beside it. */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 -z-10 bg-gradient-to-b from-neutral-ink/70 via-neutral-ink/45 to-neutral-ink/70"
+        className="absolute inset-0 -z-10 bg-gradient-to-b from-brand-ink/75 via-brand-ink/45 to-brand-ink/75"
       />
       <div
         aria-hidden="true"
-        className="absolute inset-0 -z-10 bg-gradient-to-r from-neutral-ink/70 via-neutral-ink/25 to-transparent"
+        className="absolute inset-0 -z-10 bg-gradient-to-r from-brand-ink/75 via-brand-ink/30 to-transparent"
       />
 
       <div
@@ -72,13 +73,17 @@ export function Hero({
         )}
       >
         <div className="max-w-3xl">
-          {breadcrumbs ? (
-            <div
-              className="hero-stagger mb-6"
-              style={{ '--line': -1 } as React.CSSProperties}
+          {offer ? (
+            <p
+              className="hero-stagger mb-6 inline-flex flex-wrap items-center gap-x-3 gap-y-1 rounded-pill border border-accent-gold/50 bg-brand-ink/55 py-2 pl-4 pr-2 text-sm font-medium text-white backdrop-blur-sm"
+              style={{ '--line': 0 } as React.CSSProperties}
             >
-              {breadcrumbs}
-            </div>
+              <span className="inline-block h-1.5 w-1.5 rounded-pill bg-accent-gold" aria-hidden="true" />
+              {offer.lead}
+              <span className="rounded-pill bg-accent-gold px-3 py-1 text-xs font-bold uppercase tracking-[0.08em] text-brand-ink">
+                {offer.codeLabel} {offer.code}
+              </span>
+            </p>
           ) : null}
 
           {/* Each line rises out of its own overflow-hidden mask, so the text
@@ -87,7 +92,10 @@ export function Hero({
             {headline.map((line, index) => (
               <span key={line} className="hero-line-mask">
                 <span
-                  className={cn('hero-line', index > 0 && 'text-white/85')}
+                  // Trailing lines take the soft gold: the one typographic
+                  // flourish in the hero, and the cue that carries the couture
+                  // register before a word of copy is read.
+                  className={cn('hero-line', index > 0 && 'text-accent-gold-soft')}
                   style={{ '--line': index } as React.CSSProperties}
                 >
                   {line}
@@ -96,7 +104,7 @@ export function Hero({
             ))}
           </h1>
           <p
-            className="hero-stagger mt-6 max-w-xl text-lead text-pretty text-white/85"
+            className="hero-stagger mt-6 max-w-xl text-pretty text-[clamp(1.125rem,1.4vw,1.3125rem)] leading-relaxed text-white/95 [text-shadow:0_1px_14px_rgba(0,26,22,0.5)]"
             style={{ '--line': headline.length } as React.CSSProperties}
           >
             {subhead}
@@ -111,12 +119,12 @@ export function Hero({
                 href={primaryCta.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-primary btn-lg"
+                className="btn-gold btn-lg"
               >
                 {primaryCta.label}
               </a>
             ) : (
-              <Link href={primaryCta.href} className="btn-primary btn-lg">
+              <Link href={primaryCta.href} className="btn-gold btn-lg">
                 {primaryCta.label}
               </Link>
             )}
@@ -136,15 +144,10 @@ export function Hero({
 }
 
 /**
- * Photographic page header — the hero every inner route gets.
- *
- * `image` is optional only so the policy pages can opt out: a photograph over
- * "Terms & Conditions" reads as marketing where a reader is looking for a
- * contract. Everything else passes one.
- *
- * The image is `priority` here for the same reason it is in `Hero`: on these
- * routes it is the LCP element, and lazy-loading it would push the largest
- * paint behind the rest of the page.
+ * Compact page header for routes that don't warrant a full photographic hero
+ * (policies, blog index). Pass `image` for the photographic treatment — a
+ * shorter editorial banner with the title over the photo, which is how the old
+ * site opens its tariff pages.
  */
 export function PageHeader({
   eyebrow,
@@ -152,103 +155,91 @@ export function PageHeader({
   intro,
   image,
   imageAlt,
-  actions,
+  imagePosition,
   children,
 }: {
   eyebrow?: string;
   title: string;
   intro?: string;
+  /** Banner photograph. Text switches to on-dark styling over a green scrim. */
   image?: string;
   imageAlt?: string;
-  /** Buttons rendered under the intro. */
-  actions?: React.ReactNode;
-  /** Breadcrumbs, rendered above the eyebrow. */
+  /** CSS object-position — crop the banner so any baked-in artwork sits clear
+   *  of the live title. */
+  imagePosition?: string;
   children?: React.ReactNode;
 }) {
-  const hasImage = Boolean(image);
+  const dark = Boolean(image);
 
   return (
     <section
       className={cn(
-        'relative isolate overflow-hidden pb-section-sm pt-[calc(var(--header-h)+3.5rem)]',
-        hasImage ? 'bg-brand-dark' : 'bg-brand-light',
+        'relative overflow-hidden pb-section-sm pt-[calc(var(--header-h)+3rem)]',
+        dark
+          ? 'bg-brand-ink'
+          : 'bg-gradient-to-b from-brand-light to-brand-tint after:absolute after:inset-x-0 after:bottom-0 after:h-px after:bg-gradient-to-r after:from-transparent after:via-accent-gold/50 after:to-transparent',
       )}
     >
-      {hasImage ? (
+      {dark && image ? (
         <>
-          <div className="hero-parallax absolute inset-0 -z-10">
+          <div className="absolute inset-0">
             <Image
-              src={image!}
+              src={image}
               alt={imageAlt ?? ''}
               fill
               priority
-              fetchPriority="high"
               sizes="100vw"
               className="hero-media object-cover"
+              style={imagePosition ? { objectPosition: imagePosition } : undefined}
             />
           </div>
-          {/* Same two-scrim treatment as the full hero: vertical for the header,
-              left-weighted so the copy column holds AA contrast over any crop. */}
+          {/* Same green-tinted scrim pair as the full hero, so the two
+              treatments read as one family. */}
           <div
             aria-hidden="true"
-            className="absolute inset-0 -z-10 bg-gradient-to-b from-neutral-ink/75 via-neutral-ink/55 to-neutral-ink/75"
+            className="absolute inset-0 bg-gradient-to-b from-brand-ink/80 via-brand-ink/45 to-brand-ink/70"
           />
           <div
             aria-hidden="true"
-            className="absolute inset-0 -z-10 bg-gradient-to-r from-neutral-ink/70 via-neutral-ink/30 to-transparent"
+            className="absolute inset-0 bg-gradient-to-r from-brand-ink/70 via-brand-ink/25 to-transparent"
           />
         </>
       ) : null}
 
       {/* Staggered on load rather than on scroll — a page header is always
           above the fold, so there is no scroll event to wait for. */}
-      <div className="shell">
-        <div
-          className="hero-stagger"
-          style={{ '--line': 0 } as React.CSSProperties}
-        >
+      <div className="shell relative">
+        <div className="hero-stagger" style={{ '--line': 0 } as React.CSSProperties}>
           {children}
         </div>
-
         {eyebrow ? (
           <p
-            className={cn('hero-stagger eyebrow mt-6', hasImage && 'text-accent-gold')}
+            className={cn('hero-stagger eyebrow mt-6', dark && 'text-accent-gold-soft')}
             style={{ '--line': 1 } as React.CSSProperties}
           >
             {eyebrow}
           </p>
         ) : null}
-
         <h1
           className={cn(
             'hero-stagger text-display-lg',
             eyebrow ? 'mt-3' : 'mt-6',
-            hasImage && 'max-w-4xl text-white',
+            dark && 'text-white',
           )}
           style={{ '--line': eyebrow ? 2 : 1 } as React.CSSProperties}
         >
           {title}
         </h1>
-
         {intro ? (
           <p
             className={cn(
               'hero-stagger mt-4 max-w-2xl text-lead text-pretty',
-              hasImage ? 'text-white/85' : 'text-neutral-body',
+              dark ? 'text-white/85' : 'text-neutral-body',
             )}
             style={{ '--line': eyebrow ? 3 : 2 } as React.CSSProperties}
           >
             {intro}
           </p>
-        ) : null}
-
-        {actions ? (
-          <div
-            className="hero-stagger mt-8 flex flex-wrap items-center gap-3"
-            style={{ '--line': eyebrow ? 4 : 3 } as React.CSSProperties}
-          >
-            {actions}
-          </div>
         ) : null}
       </div>
     </section>

@@ -2,9 +2,8 @@
 
 Rebuild of [vanzoo.in](https://vanzoo.in) — luxury fabric care and eco-friendly dry cleaning, Gurgaon.
 
-Next.js 14 (App Router) · TypeScript · Tailwind CSS. 113 statically generated
-pages — the marketing site, the Members Club, 15 campaign landing pages and all
-73 blog articles. Only `/api/enquiry` runs at request time.
+Next.js 14 (App Router) · TypeScript · Tailwind CSS. Every marketing page and all
+73 blog articles are statically generated; only `/api/enquiry` runs at request time.
 
 ```bash
 npm install
@@ -25,8 +24,9 @@ src/
   components/             shared UI
   content/                all copy and data — see below
   lib/
-    site.ts               brand facts: phone, email, stores, nav, footer, outbound links
+    site.ts               brand facts: phone, email, stores, areas, nav, footer, outbound links
     seo.ts                metadata builder + JSON-LD builders
+    cart.tsx              tariff cart state (context + localStorage)
 scripts/                  one-off migration scripts (not part of the build)
 public/images/            optimised imagery; blog/ holds the migrated article images
 ```
@@ -36,9 +36,8 @@ Copy lives in `src/content/`, never inline in a component:
 | File | Holds |
 | --- | --- |
 | `marketing.ts` | Hero, services, personas, FAQs, About, Hydrocarbon Tech, app promo |
-| `pricing.ts` | Both tariff tables |
-| `membership.ts` | Members Club tiers, services and USPs |
-| `campaigns.ts` | The 15 campaign landing pages + the `/menu` link hub |
+| `pricing.ts` | Both tariff catalogues |
+| `reviews.ts` | Homepage customer reviews — **currently placeholders, see below** |
 | `blog.ts` + `posts.json` | The 73 migrated articles |
 | `policies.ts` + `policies.json` | Privacy, Terms, Delivery & Refund |
 
@@ -92,24 +91,92 @@ normal editing path is the JSON above.
 
 ## Updating pricing
 
-Both tables live in `src/content/pricing.ts` as `coutureTariffs` and
-`steamIronTariffs`. Each is a list of groups:
+Both catalogues live in `src/content/pricing.ts` as `coutureCatalog` and
+`steamIronCatalog`. Each is a list of groups:
 
 ```ts
 {
   id: 'footwear',              // anchor target; keep stable, it may be linked
-  label: 'Footwear',           // table header and filter chip
-  rows: [{ item: 'Leather Shoes', price: '₹799' }],
+  label: 'Footwear',           // section heading and filter chip
+  rows: [
+    { item: 'Leather Shoes', amount: 799, image: img('leather-shoes') },
+    { item: 'Leather Handbag', amount: 699, from: true, image: img('leather-handbag') },
+  ],
 }
 ```
 
-`price` is a display string, not a number, because roughly half the rows read
-"Starting from ₹x" — collapsing that to a number would quote a fixed price
-Vanzoo doesn't offer. Add or remove groups freely; the sticky category chips,
-the scroll-spy highlighting and the anchors all derive from the data.
+Every row carries an `image` — the product photo shown on its card and as the
+cart-line thumbnail. The files in `public/images/tariffs/` are the live site's
+own tariff-card photos, downloaded and renamed to the product they depict
+(several source uploads had misleading filenames — the pairing was taken from
+what each card actually renders, and every file has been visually verified
+against its product). Adding a new row means adding its photo there first.
 
-The GST note and the intro line are `tariffNote` and `tariffIntro` in the same
-file, shared by both pages.
+`amount` is a number so the cart can total it; `from` records whether Vanzoo
+publishes the figure as fixed or as a starting price. That distinction is
+load-bearing — if any line in the cart is a from-price, the drawer labels the
+total "Estimated total" and prefixes it "from", rather than quoting a firm price
+Vanzoo doesn't offer. `formatPrice()` in the same file renders the display
+string, so the tables and the cart can never drift apart.
+
+Add or remove groups freely; the sticky category chips, the scroll-spy
+highlighting and the anchors all derive from the data. The GST note and the
+intro line are `tariffNote` and `tariffIntro`, shared by both pages.
+
+---
+
+## The tariff cart
+
+Each tariff card has an **Add to Cart** button. The cart is a quotation basket,
+not a checkout — nothing is charged on this site and no order is created.
+
+- State lives in `src/lib/cart.tsx` (`CartProvider` / `useCart`), persisted to
+  `localStorage` under `vanzoo.cart.v1` so a cart survives the hop between the
+  two tariff pages and a reload. Stored lines are re-validated on read, so a
+  corrupt or stale entry is dropped rather than crashing the page.
+- Line IDs are `catalogId:groupId:item-slug` (`lineId()` in `pricing.ts`). The
+  namespace matters: a couture "Pant/Trouser" (₹199) and a steam-iron
+  "Pant/Trouser" (₹99) are different products and must not merge.
+- `CartDrawer` is two panes — the list, then the contact details — because a
+  long list plus a six-field form does not fit a phone-height panel.
+- **Submission reuses `/api/enquiry`.** The itemised list is rendered into the
+  enquiry's `message` field, so the team receives it in the same inbox as every
+  other enquiry with no extra plumbing. Wire `ENQUIRY_WEBHOOK_URL` (see
+  "Enquiry form") and the cart is delivered too.
+
+To take real payments you would add a new endpoint and an order record; none of
+that exists today, and the drawer says so ("No payment is taken here").
+
+---
+
+## Reviews
+
+`src/content/reviews.ts` currently holds **placeholders, not real reviews.**
+Vanzoo publishes no testimonials anywhere, so nothing was invented — each entry
+describes what belongs in the field instead of pretending to be praise, and the
+homepage section carries a visible "Sample content" banner while
+`PUBLISHED` is `false`.
+
+To go live: replace each entry with the customer's own words verbatim, then set
+`PUBLISHED = true` to drop the banner. Only once real ratings are rendered on
+the page does `aggregateRating` become eligible for the LocalBusiness JSON-LD in
+`src/lib/seo.ts` — Google requires the rating to reflect reviews genuinely shown,
+so add it then and not before.
+
+---
+
+## Service areas
+
+Vanzoo serves **Gurgaon only**. Both stores are there, and no copy on the site
+claims wider Delhi-NCR coverage.
+
+`areaGroups` in `src/lib/site.ts` drives `/areas-we-serve/`, the locality chips
+on `/locate-us/`, the pickup widget's "Where" select and the enquiry form's area
+field. It is locality names grouped by corridor, with no per-locality pincodes —
+Vanzoo publishes no pincode-level coverage list, so `PincodeChecker` matches on
+the Gurgaon `122` prefix rather than asserting an answer it cannot back. Add
+exact pincodes here once operations confirm them, and replace the prefix match
+with a real serviceability lookup at the same time.
 
 ---
 
@@ -118,122 +185,59 @@ file, shared by both pages.
 All colour lives in `tailwind.config.ts` under `theme.extend.colors`. Change a
 value there and it propagates everywhere.
 
+The green and gold are the live vanzoo.in brand colours, read out of that site's
+Elementor global palette — not approximations.
+
 ```
-brand.DEFAULT   #1E6177   primary teal — buttons, links, table headers
-brand.dark      #154A5C   footer, teal bands, guarantee block
-brand.light     #E8F1F3   tinted section backgrounds, page headers
-accent.gold     #C9A24B   decorative only — icons, stars, rules
-accent.gold-ink #8A6B1F   gold *text* on light surfaces
-accent.gold-soft #EFE2C4  gold *text* on dark surfaces
+brand.DEFAULT   #004A40   primary green — buttons, links, prices, section chips
+brand.hover     #00695A   button hover (lifts *lighter*, see below)
+brand.dark      #00332C   the lighter half of the dark-band gradient
+brand.ink       #001A16   footer base, hero scrim, dark bands, cart badge text
+brand.light     #E6F0EC   tinted section backgrounds, page headers
+accent.gold     #FFB107   decorative only — icons, stars, rules, hero CTA fill
+accent.gold-ink #7A5200   gold *text* on light surfaces
+accent.gold-soft #F5E0B0  gold *text* on dark surfaces
 neutral.ink/body/line/surface/muted, success
 ```
 
-Two things to keep in mind when changing these:
+Three things to keep in mind when changing these:
 
-1. **The three golds are not interchangeable.** `accent.gold` is 2.4:1 on white
-   and 4.1:1 on `brand.dark` — it fails WCAG AA as text on both. It is only ever
-   used for shapes (star glyphs, icon fills). Text uses `gold-ink` on light
-   backgrounds (5.0:1) or `gold-soft` on dark (7.6:1). The contrast figures for
-   every token are recorded in the config's header comment; re-check them if you
-   change a value, since the site currently scores 100 on Lighthouse
-   accessibility and contrast is the easiest way to lose that.
+1. **The three golds are not interchangeable.** `accent.gold` is 1.8:1 on white
+   — it fails WCAG AA as text. It is only ever used for shapes (star glyphs,
+   icon fills, hairlines) and as a *fill* behind `brand.ink` text on the hero
+   CTA, where it measures 9.9:1. Gold text uses `gold-ink` on light backgrounds
+   (6.9:1) or `gold-soft` on dark (13.4:1). The contrast figures for every token
+   are recorded in the config's header comment; re-check them if you change a
+   value, since the site currently scores 100 on Lighthouse accessibility and
+   contrast is the easiest way to lose that.
 
-2. **Two brand colours live outside Tailwind** and need updating alongside it:
-   `themeColor` in `src/app/layout.tsx` (the mobile browser chrome), and the
-   `priceRange`/logo URLs in `src/lib/seo.ts`.
+2. **`brand.hover` is lighter than `brand.DEFAULT`, deliberately.** At #004A40
+   the base green is already near-black; darkening it on hover reads as a
+   disabled state rather than a press. If you lighten the base, revisit this.
+
+3. **One brand colour lives outside Tailwind** and needs updating alongside it:
+   `themeColor` in `src/app/layout.tsx` (the mobile browser chrome).
 
 Type scale, spacing rhythm and radii are in the same config. Component-level
-primitives (`.btn-primary`, `.field`, `.prose-vanzoo`, `.shell`) are in
-`src/app/globals.css`; motion lives in `src/app/motion.css` — see below.
+primitives (`.btn-primary`, `.btn-gold`, `.band-dark`, `.eyebrow`, `.field`,
+`.prose-vanzoo`, `.shell`) are in `src/app/globals.css`; motion lives in
+`src/app/motion.css` — see below.
+
+`.band-dark` is worth knowing about: every dark surface (footer, guarantee band,
+CTA banners, trust strip) uses it rather than a flat fill, because #001A16 as a
+solid rectangle reads as a hole in the page. It paints a radial `brand.dark →
+brand.ink` gradient plus a fading gold hairline along the top edge.
+
+Two signature moments carried over from the old site: `.wordmark-giant` sets the
+full-width gold VANZOO sign-off at the bottom of the footer (text, not an image
+— it scales losslessly and is aria-hidden), and `WeCareBanner` is the "Not just
+clothes" editorial band on the homepage. The hero's FIRST25 chip comes from
+`heroOffer` in `content/marketing.ts` — delete that object when the promotion
+ends and the chip (and its echo beside the enquiry form) disappears.
 
 Fonts are Fraunces (display) and Inter (body), self-hosted by `next/font` — no
 request to Google's CDN. Swap them in `src/app/layout.tsx`; the CSS variables
 `--font-display` / `--font-sans` are what Tailwind reads.
-
----
-
-## Page inventory
-
-Beyond the core marketing pages, three things are worth knowing:
-
-**Campaign landing pages** (`/we-use-0-chemicals/`, `/rated-4-9-5-by-our-customers/`
-and 13 more) are fifteen ad destinations that share one body. They render from a
-single route, `src/app/[campaign]/page.tsx`, driven by `campaigns.ts` — each
-entry supplies a headline, subhead, description and hero image, and everything
-below the hero is the same components the homepage uses.
-
-That route is a dynamic segment at the **site root**, so `dynamicParams = false`
-is load-bearing: without it the route would match every unmatched top-level path
-and turn real 404s into rendered pages. Adding a campaign means adding an entry
-to `campaigns.ts` **and** regenerating `campaign-slugs.json`, which
-`next.config.mjs` reads to keep the legacy-blog redirect from swallowing the new
-slug.
-
-**`/members-club/`** carries the prepaid credit tiers. Note it claims "European
-Hydrocarbon Technology" and "German Organic Chemicals Only" where the homepage
-says "Italian hydrocarbon technology". Both are reproduced as published rather
-than reconciled — if one is stale, that's a copy decision for Vanzoo.
-
-**`/menu/`** is the link hub behind Vanzoo's social bio links, and deliberately
-uses its own single-column layout rather than the standard page shell.
-
-`/thank-you/` is `noIndex` — a confirmation page has no value in search, and
-letting it rank means people land on a receipt for a form they never submitted.
-
----
-
-## Heroes
-
-Every route opens on one. Two components:
-
-- `Hero` — full-bleed, for the homepage (`variant="full"`) and for pages that
-  lead with a statement: Hydrocarbon Tech, Members Club, the campaigns
-  (`variant="band"`).
-- `PageHeader` — the photographic band every other inner page uses. Pass
-  `image`/`imageAlt` and it renders white-on-photo with two scrims; omit them and
-  it falls back to the tinted band. **The policy pages deliberately omit it** — a
-  photograph over "Terms & Conditions" reads as marketing to someone looking for
-  a contract.
-
-Both take `breadcrumbs` (rendered above the headline) and stagger their content
-in on load rather than on scroll, since a page header is always above the fold.
-
-Routes that open on a photographic `Hero` also need to be in `HERO_ROUTES` in
-`Header.tsx`, which is what makes the header start transparent over the image
-instead of solid white.
-
----
-
-## Icons
-
-[`src/components/ui/Icon.tsx`](src/components/ui/Icon.tsx) is the single
-registry. `<Icon name="mapPin" />` renders inline SVG; `<IconBadge name="phone" />`
-wraps it in the tinted round badge used beside contact details and result
-messages.
-
-Icons are **inlined, not sprited or fetched** — they ship inside the HTML, so
-there's no request, no flash of missing icon, and they inherit `currentColor`
-and font size from context. Size them with `text-*` (`className="text-lg"`),
-not `h-*/w-*`; the SVG is `1em` square.
-
-Two things to know before adding one:
-
-- **The registry is one object literal, so every entry ships whether or not it
-  is used.** Unused glyphs are dead bundle weight, not free options — the set
-  was trimmed from 48 to 33 for exactly this reason. Delete an icon when its
-  last usage goes.
-- **They must survive 16px.** The tariff category chips render at that size, and
-  a glyph with fine interior detail turns into a smudge. One silhouette plus at
-  most two interior strokes. The garment icons carry comments explaining what
-  each earlier attempt was mistaken for.
-
-Icons are decorative by default (`aria-hidden`), since in every current use the
-adjacent text already says what they mean. Pass `title` only when an icon is
-genuinely the sole label for a control.
-
-The four raster icon sets under `public/images/icons/` are Vanzoo's own brand
-artwork from the old site — those stay images, and are used in
-`IconFeatureGrid`.
 
 ---
 
@@ -289,12 +293,16 @@ unchanged from before the motion work.
 
 ## Enquiry form
 
-`EnquiryForm` posts JSON to `/api/enquiry`, which validates, drops honeypot
-submissions, and forwards to `ENQUIRY_WEBHOOK_URL`.
+`EnquiryForm` posts JSON to `/api/enquiry/`, which validates, drops honeypot
+submissions, and forwards to `ENQUIRY_WEBHOOK_URL`. `CartDrawer` posts to the
+same route (see "The tariff cart"), so one webhook covers both.
 
 **Before launch, set `ENQUIRY_WEBHOOK_URL`** to a mail provider or CRM endpoint.
 Without it the route validates the submission, logs it server-side and returns
-success — fine for testing, but enquiries go nowhere.
+success — fine for testing, but enquiries and cart requests go nowhere.
+
+Note the trailing slash on the fetch URL: `next.config.mjs` sets
+`trailingSlash: true`, so posting to `/api/enquiry` costs a 308 round trip first.
 
 The same fields as the live site's form are used; they are defined in
 `serviceTypes` / `contactTimes` in `src/content/marketing.ts`.
@@ -343,9 +351,17 @@ page — every media block reserves its aspect ratio before the image loads.
 - **Opening hours** are not published anywhere on vanzoo.in, so they are omitted
   from the footer and from `openingHoursSpecification` rather than guessed. Add
   them to `site.ts` and `localBusinessSchema()` when confirmed.
-- **The pincode checker** on Locate Us matches NCR prefixes (`NCR_PREFIXES` in
-  `PincodeChecker.tsx`) rather than a real serviceability list, and says so in its
-  copy for anything outside them. Swap in a real lookup when one exists.
+- **Customer reviews** on the homepage are placeholders, and the section says so
+  on the page until `PUBLISHED` is flipped in `content/reviews.ts`. See
+  "Reviews" above — this is the one thing that must not ship as-is.
+- **The pincode checker** matches the Gurgaon `122` prefix rather than a real
+  serviceability list, and says so in its copy for anything outside it. Swap in
+  a real lookup when one exists.
+- **Area coverage** in `areaGroups` is corridor-level locality names, not a
+  confirmed pincode-by-pincode list; `/areas-we-serve/` tells visitors coverage
+  is confirmed at booking. Tighten once operations confirm the exact list.
+- **The tariff cart takes no payment.** It sends an itemised pickup request
+  through the enquiry route; there is no order record and no checkout.
 - **Policy pages** show the migration date as "last updated" — the source pages
   carry no effective date. Set `POLICY_LAST_UPDATED` in `content/policies.ts`
   when legal confirms one.

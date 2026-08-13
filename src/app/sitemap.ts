@@ -1,6 +1,5 @@
 import type { MetadataRoute } from 'next';
 import { categories, categorySlug, posts, postsInCategory } from '@/content/blog';
-import { campaigns } from '@/content/campaigns';
 import { SITE_URL } from '@/lib/site';
 
 /**
@@ -21,9 +20,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${SITE_URL}/steam-iron-tariffs/`, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${SITE_URL}/hydrocarbon-tech/`, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${SITE_URL}/contact-us/`, changeFrequency: 'yearly', priority: 0.7 },
-    { url: `${SITE_URL}/members-club/`, changeFrequency: 'monthly', priority: 0.8 },
-    { url: `${SITE_URL}/menu/`, changeFrequency: 'yearly', priority: 0.4 },
     { url: `${SITE_URL}/locate-us/`, changeFrequency: 'monthly', priority: 0.7 },
+    { url: `${SITE_URL}/areas-we-serve/`, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${SITE_URL}/privacy-policy/`, changeFrequency: 'yearly', priority: 0.3 },
     { url: `${SITE_URL}/terms-conditions/`, changeFrequency: 'yearly', priority: 0.3 },
     { url: `${SITE_URL}/delivery-refund-policy/`, changeFrequency: 'yearly', priority: 0.3 },
@@ -48,14 +46,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     };
   });
 
-  // Campaign landing pages are real ad destinations, so they stay indexable —
-  // but at a low priority, since they duplicate the homepage's body copy.
-  const campaignPages: MetadataRoute.Sitemap = campaigns.map((campaign) => ({
-    url: `${SITE_URL}/${campaign.slug}/`,
-    changeFrequency: 'monthly',
-    priority: 0.4,
-  }));
-
   const postPages: MetadataRoute.Sitemap = posts.map((post) => ({
     url: `${SITE_URL}/blogs/${post.slug}/`,
     lastModified: post.updatedAt,
@@ -63,5 +53,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  return [...staticPages, ...blogIndex, ...categoryPages, ...campaignPages, ...postPages];
+  return [...staticPages, ...blogIndex, ...categoryPages, ...postPages];
 }

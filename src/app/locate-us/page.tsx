@@ -1,20 +1,20 @@
+import Link from 'next/link';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { CtaBanner } from '@/components/CtaBanner';
 import { JsonLd } from '@/components/JsonLd';
 import { PageHeader } from '@/components/Hero';
 import { PincodeChecker } from '@/components/PincodeChecker';
-import { Icon, IconBadge } from '@/components/ui/Icon';
 import { RevealGroup } from '@/components/ui/Reveal';
 import { Section, SectionHeading } from '@/components/ui/Section';
 import { breadcrumbSchema, buildMetadata, localBusinessSchema } from '@/lib/seo';
-import { primaryStore, serviceCities, site, stores } from '@/lib/site';
+import { areaGroups, primaryStore, site, stores } from '@/lib/site';
 
 const CRUMBS = [{ name: 'Locate Us', href: '/locate-us/' }];
 
 export const metadata = buildMetadata({
   title: 'Locate Us | Vanzoo Dry Cleaning Stores in Gurgaon',
   description:
-    'Find Vanzoo premium dry cleaning in Gurgaon — Super Mart 1, DLF Phase IV and the Vanzoo Urbana store at M3M Urbana, Sector 67. Free pickup and delivery across Delhi NCR.',
+    'Find Vanzoo premium dry cleaning in Gurgaon — Super Mart 1, DLF Phase IV and the Vanzoo Urbana store at M3M Urbana, Sector 67. Free pickup and delivery across Gurgaon.',
   path: '/locate-us/',
 });
 
@@ -25,12 +25,10 @@ export default function LocateUsPage() {
 
       <PageHeader
         eyebrow="Locate Us"
-        title="Two Gurugram stores. Free pickup across the NCR."
-        intro="Drop in at either store, or let us collect from your door — free pickup and delivery covers Gurugram, Delhi, Noida, Faridabad and Ghaziabad."
-        image="/images/hero-valet-handover.jpg"
-        imageAlt="Vanzoo store counter in Gurgaon with garments being handed to a customer"
+        title="Two Gurgaon stores. Free pickup across the city."
+        intro="Drop in at either store, or let us collect from your door — free pickup and delivery covers every Gurgaon sector we serve."
       >
-        <Breadcrumbs crumbs={CRUMBS} tone="onDark" />
+        <Breadcrumbs crumbs={CRUMBS} />
       </PageHeader>
 
       {/* Full-width map of the primary store */}
@@ -57,13 +55,8 @@ export default function LocateUsPage() {
               id={store.id}
               className="flex flex-col rounded-card border border-neutral-line bg-white p-6 sm:p-8"
             >
-              <div className="flex items-start gap-4">
-                <IconBadge name="mapPin" size="lg" />
-                <div>
-                  <h3 className="font-display text-xl font-semibold">{store.name}</h3>
-                  <p className="eyebrow mt-1.5">{store.locality}</p>
-                </div>
-              </div>
+              <h3 className="font-display text-xl font-semibold">{store.name}</h3>
+              <p className="eyebrow mt-2">{store.locality}</p>
               <address className="mt-4 not-italic leading-relaxed text-neutral-body">
                 {store.address}
               </address>
@@ -73,13 +66,11 @@ export default function LocateUsPage() {
                   href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(store.mapQuery)}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn-secondary btn-md gap-2"
+                  className="btn-secondary btn-md"
                 >
-                  <Icon name="navigation" className="text-base" />
                   Get directions
                 </a>
-                <a href={`tel:${site.phoneHref}`} className="btn-secondary btn-md gap-2">
-                  <Icon name="phone" className="text-base" />
+                <a href={`tel:${site.phoneHref}`} className="btn-secondary btn-md">
                   Call {site.phone}
                 </a>
               </div>
@@ -95,21 +86,29 @@ export default function LocateUsPage() {
             <SectionHeading
               id="areas-heading"
               eyebrow="Service areas"
-              title="Free pickup and delivery across Delhi NCR"
+              title="Free pickup and delivery across Gurgaon"
               intro="Our valets collect and return to your door at no charge. If your area isn't listed, call us — we often cover more than the map suggests."
               className="max-w-none"
             />
             <ul className="mt-8 flex flex-wrap gap-2.5">
-              {serviceCities.map((city) => (
-                <li
-                  key={city}
-                  className="inline-flex items-center gap-2 rounded-pill border border-neutral-line bg-white px-4 py-2 text-sm font-medium text-neutral-ink"
-                >
-                  <Icon name="mapPin" className="text-base text-brand" />
-                  {city}
+              {areaGroups.map((group) => (
+                <li key={group.id}>
+                  <Link
+                    href={`/areas-we-serve/#${group.id}`}
+                    className="inline-block rounded-pill border border-neutral-line bg-white px-4 py-2 text-sm font-medium text-neutral-ink transition-colors hover:border-brand/40 hover:text-brand"
+                  >
+                    {group.name}
+                  </Link>
                 </li>
               ))}
             </ul>
+            <Link
+              href="/areas-we-serve/"
+              className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-brand transition-colors hover:text-brand-dark"
+            >
+              See every area we serve
+              <span aria-hidden="true">→</span>
+            </Link>
           </div>
 
           <PincodeChecker />

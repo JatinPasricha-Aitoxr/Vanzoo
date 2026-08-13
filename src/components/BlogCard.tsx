@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { Icon } from './ui/Icon';
 import { RevealGroup } from './ui/Reveal';
 import { formatPostDate, postImage, primaryCategory, type Post } from '@/content/blog';
 import { cn } from '@/lib/cn';
@@ -44,17 +43,13 @@ export function BlogCard({
           <span className="rounded-pill bg-brand-light px-2.5 py-1 font-semibold text-brand-dark">
             {primaryCategory(post)}
           </span>
-          <time
-            dateTime={post.publishedAt}
-            className="inline-flex items-center gap-1.5 text-neutral-body"
-          >
-            <Icon name="calendar" className="text-[0.875rem]" />
+          <time dateTime={post.publishedAt} className="text-neutral-body">
             {formatPostDate(post.publishedAt)}
           </time>
-          <span className="inline-flex items-center gap-1.5 text-neutral-body">
-            <Icon name="clock" className="text-[0.875rem]" />
-            {post.readingMinutes} min read
+          <span aria-hidden="true" className="text-neutral-line">
+            •
           </span>
+          <span className="text-neutral-body">{post.readingMinutes} min read</span>
         </div>
 
         <h3 className="mt-3.5 font-display text-lg font-semibold leading-snug">
@@ -71,7 +66,15 @@ export function BlogCard({
 
         <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-brand">
           Read More
-          <Icon name="arrowRight" className="arrow-nudge" />
+          <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" className="arrow-nudge h-3.5 w-3.5">
+            <path
+              d="M3 8h10m0 0-3.5-3.5M13 8l-3.5 3.5"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
         </span>
       </div>
     </article>
