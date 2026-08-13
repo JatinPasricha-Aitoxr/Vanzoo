@@ -207,6 +207,7 @@ export const serviceAreas = areaGroups.flatMap((group) => group.areas);
 export const navLinks = [
   { href: '/', label: 'Home' },
   { href: '/about-us/', label: 'About Us' },
+  { href: '/services/', label: 'Services' },
   { href: '/couture-care-tariffs/', label: 'Couture Care Tariffs' },
   { href: '/steam-iron-tariffs/', label: 'Steam Iron Tariffs' },
   { href: '/hydrocarbon-tech/', label: 'Hydrocarbon Tech' },
@@ -231,15 +232,17 @@ export const footerColumns = [
   },
   {
     heading: 'Our Services',
+    // Each anchor targets its card on /services/; booking stays on the "Book"
+    // CTAs, so these describe before they sell.
     links: [
-      { label: 'Garment Care', href: links.bookService, external: true },
-      { label: 'Bags Care', href: links.bookService, external: true },
-      { label: 'Shoes Care', href: links.bookService, external: true },
-      { label: 'Toys & Accessories Care', href: links.bookService, external: true },
-      { label: 'Leather Care', href: links.bookService, external: true },
-      { label: 'Curtains Care', href: links.bookService, external: true },
-      { label: 'Carpet Care', href: links.bookService, external: true },
-      { label: 'Express Service', href: links.bookService, external: true },
+      { label: 'Garment Care', href: '/services/#couture-care' },
+      { label: 'Bags Care', href: '/services/#bags-leather-care' },
+      { label: 'Shoes Care', href: '/services/#shoe-care' },
+      { label: 'Toys & Accessories Care', href: '/services/#toys-accessories-care' },
+      { label: 'Leather Care', href: '/services/#bags-leather-care' },
+      { label: 'Curtains Care', href: '/services/#curtain-cleaning' },
+      { label: 'Carpet Care', href: '/services/#carpet-cleaning' },
+      { label: 'Express Service', href: '/services/#express-service' },
     ],
   },
   {

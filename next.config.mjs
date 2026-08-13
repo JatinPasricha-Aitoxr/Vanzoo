@@ -19,6 +19,7 @@ const RESERVED = new Set([
   'contact-us',
   'locate-us',
   'areas-we-serve',
+  'services',
   'blogs',
   'privacy-policy',
   'terms-conditions',

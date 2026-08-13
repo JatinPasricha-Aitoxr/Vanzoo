@@ -172,19 +172,23 @@ export function localBusinessSchema() {
     hasOfferCatalog: {
       '@type': 'OfferCatalog',
       name: 'Vanzoo fabric care services',
-      itemListElement: [
-        'Garment Care',
-        'Bags Care',
-        'Shoes Care',
-        'Toys & Accessories Care',
-        'Leather Care',
-        'Curtains Care',
-        'Carpet Care',
-        'Express Service',
-      ].map((name) => ({
+      // Each offer points at its card on /services/ — a page that describes
+      // the service — rather than straight into the booking app.
+      itemListElement: (
+        [
+          ['Garment Care', 'couture-care'],
+          ['Bags Care', 'bags-leather-care'],
+          ['Shoes Care', 'shoe-care'],
+          ['Toys & Accessories Care', 'toys-accessories-care'],
+          ['Leather Care', 'bags-leather-care'],
+          ['Curtains Care', 'curtain-cleaning'],
+          ['Carpet Care', 'carpet-cleaning'],
+          ['Express Service', 'express-service'],
+        ] as const
+      ).map(([name, anchor]) => ({
         '@type': 'Offer',
         itemOffered: { '@type': 'Service', name, provider: { '@id': LOCAL_BUSINESS_ID } },
-        url: links.bookService,
+        url: `${SITE_URL}/services/#${anchor}`,
       })),
     },
     sameAs,
