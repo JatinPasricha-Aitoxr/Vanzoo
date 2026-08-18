@@ -20,9 +20,15 @@ import { cn } from '@/lib/cn';
  * on the card — with "Add to Cart" in place of its per-item "Enquire Now". The
  * category chips are in-page anchors rather than a filter, so every price stays
  * crawlable and printable.
+ *
+ * The category nav only renders when there is more than one group — a service
+ * detail page passes a single-group catalog (see /services/[slug]/) to show
+ * just that service's rows, and a one-chip nav with nothing to switch between
+ * is clutter, not navigation.
  */
 export function TariffGrid({ catalog }: { catalog: TariffCatalog }) {
   const { groups } = catalog;
+  const showNav = groups.length > 1;
   const [activeId, setActiveId] = useState(groups[0]?.id);
   const headingRefs = useRef<Record<string, HTMLHeadingElement | null>>({});
 
@@ -46,31 +52,33 @@ export function TariffGrid({ catalog }: { catalog: TariffCatalog }) {
 
   return (
     <div>
-      <nav
-        aria-label="Tariff categories"
-        className="sticky top-[var(--header-h)] z-20 -mx-5 border-b border-neutral-line bg-white/95 px-5 py-3 backdrop-blur sm:-mx-8 sm:px-8 lg:mx-0 lg:rounded-card lg:border lg:px-4"
-      >
-        <ul className="no-scrollbar flex gap-2 overflow-x-auto">
-          {groups.map((group) => (
-            <li key={group.id}>
-              <a
-                href={`#${group.id}`}
-                aria-current={activeId === group.id ? 'true' : undefined}
-                className={cn(
-                  'inline-block whitespace-nowrap rounded-pill border px-4 py-2 text-sm font-medium transition-colors',
-                  activeId === group.id
-                    ? 'border-brand bg-brand text-white'
-                    : 'border-neutral-line text-neutral-body hover:border-brand/40 hover:text-brand',
-                )}
-              >
-                {group.label}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </nav>
+      {showNav ? (
+        <nav
+          aria-label="Tariff categories"
+          className="sticky top-[var(--header-h)] z-20 -mx-5 border-b border-neutral-line bg-white/95 px-5 py-3 backdrop-blur sm:-mx-8 sm:px-8 lg:mx-0 lg:rounded-card lg:border lg:px-4"
+        >
+          <ul className="no-scrollbar flex gap-2 overflow-x-auto">
+            {groups.map((group) => (
+              <li key={group.id}>
+                <a
+                  href={`#${group.id}`}
+                  aria-current={activeId === group.id ? 'true' : undefined}
+                  className={cn(
+                    'inline-block whitespace-nowrap rounded-pill border px-4 py-2 text-sm font-medium transition-colors',
+                    activeId === group.id
+                      ? 'border-brand bg-brand text-white'
+                      : 'border-neutral-line text-neutral-body hover:border-brand/40 hover:text-brand',
+                  )}
+                >
+                  {group.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      ) : null}
 
-      <div className="mt-12 space-y-20">
+      <div className={cn('space-y-20', showNav ? 'mt-12' : 'mt-0')}>
         {groups.map((group) => (
           <CategorySection
             key={group.id}

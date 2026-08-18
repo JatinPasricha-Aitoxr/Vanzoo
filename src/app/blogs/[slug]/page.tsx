@@ -186,7 +186,7 @@ export default function BlogPostPage({ params }: Params) {
           <CtaBanner
             heading="Let us handle the difficult ones"
             body="Free pickup and delivery across Gurgaon — cleaned with Italian hydrocarbon technology and finished by hand."
-            secondary={{ label: 'See our tariffs', href: '/couture-care-tariffs/' }}
+            secondary={{ label: 'See our tariffs', href: '/pricing/' }}
           />
         </Section>
 

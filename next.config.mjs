@@ -13,6 +13,10 @@ const posts = JSON.parse(readFileSync('./src/content/posts.json', 'utf8'));
 /** Routes that must never be captured by the catch-all legacy rule. */
 const RESERVED = new Set([
   'about-us',
+  'pricing',
+  // Couture Care and Steam Iron were once two pages; both now redirect below
+  // to the merged /pricing/, but stay reserved so a same-named blog post
+  // could never shadow the explicit redirect rule for them.
   'couture-care-tariffs',
   'steam-iron-tariffs',
   'hydrocarbon-tech',
@@ -57,6 +61,9 @@ const nextConfig = {
     return [
       // The old site's category archives; the rebuild's live under /blogs/.
       { source: '/category/:slug', destination: '/blogs/', permanent: true },
+      // Couture Care and Steam Iron Tariffs merged into one Pricing page.
+      { source: '/couture-care-tariffs', destination: '/pricing/#couture-care-tariffs', permanent: true },
+      { source: '/steam-iron-tariffs', destination: '/pricing/#steam-iron-tariffs', permanent: true },
       ...legacyPostRedirects,
     ];
   },

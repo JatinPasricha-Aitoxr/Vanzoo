@@ -172,8 +172,8 @@ export function localBusinessSchema() {
     hasOfferCatalog: {
       '@type': 'OfferCatalog',
       name: 'Vanzoo fabric care services',
-      // Each offer points at its card on /services/ — a page that describes
-      // the service — rather than straight into the booking app.
+      // Each offer points at its own dedicated page under /services/ — the
+      // page that actually describes the service — rather than the booking app.
       itemListElement: (
         [
           ['Garment Care', 'couture-care'],
@@ -185,13 +185,38 @@ export function localBusinessSchema() {
           ['Carpet Care', 'carpet-cleaning'],
           ['Express Service', 'express-service'],
         ] as const
-      ).map(([name, anchor]) => ({
+      ).map(([name, slug]) => ({
         '@type': 'Offer',
         itemOffered: { '@type': 'Service', name, provider: { '@id': LOCAL_BUSINESS_ID } },
-        url: `${SITE_URL}/services/#${anchor}`,
+        url: `${SITE_URL}/services/${slug}/`,
       })),
     },
     sameAs,
+  };
+}
+
+/**
+ * Service — one per /services/[slug]/ detail page. `@id` is the page's own
+ * URL fragment so it can be referenced from the LocalBusiness offer catalog
+ * without duplicating the object.
+ */
+export function serviceSchema(service: {
+  slug: string;
+  title: string;
+  description: string;
+  image: string;
+}) {
+  const url = `${SITE_URL}/services/${service.slug}/`;
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    '@id': `${url}#service`,
+    name: service.title,
+    description: service.description,
+    url,
+    image: `${SITE_URL}${service.image}`,
+    provider: { '@id': LOCAL_BUSINESS_ID },
+    areaServed: serviceCities.map((name) => ({ '@type': 'City', name })),
   };
 }
 

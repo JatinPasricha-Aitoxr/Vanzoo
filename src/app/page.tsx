@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { AppPromo } from '@/components/AppPromo';
+import { AreaCoverageGrid } from '@/components/AreaCoverageGrid';
 import { BlogGrid } from '@/components/BlogCard';
 import { EnquiryDialog } from '@/components/EnquiryDialog';
 import { EnquiryForm } from '@/components/EnquiryForm';
@@ -34,7 +35,7 @@ import {
   whyChooseBadges,
 } from '@/content/marketing';
 import { buildMetadata, faqSchema, localBusinessSchema } from '@/lib/seo';
-import { links, site } from '@/lib/site';
+import { areaGroups, links, serviceAreas, site } from '@/lib/site';
 
 export const metadata = buildMetadata({
   title: 'Vanzoo – Luxury Fabric Care & Eco-Friendly Dry Cleaning',
@@ -195,7 +196,31 @@ export default function HomePage() {
         <AppPromo />
       </Section>
 
-      {/* 10 — FAQ */}
+      {/* 10 — Areas we serve */}
+      <Section tone="surface" aria-labelledby="areas-heading">
+        <SectionHeading
+          id="areas-heading"
+          eyebrow="Where we deliver"
+          title="Every area we serve in Gurgaon"
+          intro={`Free pickup and delivery across ${serviceAreas.length} neighbourhoods in ${areaGroups.length} corridors — from DLF and Golf Course Road to New Gurgaon. Find yours below.`}
+          align="center"
+          className="mx-auto"
+        />
+        <div className="mt-12">
+          <AreaCoverageGrid headingLevel="h3" showBlurb={false} />
+        </div>
+        <p className="mt-8 text-center">
+          <Link
+            href="/areas-we-serve/"
+            className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand transition-colors hover:text-brand-dark"
+          >
+            Check your pincode & see full coverage details
+            <span aria-hidden="true">→</span>
+          </Link>
+        </p>
+      </Section>
+
+      {/* 11 — FAQ */}
       <Section tone="muted" id="faq" aria-labelledby="faq-heading">
         <SectionHeading
           id="faq-heading"
@@ -209,7 +234,7 @@ export default function HomePage() {
         </div>
       </Section>
 
-      {/* 11 — Blog preview */}
+      {/* 12 — Blog preview */}
       <Section tone="surface" aria-labelledby="blog-preview-heading">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <SectionHeading
@@ -239,7 +264,7 @@ export default function HomePage() {
         </div>
       </Section>
 
-      {/* 12 — Enquiry */}
+      {/* 13 — Enquiry */}
       <Section tone="light" id="enquiry" aria-labelledby="enquiry-heading">
         <div className="grid gap-10 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-16">
           <div>

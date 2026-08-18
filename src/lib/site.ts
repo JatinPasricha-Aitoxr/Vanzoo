@@ -201,15 +201,15 @@ export const areaGroups = [
 export const serviceAreas = areaGroups.flatMap((group) => group.areas);
 
 /**
- * Header + mobile navigation. Mirrors the live site's primary nav, plus the
- * Areas We Serve and Blogs pages.
+ * Header + mobile navigation. No "Home" entry — the logo already links there,
+ * per every convention on the web, so a duplicate text link is dead weight.
+ * Couture Care and Steam Iron used to be two separate tariff pages; they're
+ * now one page ("Pricing") with both catalogues on it, at /pricing/.
  */
 export const navLinks = [
-  { href: '/', label: 'Home' },
   { href: '/about-us/', label: 'About Us' },
   { href: '/services/', label: 'Services' },
-  { href: '/couture-care-tariffs/', label: 'Couture Care Tariffs' },
-  { href: '/steam-iron-tariffs/', label: 'Steam Iron Tariffs' },
+  { href: '/pricing/', label: 'Pricing' },
   { href: '/hydrocarbon-tech/', label: 'Hydrocarbon Tech' },
   { href: '/areas-we-serve/', label: 'Areas' },
   { href: '/blogs/', label: 'Blogs' },
@@ -222,7 +222,7 @@ export const footerColumns = [
     heading: 'Quick Links',
     links: [
       { label: 'About Us', href: '/about-us/' },
-      { label: 'Couture Care Tariffs', href: '/couture-care-tariffs/' },
+      { label: 'Pricing', href: '/pricing/' },
       { label: 'Hydrocarbon Tech', href: '/hydrocarbon-tech/' },
       { label: 'Contact Us', href: '/contact-us/' },
       { label: 'Locate Us', href: '/locate-us/' },
@@ -232,17 +232,17 @@ export const footerColumns = [
   },
   {
     heading: 'Our Services',
-    // Each anchor targets its card on /services/; booking stays on the "Book"
-    // CTAs, so these describe before they sell.
+    // Each link goes to that service's own dedicated page; booking stays on
+    // the "Book" CTAs, so these describe before they sell.
     links: [
-      { label: 'Garment Care', href: '/services/#couture-care' },
-      { label: 'Bags Care', href: '/services/#bags-leather-care' },
-      { label: 'Shoes Care', href: '/services/#shoe-care' },
-      { label: 'Toys & Accessories Care', href: '/services/#toys-accessories-care' },
-      { label: 'Leather Care', href: '/services/#bags-leather-care' },
-      { label: 'Curtains Care', href: '/services/#curtain-cleaning' },
-      { label: 'Carpet Care', href: '/services/#carpet-cleaning' },
-      { label: 'Express Service', href: '/services/#express-service' },
+      { label: 'Garment Care', href: '/services/couture-care/' },
+      { label: 'Bags Care', href: '/services/bags-leather-care/' },
+      { label: 'Shoes Care', href: '/services/shoe-care/' },
+      { label: 'Toys & Accessories Care', href: '/services/toys-accessories-care/' },
+      { label: 'Leather Care', href: '/services/bags-leather-care/' },
+      { label: 'Curtains Care', href: '/services/curtain-cleaning/' },
+      { label: 'Carpet Care', href: '/services/carpet-cleaning/' },
+      { label: 'Express Service', href: '/services/express-service/' },
     ],
   },
   {

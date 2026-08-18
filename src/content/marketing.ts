@@ -99,7 +99,7 @@ export const services: readonly Service[] = [
     image: '/images/service-bespoke-suit-couture.jpg',
     imageAlt:
       'Bespoke two-piece suit and evening dress hanging after couture dry cleaning at Vanzoo Gurgaon',
-    learnMore: { href: '/couture-care-tariffs/', label: 'See couture care tariffs' },
+    learnMore: { href: '/pricing/', label: 'See couture care tariffs' },
   },
   {
     number: '02',
@@ -117,7 +117,7 @@ export const services: readonly Service[] = [
     image: '/images/service-shoes-bags-accessories.jpg',
     imageAlt:
       'Leather brogues and a tan leather handbag cleaned and conditioned by Vanzoo luxury accessory care',
-    learnMore: { href: '/couture-care-tariffs/', label: 'See accessory pricing' },
+    learnMore: { href: '/pricing/', label: 'See accessory pricing' },
   },
   {
     number: '04',
@@ -144,7 +144,7 @@ export const services: readonly Service[] = [
     image: '/images/service-curtain-cleaning.jpg',
     imageAlt:
       'Floor-length living room curtains professionally cleaned, deinstalled and reinstalled by Vanzoo',
-    learnMore: { href: '/couture-care-tariffs/', label: 'See curtain pricing' },
+    learnMore: { href: '/pricing/', label: 'See curtain pricing' },
   },
 ];
 

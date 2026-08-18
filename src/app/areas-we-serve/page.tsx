@@ -1,10 +1,10 @@
 import Link from 'next/link';
+import { AreaCoverageGrid } from '@/components/AreaCoverageGrid';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { CtaBanner } from '@/components/CtaBanner';
 import { JsonLd } from '@/components/JsonLd';
 import { PageHeader } from '@/components/Hero';
 import { PincodeChecker } from '@/components/PincodeChecker';
-import { RevealGroup } from '@/components/ui/Reveal';
 import { Section, SectionHeading } from '@/components/ui/Section';
 import { breadcrumbSchema, buildMetadata, localBusinessSchema } from '@/lib/seo';
 import { areaGroups, primaryStore, site, stores } from '@/lib/site';
@@ -42,39 +42,9 @@ export default function AreasWeServePage() {
           intro="We run pickup routes across the whole city. Find your corridor below — and if your pocket isn't named, call us, because coverage grows faster than this page does."
         />
 
-        <RevealGroup as="ul" step={90} className="mt-12 grid gap-5 lg:grid-cols-2">
-          {areaGroups.map((group) => (
-            <li
-              key={group.id}
-              id={group.id}
-              className="flex flex-col rounded-card border border-neutral-line bg-white p-6 shadow-lift transition-[box-shadow,border-color] duration-200 hover:border-brand/25 hover:shadow-lift-hover sm:p-8"
-            >
-              <div className="flex items-center gap-3">
-                <h2 className="font-display text-xl font-semibold text-neutral-ink">
-                  {group.name}
-                </h2>
-                <span
-                  aria-hidden="true"
-                  className="h-px flex-1 bg-gradient-to-r from-accent-gold/60 to-transparent"
-                />
-              </div>
-              <p className="mt-3 text-[0.9375rem] leading-relaxed text-neutral-body">
-                {group.blurb}
-              </p>
-
-              <ul className="mt-5 flex flex-wrap gap-2">
-                {group.areas.map((area) => (
-                  <li
-                    key={area}
-                    className="rounded-pill border border-neutral-line bg-neutral-muted px-3 py-1.5 text-[0.8125rem] font-medium text-neutral-ink"
-                  >
-                    {area}
-                  </li>
-                ))}
-              </ul>
-            </li>
-          ))}
-        </RevealGroup>
+        <div className="mt-12">
+          <AreaCoverageGrid headingLevel="h2" />
+        </div>
 
         <p className="mt-8 max-w-2xl text-sm text-neutral-body">
           Coverage is confirmed when you book — a handful of gated pockets and newer sectors need
@@ -149,7 +119,7 @@ export default function AreasWeServePage() {
         </p>
         <CtaBanner
           heading="We collect from your door, free"
-          secondary={{ label: 'See our tariffs', href: '/couture-care-tariffs/' }}
+          secondary={{ label: 'See our tariffs', href: '/pricing/' }}
         />
       </Section>
     </>

@@ -13,16 +13,16 @@ import { cn } from '@/lib/cn';
  * Routes whose first section is a full-bleed photographic hero. On these the
  * bar starts transparent with light text; everywhere else it is solid from the
  * first paint, so a heading never sits under white-on-white text.
+ *
+ * `/services/` and every `/services/<slug>/` detail page use the same
+ * photographic `PageHeader`, so they're matched by prefix rather than listed
+ * one by one — there are twelve service slugs and the list would only grow.
  */
-const HERO_ROUTES = new Set([
-  '/',
-  '/hydrocarbon-tech/',
-  '/hydrocarbon-tech',
-  '/couture-care-tariffs/',
-  '/couture-care-tariffs',
-  '/steam-iron-tariffs/',
-  '/steam-iron-tariffs',
-]);
+const HERO_ROUTES = new Set(['/', '/hydrocarbon-tech/', '/hydrocarbon-tech', '/pricing/', '/pricing']);
+
+function isHeroRoute(pathname: string): boolean {
+  return HERO_ROUTES.has(pathname) || pathname === '/services' || pathname.startsWith('/services/');
+}
 
 /** Distance past which the bar switches to its solid treatment. */
 const SOLID_AT = 24;
@@ -34,7 +34,7 @@ const DIRECTION_THRESHOLD = 6;
 /** Sticky site header (§3.1). */
 export function Header() {
   const pathname = usePathname();
-  const overHero = HERO_ROUTES.has(pathname);
+  const overHero = isHeroRoute(pathname);
 
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
@@ -227,8 +227,9 @@ function DesktopNav({ pathname, solid }: { pathname: string; solid: boolean }) {
         />
 
         {navLinks.map((link) => {
-          const active =
-            link.href === '/' ? pathname === '/' : pathname.startsWith(link.href);
+          // No nav link is '/' any more — the logo is the only route home —
+          // so every entry can use a plain prefix match.
+          const active = pathname.startsWith(link.href);
           return (
             <li key={link.href}>
               <Link
@@ -312,8 +313,8 @@ function MobileNav({
       <nav aria-label="Mobile" className="shell flex h-full flex-col overflow-y-auto pb-32 pt-6">
         <ul className="flex flex-col">
           {navLinks.map((link, index) => {
-            const active =
-              link.href === '/' ? pathname === '/' : pathname.startsWith(link.href);
+            // No nav link is '/' any more — the logo is the only route home.
+            const active = pathname.startsWith(link.href);
             return (
               <li
                 key={link.href}

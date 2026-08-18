@@ -33,7 +33,7 @@ export default function HydrocarbonTechPage() {
         image={hydrocarbon.hero.image}
         imageAlt={hydrocarbon.hero.imageAlt}
         variant="band"
-        secondaryCta={{ label: 'See couture care tariffs', href: '/couture-care-tariffs/' }}
+        secondaryCta={{ label: 'See couture care tariffs', href: '/pricing/' }}
       />
 
       {/* Why Hydrocarbon? / How It Works — alternating explainer rows */}
@@ -160,7 +160,7 @@ export default function HydrocarbonTechPage() {
         <p className="mx-auto mt-12 max-w-3xl text-center text-sm text-neutral-body">
           Ready to try it? See the{' '}
           <Link
-            href="/couture-care-tariffs/"
+            href="/pricing/"
             className="font-medium text-brand underline underline-offset-2"
           >
             couture care tariffs

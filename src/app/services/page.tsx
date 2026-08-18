@@ -5,13 +5,12 @@ import { CtaBanner } from '@/components/CtaBanner';
 import { JsonLd } from '@/components/JsonLd';
 import { PageHeader } from '@/components/Hero';
 import { ProcessRail } from '@/components/ProcessRail';
+import { ServiceCard } from '@/components/ServiceCard';
 import { RevealGroup, Reveal } from '@/components/ui/Reveal';
 import { Section, SectionHeading } from '@/components/ui/Section';
 import { hydrocarbon } from '@/content/marketing';
-import { formatRupees } from '@/content/pricing';
-import { serviceEntries, servicesIntro, type ServiceEntry } from '@/content/services';
+import { serviceEntries, servicesIntro } from '@/content/services';
 import { breadcrumbSchema, buildMetadata, localBusinessSchema } from '@/lib/seo';
-import { links } from '@/lib/site';
 
 const CRUMBS = [{ name: 'Services', href: '/services/' }];
 
@@ -94,71 +93,9 @@ export default function ServicesPage() {
         <CtaBanner
           heading="Not sure which service your piece needs?"
           body="Book a pickup and we'll assess it on collection — or send a photo on WhatsApp and we'll tell you before you book. Free pickup and delivery across Gurgaon."
-          secondary={{ label: 'See our tariffs', href: '/couture-care-tariffs/' }}
+          secondary={{ label: 'See our tariffs', href: '/pricing/' }}
         />
       </Section>
     </>
-  );
-}
-
-function ServiceCard({ service }: { service: ServiceEntry }) {
-  return (
-    <li
-      id={service.id}
-      className="card-lift group flex flex-col overflow-hidden rounded-card border border-neutral-line bg-white shadow-lift hover:border-brand/30 hover:shadow-lift-hover"
-    >
-      <div className="media-frame aspect-[3/2] rounded-none">
-        <Image
-          src={service.image}
-          alt={service.imageAlt}
-          fill
-          loading="lazy"
-          sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 90vw"
-          className="card-media object-cover"
-        />
-      </div>
-
-      <div className="flex flex-1 flex-col p-6">
-        {/* H2 per service — these are the page's section headings for SEO. */}
-        <h2 className="font-display text-xl font-semibold leading-snug text-neutral-ink">
-          {service.title}
-        </h2>
-        <p className="mt-2.5 flex-1 text-[0.9375rem] leading-relaxed text-pretty text-neutral-body">
-          {service.body}
-        </p>
-
-        {service.from ? (
-          <p className="mt-4 text-sm text-neutral-body">
-            Starting from{' '}
-            <span className="font-display text-lg font-semibold tabular-nums text-brand">
-              {formatRupees(service.from.amount)}
-            </span>
-            {service.from.note ? ` ${service.from.note}` : ''}
-          </p>
-        ) : (
-          <p className="mt-4 text-sm font-medium text-brand">{service.priceLine}</p>
-        )}
-
-        <div className="mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-neutral-line pt-5">
-          <Link
-            href={service.tariffHref}
-            className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand transition-colors hover:text-brand-dark"
-          >
-            {service.tariffLabel}
-            <span aria-hidden="true" className="arrow-nudge">
-              →
-            </span>
-          </Link>
-          <a
-            href={links.bookPickup}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-primary btn-sm"
-          >
-            Book pickup
-          </a>
-        </div>
-      </div>
-    </li>
   );
 }

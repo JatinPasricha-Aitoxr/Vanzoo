@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { categories, categorySlug, posts, postsInCategory } from '@/content/blog';
+import { serviceEntries } from '@/content/services';
 import { SITE_URL } from '@/lib/site';
 
 /**
@@ -17,8 +18,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${SITE_URL}/`, changeFrequency: 'weekly', priority: 1 },
     { url: `${SITE_URL}/about-us/`, changeFrequency: 'yearly', priority: 0.7 },
     { url: `${SITE_URL}/services/`, changeFrequency: 'monthly', priority: 0.9 },
-    { url: `${SITE_URL}/couture-care-tariffs/`, changeFrequency: 'monthly', priority: 0.9 },
-    { url: `${SITE_URL}/steam-iron-tariffs/`, changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${SITE_URL}/pricing/`, changeFrequency: 'monthly', priority: 0.9 },
     { url: `${SITE_URL}/hydrocarbon-tech/`, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${SITE_URL}/contact-us/`, changeFrequency: 'yearly', priority: 0.7 },
     { url: `${SITE_URL}/locate-us/`, changeFrequency: 'monthly', priority: 0.7 },
@@ -27,6 +27,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${SITE_URL}/terms-conditions/`, changeFrequency: 'yearly', priority: 0.3 },
     { url: `${SITE_URL}/delivery-refund-policy/`, changeFrequency: 'yearly', priority: 0.3 },
   ];
+
+  const servicePages: MetadataRoute.Sitemap = serviceEntries.map((service) => ({
+    url: `${SITE_URL}/services/${service.id}/`,
+    changeFrequency: 'monthly',
+    priority: 0.7,
+  }));
 
   const blogIndex: MetadataRoute.Sitemap = [
     {
@@ -54,5 +60,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  return [...staticPages, ...blogIndex, ...categoryPages, ...postPages];
+  return [...staticPages, ...servicePages, ...blogIndex, ...categoryPages, ...postPages];
 }

@@ -130,7 +130,7 @@ export default function AboutPage() {
       </Section>
 
       <Section tone="surface" size="sm">
-        <CtaBanner secondary={{ label: 'See couture care tariffs', href: '/couture-care-tariffs/' }} />
+        <CtaBanner secondary={{ label: 'See couture care tariffs', href: '/pricing/' }} />
       </Section>
     </>
   );
