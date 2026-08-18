@@ -6,8 +6,13 @@ import { usePathname } from 'next/navigation';
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { BookPickupWidget } from './BookPickupWidget';
 import { CartButton } from './CartButton';
+import { serviceEntries } from '@/content/services';
 import { links, navLinks } from '@/lib/site';
 import { cn } from '@/lib/cn';
+
+/** The one nav item that carries a dropdown — matched by href, not index, so
+ *  reordering `navLinks` can never silently detach the menu from it. */
+const SERVICES_HREF = '/services/';
 
 /**
  * Routes whose first section is a full-bleed photographic hero. On these the
@@ -191,7 +196,14 @@ function DesktopNav({ pathname, solid }: { pathname: string; solid: boolean }) {
       setPill(null);
       return;
     }
-    setPill({ left: active.offsetLeft, width: active.offsetWidth });
+    // getBoundingClientRect rather than offsetLeft/offsetWidth: the Services
+    // item wraps its link in a `relative` element to anchor its dropdown,
+    // which would otherwise become the link's offsetParent and throw
+    // offsetLeft's coordinate space off for every item after it too.
+    // Viewport rects have no such dependency on the ancestor chain.
+    const listRect = list.getBoundingClientRect();
+    const activeRect = active.getBoundingClientRect();
+    setPill({ left: activeRect.left - listRect.left, width: activeRect.width });
   }, []);
 
   // Layout effect so the pill is positioned in the same frame the route paints,
@@ -230,8 +242,9 @@ function DesktopNav({ pathname, solid }: { pathname: string; solid: boolean }) {
           // No nav link is '/' any more — the logo is the only route home —
           // so every entry can use a plain prefix match.
           const active = pathname.startsWith(link.href);
+          const hasDropdown = link.href === SERVICES_HREF;
           return (
-            <li key={link.href}>
+            <li key={link.href} className={hasDropdown ? 'group/services relative' : undefined}>
               <Link
                 href={link.href}
                 data-active={active ? 'true' : 'false'}
@@ -239,7 +252,7 @@ function DesktopNav({ pathname, solid }: { pathname: string; solid: boolean }) {
                 className={cn(
                   // whitespace-nowrap is load-bearing: without it the longer
                   // labels wrap and the row grows into the logo.
-                  'relative block whitespace-nowrap rounded-pill px-2 py-2 text-[0.8125rem] font-medium transition-colors duration-200 2xl:px-3',
+                  'relative flex items-center gap-1 whitespace-nowrap rounded-pill px-2 py-2 text-[0.8125rem] font-medium transition-colors duration-200 2xl:px-3',
                   solid
                     ? active
                       ? 'text-brand-dark'
@@ -250,12 +263,62 @@ function DesktopNav({ pathname, solid }: { pathname: string; solid: boolean }) {
                 )}
               >
                 {link.label}
+                {hasDropdown ? (
+                  <ChevronDown className="h-3 w-3 shrink-0 transition-transform duration-200 ease-entrance group-hover/services:rotate-180 group-focus-within/services:rotate-180" />
+                ) : null}
               </Link>
+
+              {hasDropdown ? <ServicesDropdown /> : null}
             </li>
           );
         })}
       </ul>
     </nav>
+  );
+}
+
+/**
+ * The Services flyout. Pure CSS — `group-hover`/`group-focus-within` on the
+ * parent `<li>` toggle `visibility`/`opacity` here, with no JS state at all.
+ *
+ * That is deliberate, not a shortcut: the panel is a DOM descendant of the
+ * trigger, so the browser keeps `:hover` true while the pointer travels down
+ * through the gap into the panel (hover bubbles to ancestors regardless of
+ * the descendant's own `position`), and keyboard focus opens it the instant
+ * Tab reaches the trigger and keeps it open for as long as focus stays
+ * anywhere inside — both for free, with no listeners to write or clean up.
+ * `visibility` (not just `opacity`) is the toggle because `visibility:hidden`
+ * — unlike `opacity:0` — removes the links from the accessibility tree while
+ * closed, so a screen reader never announces a dropdown that isn't visually
+ * open.
+ */
+function ServicesDropdown() {
+  return (
+    <div className="invisible absolute left-0 top-full z-30 pt-3 opacity-0 transition-[opacity,visibility] duration-200 ease-entrance group-hover/services:visible group-hover/services:opacity-100 group-focus-within/services:visible group-focus-within/services:opacity-100">
+      <div className="w-[34rem] max-w-[calc(100vw-2.5rem)] rounded-card border border-neutral-line bg-white p-5 shadow-lift-hover">
+        <ul className="grid grid-cols-2 gap-x-6 gap-y-1">
+          {serviceEntries.map((service) => (
+            <li key={service.id}>
+              <Link
+                href={`/services/${service.id}/`}
+                className="block rounded-lg px-3 py-2 text-sm leading-snug text-neutral-body transition-colors duration-150 hover:bg-brand-tint hover:text-brand"
+              >
+                {service.title}
+              </Link>
+            </li>
+          ))}
+        </ul>
+        <div className="mt-2 border-t border-neutral-line pt-2">
+          <Link
+            href="/services/"
+            className="flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-semibold text-brand transition-colors duration-150 hover:bg-brand-tint"
+          >
+            View all services
+            <span aria-hidden="true">→</span>
+          </Link>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -279,8 +342,11 @@ function MobileNav({
         return;
       }
       if (event.key !== 'Tab') return;
+      // `summary` included so the Services disclosure counts as a normal stop
+      // in the tab sequence rather than a gap the wrap-around boundary check
+      // skips over.
       const focusable = panelRef.current?.querySelectorAll<HTMLElement>(
-        'a[href], button:not([disabled]), select',
+        'a[href], button:not([disabled]), select, summary',
       );
       if (!focusable?.length) return;
       const first = focusable[0];
@@ -315,11 +381,61 @@ function MobileNav({
           {navLinks.map((link, index) => {
             // No nav link is '/' any more — the logo is the only route home.
             const active = pathname.startsWith(link.href);
+            const itemStyle = { '--i': index } as React.CSSProperties;
+
+            if (link.href === SERVICES_HREF) {
+              return (
+                <li
+                  key={link.href}
+                  className="nav-item border-b border-neutral-line"
+                  style={itemStyle}
+                >
+                  <details className="group/services">
+                    <summary
+                      aria-current={active ? 'page' : undefined}
+                      className={cn(
+                        'flex cursor-pointer list-none items-center justify-between py-4 font-display text-xl font-semibold transition-colors duration-200 [&::-webkit-details-marker]:hidden',
+                        active ? 'text-brand' : 'text-neutral-ink',
+                      )}
+                    >
+                      {link.label}
+                      <ChevronDown className="h-4 w-4 shrink-0 text-brand transition-transform duration-300 ease-entrance group-open/services:rotate-180" />
+                    </summary>
+
+                    <div className="accordion-panel">
+                      <div className="pb-4">
+                        <Link
+                          href="/services/"
+                          onClick={onClose}
+                          className="block py-2 text-[0.9375rem] font-semibold text-brand"
+                        >
+                          All Services
+                        </Link>
+                        <ul className="mt-1 space-y-0.5">
+                          {serviceEntries.map((service) => (
+                            <li key={service.id}>
+                              <Link
+                                href={`/services/${service.id}/`}
+                                onClick={onClose}
+                                className="block py-2 text-[0.9375rem] text-neutral-body transition-colors duration-150 hover:text-brand"
+                              >
+                                {service.title}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  </details>
+                </li>
+              );
+            }
+
             return (
               <li
                 key={link.href}
                 className="nav-item border-b border-neutral-line"
-                style={{ '--i': index } as React.CSSProperties}
+                style={itemStyle}
               >
                 <Link
                   href={link.href}
@@ -412,6 +528,20 @@ function MenuIcon({ open }: { open: boolean }) {
         className={cn(bar, open ? 'top-1/2 -translate-y-1/2 -rotate-45' : 'top-[13px]')}
       />
     </span>
+  );
+}
+
+function ChevronDown({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 12 12" fill="none" aria-hidden="true" className={className}>
+      <path
+        d="M2.5 4.5 6 8l3.5-3.5"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
   );
 }
 
