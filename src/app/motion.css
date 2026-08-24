@@ -521,14 +521,7 @@ button:hover > .arrow-nudge {
   transition:
     background-color var(--dur-mid) var(--ease-standard),
     box-shadow var(--dur-mid) var(--ease-standard),
-    backdrop-filter var(--dur-mid) var(--ease-standard),
-    transform var(--dur-mid) var(--ease-standard);
-}
-
-/* Retracts the bar when the reader is scrolling down mid-page and brings it
-   back the moment they scroll up. */
-.site-header[data-hidden='true'] {
-  transform: translate3d(0, -100%, 0);
+    backdrop-filter var(--dur-mid) var(--ease-standard);
 }
 
 .header-logo {

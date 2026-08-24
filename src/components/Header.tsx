@@ -32,22 +32,20 @@ function isHeroRoute(pathname: string): boolean {
 
 /** Distance past which the bar switches to its solid treatment. */
 const SOLID_AT = 24;
-/** Scroll depth below which the bar never auto-hides. */
-const HIDE_AFTER = 320;
-/** Ignore direction flips smaller than this, so trackpad jitter can't flicker it. */
-const DIRECTION_THRESHOLD = 6;
 
-/** Sticky site header (§3.1). */
+/**
+ * Sticky site header (§3.1). Permanently pinned — it never retracts on
+ * scroll, in either direction, on any page. Only its background transitions
+ * between transparent (over a photo hero, before any scroll) and solid.
+ */
 export function Header() {
   const pathname = usePathname();
   const overHero = isHeroRoute(pathname);
 
   const [scrolled, setScrolled] = useState(false);
-  const [hidden, setHidden] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    let lastY = window.scrollY;
     let frame = 0;
 
     // Scroll events fire far more often than frames; coalescing into one rAF
@@ -56,14 +54,7 @@ export function Header() {
       if (frame) return;
       frame = window.requestAnimationFrame(() => {
         frame = 0;
-        const y = window.scrollY;
-        setScrolled(y > SOLID_AT);
-
-        const delta = y - lastY;
-        if (Math.abs(delta) > DIRECTION_THRESHOLD) {
-          setHidden(delta > 0 && y > HIDE_AFTER);
-          lastY = y;
-        }
+        setScrolled(window.scrollY > SOLID_AT);
       });
     };
 
@@ -108,7 +99,6 @@ export function Header() {
       </a>
 
       <header
-        data-hidden={hidden && !menuOpen ? 'true' : 'false'}
         className={cn(
           'site-header fixed inset-x-0 top-0 z-50',
           solid ? 'bg-white/95 shadow-header backdrop-blur-md' : 'bg-transparent',

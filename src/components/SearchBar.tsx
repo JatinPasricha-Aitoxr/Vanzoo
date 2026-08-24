@@ -3,11 +3,12 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
+import { coutureCatalog, formatPrice, steamIronCatalog } from '@/content/pricing';
 import { serviceEntries } from '@/content/services';
 import { navLinks } from '@/lib/site';
 import { cn } from '@/lib/cn';
 
-type SearchItem = { label: string; href: string; group: string };
+type SearchItem = { label: string; href: string; group: string; price?: string };
 
 const PAGE_ITEMS: SearchItem[] = navLinks.map((link) => ({
   label: link.label,
@@ -21,14 +22,29 @@ const SERVICE_ITEMS: SearchItem[] = serviceEntries.map((service) => ({
   group: 'Services',
 }));
 
-const SEARCH_INDEX: readonly SearchItem[] = [...PAGE_ITEMS, ...SERVICE_ITEMS];
+/** Every priced tariff row from both catalogues — so searching a garment name
+ *  ("shirt") surfaces its category and price, not just the service it lives
+ *  under. Links to that category's own anchor on the pricing page. */
+const PRODUCT_ITEMS: SearchItem[] = [coutureCatalog, steamIronCatalog].flatMap((catalog) =>
+  catalog.groups.flatMap((group) =>
+    group.rows.map((row) => ({
+      label: row.item,
+      href: `/pricing/#${group.id}`,
+      group: `${group.label} · ${catalog.label}`,
+      price: formatPrice(row),
+    })),
+  ),
+);
+
+const SEARCH_INDEX: readonly SearchItem[] = [...PAGE_ITEMS, ...SERVICE_ITEMS, ...PRODUCT_ITEMS];
 
 /**
- * Header search — a lightweight client-side lookup over the site's own pages
- * and service catalogue (no blog posts: importing that corpus into every
- * page's bundle via the header would cost far more than the search is worth).
- * Expands in place from an icon trigger, matching the cart button's footprint
- * when idle so it costs nothing in the header's already-tight layout.
+ * Header search — a lightweight client-side lookup over the site's own pages,
+ * service catalogue and every tariff item (no blog posts: importing that
+ * corpus into every page's bundle via the header would cost far more than the
+ * search is worth). Expands in place from an icon trigger, matching the cart
+ * button's footprint when idle so it costs nothing in the header's
+ * already-tight layout.
  */
 export function SearchBar({ solid }: { solid: boolean }) {
   const [open, setOpen] = useState(false);
@@ -64,8 +80,16 @@ export function SearchBar({ solid }: { solid: boolean }) {
   }, [open]);
 
   const trimmed = query.trim().toLowerCase();
+  // Names that start with the query rank above ones that merely contain it
+  // (searching "shirt" should lead with "Shirt", not bury it under "T-shirt").
   const results = trimmed
-    ? SEARCH_INDEX.filter((item) => item.label.toLowerCase().includes(trimmed)).slice(0, 8)
+    ? SEARCH_INDEX.filter((item) => item.label.toLowerCase().includes(trimmed))
+        .sort(
+          (a, b) =>
+            Number(!a.label.toLowerCase().startsWith(trimmed)) -
+            Number(!b.label.toLowerCase().startsWith(trimmed)),
+        )
+        .slice(0, 10)
     : [];
 
   function onSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -90,25 +114,32 @@ export function SearchBar({ solid }: { solid: boolean }) {
             type="search"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="Search services, pages…"
-            className="h-10 w-48 rounded-pill border border-neutral-line bg-white px-4 text-sm text-neutral-ink placeholder:text-neutral-body/70 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand lg:w-60"
+            placeholder="Search products, services, pages…"
+            className="h-10 w-56 rounded-pill border border-neutral-line bg-white px-4 text-sm text-neutral-ink placeholder:text-neutral-body/70 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand lg:w-72"
           />
 
           {results.length > 0 ? (
-            <ul className="absolute left-0 top-full z-30 mt-2 w-full min-w-[16rem] overflow-hidden rounded-card border border-neutral-line bg-white py-1.5 shadow-lift-hover">
-              {results.map((item) => (
-                <li key={`${item.group}-${item.href}`}>
+            <ul className="absolute left-0 top-full z-30 mt-2 w-[22rem] max-w-[calc(100vw-2.5rem)] max-h-[70vh] overflow-y-auto rounded-card border border-neutral-line bg-white py-1.5 shadow-lift-hover">
+              {results.map((item, index) => (
+                <li key={`${item.group}-${item.href}-${item.label}-${index}`}>
                   <Link
                     href={item.href}
                     onClick={() => {
                       setOpen(false);
                       setQuery('');
                     }}
-                    className="flex items-center justify-between gap-3 px-4 py-2.5 text-sm text-neutral-ink transition-colors hover:bg-brand-tint hover:text-brand"
+                    className="flex flex-col gap-1 px-4 py-2.5 text-sm text-neutral-ink transition-colors hover:bg-brand-tint hover:text-brand"
                   >
-                    {item.label}
-                    <span className="shrink-0 text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-neutral-body">
-                      {item.group}
+                    <span className="truncate font-medium">{item.label}</span>
+                    <span className="flex items-center justify-between gap-3">
+                      <span className="truncate text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-neutral-body">
+                        {item.group}
+                      </span>
+                      {item.price ? (
+                        <span className="shrink-0 text-xs font-semibold text-brand">
+                          {item.price}
+                        </span>
+                      ) : null}
                     </span>
                   </Link>
                 </li>
