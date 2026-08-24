@@ -5,7 +5,13 @@ import { JsonLd } from '@/components/JsonLd';
 import { PageHeader } from '@/components/Hero';
 import { Section, SectionHeading } from '@/components/ui/Section';
 import { TariffGrid } from '@/components/TariffGrid';
-import { coutureCatalog, steamIronCatalog, tariffIntro, tariffNote } from '@/content/pricing';
+import {
+  additionalOptions,
+  coutureCatalog,
+  steamIronCatalog,
+  tariffIntro,
+  tariffNote,
+} from '@/content/pricing';
 import { breadcrumbSchema, buildMetadata } from '@/lib/seo';
 import { site } from '@/lib/site';
 
@@ -57,6 +63,11 @@ export default function PricingPage() {
             </li>
           ))}
         </ul>
+
+        <p className="mx-auto mt-8 max-w-3xl rounded-card border-2 border-accent-gold bg-accent-gold/10 p-5 text-center text-base font-bold text-neutral-ink sm:text-lg">
+          GST extra. Final prices depend on the type of fabric and the work required on it — the
+          care process also changes according to the type of fabric.
+        </p>
       </Section>
 
       <Section tone="surface" size="sm" id="couture-care-tariffs" aria-labelledby="couture-tariffs-heading">
@@ -83,6 +94,34 @@ export default function PricingPage() {
         </div>
       </Section>
 
+      <Section tone="muted" size="sm" aria-labelledby="additional-options-heading">
+        <SectionHeading
+          id="additional-options-heading"
+          eyebrow="More ways we help"
+          title="Many more options — prices on request"
+          intro="Call us and we'll quote it once we know what the piece needs."
+          align="center"
+          className="mx-auto"
+        />
+        <ul className="mx-auto mt-10 flex max-w-3xl flex-wrap justify-center gap-3">
+          {additionalOptions.map((option) => (
+            <li
+              key={option}
+              className="rounded-pill border border-neutral-line bg-white px-5 py-2.5 text-sm font-semibold text-neutral-ink shadow-lift"
+            >
+              {option}
+            </li>
+          ))}
+        </ul>
+        <p className="mt-6 text-center text-sm text-neutral-body">
+          Call{' '}
+          <a href={`tel:${site.phoneHref}`} className="font-medium text-brand">
+            {site.phone}
+          </a>{' '}
+          to arrange any of these.
+        </p>
+      </Section>
+
       <Section tone="surface">
         <div className="grid gap-4 sm:grid-cols-2">
           <p className="rounded-card border border-neutral-line bg-neutral-muted p-5 text-sm text-neutral-body">
@@ -90,7 +129,7 @@ export default function PricingPage() {
           </p>
           <p className="rounded-card border border-neutral-line bg-neutral-muted p-5 text-sm text-neutral-body">
             <strong className="font-semibold text-neutral-ink">Turnaround:</strong> standard is{' '}
-            {site.turnaround}. Express service with same-day or 2-4 hour delivery is available on
+            {site.turnaround}. Express service with same-day or next-day delivery is available on
             request and priced separately — call{' '}
             <a href={`tel:${site.phoneHref}`} className="font-medium text-brand">
               {site.phone}

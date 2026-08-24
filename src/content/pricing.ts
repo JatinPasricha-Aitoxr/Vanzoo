@@ -45,6 +45,16 @@ export type TariffCatalog = {
 
 export const tariffNote = 'All prices mentioned are exclusive of GST. GST will be charged extra.';
 
+/** Add-on services with no fixed tariff — quoted once the team sees the item. */
+export const additionalOptions = [
+  'Minor Repair',
+  'Major Stitching',
+  'Darning',
+  'Premium Packaging',
+  'Starch',
+  'Next Day Delivery',
+] as const;
+
 export const tariffIntro = 'Seamless, sustainable, and sophisticated — premium care, simplified.';
 
 /** Indian-format rupee amount, no decimals — ₹1,099 rather than ₹1099.00. */

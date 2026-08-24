@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { useEffect, useId, useRef, useState } from 'react';
-import { formatRupees, tariffNote } from '@/content/pricing';
+import { tariffNote } from '@/content/pricing';
 import { useCart, type CartLine } from '@/lib/cart';
 import { cn } from '@/lib/cn';
 import { serviceAreas, site } from '@/lib/site';
@@ -31,8 +31,7 @@ const PHONE_RE = /^(?:\+?91[\s-]?|0)?[6-9]\d{4}[\s-]?\d{5}$/;
  * delivery plumbing to configure.
  */
 export function CartDrawer() {
-  const { lines, count, subtotal, hasFromPrices, isOpen, closeCart, setQuantity, remove, clear } =
-    useCart();
+  const { lines, count, isOpen, closeCart, setQuantity, remove, clear } = useCart();
   const panelRef = useRef<HTMLDivElement>(null);
   const [status, setStatus] = useState<Status>('idle');
   const [errors, setErrors] = useState<Errors>({});
@@ -130,7 +129,7 @@ export function CartDrawer() {
         body: JSON.stringify({
           ...Object.fromEntries(data.entries()),
           serviceType: 'Garment Care',
-          message: buildMessage(lines, subtotal, hasFromPrices, String(data.get('notes') ?? '')),
+          message: buildMessage(lines, String(data.get('notes') ?? '')),
         }),
       });
       if (!response.ok) throw new Error(`Request failed: ${response.status}`);
@@ -220,15 +219,9 @@ export function CartDrawer() {
                         ) : null}
                         <div className="min-w-0">
                           <p className="font-medium text-neutral-ink">{line.item}</p>
-                          <p className="mt-0.5 text-xs text-neutral-body">
-                            {line.service} · {line.from ? 'from ' : ''}
-                            {formatRupees(line.amount)} each
-                          </p>
+                          <p className="mt-0.5 text-xs text-neutral-body">{line.service}</p>
                         </div>
                       </div>
-                      <p className="shrink-0 font-display font-semibold tabular-nums text-brand">
-                        {formatRupees(line.amount * line.quantity)}
-                      </p>
                     </div>
 
                     <div className="mt-3 flex items-center justify-between gap-3">
@@ -259,24 +252,15 @@ export function CartDrawer() {
               </button>
             </div>
 
-            {/* Total and the forward action pinned below the scrolling list, so
-                both stay visible however many garments are in the cart. */}
+            {/* The forward action pinned below the scrolling list, so it stays
+                visible however many garments are in the cart. No prices here —
+                GST and the final rate depend on fabric and the work needed, so
+                the team confirms the quote once they see the items. */}
             <div className="border-t border-neutral-line bg-neutral-muted/60 px-5 py-5 sm:px-6">
-              <div className="flex items-baseline justify-between gap-3">
-                <span className="text-sm font-medium text-neutral-ink">
-                  {hasFromPrices ? 'Estimated total' : 'Total'}
-                </span>
-                <span className="font-display text-xl font-semibold tabular-nums text-brand">
-                  {hasFromPrices ? 'from ' : ''}
-                  {formatRupees(subtotal)}
-                </span>
-              </div>
-              <p className="mt-1.5 text-xs leading-relaxed text-neutral-body">
-                {tariffNote}
-                {hasFromPrices
-                  ? ' Items priced “starting from” are confirmed after our team sees the garment.'
-                  : ''}
+              <p className="text-sm font-medium text-neutral-ink">
+                {count} {count === 1 ? 'item' : 'items'} ready to send
               </p>
+              <p className="mt-1.5 text-xs leading-relaxed text-neutral-body">{tariffNote}</p>
               <button
                 type="button"
                 onClick={() => setStep('details')}
@@ -297,12 +281,8 @@ export function CartDrawer() {
                 Where should we collect {count} {count === 1 ? 'item' : 'items'}?
               </p>
               <p className="mt-1 text-xs text-neutral-body">
-                {hasFromPrices ? 'Estimated total ' : 'Total '}
-                <span className="font-semibold text-brand">
-                  {hasFromPrices ? 'from ' : ''}
-                  {formatRupees(subtotal)}
-                </span>{' '}
-                — excl. GST, confirmed before we collect.
+                GST extra — the final price depends on fabric and the work needed, confirmed
+                before we collect.
               </p>
               <div className="mt-4 grid gap-3 sm:grid-cols-2">
                 <DrawerField
@@ -411,31 +391,18 @@ export function CartDrawer() {
 /**
  * Renders the cart as the plain-text body of an enquiry. The team reads this in
  * whatever inbox `ENQUIRY_WEBHOOK_URL` points at, so it has to stand alone
- * without the site's markup.
+ * without the site's markup. No prices: GST and the final rate both depend on
+ * fabric and the work involved, so the quote is confirmed once the team sees
+ * the garments, not read off this list.
  */
-function buildMessage(
-  lines: CartLine[],
-  subtotal: number,
-  hasFromPrices: boolean,
-  notes: string,
-): string {
+function buildMessage(lines: CartLine[], notes: string): string {
   const items = lines
-    .map(
-      (line) =>
-        `• ${line.item} (${line.service}) × ${line.quantity} — ${line.from ? 'from ' : ''}${formatRupees(
-          line.amount * line.quantity,
-        )}`,
-    )
+    .map((line) => `• ${line.item} (${line.service}) × ${line.quantity}`)
     .join('\n');
-
-  const total = `${hasFromPrices ? 'Estimated total' : 'Total'}: ${
-    hasFromPrices ? 'from ' : ''
-  }${formatRupees(subtotal)} (excl. GST)`;
 
   return [
     'Pickup request from the website tariff cart:',
     items,
-    total,
     notes.trim() ? `Notes: ${notes.trim()}` : '',
   ]
     .filter(Boolean)

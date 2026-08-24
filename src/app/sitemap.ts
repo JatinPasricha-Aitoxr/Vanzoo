@@ -17,6 +17,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticPages: MetadataRoute.Sitemap = [
     { url: `${SITE_URL}/`, changeFrequency: 'weekly', priority: 1 },
     { url: `${SITE_URL}/about-us/`, changeFrequency: 'yearly', priority: 0.7 },
+    { url: `${SITE_URL}/membership/`, changeFrequency: 'monthly', priority: 0.6 },
     { url: `${SITE_URL}/services/`, changeFrequency: 'monthly', priority: 0.9 },
     { url: `${SITE_URL}/pricing/`, changeFrequency: 'monthly', priority: 0.9 },
     { url: `${SITE_URL}/hydrocarbon-tech/`, changeFrequency: 'monthly', priority: 0.8 },

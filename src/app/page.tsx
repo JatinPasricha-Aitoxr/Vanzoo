@@ -83,7 +83,7 @@ export default function HomePage() {
           title="Our Premium Fabric Care Services"
           intro="Six services, one standard of care — each piece assessed individually before it goes anywhere near a machine."
         />
-        <ul className="mt-16 space-y-20 lg:space-y-24">
+        <ul className="no-scrollbar -mx-5 mt-10 flex snap-x snap-mandatory gap-5 overflow-x-auto px-5 pb-2 sm:-mx-8 sm:px-8 lg:mx-0 lg:px-0">
           {services.map((service, index) => (
             <ServiceRow
               key={service.number}
@@ -209,7 +209,15 @@ export default function HomePage() {
         <div className="mt-12">
           <AreaCoverageGrid headingLevel="h3" showBlurb={false} />
         </div>
-        <p className="mt-8 text-center">
+        <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
+          <a href={links.bookPickup} target="_blank" rel="noopener noreferrer" className="btn-primary btn-md">
+            Book Pickup
+          </a>
+          <a href={links.whatsapp} target="_blank" rel="noopener noreferrer" className="btn-secondary btn-md">
+            Chat on WhatsApp
+          </a>
+        </div>
+        <p className="mt-6 text-center">
           <Link
             href="/areas-we-serve/"
             className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand transition-colors hover:text-brand-dark"
@@ -220,21 +228,7 @@ export default function HomePage() {
         </p>
       </Section>
 
-      {/* 11 — FAQ */}
-      <Section tone="muted" id="faq" aria-labelledby="faq-heading">
-        <SectionHeading
-          id="faq-heading"
-          title="Frequently Asked Questions"
-          intro={faqIntro}
-          align="center"
-          className="mx-auto"
-        />
-        <div className="mt-12">
-          <FAQAccordion faqs={homeFaqs} groupName="home-faq" />
-        </div>
-      </Section>
-
-      {/* 12 — Blog preview */}
+      {/* 11 — Blog preview */}
       <Section tone="surface" aria-labelledby="blog-preview-heading">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <SectionHeading
@@ -261,6 +255,20 @@ export default function HomePage() {
         </div>
         <div className="mt-12">
           <BlogGrid posts={latestPosts} />
+        </div>
+      </Section>
+
+      {/* 12 — FAQ */}
+      <Section tone="muted" id="faq" aria-labelledby="faq-heading">
+        <SectionHeading
+          id="faq-heading"
+          title="Frequently Asked Questions"
+          intro={faqIntro}
+          align="center"
+          className="mx-auto"
+        />
+        <div className="mt-12">
+          <FAQAccordion faqs={homeFaqs} groupName="home-faq" />
         </div>
       </Section>
 

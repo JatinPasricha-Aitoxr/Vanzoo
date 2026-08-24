@@ -58,7 +58,7 @@ export function AppPromo() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Scan or tap to get the Vanzoo app on Google Play"
-            className="flex items-center gap-3 rounded-card bg-white p-3 pr-5 transition-transform duration-200 ease-entrance hover:-translate-y-0.5"
+            className="flex items-center gap-4 rounded-card bg-white p-4 pr-6 transition-transform duration-200 ease-entrance hover:-translate-y-0.5"
           >
             <Image
               src="/images/app-qr-download.png"
@@ -66,8 +66,8 @@ export function AppPromo() {
               width={1648}
               height={1284}
               loading="lazy"
-              sizes="96px"
-              className="h-20 w-auto"
+              sizes="144px"
+              className="h-32 w-auto sm:h-36"
             />
             <span className="text-left leading-tight">
               <span className="block text-[0.625rem] font-semibold uppercase tracking-[0.12em] text-neutral-body">

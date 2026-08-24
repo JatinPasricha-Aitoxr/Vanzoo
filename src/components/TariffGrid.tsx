@@ -4,7 +4,6 @@ import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import { Reveal } from './ui/Reveal';
 import {
-  formatPrice,
   lineId,
   type TariffCatalog,
   type TariffGroup,
@@ -16,10 +15,12 @@ import { cn } from '@/lib/cn';
 /**
  * Tariff card grid (§3.4, §3.5).
  *
- * This restores the live site's layout — one card per garment, price and action
- * on the card — with "Add to Cart" in place of its per-item "Enquire Now". The
- * category chips are in-page anchors rather than a filter, so every price stays
- * crawlable and printable.
+ * This restores the live site's layout — one card per garment — with
+ * "Add to Cart" in place of its per-item "Enquire Now". Prices are not shown
+ * here: GST and the final rate both depend on fabric and the work involved,
+ * so the card only lets a visitor pick a quantity; the team confirms the
+ * quote once they see the garment. The category chips are in-page anchors
+ * rather than a filter, so every item stays crawlable and printable.
  *
  * The category nav only renders when there is more than one group — a service
  * detail page passes a single-group catalog (see /services/[slug]/) to show
@@ -150,18 +151,9 @@ function TariffCard({
   row: TariffRow;
   index: number;
 }) {
-  const { add, openCart, lines } = useCart();
+  const { add, setQuantity, lines } = useCart();
   const id = lineId(catalog.id, groupId, row.item);
   const inCart = lines.find((line) => line.id === id)?.quantity ?? 0;
-
-  // Flips the button to a confirmation for a beat after a click, so adding a
-  // second garment does not feel like the first click was swallowed.
-  const [justAdded, setJustAdded] = useState(false);
-  useEffect(() => {
-    if (!justAdded) return;
-    const timer = window.setTimeout(() => setJustAdded(false), 1600);
-    return () => window.clearTimeout(timer);
-  }, [justAdded]);
 
   return (
     <Reveal
@@ -185,69 +177,67 @@ function TariffCard({
       </div>
 
       <div className="flex flex-1 flex-col p-5">
-        <h3 className="font-display text-[1.375rem] font-semibold leading-tight text-neutral-ink">
+        <h3 className="flex-1 font-display text-[1.375rem] font-semibold leading-tight text-neutral-ink">
           {row.item}
         </h3>
 
-        <p className="mt-2 flex-1">
-          {/* The eyebrow line always occupies its row — invisible on fixed
-              prices — so every price in a card row sits on the same baseline. */}
-          <span
-            className={cn(
-              'block text-xs font-medium uppercase tracking-[0.12em] text-neutral-body',
-              !row.from && 'invisible',
-            )}
-            aria-hidden={row.from ? undefined : true}
-          >
-            Starting from
-          </span>
-          <span className="font-display text-2xl font-semibold tabular-nums text-brand">
-            {row.from ? formatPrice(row).replace('Starting from ', '') : formatPrice(row)}
-          </span>
-        </p>
-
-          <div className="mt-5 flex items-center gap-3">
-          <button
-            type="button"
-            onClick={() => {
-              add({
-                id,
-                item: row.item,
-                service: catalog.label,
-                amount: row.amount,
-                from: row.from ?? false,
-                image: row.image,
-              });
-              setJustAdded(true);
-            }}
-            className={cn(
-              'btn-sm flex-1 transition-colors',
-              justAdded ? 'btn-added' : 'btn-primary',
-            )}
-          >
-            {justAdded ? (
-              <>
-                <CheckIcon className="h-3.5 w-3.5" />
-                Added
-              </>
-            ) : (
-              <>
-                <CartIcon className="h-3.5 w-3.5" />
-                Add to Cart
-              </>
-            )}
-          </button>
-
+        <div className="mt-5">
           {inCart > 0 ? (
+            <div className="flex items-center justify-between gap-3">
+              <span className="text-xs font-semibold uppercase tracking-[0.1em] text-brand-dark">
+                In cart
+              </span>
+              <div className="inline-flex items-center rounded-pill border border-neutral-line">
+                <button
+                  type="button"
+                  onClick={() => setQuantity(id, inCart - 1)}
+                  className="inline-flex h-9 w-9 items-center justify-center rounded-pill text-neutral-ink transition-colors hover:bg-neutral-muted"
+                >
+                  <span aria-hidden="true">−</span>
+                  <span className="sr-only">Decrease {row.item} quantity</span>
+                </button>
+                <span aria-live="polite" className="w-8 text-center text-sm font-semibold tabular-nums">
+                  {inCart}
+                  <span className="sr-only"> {row.item}</span>
+                </span>
+                <button
+                  type="button"
+                  onClick={() =>
+                    add({
+                      id,
+                      item: row.item,
+                      service: catalog.label,
+                      amount: row.amount,
+                      from: row.from ?? false,
+                      image: row.image,
+                    })
+                  }
+                  className="inline-flex h-9 w-9 items-center justify-center rounded-pill text-neutral-ink transition-colors hover:bg-neutral-muted"
+                >
+                  <span aria-hidden="true">+</span>
+                  <span className="sr-only">Increase {row.item} quantity</span>
+                </button>
+              </div>
+            </div>
+          ) : (
             <button
               type="button"
-              onClick={openCart}
-              className="shrink-0 rounded-pill border border-brand/30 bg-brand-tint px-3 py-2 text-xs font-semibold tabular-nums text-brand-dark transition-colors hover:border-brand/60"
+              onClick={() =>
+                add({
+                  id,
+                  item: row.item,
+                  service: catalog.label,
+                  amount: row.amount,
+                  from: row.from ?? false,
+                  image: row.image,
+                })
+              }
+              className="btn-sm btn-primary w-full"
             >
-              {inCart} in cart
-              <span className="sr-only"> — open cart</span>
+              <CartIcon className="h-3.5 w-3.5" />
+              Add to Cart
             </button>
-          ) : null}
+          )}
         </div>
       </div>
     </Reveal>
@@ -266,20 +256,6 @@ function CartIcon({ className }: { className?: string }) {
       />
       <circle cx="6" cy="13" r="1.3" fill="currentColor" />
       <circle cx="11.5" cy="13" r="1.3" fill="currentColor" />
-    </svg>
-  );
-}
-
-function CheckIcon({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" className={className}>
-      <path
-        d="m3 8.5 3.2 3.2L13 5"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
     </svg>
   );
 }

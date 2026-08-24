@@ -6,6 +6,7 @@ import { ContactRail } from '@/components/ContactRail';
 import { Footer } from '@/components/Footer';
 import { Header } from '@/components/Header';
 import { JsonLd } from '@/components/JsonLd';
+import { WhatsAppButton } from '@/components/WhatsAppButton';
 import { CartProvider } from '@/lib/cart';
 import { organizationSchema, websiteSchema } from '@/lib/seo';
 import { GOOGLE_SITE_VERIFICATION, GTM_ID, SITE_URL, site } from '@/lib/site';
@@ -88,6 +89,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <main id="main">{children}</main>
           <Footer />
           <ContactRail />
+          <WhatsAppButton />
           <CartDrawer />
         </CartProvider>
       </body>

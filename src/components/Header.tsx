@@ -6,8 +6,9 @@ import { usePathname } from 'next/navigation';
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { BookPickupWidget } from './BookPickupWidget';
 import { CartButton } from './CartButton';
+import { SearchBar } from './SearchBar';
 import { serviceEntries } from '@/content/services';
-import { links, navLinks } from '@/lib/site';
+import { links, navLinks, site } from '@/lib/site';
 import { cn } from '@/lib/cn';
 
 /** The one nav item that carries a dropdown — matched by href, not index, so
@@ -140,6 +141,21 @@ export function Header() {
           <DesktopNav pathname={pathname} solid={solid} />
 
           <div className="flex items-center gap-2">
+            <SearchBar solid={solid} />
+
+            <a
+              href={`tel:${site.phoneHref}`}
+              className={cn(
+                'hidden shrink-0 items-center gap-1.5 whitespace-nowrap rounded-pill border px-3 py-2 text-xs font-semibold transition-colors duration-200 lg:inline-flex',
+                solid
+                  ? 'border-neutral-line text-neutral-ink hover:bg-neutral-muted'
+                  : 'border-white/40 text-white hover:bg-white/10',
+              )}
+            >
+              <PhoneIcon className="h-3.5 w-3.5" />
+              {site.phone}
+            </a>
+
             <CartButton solid={solid} />
             {/* Gold in both header states: it is the one persistent conversion
                 action, and the ghost treatment let it recede over the hero. */}
@@ -528,6 +544,14 @@ function MenuIcon({ open }: { open: boolean }) {
         className={cn(bar, open ? 'top-1/2 -translate-y-1/2 -rotate-45' : 'top-[13px]')}
       />
     </span>
+  );
+}
+
+function PhoneIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" className={className}>
+      <path d="M6.6 2.4a1.4 1.4 0 0 0-1.8-.3L3.2 3.2A2.4 2.4 0 0 0 2.3 6c.7 2.6 2.1 5 4 6.9 1.9 1.9 4.3 3.3 6.9 4a2.4 2.4 0 0 0 2.6-.9l1.1-1.6a1.4 1.4 0 0 0-.3-1.8l-2-1.6a1.4 1.4 0 0 0-1.7 0l-.9.7a.5.5 0 0 1-.6 0 12 12 0 0 1-3.7-3.7.5.5 0 0 1 0-.6l.7-.9a1.4 1.4 0 0 0 0-1.7l-1.8-2z" />
+    </svg>
   );
 }
 

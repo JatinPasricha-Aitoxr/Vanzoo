@@ -75,6 +75,27 @@ export default function HydrocarbonTechPage() {
         </Section>
       ))}
 
+      {/* The deeper technical explanation — how the process actually works */}
+      <Section tone="surface" aria-labelledby="science-heading">
+        <SectionHeading
+          id="science-heading"
+          eyebrow={hydrocarbon.scienceDetail.eyebrow}
+          title={hydrocarbon.scienceDetail.heading}
+          align="center"
+          className="mx-auto"
+        />
+        <dl className="mt-12 grid gap-8 sm:grid-cols-2">
+          {hydrocarbon.scienceDetail.points.map((point) => (
+            <div key={point.title} className="rounded-card border border-neutral-line bg-white p-6 sm:p-7">
+              <dt className="font-display text-lg font-semibold text-neutral-ink">{point.title}</dt>
+              <dd className="mt-2.5 text-[0.9375rem] leading-relaxed text-pretty text-neutral-body">
+                {point.body}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </Section>
+
       {/* Why Switch? — PERC comparison */}
       <Section tone="dark" aria-labelledby="comparison-heading">
         <SectionHeading

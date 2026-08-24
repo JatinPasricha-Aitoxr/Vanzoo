@@ -40,13 +40,13 @@ export function TrustStrip({ tone = 'onDark' }: { tone?: 'onDark' | 'onLight' })
               <p
                 className={
                   dark
-                    ? 'text-sm font-semibold text-white'
-                    : 'text-sm font-semibold text-neutral-ink'
+                    ? 'text-base font-semibold text-white'
+                    : 'text-base font-semibold text-neutral-ink'
                 }
               >
                 {marker.label}
               </p>
-              <p className={dark ? 'mt-1 text-xs text-white/75' : 'mt-1 text-xs text-neutral-body'}>
+              <p className={dark ? 'mt-1.5 text-sm text-white/75' : 'mt-1.5 text-sm text-neutral-body'}>
                 {marker.detail}
               </p>
             </li>

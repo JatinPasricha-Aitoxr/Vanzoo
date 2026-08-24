@@ -283,11 +283,11 @@ export const serviceEntries: readonly ServiceEntry[] = [
     /* AUTHORED */
     id: 'express-service',
     title: 'Express Service',
-    body: 'Same-day and 2–4 hour turnarounds for the moments that cannot wait — priced on request, arranged with one call.',
+    body: 'Same-day and next-day turnarounds for the moments that cannot wait — priced on request, arranged with one call.',
     longBody:
-      "A last-minute event or an early flight doesn't leave room for a standard 5–7 day turnaround. Express service compresses that timeline to same-day or 2–4 hours without skipping the individual assessment every piece gets — it's arranged with a single call rather than a separate booking flow, and priced once we know exactly what needs doing and by when.",
+      "A last-minute event or an early flight doesn't leave room for a standard 5–7 day turnaround. Express service compresses that timeline to same-day or next-day without skipping the individual assessment every piece gets — it's arranged with a single call rather than a separate booking flow, and priced once we know exactly what needs doing and by when.",
     highlights: [
-      'Same-day or 2–4 hour turnaround, on request',
+      'Same-day or next-day turnaround, on request',
       'Ideal for last-minute events and travel',
       'Arranged with one phone call — no separate booking flow',
       'Every express order still gets a full individual assessment',
@@ -304,13 +304,13 @@ export const serviceEntries: readonly ServiceEntry[] = [
   {
     id: 'pickup-delivery',
     title: 'Free Pickup & Delivery',
-    body: 'Enjoy seamless door-to-door service with optional same-day or 2–4 hour express turnaround.',
+    body: 'Enjoy seamless door-to-door service with optional same-day express turnaround.',
     longBody:
       'Every service on this page includes the same door-to-door pickup and delivery — free, with no minimum order, anywhere we cover in Gurgaon. Book a slot from the app or the website, and a valet collects from your door and returns everything pressed, wrapped and ready.',
     highlights: [
       'Free, door-to-door, every time — no minimum order',
       'Covers every Gurgaon sector we serve',
-      'Same-day or 2–4 hour express options available',
+      'Same-day express options available',
       'Track pickup and delivery from the Vanzoo app',
     ],
     image: '/images/service-pickup-delivery.jpg',

@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import {
+  dryCleanItems,
   footerColumns,
   footerIntro,
   links,
@@ -104,6 +105,22 @@ export function Footer() {
         </div>
 
         <div className="mt-12 border-t border-white/15 pt-8">
+          <h2 className="font-display text-sm font-semibold uppercase tracking-[0.14em] text-accent-gold-soft">
+            Everything we dry clean
+          </h2>
+          <ul className="mt-5 flex flex-wrap gap-2.5">
+            {dryCleanItems.map((item) => (
+              <li
+                key={item}
+                className="rounded-pill border border-white/20 px-3.5 py-1.5 text-xs font-medium text-white/80"
+              >
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="mt-10 border-t border-white/15 pt-8">
           <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <p className="text-sm font-medium text-white">Get the Vanzoo app</p>

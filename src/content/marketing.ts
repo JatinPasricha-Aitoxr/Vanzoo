@@ -13,9 +13,9 @@
 
 /** AUTHORED — hero restyle sanctioned by the brief (§3.2, §6). */
 export const homeHero = {
-  headline: ['Luxury fabric care.', 'Delivered to your door.'],
+  headline: ['Premium and luxury dryclean', 'and garment care.'],
   subhead:
-    'Italian hydrocarbon technology, couture-trained finishing, and free pickup and delivery across Gurgaon.',
+    'With pickup and delivered to your doorstep — Italian hydrocarbon technology and couture-trained finishing, across Gurgaon.',
   image: '/images/hero-valet-handover.jpg',
   imageAlt:
     'Vanzoo staff member handing freshly dry-cleaned garments in protective wrap to a customer at the Gurgaon store counter',
@@ -45,7 +45,7 @@ export const trustMarkers = [
   { label: 'Italian hydrocarbon technology', detail: 'Imported, closed-loop systems' },
   { label: '99% chemical-free finish', detail: 'Solvent recovered and recycled each cycle' },
   { label: 'Free pickup & delivery', detail: 'Across every Gurgaon sector we serve' },
-  { label: 'Express turnaround', detail: 'Same-day or 2–4 hour options' },
+  { label: 'Express turnaround', detail: 'Same-day service, arranged with one call' },
   { label: 'Two Gurgaon stores', detail: 'DLF Phase IV and Sector 67' },
 ] as const;
 
@@ -122,7 +122,7 @@ export const services: readonly Service[] = [
   {
     number: '04',
     title: 'Free Pickup & Delivery, On Your Time',
-    body: 'Enjoy seamless door-to-door service with optional same-day or 2–4 hour express turnaround.',
+    body: 'Enjoy seamless door-to-door service with optional same-day express turnaround.',
     image: '/images/service-pickup-delivery.jpg',
     imageAlt:
       'Basket of clothes ready for free Vanzoo doorstep pickup and delivery in Gurgaon',
@@ -177,7 +177,7 @@ export const howItWorksSteps = [
     id: 'delivered',
     tab: 'Delivered Pressed',
     title: 'Returned pressed, wrapped and ready to wear',
-    body: 'Finishing is done by hand, packed in sustainable wrapping and delivered back to your door. Standard turnaround is 5-7 days, with same-day and 2-4 hour express options.',
+    body: 'Finishing is done by hand, packed in sustainable wrapping and delivered back to your door. Standard turnaround is 5-7 days, with same-day and next-day express options.',
     image: '/images/process-delivered-pressed.jpg',
     imageAlt:
       'Cream cable-knit sweater finished, pressed and hung ready for Vanzoo doorstep delivery in Gurgaon',
@@ -338,7 +338,7 @@ export const homeFaqs: readonly Faq[] = [
   {
     question: 'How long does the cleaning process take?',
     answer:
-      'Our standard turnaround time is 5-7 days. However, we also offer express services for urgent needs with same-day or 2-4 hour delivery options.',
+      'Our standard turnaround time is 5-7 days. However, we also offer express services for urgent needs with same-day or next-day delivery options.',
   },
   {
     question: 'How do I book a pickup and delivery?',
@@ -373,6 +373,7 @@ export const serviceTypes = [
   'Curtains Care',
   'Carpet Care',
   'Express Service',
+  'Membership',
 ] as const;
 
 export const contactTimes = [
@@ -427,6 +428,52 @@ export const about = {
 } as const;
 
 /* -------------------------------------------------------------------------- */
+/* Membership                                                                 */
+/* -------------------------------------------------------------------------- */
+
+/** AUTHORED — new membership programme, written in the guarantee block's voice. */
+export const membership = {
+  eyebrow: 'Membership',
+  heading: 'The Vanzoo Membership',
+  intro:
+    'For wardrobes that come back to us again and again — priority scheduling, a dedicated line, and the small conveniences that add up over a year of regular care.',
+  benefits: [
+    {
+      title: 'Priority Pickup Slots',
+      body: 'First claim on same-day and next-day slots, even in our busiest weeks.',
+      icon: '/images/icons/convenient-time-saving.png',
+      iconAlt: 'Clock and hand icon representing priority pickup scheduling',
+    },
+    {
+      title: 'Dedicated Member Line',
+      body: 'A direct WhatsApp and phone line to the team, skipping the general queue.',
+      icon: '/images/icons/expert-care.png',
+      iconAlt: 'Hanger with a star icon representing dedicated member support',
+    },
+    {
+      title: 'Complimentary Premium Packaging',
+      body: 'Every order returned in our premium wrap, at no extra charge.',
+      icon: '/images/icons/eco-process.png',
+      iconAlt: 'Leaf icon representing complimentary premium eco-friendly packaging',
+    },
+    {
+      title: 'Faster Turnaround, By Default',
+      body: 'Member orders are queued ahead of standard bookings on the cleaning floor.',
+      icon: '/images/icons/hydrocarbon-technology.png',
+      iconAlt: 'Gear and circuit icon representing faster member turnaround',
+    },
+  ],
+  howItWorks: [
+    'Tell us you’d like to join — by phone, WhatsApp, or the form below.',
+    'We set up your member profile against your phone number, no card or app needed.',
+    'Every pickup you book after that is recognised and prioritised automatically.',
+  ],
+  ctaHeading: 'Ready to join?',
+  ctaBody:
+    'Membership is arranged directly with our team — call or send an enquiry and we’ll set it up against your number.',
+} as const;
+
+/* -------------------------------------------------------------------------- */
 /* Hydrocarbon Tech page                                                      */
 /* -------------------------------------------------------------------------- */
 
@@ -459,6 +506,31 @@ export const hydrocarbon = {
         'Closed-loop hydrocarbon dry cleaning machine that purifies and recycles 99% of solvent each cycle',
     },
   ],
+  /** Deeper technical breakdown, between the intro sections and the PERC
+   *  comparison — the "explain it properly" detail the summary sections
+   *  above don't have room for. */
+  scienceDetail: {
+    eyebrow: 'The Science',
+    heading: 'How Hydrocarbon Cleaning Actually Works',
+    points: [
+      {
+        title: 'The solvent itself',
+        body: 'A refined, high-flashpoint hydrocarbon fluid — chemically closer to a light mineral oil than to PERC or petrol. It has a lower surface tension than water, so it slips between fibres to lift oils and soiling without swelling or distorting them.',
+      },
+      {
+        title: 'A closed-loop cycle',
+        body: 'Garments are immersed and gently tumbled in solvent at controlled, moderate temperatures — no water, no harsh agitation. Because the machine is fully sealed, no solvent vapour escapes into the store or the air outside it.',
+      },
+      {
+        title: 'Continuous filtration and distillation',
+        body: 'While the cycle runs, the machine constantly filters out particulates and distils the solvent, separating it from the soiling it just lifted. That is what allows roughly 99% of the solvent to be recovered and reused cycle after cycle, rather than discarded.',
+      },
+      {
+        title: 'Why it suits delicate fabrics',
+        body: 'Lower mechanical stress and lower operating temperatures mean less fibre swelling and less colour migration than older solvent systems. It is why hydrocarbon cleaning is trusted for silk, cashmere, embellishment and hand-finished couture as well as everyday garments.',
+      },
+    ],
+  },
   /** Sustainability infographic — "no harmful solvents, zero waste, eco-friendly
    *  packaging" — shown alongside the environmental FAQ answers. */
   sustainabilityImage: {

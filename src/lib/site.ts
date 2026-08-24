@@ -222,6 +222,7 @@ export const footerColumns = [
     heading: 'Quick Links',
     links: [
       { label: 'About Us', href: '/about-us/' },
+      { label: 'Membership', href: '/membership/' },
       { label: 'Pricing', href: '/pricing/' },
       { label: 'Hydrocarbon Tech', href: '/hydrocarbon-tech/' },
       { label: 'Contact Us', href: '/contact-us/' },
@@ -253,6 +254,38 @@ export const footerColumns = [
       { label: 'Delivery & Refund Policy', href: '/delivery-refund-policy/' },
     ],
   },
+] as const;
+
+/**
+ * Everything Vanzoo dry cleans, beyond the obvious garments — shown in the
+ * footer so a visitor scanning for an unusual item (a pram, a mattress, a
+ * sofa) sees at a glance that it's covered.
+ */
+export const dryCleanItems = [
+  'Achkan/Jodhpuri/Sherwani',
+  'Ankle Length Boots',
+  'Baby Stroller/Pram',
+  'Baby Carrier',
+  'Backpack',
+  'Baby Items',
+  'Bed',
+  'Bed Spread',
+  'Bridal Lehnga',
+  'Cap',
+  'Cushion',
+  'Dress',
+  'Duvet',
+  'Floor Mats',
+  'Knee Length Boot',
+  'Mattress',
+  'Mid Length Boot',
+  'Purse',
+  'Quilt Cover',
+  'Sandals',
+  'Sofa',
+  'Soft Toy',
+  'Top',
+  'Waist Coat',
 ] as const;
 
 export const footerIntro = {
