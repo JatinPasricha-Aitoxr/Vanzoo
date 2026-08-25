@@ -22,6 +22,15 @@ export type ServiceEntry = {
   body: string;
   /** Longer-form paragraph, shown on the service's own page under the hero. */
   longBody: string;
+  /** Optimized `<title>` for this service's own page. Falls back to
+   *  `${title} in Gurgaon | Vanzoo` when absent. */
+  metaTitle?: string;
+  /** Punchier H1 for the service's own page hero. Falls back to `title`
+   *  everywhere else (nav, cards, footer) still use `title`. */
+  pageHeadline?: string;
+  /** One-line hook shown under `pageHeadline` on the service's own page.
+   *  Falls back to `body`. */
+  contentHook?: string;
   /** Four concrete, verifiable specifics — no claim not already made elsewhere on the site. */
   highlights: readonly string[];
   /** Card thumbnail (3:2, cropped small) — kept separate from the hero because
@@ -63,6 +72,9 @@ export const serviceEntries: readonly ServiceEntry[] = [
     id: 'couture-care',
     title: 'Bespoke Suit & Couture Care',
     body: 'Tailored for your most refined garments. We preserve the shape, structure, and elegance of custom suits and designer wear.',
+    metaTitle: 'Bespoke Suit & Couture Dry Cleaning Gurgaon | Vanzoo',
+    pageHeadline: 'Preserve the Shape of Your Finest Tailored Suits.',
+    contentHook: 'Meticulous structural care for canvas linings, lapels, and designer wear.',
     longBody:
       'A bespoke suit is built from canvas, padding and hand-stitching most cleaning processes ignore. We assess every jacket and trouser individually before it goes near a machine, clean it in a closed-loop hydrocarbon system that never touches the internal structure with water, and finish it by hand — pressed on a form, not a flat board — so the drape you were fitted for comes back exactly as it left.',
     highlights: [
@@ -85,6 +97,9 @@ export const serviceEntries: readonly ServiceEntry[] = [
     id: 'delicate-fabrics',
     title: 'Silks, Wool & Delicate Fabrics',
     body: 'Gentle treatment for silks, woolens, and cashmere. We restore their natural softness and lustre without damage.',
+    metaTitle: 'Silk, Wool & Cashmere Dry Cleaning Gurgaon | Vanzoo',
+    pageHeadline: 'Nourishing Care for Pure Silks & Fine Woolens.',
+    contentHook: 'Gentle hydrocarbon washing that prevents fabric stiffness and shrinkage.',
     longBody:
       "Silk, cashmere and fine wool lose their character the moment they meet the wrong solvent or too much agitation. Our hydrocarbon process runs at lower mechanical and thermal stress than conventional dry cleaning, so fibres keep their original drape instead of stiffening or dulling. Every garment is checked for its specific weave and finish before we decide how it's cleaned — not run through a standard cycle regardless of what it is.",
     highlights: [
@@ -106,6 +121,9 @@ export const serviceEntries: readonly ServiceEntry[] = [
     id: 'ethnic-wear',
     title: 'Sarees, Lehengas & Ethnic Wear',
     body: 'Bridal lehengas, heirloom sarees and sherwanis handled with reverence — embroidery, zari and delicate dyes protected through every step.',
+    metaTitle: 'Saree & Lehenga Dry Cleaning Services Gurgaon | Vanzoo',
+    pageHeadline: 'Gentle Care for Heavy Sarees, Lehengas & Zari Work.',
+    contentHook: 'Protect delicate embroidery and rich silk fabrics from discoloration or fraying.',
     longBody:
       "A wedding lehenga or an heirloom saree carries more than fabric — hand embroidery, zari work and dyes that a standard clean can bleed or crush. We treat every ethnic piece as its own case: checking embroidery and beadwork before cleaning, choosing a process that won't run the colour, and finishing by hand so pleats and drape return the way they were meant to fall.",
     highlights: [
@@ -129,6 +147,9 @@ export const serviceEntries: readonly ServiceEntry[] = [
     id: 'shoe-care',
     title: 'Shoes & Sneaker Care',
     body: 'Leather, suede and sports shoes cleaned, conditioned and revived — soles, uppers and laces each treated the way the material asks.',
+    metaTitle: 'Luxury Shoe & Sneaker Cleaning Gurgaon | Vanzoo',
+    pageHeadline: 'Bring Your Favorite Footwear Back to Life.',
+    contentHook: 'Deep cleaning, stain removal, and material conditioning for suede and leather sneakers.',
     longBody:
       "Leather, suede and mesh don't respond to the same treatment, so we don't give them one. Uppers, soles and laces are cleaned and conditioned as separate steps, with the material dictating the process rather than the other way round — leather is conditioned to keep its finish, suede is treated to protect its nap, and sports shoes are cleaned without breaking down the sole's structure.",
     highlights: [
@@ -151,6 +172,9 @@ export const serviceEntries: readonly ServiceEntry[] = [
     id: 'bags-leather-care',
     title: 'Bags & Leather Care',
     body: 'Expert care for luxury leather goods, handbags, and shoes. Cleaned, conditioned, and revived by skilled professionals.',
+    metaTitle: 'Handbag & Leather Garment Care Gurgaon | Vanzoo',
+    pageHeadline: 'Specialized Care for Designer Leather Bags & Jackets.',
+    contentHook: 'Deep conditioning, moisture restoration, and shape protection.',
     longBody:
       'A leather handbag is structure, hardware and stitching as much as it is material — and each of those needs a different kind of attention. We inspect hardware and linings before cleaning, condition the leather to bring its finish back rather than just remove surface dirt, and handle every bag the way its construction, not its price tag, demands.',
     highlights: [
@@ -172,6 +196,9 @@ export const serviceEntries: readonly ServiceEntry[] = [
     id: 'toys-accessories-care',
     title: 'Toys & Accessories Care',
     body: 'Soft toys and everyday accessories cleaned in the same skin-safe, toxin-free process we trust with couture — gentle enough for the nursery.',
+    metaTitle: 'Soft Toy & Accessory Cleaning Gurgaon | Vanzoo',
+    pageHeadline: '100% Toxin-Free Cleaning for Plush Toys & Scarves.',
+    contentHook: 'Child-safe, allergen-free sanitization with zero chemical residue.',
     longBody:
       "A child's soft toy gets held, chewed and slept with — it needs a process that's genuinely skin-safe, not just labelled that way. We clean toys and everyday accessories individually rather than in a batch, using the same 99% chemical-free hydrocarbon process we use on couture garments, so what comes back is sanitised without leaving behind anything harsher than what it started with.",
     highlights: [
@@ -193,6 +220,9 @@ export const serviceEntries: readonly ServiceEntry[] = [
     id: 'curtain-cleaning',
     title: 'Curtain Cleaning',
     body: 'Professional drapery care that includes free deinstallation and reinstallation, ensuring a flawless finish every time.',
+    metaTitle: 'Curtain & Drapery Dry Cleaning Gurgaon | Vanzoo',
+    pageHeadline: 'Fresh, Dust-Free Curtains Without the Heavy Lifting.',
+    contentHook: 'Doorstep removal, deep steam cleaning, and re-hanging options.',
     longBody:
       "Curtains are awkward to clean precisely because you can't easily take them down and put them back — so we do that part too, at no extra charge. Pleats, linings and headers are cleaned without the harsh detergents that fade fabric over repeated washes, and wherever possible your curtains go back up the same day they're collected.",
     highlights: [

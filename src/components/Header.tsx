@@ -20,11 +20,14 @@ const SERVICES_HREF = '/services/';
  * bar starts transparent with light text; everywhere else it is solid from the
  * first paint, so a heading never sits under white-on-white text.
  *
+ * `/pricing/` uses the plain (non-photographic) `PageHeader`, same as the
+ * policy pages, so it is deliberately not listed here.
+ *
  * `/services/` and every `/services/<slug>/` detail page use the same
  * photographic `PageHeader`, so they're matched by prefix rather than listed
  * one by one — there are twelve service slugs and the list would only grow.
  */
-const HERO_ROUTES = new Set(['/', '/hydrocarbon-tech/', '/hydrocarbon-tech', '/pricing/', '/pricing']);
+const HERO_ROUTES = new Set(['/', '/hydrocarbon-tech/', '/hydrocarbon-tech']);
 
 function isHeroRoute(pathname: string): boolean {
   return HERO_ROUTES.has(pathname) || pathname === '/services' || pathname.startsWith('/services/');

@@ -39,10 +39,8 @@ export default function PricingPage() {
         eyebrow="Pricing"
         title="Pricing"
         intro={`${tariffIntro} Add anything you need cleaned or pressed to your cart and send us the list — we'll confirm the quote and collect from your door, free, anywhere in Gurgaon.`}
-        image="/images/garment-rail-couture.jpg"
-        imageAlt="Rail of pastel couture blazers cleaned and pressed at the Vanzoo Gurgaon atelier"
       >
-        <Breadcrumbs crumbs={CRUMBS} tone="dark" />
+        <Breadcrumbs crumbs={CRUMBS} />
       </PageHeader>
 
       {/* Jump to either catalogue — both are long enough that a visitor who

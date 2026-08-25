@@ -36,7 +36,7 @@ export function generateMetadata({ params }: Params) {
   if (!service) return {};
 
   return buildMetadata({
-    title: `${service.title} in Gurgaon | Vanzoo`,
+    title: service.metaTitle ?? `${service.title} in Gurgaon | Vanzoo`,
     description: `${service.body} Free pickup and delivery across Gurgaon.`.slice(0, 300),
     path: `/services/${service.id}/`,
     image: service.heroImage ?? service.image,
@@ -81,8 +81,8 @@ export default function ServiceDetailPage({ params }: Params) {
 
       <PageHeader
         eyebrow="Services"
-        title={service.title}
-        intro={service.body}
+        title={service.pageHeadline ?? service.title}
+        intro={service.contentHook ?? service.body}
         image={service.heroImage ?? service.image}
         imageAlt={service.heroImageAlt ?? service.imageAlt}
       >
