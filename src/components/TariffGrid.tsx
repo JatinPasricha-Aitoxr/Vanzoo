@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { Reveal } from './ui/Reveal';
 import {
@@ -9,6 +10,7 @@ import {
   type TariffGroup,
   type TariffRow,
 } from '@/content/pricing';
+import { productForTariffRow } from '@/content/products';
 import { useCart } from '@/lib/cart';
 import { cn } from '@/lib/cn';
 
@@ -154,6 +156,8 @@ function TariffCard({
   const { add, setQuantity, lines } = useCart();
   const id = lineId(catalog.id, groupId, row.item);
   const inCart = lines.find((line) => line.id === id)?.quantity ?? 0;
+  const product = productForTariffRow(catalog.id, groupId, row.item);
+  const productHref = product ? `/products/${product.id}/` : undefined;
 
   return (
     <Reveal
@@ -164,21 +168,46 @@ function TariffCard({
     >
       {/* Product photo — the live site's own card image for this item. Empty
           alt: the item name is the very next text node, so a screen reader
-          would otherwise hear every product announced twice. */}
-      <div aria-hidden="true" className="relative aspect-[3/2] w-full overflow-hidden bg-brand-light">
-        <Image
-          src={row.image}
-          alt=""
-          fill
-          loading="lazy"
-          sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 90vw"
-          className="card-media object-cover"
-        />
-      </div>
+          would otherwise hear every product announced twice. Linked to the
+          garment's own product page where one exists. */}
+      {productHref ? (
+        <Link
+          href={productHref}
+          aria-hidden="true"
+          tabIndex={-1}
+          className="relative block aspect-[3/2] w-full overflow-hidden bg-brand-light"
+        >
+          <Image
+            src={row.image}
+            alt=""
+            fill
+            loading="lazy"
+            sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 90vw"
+            className="card-media object-cover"
+          />
+        </Link>
+      ) : (
+        <div aria-hidden="true" className="relative aspect-[3/2] w-full overflow-hidden bg-brand-light">
+          <Image
+            src={row.image}
+            alt=""
+            fill
+            loading="lazy"
+            sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 90vw"
+            className="card-media object-cover"
+          />
+        </div>
+      )}
 
       <div className="flex flex-1 flex-col p-5">
         <h3 className="flex-1 font-display text-[1.375rem] font-semibold leading-tight text-neutral-ink">
-          {row.item}
+          {productHref ? (
+            <Link href={productHref} className="transition-colors hover:text-brand">
+              {row.item}
+            </Link>
+          ) : (
+            row.item
+          )}
         </h3>
 
         <div className="mt-5">

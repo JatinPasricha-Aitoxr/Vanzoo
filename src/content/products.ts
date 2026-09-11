@@ -88,3 +88,22 @@ export function getProduct(id: string): ProductEntry | undefined {
 export function tariffRowFor(option: ProductServiceOption) {
   return amountOf(option.catalogId, option.groupId, option.item);
 }
+
+/**
+ * Which product page (if any) a tariff row belongs to — so a tariff card on
+ * /pricing/ can link its title/photo straight to that garment's own product
+ * page. Most tariff rows have no product page yet and simply return
+ * undefined, leaving those cards exactly as they were.
+ */
+export function productForTariffRow(
+  catalogId: TariffCatalog['id'],
+  groupId: string,
+  item: string,
+): ProductEntry | undefined {
+  return productEntries.find((product) =>
+    product.services.some(
+      (option) =>
+        option.catalogId === catalogId && option.groupId === groupId && option.item === item,
+    ),
+  );
+}
