@@ -3,9 +3,8 @@ import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { CtaBanner } from '@/components/CtaBanner';
 import { JsonLd } from '@/components/JsonLd';
 import { PageHeader } from '@/components/Hero';
-import { ProductServiceCard } from '@/components/ProductServiceCard';
+import { ProductBuyBox } from '@/components/ProductBuyBox';
 import { TabbedExplainer } from '@/components/TabbedExplainer';
-import { RevealGroup } from '@/components/ui/Reveal';
 import { Section, SectionHeading } from '@/components/ui/Section';
 import { howItWorksIntro, howItWorksSteps } from '@/content/marketing';
 import { lineId } from '@/content/pricing';
@@ -80,23 +79,12 @@ export default function ProductDetailPage({ params }: Params) {
         <Breadcrumbs crumbs={crumbs} tone="dark" />
       </PageHeader>
 
-      {/* Choose your service */}
-      <Section tone="surface" aria-labelledby="product-services-heading">
-        <SectionHeading
-          id="product-services-heading"
-          eyebrow="Choose your service"
-          title={`Every way we care for a ${product.title.toLowerCase()}`}
-          intro="Pick the treatment that fits and add it to your pickup — we'll confirm the quote and collect free, anywhere in Gurgaon."
-        />
-        <RevealGroup as="ul" step={70} className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {product.services.map((option, index) => (
-            <ProductServiceCard
-              key={lineId(option.catalogId, option.groupId, option.item)}
-              option={option}
-              index={index}
-            />
-          ))}
-        </RevealGroup>
+      {/* Product photo + variant picker — the same layout a retail product
+          page uses for size/colour, with the service treatment as the
+          variant. Picking one swaps price, description and cart control
+          together, so the page reads as one product, not a grid of cards. */}
+      <Section tone="surface" aria-labelledby="product-options-heading">
+        <ProductBuyBox product={product} />
       </Section>
 
       {/* How it works — the same three-step explainer as every other detail page */}
