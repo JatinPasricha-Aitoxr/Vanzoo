@@ -220,6 +220,37 @@ export function serviceSchema(service: {
   };
 }
 
+/**
+ * Product — one per /products/[slug]/ page. `offers` lists each service
+ * treatment as its own Offer, priced from the same tariff rows the page shows.
+ */
+export function productSchema(product: {
+  slug: string;
+  title: string;
+  description: string;
+  image: string;
+  offers: ReadonlyArray<{ name: string; price: number; url: string }>;
+}) {
+  const url = `${SITE_URL}/products/${product.slug}/`;
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    '@id': `${url}#product`,
+    name: product.title,
+    description: product.description,
+    image: `${SITE_URL}${product.image}`,
+    url,
+    offers: product.offers.map((offer) => ({
+      '@type': 'Offer',
+      name: offer.name,
+      price: offer.price,
+      priceCurrency: 'INR',
+      availability: 'https://schema.org/InStock',
+      url: offer.url,
+    })),
+  };
+}
+
 export function faqSchema(faqs: ReadonlyArray<{ question: string; answer: string }>) {
   return {
     '@context': 'https://schema.org',

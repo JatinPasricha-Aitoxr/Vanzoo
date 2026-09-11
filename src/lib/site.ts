@@ -209,6 +209,7 @@ export const serviceAreas = areaGroups.flatMap((group) => group.areas);
 export const navLinks = [
   { href: '/about-us/', label: 'About Us' },
   { href: '/services/', label: 'Services' },
+  { href: '/products/', label: 'Products' },
   { href: '/pricing/', label: 'Pricing' },
   { href: '/hydrocarbon-tech/', label: 'Hydrocarbon Tech' },
   { href: '/areas-we-serve/', label: 'Areas' },

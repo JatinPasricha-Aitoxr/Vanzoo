@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { categories, categorySlug, posts, postsInCategory } from '@/content/blog';
+import { productEntries } from '@/content/products';
 import { serviceEntries } from '@/content/services';
 import { SITE_URL } from '@/lib/site';
 
@@ -19,6 +20,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${SITE_URL}/about-us/`, changeFrequency: 'yearly', priority: 0.7 },
     { url: `${SITE_URL}/membership/`, changeFrequency: 'monthly', priority: 0.6 },
     { url: `${SITE_URL}/services/`, changeFrequency: 'monthly', priority: 0.9 },
+    { url: `${SITE_URL}/products/`, changeFrequency: 'monthly', priority: 0.9 },
     { url: `${SITE_URL}/pricing/`, changeFrequency: 'monthly', priority: 0.9 },
     { url: `${SITE_URL}/hydrocarbon-tech/`, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${SITE_URL}/contact-us/`, changeFrequency: 'yearly', priority: 0.7 },
@@ -31,6 +33,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const servicePages: MetadataRoute.Sitemap = serviceEntries.map((service) => ({
     url: `${SITE_URL}/services/${service.id}/`,
+    changeFrequency: 'monthly',
+    priority: 0.7,
+  }));
+
+  const productPages: MetadataRoute.Sitemap = productEntries.map((product) => ({
+    url: `${SITE_URL}/products/${product.id}/`,
     changeFrequency: 'monthly',
     priority: 0.7,
   }));
@@ -61,5 +69,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  return [...staticPages, ...servicePages, ...blogIndex, ...categoryPages, ...postPages];
+  return [
+    ...staticPages,
+    ...servicePages,
+    ...productPages,
+    ...blogIndex,
+    ...categoryPages,
+    ...postPages,
+  ];
 }
