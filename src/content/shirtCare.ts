@@ -10,7 +10,7 @@
  * Every claim here is one Vanzoo already makes elsewhere on the site
  * (content/marketing.ts, content/hydrocarbon.ts): individual assessment,
  * closed-loop hydrocarbon cleaning with solvent recovery, hand finishing, free
- * pickup and delivery, and the 5–7 day / express turnaround. Nothing here adds
+ * pickup and delivery, and the 3–5 day / express turnaround. Nothing here adds
  * a certification, a percentage, a guarantee or a testimonial that isn't
  * already published.
  */
@@ -115,7 +115,7 @@ const shirtCare: ShirtCareContent = {
     intro:
       'From everyday cottons to premium business shirts, Vanzoo cleans, presses and finishes every shirt with the attention it deserves.',
     pickupNote: 'Free Pickup & Delivery',
-    turnaroundNote: 'Standard turnaround: 5–7 days · Express options available',
+    turnaroundNote: 'Standard turnaround: 3–5 days · Express options available',
   },
 
   careOptions: [
@@ -363,7 +363,7 @@ const shirtCare: ShirtCareContent = {
       },
       {
         title: 'Express Options',
-        body: 'Standard turnaround is 5–7 days, with same-day and next-day express options available.',
+        body: 'Standard turnaround is 3–5 days, with same-day and next-day express options available.',
       },
       {
         title: 'Considered Packaging',
@@ -425,7 +425,7 @@ const shirtCare: ShirtCareContent = {
     {
       question: 'How long does shirt cleaning take?',
       answer:
-        "Vanzoo's standard turnaround is 5–7 days. Same-day and next-day express options are also available, subject to service availability.",
+        "Vanzoo's standard turnaround is 3–5 days. Same-day and next-day express options are also available, subject to service availability.",
     },
     {
       question: 'Do you pick up shirts from home?',

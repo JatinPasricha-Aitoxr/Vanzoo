@@ -315,7 +315,7 @@ export const serviceEntries: readonly ServiceEntry[] = [
     title: 'Express Service',
     body: 'Same-day and next-day turnarounds for the moments that cannot wait — priced on request, arranged with one call.',
     longBody:
-      "A last-minute event or an early flight doesn't leave room for a standard 5–7 day turnaround. Express service compresses that timeline to same-day or next-day without skipping the individual assessment every piece gets — it's arranged with a single call rather than a separate booking flow, and priced once we know exactly what needs doing and by when.",
+      "A last-minute event or an early flight doesn't leave room for a standard 3–5 day turnaround. Express service compresses that timeline to same-day or next-day without skipping the individual assessment every piece gets — it's arranged with a single call rather than a separate booking flow, and priced once we know exactly what needs doing and by when.",
     highlights: [
       'Same-day or next-day turnaround, on request',
       'Ideal for last-minute events and travel',

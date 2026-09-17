@@ -8,7 +8,7 @@ import { links } from '@/lib/site';
  */
 export function CtaBanner({
   heading = 'Ready to hand over the fabric care?',
-  body = 'Free pickup and delivery across Gurgaon. Standard turnaround is 5-7 days, with same-day and next-day express options.',
+  body = 'Free pickup and delivery across Gurgaon. Standard turnaround is 3-5 days, with same-day and next-day express options.',
   secondary,
 }: {
   heading?: string;

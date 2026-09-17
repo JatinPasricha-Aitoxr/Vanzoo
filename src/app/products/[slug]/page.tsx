@@ -17,7 +17,7 @@ import { Section, SectionHeading } from '@/components/ui/Section';
 import { howItWorksIntro, howItWorksSteps } from '@/content/marketing';
 import { lineId } from '@/content/pricing';
 import { getProduct, productEntries, tariffRowFor } from '@/content/products';
-import { getShirtCareContent } from '@/content/shirtCare';
+import { getProductCareContent } from '@/content/productCare';
 import { breadcrumbSchema, buildMetadata, faqSchema, productSchema } from '@/lib/seo';
 import { links } from '@/lib/site';
 import { SITE_URL } from '@/lib/site';
@@ -34,7 +34,7 @@ export function generateStaticParams() {
 export function generateMetadata({ params }: Params) {
   const product = getProduct(params.slug);
   if (!product) return {};
-  const care = getShirtCareContent(product.id);
+  const care = getProductCareContent(product.id);
 
   return buildMetadata({
     title: care?.metaTitle ?? `${product.title} Dry Cleaning & Steam Press | Vanzoo`,
@@ -48,7 +48,7 @@ export function generateMetadata({ params }: Params) {
 export default function ProductDetailPage({ params }: Params) {
   const product = getProduct(params.slug);
   if (!product) notFound();
-  const care = getShirtCareContent(product.id);
+  const care = getProductCareContent(product.id);
 
   const crumbs = [
     { name: 'Products', href: '/products/' },
@@ -119,51 +119,53 @@ export default function ProductDetailPage({ params }: Params) {
       {care ? (
         <>
           {/* SECTION 2 — Choose the Right Care */}
-          <Section tone="muted" aria-labelledby="choose-care-heading">
-            <SectionHeading
-              id="choose-care-heading"
-              eyebrow="Two Ways We Care For Shirts"
-              title="Choose the Right Care for Your Shirt"
-              intro="Not every shirt needs the same treatment. Choose the service based on whether your shirt needs professional cleaning or simply a fresh, crisp finish."
-            />
-            <div className="mt-12 grid gap-6 lg:grid-cols-2">
-              {care.careOptions.map((option, index) => (
-                <Reveal
-                  key={option.title}
-                  variant={index === 0 ? 'left' : 'right'}
-                  delay={index * 90}
-                  className="card-lift flex flex-col rounded-card border border-neutral-line bg-white p-8"
-                >
-                  <h3 className="text-display-sm">{option.title}</h3>
-                  <p className="mt-3 text-[0.9375rem] leading-relaxed text-pretty text-neutral-body">
-                    {option.description}
-                  </p>
-                  <p className="mt-6 text-xs font-semibold uppercase tracking-[0.14em] text-neutral-body">
-                    Best for
-                  </p>
-                  <ul className="mt-3 space-y-2.5">
-                    {option.bestFor.map((point) => (
-                      <li key={point} className="flex items-start gap-2.5 text-sm text-neutral-ink">
-                        <CheckDot />
-                        <span>{point}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <p className="mt-6 border-t border-neutral-line pt-5 text-sm font-medium text-neutral-ink">
-                    {option.result}
-                  </p>
-                  <a
-                    href="#product-options-heading"
-                    className="btn-secondary btn-md mt-6 w-full justify-center"
+          {care.careOptions ? (
+            <Section tone="muted" aria-labelledby="choose-care-heading">
+              <SectionHeading
+                id="choose-care-heading"
+                eyebrow={`Two Ways We Care For ${product.title}s`}
+                title={`Choose the Right Care for Your ${product.title}`}
+                intro={`Not every ${product.title.toLowerCase()} needs the same treatment. Choose the service based on whether it needs professional cleaning or simply a fresh, crisp finish.`}
+              />
+              <div className="mt-12 grid gap-6 lg:grid-cols-2">
+                {care.careOptions.map((option, index) => (
+                  <Reveal
+                    key={option.title}
+                    variant={index === 0 ? 'left' : 'right'}
+                    delay={index * 90}
+                    className="card-lift flex flex-col rounded-card border border-neutral-line bg-white p-8"
                   >
-                    {option.cta}
-                  </a>
-                </Reveal>
-              ))}
-            </div>
-          </Section>
+                    <h3 className="text-display-sm">{option.title}</h3>
+                    <p className="mt-3 text-[0.9375rem] leading-relaxed text-pretty text-neutral-body">
+                      {option.description}
+                    </p>
+                    <p className="mt-6 text-xs font-semibold uppercase tracking-[0.14em] text-neutral-body">
+                      Best for
+                    </p>
+                    <ul className="mt-3 space-y-2.5">
+                      {option.bestFor.map((point) => (
+                        <li key={point} className="flex items-start gap-2.5 text-sm text-neutral-ink">
+                          <CheckDot />
+                          <span>{point}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <p className="mt-6 border-t border-neutral-line pt-5 text-sm font-medium text-neutral-ink">
+                      {option.result}
+                    </p>
+                    <a
+                      href="#product-options-heading"
+                      className="btn-secondary btn-md mt-6 w-full justify-center"
+                    >
+                      {option.cta}
+                    </a>
+                  </Reveal>
+                ))}
+              </div>
+            </Section>
+          ) : null}
 
-          {/* SECTION 3 — Why Professional Shirt Care */}
+          {/* SECTION 3 — Why Professional Care */}
           <Section tone="surface" aria-labelledby="why-care-heading">
             <SectionHeading
               id="why-care-heading"
@@ -284,32 +286,34 @@ export default function ProductDetailPage({ params }: Params) {
           </Section>
 
           {/* SECTION 9 — Dry Clean vs Steam Press */}
-          <Section tone="muted" aria-labelledby="comparison-heading">
-            <SectionHeading
-              id="comparison-heading"
-              eyebrow="Compare"
-              title={care.comparison.heading}
-              align="center"
-              className="mx-auto"
-            />
-            <div className="mt-12">
-              <ComparisonTable
-                columns={care.comparison.columns}
-                rows={care.comparison.rows.map((row) => ({
-                  label: row.label,
-                  values: [row.dryClean, row.steamPress],
-                }))}
+          {care.comparison ? (
+            <Section tone="muted" aria-labelledby="comparison-heading">
+              <SectionHeading
+                id="comparison-heading"
+                eyebrow="Compare"
+                title={care.comparison.heading}
+                align="center"
+                className="mx-auto"
               />
-            </div>
-            <div className="mx-auto mt-12 grid max-w-3xl gap-6 sm:grid-cols-3">
-              {care.comparison.guide.map((item) => (
-                <div key={item.question} className="text-center">
-                  <p className="font-display text-base font-semibold text-neutral-ink">{item.question}</p>
-                  <p className="mt-1.5 text-sm text-neutral-body">{item.answer}</p>
-                </div>
-              ))}
-            </div>
-          </Section>
+              <div className="mt-12">
+                <ComparisonTable
+                  columns={care.comparison.columns}
+                  rows={care.comparison.rows.map((row) => ({
+                    label: row.label,
+                    values: [row.dryClean, row.steamPress],
+                  }))}
+                />
+              </div>
+              <div className="mx-auto mt-12 grid max-w-3xl gap-6 sm:grid-cols-3">
+                {care.comparison.guide.map((item) => (
+                  <div key={item.question} className="text-center">
+                    <p className="font-display text-base font-semibold text-neutral-ink">{item.question}</p>
+                    <p className="mt-1.5 text-sm text-neutral-body">{item.answer}</p>
+                  </div>
+                ))}
+              </div>
+            </Section>
+          ) : null}
 
           {/* SECTION 10 — Why Vanzoo */}
           <Section tone="surface" aria-labelledby="why-vanzoo-heading">
@@ -362,18 +366,23 @@ export default function ProductDetailPage({ params }: Params) {
         </>
       ) : null}
 
-      {/* How it works — the same three-step explainer as every other detail page */}
-      <Section tone={care ? 'muted' : 'muted'} id="how-it-works" aria-labelledby="product-how-heading">
-        <SectionHeading
-          id="product-how-heading"
-          eyebrow="How It Works"
-          title="Three steps, and it's handled"
-          intro={howItWorksIntro}
-        />
-        <div className="mt-14">
-          <TabbedExplainer steps={howItWorksSteps} />
-        </div>
-      </Section>
+      {/* How it works — the same three-step explainer as every other detail page.
+          Skipped where bespoke content (`care`) already walks through its own,
+          more detailed process — showing both would tell the customer two
+          different step counts for the same journey. */}
+      {!care ? (
+        <Section tone="muted" id="how-it-works" aria-labelledby="product-how-heading">
+          <SectionHeading
+            id="product-how-heading"
+            eyebrow="How It Works"
+            title="Three steps, and it's handled"
+            intro={howItWorksIntro}
+          />
+          <div className="mt-14">
+            <TabbedExplainer steps={howItWorksSteps} />
+          </div>
+        </Section>
+      ) : null}
 
       {/* SECTION 13 — FAQ */}
       {care ? (
@@ -386,7 +395,7 @@ export default function ProductDetailPage({ params }: Params) {
             className="mx-auto"
           />
           <div className="mt-12">
-            <FAQAccordion faqs={care.faqs} groupName="shirt-faq" />
+            <FAQAccordion faqs={care.faqs} groupName={`${product.id}-faq`} />
           </div>
         </Section>
       ) : null}

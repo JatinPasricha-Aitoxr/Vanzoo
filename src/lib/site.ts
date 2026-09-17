@@ -35,7 +35,7 @@ export const site = {
   whatsapp: '919091671666',
   email: 'care@vanzoo.in',
   /** Standard turnaround, quoted verbatim from the homepage FAQ. */
-  turnaround: '5-7 days',
+  turnaround: '3-5 days',
 } as const;
 
 /** Outbound links, preserved exactly as they appear on vanzoo.in. */

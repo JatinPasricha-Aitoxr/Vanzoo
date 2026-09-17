@@ -177,7 +177,7 @@ export const howItWorksSteps = [
     id: 'delivered',
     tab: 'Delivered Pressed',
     title: 'Returned pressed, wrapped and ready to wear',
-    body: 'Finishing is done by hand, packed in sustainable wrapping and delivered back to your door. Standard turnaround is 5-7 days, with same-day and next-day express options.',
+    body: 'Finishing is done by hand, packed in sustainable wrapping and delivered back to your door. Standard turnaround is 3-5 days, with same-day and next-day express options.',
     image: '/images/process-delivered-pressed.jpg',
     imageAlt:
       'Cream cable-knit sweater finished, pressed and hung ready for Vanzoo doorstep delivery in Gurgaon',
@@ -338,7 +338,7 @@ export const homeFaqs: readonly Faq[] = [
   {
     question: 'How long does the cleaning process take?',
     answer:
-      'Our standard turnaround time is 5-7 days. However, we also offer express services for urgent needs with same-day or next-day delivery options.',
+      'Our standard turnaround time is 3-5 days. However, we also offer express services for urgent needs with same-day or next-day delivery options.',
   },
   {
     question: 'How do I book a pickup and delivery?',
