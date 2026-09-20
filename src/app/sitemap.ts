@@ -1,4 +1,5 @@
 import type { MetadataRoute } from 'next';
+import { areaEntries } from '@/content/areas';
 import { categories, categorySlug, posts, postsInCategory } from '@/content/blog';
 import { productEntries } from '@/content/products';
 import { serviceEntries } from '@/content/services';
@@ -43,6 +44,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
+  const areaPages: MetadataRoute.Sitemap = areaEntries.map((area) => ({
+    url: `${SITE_URL}/areas-we-serve/${area.id}/`,
+    changeFrequency: 'monthly',
+    priority: 0.7,
+  }));
+
   const blogIndex: MetadataRoute.Sitemap = [
     {
       url: `${SITE_URL}/blogs/`,
@@ -73,6 +80,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...staticPages,
     ...servicePages,
     ...productPages,
+    ...areaPages,
     ...blogIndex,
     ...categoryPages,
     ...postPages,

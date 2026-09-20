@@ -1,3 +1,5 @@
+import Link from 'next/link';
+import { areaPageFor } from '@/content/areas';
 import { areaGroups } from '@/lib/site';
 import { RevealGroup } from './ui/Reveal';
 
@@ -44,14 +46,25 @@ export function AreaCoverageGrid({
           ) : null}
 
           <ul className={showBlurb ? 'mt-5 flex flex-wrap gap-2' : 'mt-4 flex flex-wrap gap-2'}>
-            {group.areas.map((area) => (
-              <li
-                key={area}
-                className="rounded-pill border border-neutral-line bg-neutral-muted px-3 py-1.5 text-[0.8125rem] font-medium text-neutral-ink"
-              >
-                {area}
-              </li>
-            ))}
+            {group.areas.map((area) => {
+              const page = areaPageFor(area);
+              const chip =
+                'rounded-pill border border-neutral-line bg-neutral-muted px-3 py-1.5 text-[0.8125rem] font-medium text-neutral-ink';
+              return (
+                <li key={area}>
+                  {page ? (
+                    <Link
+                      href={`/areas-we-serve/${page.id}/`}
+                      className={`${chip} inline-block border-brand/30 bg-brand-light text-brand transition-colors hover:border-brand`}
+                    >
+                      {area} →
+                    </Link>
+                  ) : (
+                    <span className={`${chip} inline-block`}>{area}</span>
+                  )}
+                </li>
+              );
+            })}
           </ul>
         </li>
       ))}
