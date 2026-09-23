@@ -229,6 +229,8 @@ export const footerColumns = [
       { label: 'Locate Us', href: '/locate-us/' },
       { label: 'Areas We Serve', href: '/areas-we-serve/' },
       { label: 'Blogs', href: '/blogs/' },
+      { label: 'Best Dry Cleaners Near Me', href: '/best-dry-cleaners-near-me/' },
+      { label: 'Best Dry Cleaning in Gurgaon', href: '/best-dry-cleaning-in-gurgaon/' },
     ],
   },
   {
@@ -252,6 +254,7 @@ export const footerColumns = [
       { label: 'Privacy Policy', href: '/privacy-policy/' },
       { label: 'Terms of Service', href: '/terms-conditions/' },
       { label: 'Delivery & Refund Policy', href: '/delivery-refund-policy/' },
+      { label: 'Site Map', href: '/site-map/' },
     ],
   },
 ] as const;
