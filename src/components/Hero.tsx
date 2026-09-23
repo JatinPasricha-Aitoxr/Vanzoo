@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { links } from '@/lib/site';
+import { HeroVideo } from './HeroVideo';
 import { cn } from '@/lib/cn';
 
 type HeroProps = {
@@ -8,6 +9,8 @@ type HeroProps = {
   subhead: string;
   image: string;
   imageAlt: string;
+  /** Optional muted background loop over the photo — landscape and portrait cuts. */
+  video?: { desktop: string; mobile: string };
   primaryCta?: { label: string; href: string; external?: boolean };
   secondaryCta?: { label: string; href: string };
   /** Current promotion, rendered as a gold chip above the headline. */
@@ -29,6 +32,7 @@ export function Hero({
   subhead,
   image,
   imageAlt,
+  video,
   primaryCta = { label: 'Book Pickup', href: links.bookPickup, external: true },
   secondaryCta,
   offer,
@@ -50,18 +54,30 @@ export function Hero({
           sizes="100vw"
           className="hero-media object-cover"
         />
+        {video ? <HeroVideo desktop={video.desktop} mobile={video.mobile} /> : null}
       </div>
       {/* Two stacked scrims: a vertical one so the header stays legible, and a
           left-weighted one so the copy column keeps AA contrast over any crop.
           Both are tinted with the brand green rather than a neutral black, so
           the photograph sits in the palette instead of beside it. */}
+      {/* With a video the scrims go neutral and much lighter so the footage
+          reads in its own colour; a soft left-side shade and text shadows keep
+          the copy legible. Photo heroes keep the green tint. */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 -z-10 bg-gradient-to-b from-brand-ink/75 via-brand-ink/45 to-brand-ink/75"
+        className={cn(
+          'absolute inset-0 -z-10 bg-gradient-to-b',
+          video
+            ? 'from-black/35 via-black/10 to-black/60 md:via-transparent md:to-black/25'
+            : 'from-brand-ink/75 via-brand-ink/45 to-brand-ink/75',
+        )}
       />
       <div
         aria-hidden="true"
-        className="absolute inset-0 -z-10 bg-gradient-to-r from-brand-ink/75 via-brand-ink/30 to-transparent"
+        className={cn(
+          'absolute inset-0 -z-10 bg-gradient-to-r to-transparent',
+          video ? 'from-black/45 via-black/10' : 'from-brand-ink/75 via-brand-ink/30',
+        )}
       />
 
       <div
@@ -88,7 +104,12 @@ export function Hero({
 
           {/* Each line rises out of its own overflow-hidden mask, so the text
               appears to lift off the baseline rather than simply fade in. */}
-          <h1 className="text-display-xl text-white">
+          <h1
+            className={cn(
+              'text-display-xl text-white',
+              video && '[text-shadow:0_2px_24px_rgba(0,0,0,0.45)]',
+            )}
+          >
             {headline.map((line, index) => (
               <span key={line} className="hero-line-mask">
                 <span

@@ -19,6 +19,11 @@ export const homeHero = {
   image: '/images/hero-valet-handover.jpg',
   imageAlt:
     'Vanzoo staff member handing freshly dry-cleaned garments in protective wrap to a customer at the Gurgaon store counter',
+  /** Background loop over the photo — landscape above 768px, portrait below. */
+  video: {
+    desktop: '/videos/hero-desktop.mp4',
+    mobile: '/videos/hero-mobile.mp4',
+  },
 } as const;
 
 /**

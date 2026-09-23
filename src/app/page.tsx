@@ -58,6 +58,7 @@ export default function HomePage() {
         subhead={homeHero.subhead}
         image={homeHero.image}
         imageAlt={homeHero.imageAlt}
+        video={homeHero.video}
         secondaryCta={{ label: 'See how it works', href: '#how-it-works' }}
         offer={heroOffer}
       />
