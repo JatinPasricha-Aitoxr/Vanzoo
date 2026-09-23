@@ -6,12 +6,13 @@ import { CtaBanner } from '@/components/CtaBanner';
 import { FAQAccordion } from '@/components/FAQAccordion';
 import { JsonLd } from '@/components/JsonLd';
 import { PageHeader } from '@/components/Hero';
+import { PopularItems } from '@/components/PopularItems';
+import { ProcessTimeline } from '@/components/ProcessTimeline';
 import { ServiceCard } from '@/components/ServiceCard';
 import { Reveal, RevealGroup } from '@/components/ui/Reveal';
 import { Section, SectionHeading } from '@/components/ui/Section';
 import { areaEntries, areaPageFor, getArea } from '@/content/areas';
-import { formatPrice } from '@/content/pricing';
-import { getProduct, tariffRowFor } from '@/content/products';
+import { sharedProcess } from '@/content/productCare';
 import { getService } from '@/content/services';
 import { breadcrumbSchema, buildMetadata, faqSchema, localBusinessSchema } from '@/lib/seo';
 import { links, site, stores } from '@/lib/site';
@@ -47,7 +48,6 @@ export default function AreaPage({ params }: Params) {
   const store = stores.find((s) => s.id === area.nearestStoreId) ?? stores[0];
   const otherStore = stores.find((s) => s.id !== store.id);
   const services = area.serviceIds.flatMap((id) => getService(id) ?? []);
-  const products = area.productIds.flatMap((id) => getProduct(id) ?? []);
   const whatsappHref = `${links.whatsapp}?text=${encodeURIComponent(`Hi Vanzoo, I'd like a pickup in ${area.name}.`)}`;
 
   return (
@@ -193,6 +193,21 @@ export default function AreaPage({ params }: Params) {
         </RevealGroup>
       </Section>
 
+      {/* The nine-step process every piece goes through, shared with product pages */}
+      <Section tone="light" aria-labelledby="area-process-heading">
+        <SectionHeading
+          id="area-process-heading"
+          eyebrow="Inside the Vanzoo process"
+          title={`Nine steps for every piece from ${area.name}`}
+          intro="Once it reaches us, every garment follows the same nine stages — from assessment to protective packaging."
+          align="center"
+          className="mx-auto"
+        />
+        <div className="mt-14">
+          <ProcessTimeline stages={sharedProcess.stages} />
+        </div>
+      </Section>
+
       {/* Services */}
       <Section tone="muted" aria-labelledby="area-services-heading">
         <SectionHeading
@@ -223,34 +238,9 @@ export default function AreaPage({ params }: Params) {
           title="Pick an item, see the price"
           intro="Published, item-wise pricing — no minimum order, no hidden charges. Exclusive of GST."
         />
-        <RevealGroup as="ul" step={60} className="mt-12 grid grid-cols-2 gap-5 md:grid-cols-3 lg:grid-cols-6">
-          {products.map((product) => {
-            const row = tariffRowFor(product.services[0]);
-            return (
-              <li key={product.id}>
-                <Link
-                  href={`/products/${product.id}/`}
-                  className="card-lift group block overflow-hidden rounded-card border border-neutral-line bg-white hover:border-brand/30"
-                >
-                  <div className="media-frame aspect-square rounded-none">
-                    <Image
-                      src={row.image}
-                      alt={product.heroImageAlt}
-                      fill
-                      loading="lazy"
-                      sizes="(min-width: 1024px) 15vw, (min-width: 768px) 30vw, 45vw"
-                      className="card-media object-cover"
-                    />
-                  </div>
-                  <div className="p-4">
-                    <p className="font-display text-base font-semibold text-neutral-ink">{product.title}</p>
-                    <p className="mt-1 text-xs text-neutral-body">{formatPrice(row)}</p>
-                  </div>
-                </Link>
-              </li>
-            );
-          })}
-        </RevealGroup>
+        <div className="mt-12">
+          <PopularItems productIds={area.productIds} />
+        </div>
         <p className="mt-8 text-sm text-neutral-body">
           Full list on the{' '}
           <Link href="/pricing/" className="font-medium text-brand underline underline-offset-2">

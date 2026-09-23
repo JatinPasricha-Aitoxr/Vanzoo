@@ -113,7 +113,8 @@ export type ProductCareContent = {
 /* Shared, garment-agnostic sections                                          */
 /* -------------------------------------------------------------------------- */
 
-const sharedProcess: ProductCareContent['process'] = {
+/** The nine-stage care process — also shown on every /areas-we-serve/ page. */
+export const sharedProcess: ProductCareContent['process'] = {
   heading: 'From Your Wardrobe to Ready-to-Wear',
   stages: [
     {
