@@ -1,14 +1,15 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { AppPromo } from '@/components/AppPromo';
+import { DryCleaningProcess } from '@/components/DryCleaningProcess';
 import { EnquiryDialog } from '@/components/EnquiryDialog';
 import { FAQAccordion } from '@/components/FAQAccordion';
 import { Hero } from '@/components/Hero';
 import { IconFeatureGrid } from '@/components/IconFeatureGrid';
 import { JsonLd } from '@/components/JsonLd';
 import { Section, SectionHeading } from '@/components/ui/Section';
-import { TabbedExplainer } from '@/components/TabbedExplainer';
-import { howItWorksSteps, hydrocarbon } from '@/content/marketing';
+import { UspCarousel } from '@/components/UspCarousel';
+import { hydrocarbon, uspCards } from '@/content/marketing';
 import { breadcrumbSchema, buildMetadata, faqSchema } from '@/lib/seo';
 
 const CRUMBS = [{ name: 'Hydrocarbon Tech', href: '/hydrocarbon-tech/' }];
@@ -35,6 +36,20 @@ export default function HydrocarbonTechPage() {
         variant="band"
         secondaryCta={{ label: 'See couture care tariffs', href: '/pricing/' }}
       />
+
+      {/* USPs as photo cards (rinse.com pattern) */}
+      <Section tone="surface" aria-labelledby="hydrocarbon-usp-heading">
+        <SectionHeading
+          id="hydrocarbon-usp-heading"
+          eyebrow="Our USPs"
+          title="Why you'll love Vanzoo"
+          align="center"
+          className="mx-auto"
+        />
+        <div className="mt-12">
+          <UspCarousel cards={uspCards} />
+        </div>
+      </Section>
 
       {/* Why Hydrocarbon? / How It Works — alternating explainer rows */}
       {hydrocarbon.sections.map((section, index) => (
@@ -114,19 +129,15 @@ export default function HydrocarbonTechPage() {
         />
       </Section>
 
-      {/* The nine-step process, as a tabbed explainer plus the source diagram */}
-      <Section tone="surface" aria-labelledby="process-heading">
-        <SectionHeading
-          id="process-heading"
-          eyebrow="Inside the process"
-          title="What actually happens to your garment"
-          intro="Every order runs the same nine steps, from collection through final quality inspection."
-        />
-        <div className="mt-14">
-          <TabbedExplainer steps={howItWorksSteps} reverse />
-        </div>
+      {/* The nine-step process (rinse.com pattern), then the source diagrams */}
+      <DryCleaningProcess
+        eyebrow="Inside the process"
+        heading="What actually happens to your garment"
+        intro="Every order runs the same nine steps, from doorstep pickup through final quality inspection and delivery."
+      />
 
-        <div className="mt-16 grid gap-10 lg:grid-cols-2 lg:items-center">
+      <Section tone="muted" aria-label="Process and sustainability diagrams">
+        <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
           <figure>
             <div className="media-frame mx-auto aspect-[824/1412] max-w-sm">
               <Image

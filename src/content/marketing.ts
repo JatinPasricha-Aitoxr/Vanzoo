@@ -55,6 +55,57 @@ export const trustMarkers = [
 ] as const;
 
 /* -------------------------------------------------------------------------- */
+/* Why you'll love VANZOO — USP carousel                                      */
+/* -------------------------------------------------------------------------- */
+
+export type UspCard = { title: string; body: string; image: string; imageAlt: string };
+
+/**
+ * The USPs as photo cards, modelled on rinse.com's "Why you'll love Rinse".
+ * Every claim is one the site already makes elsewhere (hydrocarbon process,
+ * 99% solvent recovery / chemical removal, individual assessment and hand
+ * finishing, sustainable packaging, free pickup, 3–5 day and express).
+ */
+export const uspCards: readonly UspCard[] = [
+  {
+    title: 'Italian hydrocarbon technology',
+    body: 'Closed-loop hydrocarbon systems replace harsh solvents, dissolving stains while keeping fabrics soft — and recover around 99% of the solvent every cycle. Unlike PERC-based dry cleaning, it is safer for skin and the planet.',
+    image: '/images/tech-hydrocarbon-machine.jpg',
+    imageAlt: 'Closed-loop Italian hydrocarbon dry cleaning machine at Vanzoo, Gurgaon',
+  },
+  {
+    title: 'Toxin-free and skin-friendly',
+    body: 'Hydrocarbon extracts remove 99% of chemicals from fabric, so every piece comes back residue-free, with no harsh odours, and gentle on skin.',
+    image: '/images/service-silk-wool-delicates.jpg',
+    imageAlt: 'Folded silk, wool and cashmere garments after gentle, toxin-free hydrocarbon cleaning',
+  },
+  {
+    title: 'Expert care for luxury garments',
+    body: 'Every piece is assessed individually before cleaning and hand-finished after it — couture, silks, bridal wear and leather each handled on their own terms.',
+    image: '/images/service-bespoke-suit-couture.jpg',
+    imageAlt: 'Bespoke suit and evening dress after couture dry cleaning at Vanzoo',
+  },
+  {
+    title: 'Sustainability at the core',
+    body: 'Non-toxic, eco-conscious methods, solvent recovered and reused instead of discarded, and packaging designed to be sustainable and recyclable.',
+    image: '/images/tech-hydrocarbon-plant.jpg',
+    imageAlt: 'Vanzoo hydrocarbon cleaning plant that recovers and reuses solvent',
+  },
+  {
+    title: 'Free pickup and delivery',
+    body: 'Book on the website or the Vanzoo app, choose a slot, and a valet collects from your door — free across Gurgaon, with no minimum order.',
+    image: '/images/hero-valet-handover.jpg',
+    imageAlt: 'Vanzoo valet handing freshly cleaned garments in protective wrap to a customer',
+  },
+  {
+    title: 'Ready when you need it',
+    body: 'Standard turnaround is 3–5 days, returned pressed and wrapped — with same-day and next-day express when something cannot wait.',
+    image: '/images/process-delivered-pressed.jpg',
+    imageAlt: 'Pressed knitwear hung and ready for Vanzoo doorstep delivery',
+  },
+];
+
+/* -------------------------------------------------------------------------- */
 /* Why Choose VANZOO                                                          */
 /* -------------------------------------------------------------------------- */
 
