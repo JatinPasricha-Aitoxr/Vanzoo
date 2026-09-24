@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { AppPromo } from '@/components/AppPromo';
 import { AreaCoverageGrid } from '@/components/AreaCoverageGrid';
 import { BlogGrid } from '@/components/BlogCard';
+import { DryCleaningProcess } from '@/components/DryCleaningProcess';
 import { EnquiryDialog } from '@/components/EnquiryDialog';
 import { EnquiryForm } from '@/components/EnquiryForm';
 import { FAQAccordion } from '@/components/FAQAccordion';
@@ -19,20 +20,17 @@ import { ServiceRow } from '@/components/ServiceRow';
 import { TabbedExplainer } from '@/components/TabbedExplainer';
 import { TrustStrip } from '@/components/TrustStrip';
 import { WeCareBanner } from '@/components/WeCareBanner';
+import { WhyChoosePillars } from '@/components/WhyChoosePillars';
 import { posts } from '@/content/blog';
 import { reviewsIntro } from '@/content/reviews';
 import {
   collage,
-  differentiators,
   enquiryIntro,
   faqIntro,
   heroOffer,
   homeFaqs,
   homeHero,
-  howItWorksIntro,
-  howItWorksSteps,
   services,
-  whyChooseBadges,
 } from '@/content/marketing';
 import { buildMetadata, faqSchema, localBusinessSchema } from '@/lib/seo';
 import { areaGroups, links, serviceAreas, site } from '@/lib/site';
@@ -64,17 +62,8 @@ export default function HomePage() {
       />
       <TrustStrip />
 
-      {/* 2 — Why Choose Vanzoo */}
-      <Section tone="surface" size="sm" aria-labelledby="why-choose-heading">
-        <SectionHeading
-          id="why-choose-heading"
-          eyebrow="Why Choose VANZOO?"
-          title="Dry cleaning built on safer science"
-          align="center"
-          className="mx-auto"
-        />
-        <IconFeatureGrid items={whyChooseBadges} columns={4} className="mt-12" />
-      </Section>
+      {/* 2 — Why Choose Vanzoo — sticky split-scroll pillars (rinse.com pattern) */}
+      <WhyChoosePillars />
 
       {/* 3 — Services */}
       <Section tone="muted" id="services" aria-labelledby="services-heading">
@@ -96,27 +85,8 @@ export default function HomePage() {
         </ul>
       </Section>
 
-      {/* 4 — How It Works */}
-      <Section tone="surface" id="how-it-works" aria-labelledby="how-it-works-heading">
-        <SectionHeading
-          id="how-it-works-heading"
-          eyebrow="How It Works"
-          title="Three steps, and your wardrobe is handled"
-          intro={howItWorksIntro}
-        />
-        <div className="mt-14">
-          <TabbedExplainer steps={howItWorksSteps} />
-        </div>
-
-        {/* The full nine-step journey under the three-tab summary — the old
-            site's process timeline, kept as the section's supporting detail. */}
-        <div className="mt-16 border-t border-neutral-line pt-12">
-          <div className="mb-8 text-center">
-            <p className="eyebrow">Every order, nine steps</p>
-          </div>
-          <ProcessRail />
-        </div>
-      </Section>
+      {/* 4 — The dry cleaning process (rinse.com pattern) */}
+      <DryCleaningProcess id="how-it-works" />
 
       {/* 5 — Personas */}
       <Section tone="muted" aria-labelledby="personas-heading">
@@ -174,17 +144,6 @@ export default function HomePage() {
         <div className="mt-12">
           <Reviews />
         </div>
-      </Section>
-
-      {/* 7 — What Makes Vanzoo Different */}
-      <Section tone="light" aria-labelledby="different-heading">
-        <SectionHeading
-          id="different-heading"
-          title="What Makes VANZOO Different?"
-          align="center"
-          className="mx-auto"
-        />
-        <IconFeatureGrid items={differentiators} columns={4} className="mt-12" />
       </Section>
 
       {/* 8 — Guarantee */}
