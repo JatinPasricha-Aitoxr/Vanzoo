@@ -51,6 +51,13 @@ export const storePhotos: readonly StorePhoto[] = [
 /** Flip to true only once every clip below is a real customer's review. */
 export const CLIPS_PUBLISHED = false;
 
+/**
+ * Placeholder clips never reach the public site: until `CLIPS_PUBLISHED` is
+ * true the slider renders only in local development, with its notice.
+ * Production builds show the stores alone.
+ */
+export const SHOW_CLIPS = CLIPS_PUBLISHED || process.env.NODE_ENV === 'development';
+
 export const reviewClips: readonly ReviewClip[] = [
   {
     id: 'clip-1',

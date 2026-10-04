@@ -22,7 +22,7 @@ import { TrustStrip } from '@/components/TrustStrip';
 import { WeCareBanner } from '@/components/WeCareBanner';
 import { WhyChoosePillars } from '@/components/WhyChoosePillars';
 import { posts } from '@/content/blog';
-import { reviewsIntro } from '@/content/reviews';
+import { SHOW_REVIEWS, reviewsIntro } from '@/content/reviews';
 import {
   collage,
   enquiryIntro,
@@ -131,20 +131,23 @@ export default function HomePage() {
       {/* Editorial statement band — the old site's "we care" banner as live type. */}
       <WeCareBanner />
 
-      {/* 6 — Customer reviews */}
-      <Section tone="muted" aria-labelledby="reviews-heading">
-        <SectionHeading
-          id="reviews-heading"
-          eyebrow="Customer reviews"
-          title="Trusted with Gurgaon's best-loved wardrobes"
-          intro={reviewsIntro}
-          align="center"
-          className="mx-auto"
-        />
-        <div className="mt-12">
-          <Reviews />
-        </div>
-      </Section>
+      {/* 6 — Customer reviews. Hidden on the live site until real reviews
+          are added in content/reviews.ts; shown with a notice in `next dev`. */}
+      {SHOW_REVIEWS ? (
+        <Section tone="muted" aria-labelledby="reviews-heading">
+          <SectionHeading
+            id="reviews-heading"
+            eyebrow="Customer reviews"
+            title="Trusted with Gurgaon's best-loved wardrobes"
+            intro={reviewsIntro}
+            align="center"
+            className="mx-auto"
+          />
+          <div className="mt-12">
+            <Reviews />
+          </div>
+        </Section>
+      ) : null}
 
       {/* 8 — Guarantee */}
       <Section tone="dark" size="sm">

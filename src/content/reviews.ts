@@ -35,6 +35,14 @@ export type Review = {
 /** Flip to true only once every entry below is a real, attributable review. */
 export const PUBLISHED = false;
 
+/**
+ * Whether the reviews section renders at all. Placeholders never reach the
+ * public site: until `PUBLISHED` is true the section shows only in local
+ * development (`next dev`), with its "sample content" notice, so the layout
+ * can still be reviewed. Production builds omit it entirely.
+ */
+export const SHOW_REVIEWS = PUBLISHED || process.env.NODE_ENV === 'development';
+
 export const reviewsIntro =
   'What Gurgaon says about handing us their wardrobe.';
 
