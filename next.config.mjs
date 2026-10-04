@@ -40,6 +40,44 @@ const legacyPostRedirects = posts
     permanent: true,
   }));
 
+/**
+ * The old site's other pages (vanzoo.in/page-sitemap.xml): the members club,
+ * ad landing pages and form thank-you pages. Each goes to the closest page on
+ * the rebuild so indexed links and any live ad campaigns keep landing
+ * somewhere useful instead of on a 404.
+ */
+const legacyPageRedirects = [
+  ['members-club', '/membership/'],
+  ['menu', '/'],
+  ['thank-you', '/'],
+  ['thank-you-2', '/'],
+  ['view-our-pricing-now', '/pricing/'],
+  ['get-your-clothes-back-in-5-7-days', '/services/express-service/'],
+  ['technology-built-for-your-skin', '/hydrocarbon-tech/'],
+  ['we-use-0-chemicals', '/hydrocarbon-tech/'],
+  ['cleaned-with-hydrocarbon-tech', '/hydrocarbon-tech/'],
+  ['best-eco-friendly-dry-cleaning-care', '/hydrocarbon-tech/'],
+  ['luxury-shoes-cleaned-right', '/services/shoe-care/'],
+  ['give-your-bag-its-glow-back', '/services/bags-leather-care/'],
+  ['festival-ready-in-every-stitch', '/services/ethnic-wear/'],
+  ['big-event-prep-your-lehenga', '/products/lehenga/'],
+  ['office-suits-done-perfectly', '/products/men-suit-2-pcs/'],
+  ['dont-worry-about-holi-stains', '/services/'],
+  ['download-our-app-now-for-more-offers', '/'],
+  ['rated-4-9-5-by-our-customers', '/'],
+  ['your-satisfaction-is-our-guarantee', '/'],
+].map(([slug, destination]) => ({ source: `/${slug}`, destination, permanent: true }));
+
+/** Category slugs shared by the old site and /blogs/category/[slug]. */
+const legacyCategories = [
+  'care-labels',
+  'detergents',
+  'fabric-care',
+  'hydrocarbon-dry-cleaning',
+  'luxury-accessory-care',
+  'luxury-dry-cleaning',
+];
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -59,11 +97,19 @@ const nextConfig = {
   },
   async redirects() {
     return [
-      // The old site's category archives; the rebuild's live under /blogs/.
+      // The old site's category archives. The six real categories map to their
+      // own page under /blogs/category/; anything else (e.g. "uncategorized")
+      // falls through to the blog index.
+      ...legacyCategories.map((slug) => ({
+        source: `/category/${slug}`,
+        destination: `/blogs/category/${slug}/`,
+        permanent: true,
+      })),
       { source: '/category/:slug', destination: '/blogs/', permanent: true },
       // Couture Care and Steam Iron Tariffs merged into one Pricing page.
       { source: '/couture-care-tariffs', destination: '/pricing/#couture-care-tariffs', permanent: true },
       { source: '/steam-iron-tariffs', destination: '/pricing/#steam-iron-tariffs', permanent: true },
+      ...legacyPageRedirects,
       ...legacyPostRedirects,
     ];
   },
