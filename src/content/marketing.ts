@@ -142,6 +142,7 @@ export type Service = {
   body: string;
   image: string;
   imageAlt: string;
+  imagePosition?: string;
   /** Internal destination for the "learn more" link — the brief's §5.3 rule
    *  that every service block links to its relevant tariff or tech page. */
   learnMore: { href: string; label: string };
@@ -548,9 +549,9 @@ export const hydrocarbon = {
       eyebrow: 'Why Hydrocarbon?',
       heading: 'The Future of Dry Cleaning Is Here',
       body: 'Hydrocarbon solvents are a modern, eco-forward replacement to PERC – safer for fabric, skin, and planet. At Vanzoo, we harness this innovation to offer a Premium Organic Dryclean experience that’s gentle, efficient, and sustainable.',
-      image: '/images/tech-hydrocarbon-plant.jpg',
+      image: '/images/vanzoo/tech-hydrocarbon-floor.jpg',
       imageAlt:
-        'Industrial hydrocarbon dry cleaning plant used by Vanzoo as an eco-friendly replacement for PERC',
+        'Vanzoo operator loading a hydrocarbon dry cleaning machine on the Vanzoo cleaning floor',
     },
     {
       id: 'how-it-works',

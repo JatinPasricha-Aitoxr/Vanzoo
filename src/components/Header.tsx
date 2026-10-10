@@ -107,7 +107,7 @@ export function Header() {
           solid ? 'bg-white/95 shadow-header backdrop-blur-md' : 'bg-transparent',
         )}
       >
-        <div className="shell flex h-[var(--header-h)] items-center justify-between gap-4">
+        <div className="shell flex h-[var(--header-top)] items-center justify-between gap-4">
           <Link
             href="/"
             aria-label="Vanzoo — home"
@@ -130,8 +130,6 @@ export function Header() {
               )}
             />
           </Link>
-
-          <DesktopNav pathname={pathname} solid={solid} />
 
           <div className="flex items-center gap-2">
             <SearchBar solid={solid} />
@@ -176,6 +174,18 @@ export function Header() {
               <span className="sr-only">{menuOpen ? 'Close menu' : 'Open menu'}</span>
               <MenuIcon open={menuOpen} />
             </button>
+          </div>
+        </div>
+
+        {/* Second row, xl+ only: the primary nav. */}
+        <div
+          className={cn(
+            'hidden h-[var(--header-nav)] border-t xl:block',
+            solid ? 'border-neutral-line' : 'border-white/20',
+          )}
+        >
+          <div className="shell flex h-full items-center justify-center">
+            <DesktopNav pathname={pathname} solid={solid} />
           </div>
         </div>
       </header>
@@ -228,9 +238,7 @@ function DesktopNav({ pathname, solid }: { pathname: string; solid: boolean }) {
   }, [measure]);
 
   return (
-    /* xl rather than lg: eight labels plus the logo, cart and pickup button do
-       not fit inside the 1280px shell until then, and a wrapped nav row is
-       worse than the overlay the hamburger already gives us. */
+    /* Lives on its own row from xl up; below that the hamburger overlay takes over. */
     <nav aria-label="Primary" className="hidden xl:block">
       <ul ref={listRef} className="relative flex items-center gap-0.5">
         <span
@@ -507,7 +515,7 @@ function MobileBookBar({ hidden }: { hidden: boolean }) {
         rel="noopener noreferrer"
         className="btn-gold btn-md w-full"
       >
-        Book Pickup
+        Book Now
       </a>
     </div>
   );

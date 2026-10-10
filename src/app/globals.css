@@ -14,12 +14,21 @@
     color-scheme: light;
     /* Consumed by the sticky header offset and by scroll-margin on anchors, so
        in-page links never land underneath the header. */
-    --header-h: 68px;
+    --header-top: 68px;
+    --header-nav: 0px;
+    --header-h: calc(var(--header-top) + var(--header-nav));
   }
 
   @media (min-width: 1024px) {
     :root {
-      --header-h: 84px;
+      --header-top: 84px;
+    }
+  }
+
+  /* xl: the nav drops onto its own row under the logo/search/phone/CTA row. */
+  @media (min-width: 1280px) {
+    :root {
+      --header-nav: 48px;
     }
   }
 

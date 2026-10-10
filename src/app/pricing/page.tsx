@@ -137,6 +137,14 @@ export default function PricingPage() {
         </div>
 
         <p className="mt-8 text-sm text-neutral-body">
+          Want priority pickups and faster turnaround on every order? See the{' '}
+          <Link href="/membership/" className="font-medium text-brand">
+            Vanzoo Membership
+          </Link>
+          .
+        </p>
+
+        <p className="mt-4 text-sm text-neutral-body">
           Curious how we clean without water or harsh solvents? Read how{' '}
           <Link
             href="/hydrocarbon-tech/"

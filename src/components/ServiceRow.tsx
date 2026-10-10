@@ -33,6 +33,7 @@ export function ServiceRow({
           loading="lazy"
           sizes="(min-width: 640px) 17rem, 15.5rem"
           className="card-media object-cover"
+          style={service.imagePosition ? { objectPosition: service.imagePosition } : undefined}
         />
       </div>
 

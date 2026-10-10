@@ -38,6 +38,8 @@ export type ServiceEntry = {
    *  look soft stretched full-bleed. */
   image: string;
   imageAlt: string;
+  /** CSS object-position for the card / side image crop, e.g. '20% 50%'. */
+  imagePosition?: string;
   /** Full-bleed photo for the service's own page. Falls back to `image` when
    *  a higher-resolution, more editorial shot isn't available for this service. */
   heroImage?: string;
@@ -108,9 +110,9 @@ export const serviceEntries: readonly ServiceEntry[] = [
       'Safe for silk, cashmere, wool and other delicate weaves',
       'Hand-finished before it comes back to you',
     ],
-    image: '/images/service-silk-wool-delicates.jpg',
+    image: '/images/vanzoo/service-silk-wool.jpg',
     imageAlt:
-      'Folded silk, wool and cashmere garments after gentle hydrocarbon dry cleaning in Gurgaon',
+      'Folded silk and knitted wool fabrics against a deep green backdrop',
     from: { amount: amountOf(coutureCatalog, 'casual-outerwear', 'Sweater Full Sleeves') },
     tariffHref: '/pricing/#casual-outerwear',
     tariffLabel: 'View couture tariffs',
@@ -119,10 +121,10 @@ export const serviceEntries: readonly ServiceEntry[] = [
   {
     /* AUTHORED */
     id: 'ethnic-wear',
-    title: 'Sarees, Lehengas & Ethnic Wear',
+    title: 'Sarees, Lehengas & Ethnic Wear Dry Cleaning',
     body: 'Bridal lehengas, heirloom sarees and sherwanis handled with reverence — embroidery, zari and delicate dyes protected through every step.',
     metaTitle: 'Saree & Lehenga Dry Cleaning Services Gurgaon | Vanzoo',
-    pageHeadline: 'Gentle Care for Heavy Sarees, Lehengas & Zari Work.',
+    pageHeadline: 'Saree, Lehenga & Zari Work Dry Cleaning, Handled Gently.',
     contentHook: 'Protect delicate embroidery and rich silk fabrics from discoloration or fraying.',
     longBody:
       "A wedding lehenga or an heirloom saree carries more than fabric — hand embroidery, zari work and dyes that a standard clean can bleed or crush. We treat every ethnic piece as its own case: checking embroidery and beadwork before cleaning, choosing a process that won't run the colour, and finishing by hand so pleats and drape return the way they were meant to fall.",
@@ -132,11 +134,10 @@ export const serviceEntries: readonly ServiceEntry[] = [
       'Individually assessed — no two lehengas or sarees are cleaned the same way',
       'Hand-finished and returned ready for the next occasion',
     ],
-    image: '/images/tariffs/lehenga.jpg',
-    imageAlt: 'Embroidered bridal lehenga cared for with couture-grade cleaning at Vanzoo',
-    heroImage: '/images/persona-heirlooms.jpg',
-    heroImageAlt:
-      'Two generations in heritage silk sarees preserved with museum-grade Vanzoo care',
+    image: '/images/vanzoo/service-saree-lehenga.jpg',
+    imagePosition: '55% 50%',
+    imageAlt:
+      'Silk sarees, a lehenga and a sherwani styled on the Vanzoo premium organic dryclean display',
     from: { amount: amountOf(coutureCatalog, 'traditional-ethnic', 'Kurta') },
     tariffHref: '/pricing/#traditional-ethnic',
     tariffLabel: 'View ethnic wear tariffs',
@@ -158,11 +159,10 @@ export const serviceEntries: readonly ServiceEntry[] = [
       'Shape restored without cracking or discolouring the material',
       'Returned looking cared for, not just wiped down',
     ],
-    image: '/images/tariffs/leather-shoes.jpg',
-    imageAlt: 'Polished brown leather shoes after professional cleaning and conditioning at Vanzoo',
-    heroImage: '/images/service-shoes-bags-accessories.jpg',
-    heroImageAlt:
-      'Leather brogues and a tan leather handbag cleaned and conditioned by Vanzoo luxury accessory care',
+    image: '/images/vanzoo/service-shoe-care.jpg',
+    imagePosition: '62% 50%',
+    imageAlt:
+      'Cleaned sneakers, loafers and boots with shoe-care products on a Vanzoo display',
     from: { amount: amountOf(coutureCatalog, 'footwear', 'Sports Shoes') },
     tariffHref: '/pricing/#footwear',
     tariffLabel: 'View footwear tariffs',
@@ -207,10 +207,10 @@ export const serviceEntries: readonly ServiceEntry[] = [
       'Assessed individually, never batch-washed',
       'Returned fresh, sanitised and ready to hug',
     ],
-    image: '/images/tariffs/soft-toy.jpg',
-    imageAlt: 'Plush soft toy freshly cleaned with skin-safe hydrocarbon care at Vanzoo',
-    heroImage: '/images/collage-family-heirloom.jpg',
-    heroImageAlt: 'Child in a preserved heirloom dress cleaned with museum-grade Vanzoo care',
+    image: '/images/vanzoo/service-toys-baby.jpg',
+    imagePosition: '55% 50%',
+    imageAlt:
+      'Soft toys and a baby stroller cared for by Vanzoo, styled in the Vanzoo store',
     from: { amount: amountOf(coutureCatalog, 'accessories', 'Soft Toy') },
     tariffHref: '/pricing/#accessories',
     tariffLabel: 'View accessory tariffs',
@@ -231,9 +231,9 @@ export const serviceEntries: readonly ServiceEntry[] = [
       'Pleats and linings preserved through the wash',
       'Rehung the same day wherever possible',
     ],
-    image: '/images/service-curtain-cleaning.jpg',
+    image: '/images/vanzoo/service-curtains.jpg',
     imageAlt:
-      'Floor-length living room curtains professionally cleaned, deinstalled and reinstalled by Vanzoo',
+      'Vanzoo team member vacuum-cleaning floor-length green curtains in a living room',
     from: {
       amount: amountOf(coutureCatalog, 'home-textiles', 'Curtain (per panel)'),
       note: 'per panel',
@@ -255,10 +255,9 @@ export const serviceEntries: readonly ServiceEntry[] = [
       'Colours refreshed and pile restored',
       'Safe for wool, silk-blend and synthetic carpets',
     ],
-    image: '/images/tariffs/carpet.jpg',
-    imageAlt: 'Patterned area carpet deep-cleaned and colour-refreshed by Vanzoo in Gurgaon',
-    heroImage: '/images/collage-folded-linens.jpg',
-    heroImageAlt: 'Neatly folded cleaned linens and towels after Vanzoo fabric care',
+    image: '/images/vanzoo/service-carpet.jpg',
+    imageAlt:
+      'A rolled and a laid-out handknotted carpet, cleaned by Vanzoo',
     from: {
       amount: amountOf(coutureCatalog, 'home-textiles', 'Carpet (per Sqft)'),
       note: 'per sqft',
@@ -280,8 +279,10 @@ export const serviceEntries: readonly ServiceEntry[] = [
       'Crisp, fresh and ready for the bed the day they arrive',
       'Free pickup, so bulky textiles never need to leave your hands',
     ],
-    image: '/images/collage-folded-linens.jpg',
-    imageAlt: 'Neatly folded cleaned linens and towels after Vanzoo fabric care',
+    image: '/images/vanzoo/service-blankets.jpg',
+    imagePosition: '55% 50%',
+    imageAlt:
+      'Blankets and bed linen in Vanzoo green packaging beside a folded throw',
     from: { amount: amountOf(coutureCatalog, 'home-textiles', 'Single Bedsheet') },
     tariffHref: '/pricing/#home-textiles',
     tariffLabel: 'View home textile tariffs',
@@ -300,10 +301,9 @@ export const serviceEntries: readonly ServiceEntry[] = [
       'Priced separately and lower than full cleaning',
       'Same free pickup and delivery as every other service',
     ],
-    image: '/images/process-delivered-pressed.jpg',
-    imageAlt: 'Cream cable-knit sweater finished, pressed and hung ready for delivery by Vanzoo',
-    heroImage: '/images/garment-rail-couture.jpg',
-    heroImageAlt: 'Rail of freshly pressed garments ready for delivery at the Vanzoo Gurgaon atelier',
+    image: '/images/vanzoo/service-steam-iron.jpg',
+    imageAlt:
+      'Vanzoo team member steam-ironing a shirt at the Vanzoo pressing station',
     from: { amount: amountOf(steamIronCatalog, 'everyday-wear', 'Jeans') },
     tariffHref: '/pricing/#steam-iron-tariffs',
     tariffLabel: 'View steam iron tariffs',
@@ -343,8 +343,12 @@ export const serviceEntries: readonly ServiceEntry[] = [
       'Same-day express options available',
       'Track pickup and delivery from the Vanzoo app',
     ],
-    image: '/images/service-pickup-delivery.jpg',
-    imageAlt: 'Basket of clothes ready for free Vanzoo doorstep pickup and delivery in Gurgaon',
+    image: '/images/vanzoo/service-pickup-rider.jpg',
+    imagePosition: '50% 85%',
+    imageAlt:
+      'Vanzoo rider with a green delivery bag on a motorbike, ready for doorstep pickup and delivery',
+    heroImage: '/images/service-pickup-delivery.jpg',
+    heroImageAlt: 'Basket of clothes ready for free Vanzoo doorstep pickup and delivery in Gurgaon',
     from: null,
     priceLine: 'Free with every order',
     tariffHref: '/areas-we-serve/',

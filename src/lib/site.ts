@@ -207,10 +207,10 @@ export const serviceAreas = areaGroups.flatMap((group) => group.areas);
  * now one page ("Pricing") with both catalogues on it, at /pricing/.
  */
 export const navLinks = [
-  { href: '/about-us/', label: 'About Us' },
   { href: '/services/', label: 'Services' },
-  { href: '/pricing/', label: 'Pricing' },
+  { href: '/pricing/', label: 'Pricing & Membership' },
   { href: '/hydrocarbon-tech/', label: 'Hydrocarbon Tech' },
+  { href: '/about-us/', label: 'About Us' },
   { href: '/areas-we-serve/', label: 'Areas' },
   { href: '/blogs/', label: 'Blogs' },
   { href: '/contact-us/', label: 'Contact Us' },

@@ -127,6 +127,7 @@ export default function ServiceDetailPage({ params }: Params) {
               loading="lazy"
               sizes="(min-width: 1024px) 38vw, 90vw"
               className="object-cover"
+              style={service.imagePosition ? { objectPosition: service.imagePosition } : undefined}
             />
           </Reveal>
         </div>

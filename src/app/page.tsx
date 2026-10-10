@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { AppPromo } from '@/components/AppPromo';
 import { AreaCoverageGrid } from '@/components/AreaCoverageGrid';
 import { BlogGrid } from '@/components/BlogCard';
-import { DryCleaningProcess } from '@/components/DryCleaningProcess';
+import { VanzooProcess } from '@/components/VanzooProcess';
 import { EnquiryDialog } from '@/components/EnquiryDialog';
 import { EnquiryForm } from '@/components/EnquiryForm';
 import { FAQAccordion } from '@/components/FAQAccordion';
@@ -22,6 +22,7 @@ import { TrustStrip } from '@/components/TrustStrip';
 import { WeCareBanner } from '@/components/WeCareBanner';
 import { WhyChoosePillars } from '@/components/WhyChoosePillars';
 import { posts } from '@/content/blog';
+import { serviceEntries } from '@/content/services';
 import { SHOW_REVIEWS, reviewsIntro } from '@/content/reviews';
 import {
   collage,
@@ -30,7 +31,6 @@ import {
   heroOffer,
   homeFaqs,
   homeHero,
-  services,
 } from '@/content/marketing';
 import { buildMetadata, faqSchema, localBusinessSchema } from '@/lib/seo';
 import { areaGroups, links, serviceAreas, site } from '@/lib/site';
@@ -43,6 +43,17 @@ export const metadata = buildMetadata({
   image: homeHero.image,
   imageAlt: homeHero.imageAlt,
 });
+
+/** Every catalogue service, shaped for the homepage cards. */
+const homeServices = serviceEntries.map((entry, i) => ({
+  number: String(i + 1).padStart(2, '0'),
+  title: entry.title,
+  body: entry.body,
+  image: entry.image,
+  imageAlt: entry.imageAlt,
+  imagePosition: entry.imagePosition,
+  learnMore: { href: `/services/${entry.id}/`, label: 'Learn more' },
+}));
 
 export default function HomePage() {
   const latestPosts = posts.slice(0, 3);
@@ -71,10 +82,10 @@ export default function HomePage() {
           id="services-heading"
           eyebrow="What we do"
           title="Our Premium Fabric Care Services"
-          intro="Six services, one standard of care — each piece assessed individually before it goes anywhere near a machine."
+          intro="Every service, one standard of care — each piece assessed individually before it goes anywhere near a machine."
         />
         <ul className="no-scrollbar -mx-5 mt-10 flex snap-x snap-mandatory gap-5 overflow-x-auto px-5 pb-2 sm:-mx-8 sm:px-8 lg:mx-0 lg:px-0">
-          {services.map((service, index) => (
+          {homeServices.map((service, index) => (
             <ServiceRow
               key={service.number}
               service={service}
@@ -86,7 +97,7 @@ export default function HomePage() {
       </Section>
 
       {/* 4 — The dry cleaning process (rinse.com pattern) */}
-      <DryCleaningProcess id="how-it-works" />
+      <VanzooProcess id="how-it-works" />
 
       {/* 5 — Personas */}
       <Section tone="muted" aria-labelledby="personas-heading">
@@ -127,6 +138,40 @@ export default function HomePage() {
           </RevealGroup>
         </div>
       </section>
+
+      {/* Visit the store */}
+      <Section tone="surface" aria-labelledby="store-heading">
+        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+          <div className="media-frame mx-auto aspect-[3/4] w-full max-w-sm lg:max-w-md">
+            <Image
+              src="/images/vanzoo-store-front.jpg"
+              alt="Vanzoo storefront in Gurgaon — Premium Organic Dryclean, with garments and accessories displayed in the window"
+              fill
+              loading="lazy"
+              sizes="(min-width: 1024px) 28rem, 90vw"
+              className="object-cover"
+            />
+          </div>
+          <div>
+            <p className="eyebrow">Visit Us</p>
+            <h2 id="store-heading" className="mt-3 text-display-lg">
+              Step into the Vanzoo store
+            </h2>
+            <p className="mt-5 max-w-lg text-lead text-pretty text-neutral-body">
+              Drop in to see our premium organic dry cleaning up close — talk to our team about your
+              garments, bags and shoes, or collect your finished order in person.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link href="/locate-us/" className="btn-gold btn-lg">
+                Find our stores
+              </Link>
+              <a href={`tel:${site.phoneHref}`} className="btn-secondary btn-lg">
+                Call {site.phone}
+              </a>
+            </div>
+          </div>
+        </div>
+      </Section>
 
       {/* Editorial statement band — the old site's "we care" banner as live type. */}
       <WeCareBanner />
