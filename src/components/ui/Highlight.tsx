@@ -1,3 +1,6 @@
+'use client';
+
+import { useCity } from '../CityProvider';
 import { cn } from '@/lib/cn';
 
 /**
@@ -12,11 +15,15 @@ export function Highlight({
   text,
   dark = false,
   className,
+  fixedCity = false,
 }: {
   text: string;
   dark?: boolean;
   className?: string;
+  /** Keep the literal "Gurgaon" — for headings about Gurgaon's own stores and areas. */
+  fixedCity?: boolean;
 }) {
+  const { city } = useCity();
   return (
     <>
       {text.split(KEYWORDS).map((part, i) =>
@@ -34,7 +41,7 @@ export function Highlight({
               className,
             )}
           >
-            {part}
+            {!fixedCity && /^gurgaon$/i.test(part) ? city : part}
           </span>
         ) : (
           part
@@ -42,9 +49,4 @@ export function Highlight({
       )}
     </>
   );
-}
-
-/** Highlight only when the heading is a plain string. */
-export function highlightNode(node: React.ReactNode, dark: boolean): React.ReactNode {
-  return typeof node === 'string' ? <Highlight text={node} dark={dark} /> : node;
 }

@@ -7,6 +7,7 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react
 import { BookPickupWidget } from './BookPickupWidget';
 import { WhatsAppIcon } from './BookNowButton';
 import { CartButton } from './CartButton';
+import { LocationSelect } from './LocationSelect';
 import { SearchBar } from './SearchBar';
 import { serviceEntries } from '@/content/services';
 import { links, navLinks, site } from '@/lib/site';
@@ -141,7 +142,11 @@ export function Header() {
             />
           </Link>
 
-          <SearchBar solid={solid} wide />
+          {/* Centre of the top row: city picker + search, grouped. */}
+          <div className="flex min-w-0 flex-1 items-center justify-end gap-3 lg:justify-center">
+            <LocationSelect solid={solid} />
+            <SearchBar solid={solid} wide />
+          </div>
 
           <div className="flex items-center gap-2">
             <a

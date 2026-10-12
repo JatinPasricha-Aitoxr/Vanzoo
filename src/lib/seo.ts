@@ -183,6 +183,7 @@ export function localBusinessSchema() {
           ['Leather Care', 'bags-leather-care'],
           ['Curtains Care', 'curtain-cleaning'],
           ['Carpet Care', 'carpet-cleaning'],
+          ['Sofa, Bed & Mattress Cleaning', 'sofa-bed-mattress-cleaning'],
           ['Express Service', 'express-service'],
         ] as const
       ).map(([name, slug]) => ({

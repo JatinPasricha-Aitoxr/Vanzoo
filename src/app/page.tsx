@@ -17,7 +17,6 @@ import { PersonaScroller } from '@/components/PersonaScroller';
 import { RevealGroup } from '@/components/ui/Reveal';
 import { Section, SectionHeading } from '@/components/ui/Section';
 import { ServiceRow } from '@/components/ServiceRow';
-import { TabbedExplainer } from '@/components/TabbedExplainer';
 import { TrustStrip } from '@/components/TrustStrip';
 import { WeCareBanner } from '@/components/WeCareBanner';
 import { WhyChoosePillars } from '@/components/WhyChoosePillars';

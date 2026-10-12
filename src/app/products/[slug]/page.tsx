@@ -12,10 +12,8 @@ import { JsonLd } from '@/components/JsonLd';
 import { PageHeader } from '@/components/Hero';
 import { VanzooProcess } from '@/components/VanzooProcess';
 import { ProductBuyBox } from '@/components/ProductBuyBox';
-import { TabbedExplainer } from '@/components/TabbedExplainer';
 import { Reveal } from '@/components/ui/Reveal';
 import { Section, SectionHeading } from '@/components/ui/Section';
-import { howItWorksIntro, howItWorksSteps } from '@/content/marketing';
 import { lineId } from '@/content/pricing';
 import { getProduct, productEntries, tariffRowFor } from '@/content/products';
 import { getProductCareContent } from '@/content/productCare';
@@ -361,23 +359,8 @@ export default function ProductDetailPage({ params }: Params) {
         </>
       ) : null}
 
-      {/* How it works — the same three-step explainer as every other detail page.
-          Skipped where bespoke content (`care`) already walks through its own,
-          more detailed process — showing both would tell the customer two
-          different step counts for the same journey. */}
-      {!care ? (
-        <Section tone="muted" id="how-it-works" aria-labelledby="product-how-heading">
-          <SectionHeading
-            id="product-how-heading"
-            eyebrow="How It Works"
-            title="Three steps, and it's handled"
-            intro={howItWorksIntro}
-          />
-          <div className="mt-14">
-            <TabbedExplainer steps={howItWorksSteps} />
-          </div>
-        </Section>
-      ) : null}
+      {/* The seven-step process — bespoke `care` content already renders it above. */}
+      {!care ? <VanzooProcess id="how-it-works" eyebrow="How we do it" showCtas={false} /> : null}
 
       {/* SECTION 13 — FAQ */}
       {care ? (

@@ -24,6 +24,7 @@ export default function LocateUsPage() {
       <JsonLd data={[localBusinessSchema(), breadcrumbSchema(CRUMBS)]} />
 
       <PageHeader
+        fixedCity
         seoH1="Best & Premium Dry Cleaning Stores in Gurgaon"
         eyebrow="Locate Us"
         title="Two Gurgaon stores. Free pickup across the city."
@@ -47,7 +48,7 @@ export default function LocateUsPage() {
 
       {/* Store cards */}
       <Section tone="surface" aria-labelledby="stores-heading">
-        <SectionHeading id="stores-heading" eyebrow="Our stores" title="Where to find us" />
+        <SectionHeading fixedCity id="stores-heading" eyebrow="Our stores" title="Where to find us" />
 
         <RevealGroup as="ul" step={110} className="mt-12 grid gap-6 lg:grid-cols-2">
           {stores.map((store) => (
@@ -84,7 +85,7 @@ export default function LocateUsPage() {
       <Section tone="muted" aria-labelledby="areas-heading">
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
           <div>
-            <SectionHeading
+            <SectionHeading fixedCity
               id="areas-heading"
               eyebrow="Service areas"
               title="Free pickup and delivery across Gurgaon"

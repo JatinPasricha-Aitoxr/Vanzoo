@@ -8,6 +8,7 @@ import { Header } from '@/components/Header';
 import { JsonLd } from '@/components/JsonLd';
 import { ReviewsBand } from '@/components/ReviewsBand';
 import { StoresAndReviews } from '@/components/StoresAndReviews';
+import { CityProvider } from '@/components/CityProvider';
 import { BookNowButton } from '@/components/BookNowButton';
 import { PageVideo } from '@/components/PageVideo';
 import { CartProvider } from '@/lib/cart';
@@ -87,6 +88,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
         {/* The cart wraps the whole tree, not just the tariff pages: the header
             badge and the drawer live outside those routes. */}
+        <CityProvider>
         <CartProvider>
           <Header />
           <main id="main">{children}</main>
@@ -98,6 +100,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <PageVideo />
           <CartDrawer />
         </CartProvider>
+        </CityProvider>
       </body>
     </html>
   );

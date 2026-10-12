@@ -246,6 +246,7 @@ export const footerColumns = [
       { label: 'Leather Care', href: '/services/bags-leather-care/' },
       { label: 'Curtains Care', href: '/services/curtain-cleaning/' },
       { label: 'Carpet Care', href: '/services/carpet-cleaning/' },
+      { label: 'Sofa, Bed & Mattress Cleaning', href: '/services/sofa-bed-mattress-cleaning/' },
       { label: 'Express Service', href: '/services/express-service/' },
     ],
   },

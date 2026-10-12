@@ -133,6 +133,27 @@ export default function ServiceDetailPage({ params }: Params) {
         </div>
       </Section>
 
+      {service.subServices ? (
+        <Section tone="muted" aria-labelledby="service-sub-heading">
+          <SectionHeading
+            id="service-sub-heading"
+            eyebrow={service.onsite ? 'On-site service' : 'What we cover'}
+            title={service.onsite ? 'We come to you — sofas, beds and mattresses' : 'What we cover'}
+            intro={service.onsite ? 'No pickup and no carrying: the work is done at your home.' : undefined}
+            align="center"
+            className="mx-auto"
+          />
+          <RevealGroup as="ul" step={80} className="mx-auto mt-12 grid max-w-5xl gap-5 md:grid-cols-3">
+            {service.subServices.map((item) => (
+              <li key={item.title} className="rounded-card border border-neutral-line bg-white p-6 shadow-lift">
+                <h3 className="font-display text-lg font-semibold text-neutral-ink">{item.title}</h3>
+                <p className="mt-2 text-[0.9375rem] leading-relaxed text-neutral-body">{item.body}</p>
+              </li>
+            ))}
+          </RevealGroup>
+        </Section>
+      ) : null}
+
       {/* Pricing preview, where the service has a per-item tariff */}
       {tariffTable ? (
         <Section tone="muted" aria-labelledby="service-pricing-heading">

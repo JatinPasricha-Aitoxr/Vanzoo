@@ -8,6 +8,7 @@ export function AreasSection() {
   return (
     <Section tone="surface" aria-labelledby="areas-heading">
           <SectionHeading
+          fixedCity
             id="areas-heading"
             eyebrow="Where we deliver"
             title="Every area we serve in Gurgaon"

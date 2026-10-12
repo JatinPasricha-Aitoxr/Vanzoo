@@ -30,6 +30,10 @@ export type ServiceEntry = {
   pageHeadline?: string;
   /** Keyword H1 for the service's own page; `pageHeadline` then renders as H2. */
   seoH1?: string;
+  /** Work is done at the customer's home, not at our facility. */
+  onsite?: boolean;
+  /** Optional breakdown shown as cards under the intro (e.g. Sofa / Bed / Mattress). */
+  subServices?: readonly { title: string; body: string }[];
   /** One-line hook shown under `pageHeadline` on the service's own page.
    *  Falls back to `body`. */
   contentHook?: string;
@@ -101,10 +105,10 @@ export const serviceEntries: readonly ServiceEntry[] = [
   {
     id: 'delicate-fabrics',
     seoH1: "Best & Premium Silk, Wool & Delicate Fabric Dry Cleaning in Gurgaon",
-    title: 'Silks, Wool & Delicate Fabrics',
+    title: 'Silks, Wool & Delicate Fabrics Dryclean',
     body: 'Gentle treatment for silks, woolens, and cashmere. We restore their natural softness and lustre without damage.',
     metaTitle: 'Silk, Wool & Cashmere Dry Cleaning Gurgaon | Vanzoo',
-    pageHeadline: 'Nourishing Care for Pure Silks & Fine Woolens.',
+    pageHeadline: 'Silks, Wool & Delicate Fabrics Dryclean',
     contentHook: 'Gentle hydrocarbon washing that prevents fabric stiffness and shrinkage.',
     longBody:
       "Silk, cashmere and fine wool lose their character the moment they meet the wrong solvent or too much agitation. Our hydrocarbon process runs at lower mechanical and thermal stress than conventional dry cleaning, so fibres keep their original drape instead of stiffening or dulling. Every garment is checked for its specific weave and finish before we decide how it's cleaned — not run through a standard cycle regardless of what it is.",
@@ -126,10 +130,10 @@ export const serviceEntries: readonly ServiceEntry[] = [
     /* AUTHORED */
     id: 'ethnic-wear',
     seoH1: "Best & Premium Saree & Lehenga Dry Cleaning in Gurgaon",
-    title: 'Sarees, Lehengas & Ethnic Wear Dry Cleaning',
+    title: 'Sarees, Lehengas & Ethnic Wear Dryclean',
     body: 'Bridal lehengas, heirloom sarees and sherwanis handled with reverence — embroidery, zari and delicate dyes protected through every step.',
     metaTitle: 'Saree & Lehenga Dry Cleaning Services Gurgaon | Vanzoo',
-    pageHeadline: 'Saree, Lehenga & Zari Work Dry Cleaning, Handled Gently.',
+    pageHeadline: 'Sarees, Lehengas & Ethnic Wear Dryclean',
     contentHook: 'Protect delicate embroidery and rich silk fabrics from discoloration or fraying.',
     longBody:
       "A wedding lehenga or an heirloom saree carries more than fabric — hand embroidery, zari work and dyes that a standard clean can bleed or crush. We treat every ethnic piece as its own case: checking embroidery and beadwork before cleaning, choosing a process that won't run the colour, and finishing by hand so pleats and drape return the way they were meant to fall.",
@@ -342,6 +346,47 @@ export const serviceEntries: readonly ServiceEntry[] = [
     priceLine: 'Priced on request — call to arrange',
     tariffHref: '/pricing/',
     tariffLabel: 'View tariffs',
+    tariffPreview: null,
+  },
+  {
+    /* AUTHORED */
+    id: 'sofa-bed-mattress-cleaning',
+    seoH1: 'Best & Premium Sofa, Bed & Mattress Cleaning in Gurgaon',
+    title: 'Bed, Sofa & Mattress Cleaning',
+    body: 'On-site deep cleaning for sofas, beds and mattresses — our team comes to your home, so nothing has to be moved out.',
+    pageHeadline: 'Sofa, Bed & Mattress Cleaning, Done at Your Home.',
+    contentHook: 'An on-site service: we bring the work to your door.',
+    onsite: true,
+    metaTitle: 'Sofa, Bed & Mattress Cleaning at Home in Gurgaon | Vanzoo',
+    longBody:
+      "Sofas, beds and mattresses are the pieces you can't post to a cleaner — so Vanzoo comes to you. Our team carries out the cleaning at your home, working with the fabric and construction of each piece, so upholstery, bedding and mattresses are refreshed in place with no pickup, no carrying and no days without your sofa or bed.",
+    highlights: [
+      'Done on-site at your home — nothing to pick up or carry out',
+      'Sofas, upholstery, beds and mattresses covered',
+      'Fabric-aware cleaning for everyday dust, marks and stains',
+      'Scope confirmed and quoted when you enquire',
+    ],
+    subServices: [
+      {
+        title: 'Sofa Cleaning',
+        body: 'Fabric and upholstered sofas, sectionals, armchairs and cushions deep cleaned in place, to lift everyday dust, marks and stains.',
+      },
+      {
+        title: 'Bed Cleaning',
+        body: 'Upholstered beds and headboards refreshed on the spot, along with the surfaces around them that collect dust and marks.',
+      },
+      {
+        title: 'Mattress Cleaning',
+        body: 'Mattresses cleaned and freshened at home — spills, dust and odours treated without moving the mattress out of your room.',
+      },
+    ],
+    image: '/images/vanzoo/service-blankets.jpg',
+    imagePosition: '55% 50%',
+    imageAlt: 'Vanzoo on-site sofa, bed and mattress cleaning, with fresh blankets and bedding in Vanzoo green packaging',
+    from: null,
+    priceLine: 'Quoted on enquiry — call to book an on-site visit',
+    tariffHref: '/contact-us/',
+    tariffLabel: 'Get a quote',
     tariffPreview: null,
   },
   {

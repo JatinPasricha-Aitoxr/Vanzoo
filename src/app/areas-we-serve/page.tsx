@@ -26,6 +26,7 @@ export default function AreasWeServePage() {
       <JsonLd data={[localBusinessSchema(), breadcrumbSchema(CRUMBS)]} />
 
       <PageHeader
+        fixedCity
         seoH1="Best & Premium Dry Cleaning Services Across Gurgaon"
         eyebrow="Areas We Serve"
         title="Free pickup and delivery across Gurgaon"
@@ -36,7 +37,7 @@ export default function AreasWeServePage() {
 
       {/* Corridor groups */}
       <Section tone="surface" aria-labelledby="corridors-heading">
-        <SectionHeading
+        <SectionHeading fixedCity
           id="corridors-heading"
           eyebrow="Where we collect"
           title="Gurgaon, corridor by corridor"
@@ -61,7 +62,7 @@ export default function AreasWeServePage() {
       <Section tone="muted" aria-labelledby="check-heading">
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
           <div>
-            <SectionHeading
+            <SectionHeading fixedCity
               id="check-heading"
               eyebrow="Check your pincode"
               title="One field, and you'll know"

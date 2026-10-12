@@ -2,7 +2,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { links } from '@/lib/site';
 import { HeroVideo } from './HeroVideo';
-import { Highlight, highlightNode } from './ui/Highlight';
+import { Highlight } from './ui/Highlight';
+import { highlightNode } from './ui/highlightNode';
 import { cn } from '@/lib/cn';
 
 type HeroProps = {
@@ -53,8 +54,8 @@ const SEO_H1_DARK =
 const SEO_H1_LIGHT =
   'hero-stagger mt-6 text-sm font-semibold uppercase tracking-[0.12em] text-neutral-ink sm:text-base';
 
-function SeoH1Text({ text, dark }: { text: string; dark: boolean }) {
-  return <Highlight text={text} dark={dark} />;
+function SeoH1Text({ text, dark, fixedCity }: { text: string; dark: boolean; fixedCity?: boolean }) {
+  return <Highlight text={text} dark={dark} fixedCity={fixedCity} />;
 }
 
 export function Hero({
@@ -215,9 +216,12 @@ export function PageHeader({
   imageAlt,
   imagePosition,
   seoH1,
+  fixedCity,
   children,
 }: {
   eyebrow?: string;
+  /** Keep "Gurgaon" as written in the headings (Gurgaon-specific pages). */
+  fixedCity?: boolean;
   /** Keyword headline — rendered as the page's H1; `title` becomes an H2. */
   seoH1?: string;
   title: string;
@@ -278,7 +282,7 @@ export function PageHeader({
             className={cn(dark ? SEO_H1_DARK : SEO_H1_LIGHT, dark && '!mb-0 mt-6')}
             style={{ '--line': 1 } as React.CSSProperties}
           >
-            <SeoH1Text text={seoH1} dark={dark} />
+            <SeoH1Text text={seoH1} dark={dark} fixedCity={fixedCity} />
           </h1>
         ) : eyebrow ? (
           <p
@@ -297,7 +301,7 @@ export function PageHeader({
           )}
           style={{ '--line': 2 } as React.CSSProperties}
         >
-          {highlightNode(title, dark)}
+          {highlightNode(title, dark, fixedCity)}
         </Headline>
         {intro ? (
           <p

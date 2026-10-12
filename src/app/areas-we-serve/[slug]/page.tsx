@@ -57,6 +57,7 @@ export default function AreaPage({ params }: Params) {
 
       {/* Hero */}
       <PageHeader
+        fixedCity
         seoH1={`Best & Premium Dry Cleaning in ${area.name}, Gurgaon`}
         eyebrow={`Areas We Serve · ${area.name}`}
         title={area.headline}
@@ -83,7 +84,7 @@ export default function AreaPage({ params }: Params) {
       <Section tone="surface" aria-labelledby="area-story-heading">
         <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-16">
           <Reveal variant="left">
-            <h2 id="area-story-heading" className="text-display-md"><Highlight text={area.story.heading} dark={false} /></h2>
+            <h2 id="area-story-heading" className="text-display-md"><Highlight fixedCity text={area.story.heading} dark={false} /></h2>
             <div className="mt-5 space-y-4">
               {area.story.paragraphs.map((p) => (
                 <p key={p} className="text-lead text-pretty text-neutral-body">
@@ -120,7 +121,7 @@ export default function AreaPage({ params }: Params) {
 
       {/* What we collect — photo cards */}
       <Section tone="muted" aria-labelledby="area-collect-heading">
-        <SectionHeading
+        <SectionHeading fixedCity
           id="area-collect-heading"
           eyebrow="What we collect"
           title={area.collect.heading}
@@ -162,7 +163,7 @@ export default function AreaPage({ params }: Params) {
 
       {/* Journey — one photo per step */}
       <Section tone="surface" aria-labelledby="area-journey-heading">
-        <SectionHeading
+        <SectionHeading fixedCity
           id="area-journey-heading"
           eyebrow="The practical side"
           title={area.journey.heading}
@@ -203,7 +204,7 @@ export default function AreaPage({ params }: Params) {
 
       {/* Services */}
       <Section tone="muted" aria-labelledby="area-services-heading">
-        <SectionHeading
+        <SectionHeading fixedCity
           id="area-services-heading"
           eyebrow="Our services"
           title={`All services, collected from ${area.name}`}
@@ -225,7 +226,7 @@ export default function AreaPage({ params }: Params) {
 
       {/* Popular items with prices */}
       <Section tone="surface" aria-labelledby="area-items-heading">
-        <SectionHeading
+        <SectionHeading fixedCity
           id="area-items-heading"
           eyebrow="Popular items"
           title="Pick an item, see the price"
@@ -247,7 +248,7 @@ export default function AreaPage({ params }: Params) {
       <Section tone="muted" aria-labelledby="area-store-heading">
         <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
           <div>
-            <SectionHeading
+            <SectionHeading fixedCity
               id="area-store-heading"
               eyebrow="Visit us"
               title={area.storeHeading}
@@ -301,7 +302,7 @@ export default function AreaPage({ params }: Params) {
 
       {/* FAQ */}
       <Section tone="surface" aria-labelledby="area-faq-heading">
-        <SectionHeading
+        <SectionHeading fixedCity
           id="area-faq-heading"
           eyebrow="FAQ"
           title={area.faqHeading}

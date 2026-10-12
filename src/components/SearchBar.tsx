@@ -105,7 +105,7 @@ export function SearchBar({ solid, wide = false }: { solid: boolean; wide?: bool
   return (
     <div
       ref={rootRef}
-      className={cn('relative', wide && 'ml-auto lg:ml-0 lg:mx-auto lg:w-full lg:max-w-md lg:flex-1')}
+      className={cn('relative', wide && 'lg:w-full lg:max-w-md lg:flex-1')}
     >
       {open ? (
         <div
