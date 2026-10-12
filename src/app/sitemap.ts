@@ -21,6 +21,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${SITE_URL}/about-us/`, changeFrequency: 'yearly', priority: 0.7 },
     { url: `${SITE_URL}/membership/`, changeFrequency: 'monthly', priority: 0.6 },
     { url: `${SITE_URL}/reviews/`, changeFrequency: 'monthly', priority: 0.6 },
+    { url: `${SITE_URL}/customer-stories/`, changeFrequency: 'monthly', priority: 0.6 },
     { url: `${SITE_URL}/services/`, changeFrequency: 'monthly', priority: 0.9 },
     { url: `${SITE_URL}/products/`, changeFrequency: 'monthly', priority: 0.9 },
     { url: `${SITE_URL}/pricing/`, changeFrequency: 'monthly', priority: 0.9 },

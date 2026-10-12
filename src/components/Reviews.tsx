@@ -9,8 +9,18 @@ import { RevealGroup } from './ui/Reveal';
  * placeholder that looks like a finished testimonial is worse than no
  * testimonial at all.
  */
-export function Reviews({ limit = 8, columns = 4 }: { limit?: number; columns?: 3 | 4 }) {
-  if (reviews.length === 0) return null;
+export function Reviews({
+  limit = 8,
+  columns = 4,
+  only,
+}: {
+  limit?: number;
+  columns?: 3 | 4;
+  /** Show only reviews for this service tag. */
+  only?: string;
+}) {
+  const list = only ? reviews.filter((r) => r.service === only) : reviews;
+  if (list.length === 0) return null;
 
   return (
     <>
@@ -32,7 +42,7 @@ export function Reviews({ limit = 8, columns = 4 }: { limit?: number; columns?: 
         step={90}
         className={`grid gap-5 sm:grid-cols-2 ${columns === 3 ? 'lg:grid-cols-3' : 'lg:grid-cols-4'}`}
       >
-        {reviews.slice(0, limit).map((review, index) => (
+        {list.slice(0, limit).map((review, index) => (
           <ReviewCard key={`${review.author}-${index}`} review={review} />
         ))}
       </RevealGroup>

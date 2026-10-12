@@ -230,6 +230,7 @@ export const footerColumns = [
       { label: 'Areas We Serve', href: '/areas-we-serve/' },
       { label: 'Blogs', href: '/blogs/' },
       { label: 'Reviews', href: '/reviews/' },
+      { label: 'Customer Stories', href: '/customer-stories/' },
       { label: 'Best Dry Cleaners Near Me', href: '/best-dry-cleaners-near-me/' },
       { label: 'Best Dry Cleaning in Gurgaon', href: '/best-dry-cleaning-in-gurgaon/' },
     ],
