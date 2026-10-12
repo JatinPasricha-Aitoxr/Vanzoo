@@ -1,3 +1,4 @@
+import { Highlight } from '@/components/ui/Highlight';
 import Image from 'next/image';
 import { appPromo } from '@/content/marketing';
 import { Reveal } from './ui/Reveal';
@@ -38,7 +39,7 @@ export function AppPromo() {
       </Reveal>
 
       <Reveal variant="right" delay={80}>
-        <h2 className="text-display-md text-white">{appPromo.heading}</h2>
+        <h2 className="text-display-md text-white"><Highlight text={appPromo.heading} dark={true} /></h2>
         <p className="mt-4 text-lead text-pretty text-white/75">{appPromo.body}</p>
 
         <ul className="mt-8 space-y-3.5">

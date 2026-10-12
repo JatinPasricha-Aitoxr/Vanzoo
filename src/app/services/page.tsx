@@ -1,10 +1,12 @@
+import { Highlight } from '@/components/ui/Highlight';
 import Image from 'next/image';
 import Link from 'next/link';
+import { AreasSection } from '@/components/AreasSection';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { CtaBanner } from '@/components/CtaBanner';
 import { JsonLd } from '@/components/JsonLd';
 import { PageHeader } from '@/components/Hero';
-import { ProcessRail } from '@/components/ProcessRail';
+import { VanzooProcess } from '@/components/VanzooProcess';
 import { ServiceCard } from '@/components/ServiceCard';
 import { RevealGroup, Reveal } from '@/components/ui/Reveal';
 import { Section, SectionHeading } from '@/components/ui/Section';
@@ -29,6 +31,7 @@ export default function ServicesPage() {
       <JsonLd data={[localBusinessSchema(), breadcrumbSchema(CRUMBS)]} />
 
       <PageHeader
+        seoH1="Best & Premium Dry Cleaning Services in Gurgaon"
         eyebrow="What we do"
         title="Every service, one standard of care"
         intro={servicesIntro}
@@ -47,28 +50,19 @@ export default function ServicesPage() {
         </RevealGroup>
       </Section>
 
-      {/* Nine-step process */}
-      <Section tone="muted" aria-labelledby="services-process-heading">
-        <SectionHeading
-          id="services-process-heading"
-          eyebrow="How every order runs"
-          title="Nine steps, whatever the service"
-          align="center"
-          className="mx-auto"
-        />
-        <div className="mt-14">
-          <ProcessRail />
-        </div>
-      </Section>
+      {/* Seven-step process */}
+      <VanzooProcess
+        eyebrow="How every order runs"
+        heading="Seven steps, whatever the service"
+        showCtas={false}
+      />
 
       {/* Hydrocarbon technology band */}
       <Section tone="dark" aria-labelledby="services-tech-heading">
         <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
           <Reveal variant="left">
             <p className="eyebrow text-accent-gold-soft">{hydrocarbon.sections[0].eyebrow}</p>
-            <h2 id="services-tech-heading" className="mt-3 text-display-md text-white">
-              One technology behind every service
-            </h2>
+            <h2 id="services-tech-heading" className="mt-3 text-display-md text-white"><Highlight text="One technology behind every service" dark={true} /></h2>
             <p className="mt-4 text-lead text-pretty text-white/75">
               {hydrocarbon.sections[0].body}
             </p>
@@ -88,6 +82,8 @@ export default function ServicesPage() {
           </Reveal>
         </div>
       </Section>
+
+      <AreasSection />
 
       <Section tone="surface" size="sm">
         <CtaBanner

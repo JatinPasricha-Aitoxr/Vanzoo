@@ -1,3 +1,4 @@
+import { Highlight } from '@/components/ui/Highlight';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -9,7 +10,7 @@ import { FeatureGrid } from '@/components/FeatureGrid';
 import { IconFeatureGrid } from '@/components/IconFeatureGrid';
 import { JsonLd } from '@/components/JsonLd';
 import { PageHeader } from '@/components/Hero';
-import { ProcessTimeline } from '@/components/ProcessTimeline';
+import { VanzooProcess } from '@/components/VanzooProcess';
 import { ProductBuyBox } from '@/components/ProductBuyBox';
 import { TabbedExplainer } from '@/components/TabbedExplainer';
 import { Reveal } from '@/components/ui/Reveal';
@@ -84,6 +85,7 @@ export default function ProductDetailPage({ params }: Params) {
 
       {/* SECTION 1 — Hero */}
       <PageHeader
+        seoH1={`Best & Premium ${product.title.replace(/\s*(dry\s*)?clean(ing)?$/i, '')} Dry Cleaning in Gurgaon`}
         eyebrow="Products"
         title={care?.hero.headline ?? product.title}
         intro={care?.hero.intro ?? product.intro}
@@ -186,18 +188,11 @@ export default function ProductDetailPage({ params }: Params) {
           </Section>
 
           {/* SECTION 4 — Vanzoo Process */}
-          <Section tone="muted" aria-labelledby="process-heading">
-            <SectionHeading
-              id="process-heading"
-              eyebrow="Our Process"
-              title={care.process.heading}
-              align="center"
-              className="mx-auto"
-            />
-            <div className="mt-14">
-              <ProcessTimeline stages={care.process.stages} />
-            </div>
-          </Section>
+          <VanzooProcess
+            eyebrow="Our Process"
+            heading={care.process.heading}
+            showCtas={false}
+          />
 
           {/* SECTION 5 — Technology */}
           <Section tone="dark" aria-labelledby="technology-heading">
@@ -407,7 +402,7 @@ export default function ProductDetailPage({ params }: Params) {
             variant="scale"
             className="band-dark overflow-hidden rounded-media px-6 py-14 text-center sm:px-12 sm:py-16"
           >
-            <h2 className="mx-auto max-w-2xl text-display-md text-white">{care.finalCta.heading}</h2>
+            <h2 className="mx-auto max-w-2xl text-display-md text-white"><Highlight text={care.finalCta.heading} dark={true} /></h2>
             <p className="mx-auto mt-4 max-w-xl text-lead text-pretty text-white/80">{care.finalCta.intro}</p>
             <p className="mx-auto mt-3 max-w-xl text-sm font-medium text-white/90">
               {care.finalCta.lines.join('  ·  ')}

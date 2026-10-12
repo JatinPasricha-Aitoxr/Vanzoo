@@ -81,6 +81,7 @@ export default function ServiceDetailPage({ params }: Params) {
 
       <PageHeader
         eyebrow="Services"
+        seoH1={service.seoH1}
         title={service.pageHeadline ?? service.title}
         intro={service.contentHook ?? service.body}
         image={service.heroImage ?? service.image}

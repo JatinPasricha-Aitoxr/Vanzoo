@@ -24,6 +24,7 @@ export default function ContactPage() {
       <JsonLd data={[localBusinessSchema(), breadcrumbSchema(CRUMBS)]} />
 
       <PageHeader
+        seoH1="Contact Gurgaon's Best & Premium Dry Cleaners — Vanzoo"
         eyebrow="Get In Touch"
         title="Let's Talk with us"
         intro="Questions about a specific garment, a bulk order or an express turnaround? Our team answers every enquiry personally."

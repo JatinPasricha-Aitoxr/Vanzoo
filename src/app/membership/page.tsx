@@ -1,3 +1,4 @@
+import { Highlight } from '@/components/ui/Highlight';
 import Image from 'next/image';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { CtaBanner } from '@/components/CtaBanner';
@@ -24,7 +25,7 @@ export default function MembershipPage() {
     <>
       <JsonLd data={breadcrumbSchema(CRUMBS)} />
 
-      <PageHeader eyebrow={membership.eyebrow} title={membership.heading} intro={membership.intro}>
+      <PageHeader seoH1="Best & Premium Dry Cleaning Membership in Gurgaon" eyebrow={membership.eyebrow} title={membership.heading} intro={membership.intro}>
         <Breadcrumbs crumbs={CRUMBS} />
       </PageHeader>
 
@@ -120,7 +121,7 @@ export default function MembershipPage() {
       {/* App */}
       <Section tone="surface" size="sm" aria-labelledby="membership-app-heading">
         <div className="mx-auto flex max-w-3xl flex-col items-center gap-6 text-center">
-          <h2 id="membership-app-heading" className="text-display-sm">{membership.app.heading}</h2>
+          <h2 id="membership-app-heading" className="text-display-sm"><Highlight text={membership.app.heading} dark={false} /></h2>
           <p className="text-neutral-body">{membership.app.body}</p>
           <a href={links.playStore} target="_blank" rel="noopener noreferrer" className="btn-secondary btn-lg">
             Download the Vanzoo app

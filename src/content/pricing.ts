@@ -88,6 +88,8 @@ const coutureGroups: readonly TariffGroup[] = [
       { item: 'Coat', amount: 499, image: img('coat') },
       { item: 'Men Suit 2 Pcs', amount: 699, image: img('men-suit-2-pcs') },
       { item: 'Men Suit 3 Pcs', amount: 899, image: img('men-suit-3-pcs') },
+      { item: 'Kurta', amount: 249, from: true, image: img('kurta') },
+      { item: 'Jacket', amount: 499, image: img('jacket') },
     ],
   },
   {

@@ -28,6 +28,8 @@ export type ServiceEntry = {
   /** Punchier H1 for the service's own page hero. Falls back to `title`
    *  everywhere else (nav, cards, footer) still use `title`. */
   pageHeadline?: string;
+  /** Keyword H1 for the service's own page; `pageHeadline` then renders as H2. */
+  seoH1?: string;
   /** One-line hook shown under `pageHeadline` on the service's own page.
    *  Falls back to `body`. */
   contentHook?: string;
@@ -72,6 +74,7 @@ export const servicesIntro =
 export const serviceEntries: readonly ServiceEntry[] = [
   {
     id: 'couture-care',
+    seoH1: "Best & Premium Suit Dry Cleaning in Gurgaon",
     title: 'Bespoke Suit & Couture Care',
     body: 'Tailored for your most refined garments. We preserve the shape, structure, and elegance of custom suits and designer wear.',
     metaTitle: 'Bespoke Suit & Couture Dry Cleaning Gurgaon | Vanzoo',
@@ -97,6 +100,7 @@ export const serviceEntries: readonly ServiceEntry[] = [
   },
   {
     id: 'delicate-fabrics',
+    seoH1: "Best & Premium Silk, Wool & Delicate Fabric Dry Cleaning in Gurgaon",
     title: 'Silks, Wool & Delicate Fabrics',
     body: 'Gentle treatment for silks, woolens, and cashmere. We restore their natural softness and lustre without damage.',
     metaTitle: 'Silk, Wool & Cashmere Dry Cleaning Gurgaon | Vanzoo',
@@ -121,6 +125,7 @@ export const serviceEntries: readonly ServiceEntry[] = [
   {
     /* AUTHORED */
     id: 'ethnic-wear',
+    seoH1: "Best & Premium Saree & Lehenga Dry Cleaning in Gurgaon",
     title: 'Sarees, Lehengas & Ethnic Wear Dry Cleaning',
     body: 'Bridal lehengas, heirloom sarees and sherwanis handled with reverence — embroidery, zari and delicate dyes protected through every step.',
     metaTitle: 'Saree & Lehenga Dry Cleaning Services Gurgaon | Vanzoo',
@@ -146,6 +151,7 @@ export const serviceEntries: readonly ServiceEntry[] = [
   {
     /* AUTHORED */
     id: 'shoe-care',
+    seoH1: "Best & Premium Shoe & Sneaker Cleaning in Gurgaon",
     title: 'Shoes & Sneaker Care',
     body: 'Leather, suede and sports shoes cleaned, conditioned and revived — soles, uppers and laces each treated the way the material asks.',
     metaTitle: 'Luxury Shoe & Sneaker Cleaning Gurgaon | Vanzoo',
@@ -170,6 +176,7 @@ export const serviceEntries: readonly ServiceEntry[] = [
   },
   {
     id: 'bags-leather-care',
+    seoH1: "Best & Premium Bag & Leather Dry Cleaning in Gurgaon",
     title: 'Bags & Leather Care',
     body: 'Expert care for luxury leather goods, handbags, and shoes. Cleaned, conditioned, and revived by skilled professionals.',
     metaTitle: 'Handbag & Leather Garment Care Gurgaon | Vanzoo',
@@ -194,6 +201,7 @@ export const serviceEntries: readonly ServiceEntry[] = [
   {
     /* AUTHORED */
     id: 'toys-accessories-care',
+    seoH1: "Best & Premium Soft Toy & Baby Item Cleaning in Gurgaon",
     title: 'Toys & Accessories Care',
     body: 'Soft toys and everyday accessories cleaned in the same skin-safe, toxin-free process we trust with couture — gentle enough for the nursery.',
     metaTitle: 'Soft Toy & Accessory Cleaning Gurgaon | Vanzoo',
@@ -218,6 +226,7 @@ export const serviceEntries: readonly ServiceEntry[] = [
   },
   {
     id: 'curtain-cleaning',
+    seoH1: "Best & Premium Curtain Dry Cleaning in Gurgaon",
     title: 'Curtain Cleaning',
     body: 'Professional drapery care that includes free deinstallation and reinstallation, ensuring a flawless finish every time.',
     metaTitle: 'Curtain & Drapery Dry Cleaning Gurgaon | Vanzoo',
@@ -245,6 +254,7 @@ export const serviceEntries: readonly ServiceEntry[] = [
   {
     /* AUTHORED */
     id: 'carpet-cleaning',
+    seoH1: "Best & Premium Carpet Dry Cleaning in Gurgaon",
     title: 'Carpet Cleaning',
     body: 'Deep, dust-free cleaning for carpets and rugs, priced by the square foot — colours refreshed and pile restored without harsh chemistry.',
     longBody:
@@ -269,6 +279,7 @@ export const serviceEntries: readonly ServiceEntry[] = [
   {
     /* AUTHORED */
     id: 'home-textiles',
+    seoH1: "Best & Premium Blanket & Bedding Dry Cleaning in Gurgaon",
     title: 'Home Textiles',
     body: 'Blankets, quilts and bedsheets returned crisp and allergen-free — the pieces you live with, cared for like the pieces you wear.',
     longBody:
@@ -291,6 +302,7 @@ export const serviceEntries: readonly ServiceEntry[] = [
   {
     /* AUTHORED */
     id: 'steam-iron',
+    seoH1: "Best & Premium Steam Ironing Service in Gurgaon",
     title: 'Steam Iron & Pressing',
     body: 'Pressing only, for garments that are already clean — professional steam finishing that returns everything sharp, soft and ready to wear.',
     longBody:
@@ -312,6 +324,7 @@ export const serviceEntries: readonly ServiceEntry[] = [
   {
     /* AUTHORED */
     id: 'express-service',
+    seoH1: "Best & Premium Express Dry Cleaning in Gurgaon",
     title: 'Express Service',
     body: 'Same-day and next-day turnarounds for the moments that cannot wait — priced on request, arranged with one call.',
     longBody:
@@ -333,6 +346,7 @@ export const serviceEntries: readonly ServiceEntry[] = [
   },
   {
     id: 'pickup-delivery',
+    seoH1: "Best & Premium Dry Cleaning with Free Pickup & Delivery in Gurgaon",
     title: 'Free Pickup & Delivery',
     body: 'Enjoy seamless door-to-door service with optional same-day express turnaround.',
     longBody:

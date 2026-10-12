@@ -1,3 +1,4 @@
+import { Highlight } from '@/components/ui/Highlight';
 import Image from 'next/image';
 import { pillars, pillarsIntro, type PillarPointIcon } from '@/content/pillars';
 import { Reveal } from './ui/Reveal';
@@ -25,9 +26,7 @@ export function WhyChoosePillars() {
         {/* Intro — normal flow */}
         <div className="mx-auto max-w-3xl text-center">
           <p className="eyebrow tracking-[0.2em]">{pillarsIntro.eyebrow}</p>
-          <h2 id="why-choose-heading" className="mt-4 font-display text-[clamp(2rem,4.6vw,3.75rem)] font-medium leading-[1.08] text-neutral-ink">
-            {pillarsIntro.heading}
-          </h2>
+          <h2 id="why-choose-heading" className="mt-4 font-display text-[clamp(2rem,4.6vw,3.75rem)] font-medium leading-[1.08] text-neutral-ink"><Highlight text={pillarsIntro.heading} dark={false} /></h2>
         </div>
 
         <div className="mx-auto mt-16 max-w-[75rem] md:mt-20">

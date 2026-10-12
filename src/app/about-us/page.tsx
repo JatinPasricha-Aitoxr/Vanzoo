@@ -1,3 +1,4 @@
+import { Highlight } from '@/components/ui/Highlight';
 import Image from 'next/image';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { CtaBanner } from '@/components/CtaBanner';
@@ -25,6 +26,7 @@ export default function AboutPage() {
       <JsonLd data={breadcrumbSchema(CRUMBS)} />
 
       <PageHeader
+        seoH1="About Vanzoo — Best & Premium Dry Cleaners in Gurgaon"
         eyebrow="About Us"
         title={about.heading}
         intro="Luxury deserves reverence — and a process built to earn it."
@@ -46,9 +48,7 @@ export default function AboutPage() {
             />
           </div>
           <div className="max-w-lg">
-            <h2 id="story-heading" className="text-display-md">
-              Why we started Vanzoo
-            </h2>
+            <h2 id="story-heading" className="text-display-md"><Highlight text="Why we started Vanzoo" dark={false} /></h2>
             <p className="mt-5 text-lead text-pretty text-neutral-body">{about.intro}</p>
           </div>
         </div>

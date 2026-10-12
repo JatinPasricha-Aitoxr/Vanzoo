@@ -6,6 +6,7 @@ import { ContactRail } from '@/components/ContactRail';
 import { Footer } from '@/components/Footer';
 import { Header } from '@/components/Header';
 import { JsonLd } from '@/components/JsonLd';
+import { ReviewsBand } from '@/components/ReviewsBand';
 import { StoresAndReviews } from '@/components/StoresAndReviews';
 import { BookNowButton } from '@/components/BookNowButton';
 import { PageVideo } from '@/components/PageVideo';
@@ -89,6 +90,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <CartProvider>
           <Header />
           <main id="main">{children}</main>
+          <ReviewsBand />
           <StoresAndReviews />
           <Footer />
           <ContactRail />

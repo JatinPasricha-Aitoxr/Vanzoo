@@ -1,23 +1,22 @@
 import Link from 'next/link';
 import { links } from '@/lib/site';
+import { Highlight } from './ui/Highlight';
 import { Reveal } from './ui/Reveal';
 
 const STEPS = [
   { title: 'Schedule a Pickup', icon: 'truck' },
-  { title: 'Item Collection', icon: 'box' },
   { title: 'Detailed Assessment', icon: 'clipboard' },
   { title: 'Targeted Stain Treatment', icon: 'bottle' },
   { title: 'Premium Cleaning', icon: 'sparkle' },
-  { title: 'Drying', icon: 'heat' },
-  { title: 'Finishing Touches', icon: 'brush' },
+  { title: 'Drying & Finishing', icon: 'brush' },
   { title: 'Final Quality Inspection', icon: 'badge' },
   { title: 'Secure Packaging & Delivery', icon: 'parcel' },
 ] as const;
 
-const ICON_X = (i: number) => 197 + i * 173.25;
+const ICON_X = (i: number) => 197 + i * 231;
 /** Odd-numbered steps (index 0, 2, …) sit low; even-numbered sit high. */
 const ICON_Y = (i: number) => (i % 2 === 0 ? 515 : 320);
-const WAVE_PATH = Array.from({ length: 9 }, (_, i) => {
+const WAVE_PATH = Array.from({ length: STEPS.length }, (_, i) => {
   const x = ICON_X(i);
   const y = ICON_Y(i);
   if (i === 0) return `M${x},${y}`;
@@ -30,24 +29,33 @@ const WAVE_PATH = Array.from({ length: 9 }, (_, i) => {
 type IconName = (typeof STEPS)[number]['icon'];
 
 /**
- * "Dry cleaning, the Vanzoo way" — the nine-step journey as a zigzag
+ * "Dry cleaning, the Vanzoo way" — the seven-step journey as a zigzag
  * timeline. Odd steps hang their label above and sit their icon low; even
  * steps flip it, so the row reads as one wave. Below `lg` it collapses to a
- * plain numbered list, where nine columns would not fit.
+ * plain numbered list, where seven columns would not fit.
  */
-export function VanzooProcess({ id }: { id?: string }) {
+export function VanzooProcess({
+  id,
+  eyebrow = 'Our Process',
+  heading = 'How Vanzoo Does Dry Cleaning For You',
+  intro = 'Free pickup and delivery to save you time. Italian hydrocarbon cleaning and hand finishing to keep every piece looking its best.',
+  showCtas = true,
+}: {
+  id?: string;
+  eyebrow?: string;
+  heading?: string;
+  intro?: string;
+  showCtas?: boolean;
+}) {
   return (
     <section id={id} aria-labelledby="process-timeline-heading" className="bg-neutral-surface py-section">
       <div className="shell">
         <Reveal variant="up" className="mx-auto max-w-2xl text-center">
-          <p className="eyebrow">Our Process</p>
+          <p className="eyebrow">{eyebrow}</p>
           <h2 id="process-timeline-heading" className="mt-3 text-display-lg">
-            Dry cleaning process, the Vanzoo way
+            <Highlight text={heading} />
           </h2>
-          <p className="mt-5 text-lead text-pretty text-neutral-body">
-            Free pickup and delivery to save you time. Italian hydrocarbon cleaning and hand
-            finishing to keep every piece looking its best.
-          </p>
+          <p className="mt-5 text-lead text-pretty text-neutral-body">{intro}</p>
         </Reveal>
 
         {/* ≥lg — the wave. Everything sits in a fixed 1750×870 coordinate space
@@ -151,6 +159,7 @@ export function VanzooProcess({ id }: { id?: string }) {
           ))}
         </ol>
 
+        {showCtas ? (
         <div className="mt-14 flex flex-wrap justify-center gap-3">
           <a href={links.bookPickup} target="_blank" rel="noopener noreferrer" className="btn-gold btn-lg">
             Schedule a dry cleaning pickup
@@ -159,6 +168,7 @@ export function VanzooProcess({ id }: { id?: string }) {
             Learn about our technology
           </Link>
         </div>
+        ) : null}
       </div>
     </section>
   );
@@ -201,12 +211,6 @@ function Icon({ name }: { name: IconName }) {
           <circle cx="17" cy="17.5" r="1.8" />
         </svg>
       );
-    case 'box':
-      return (
-        <svg {...p}>
-          <path d="M3.5 8 12 4l8.5 4v9L12 21l-8.5-4V8ZM3.5 8 12 12l8.5-4M12 12v9" />
-        </svg>
-      );
     case 'clipboard':
       return (
         <svg {...p}>
@@ -225,13 +229,6 @@ function Icon({ name }: { name: IconName }) {
       return (
         <svg {...p}>
           <path d="M12 3.5 13.8 9l5.7 1.8-5.7 1.8L12 18l-1.8-5.4-5.7-1.8L10.2 9 12 3.5ZM19 16v4M17 18h4" />
-        </svg>
-      );
-    case 'heat':
-      return (
-        <svg {...p}>
-          <circle cx="12" cy="12" r="9" />
-          <path d="M9 8c-1 1.3 1 2 0 3.5s1 2 0 3.5M12 8c-1 1.3 1 2 0 3.5s1 2 0 3.5M15 8c-1 1.3 1 2 0 3.5s1 2 0 3.5" />
         </svg>
       );
     case 'brush':

@@ -1,7 +1,8 @@
+import { Highlight } from '@/components/ui/Highlight';
 import Image from 'next/image';
 import Link from 'next/link';
 import { AppPromo } from '@/components/AppPromo';
-import { AreaCoverageGrid } from '@/components/AreaCoverageGrid';
+import { AreasSection } from '@/components/AreasSection';
 import { BlogGrid } from '@/components/BlogCard';
 import { VanzooProcess } from '@/components/VanzooProcess';
 import { EnquiryDialog } from '@/components/EnquiryDialog';
@@ -13,8 +14,6 @@ import { IconFeatureGrid } from '@/components/IconFeatureGrid';
 import { JsonLd } from '@/components/JsonLd';
 import { Mascot } from '@/components/Mascot';
 import { PersonaScroller } from '@/components/PersonaScroller';
-import { ProcessRail } from '@/components/ProcessRail';
-import { Reviews } from '@/components/Reviews';
 import { RevealGroup } from '@/components/ui/Reveal';
 import { Section, SectionHeading } from '@/components/ui/Section';
 import { ServiceRow } from '@/components/ServiceRow';
@@ -24,7 +23,6 @@ import { WeCareBanner } from '@/components/WeCareBanner';
 import { WhyChoosePillars } from '@/components/WhyChoosePillars';
 import { posts } from '@/content/blog';
 import { serviceEntries } from '@/content/services';
-import { SHOW_REVIEWS, reviews, reviewsIntro } from '@/content/reviews';
 import {
   collage,
   enquiryIntro,
@@ -34,7 +32,7 @@ import {
   homeHero,
 } from '@/content/marketing';
 import { buildMetadata, faqSchema, localBusinessSchema } from '@/lib/seo';
-import { areaGroups, links, serviceAreas, site } from '@/lib/site';
+import { links, site } from '@/lib/site';
 
 export const metadata = buildMetadata({
   title: 'Vanzoo – Luxury Fabric Care & Eco-Friendly Dry Cleaning',
@@ -64,6 +62,7 @@ export default function HomePage() {
       <JsonLd data={[localBusinessSchema(), faqSchema(homeFaqs)]} />
 
       <Hero
+        seoH1="Best & Premium Dry Cleaning Services in Gurgaon"
         headline={homeHero.headline}
         subhead={homeHero.subhead}
         image={homeHero.image}
@@ -155,9 +154,7 @@ export default function HomePage() {
           </div>
           <div>
             <p className="eyebrow">Visit Us</p>
-            <h2 id="store-heading" className="mt-3 text-display-lg">
-              Step into the Vanzoo store
-            </h2>
+            <h2 id="store-heading" className="mt-3 text-display-lg"><Highlight text="Step into the Vanzoo store" dark={false} /></h2>
             <p className="mt-5 max-w-lg text-lead text-pretty text-neutral-body">
               Drop in to see our premium organic dry cleaning up close — talk to our team about your
               garments, bags and shoes, or collect your finished order in person.
@@ -177,60 +174,8 @@ export default function HomePage() {
       {/* Editorial statement band — the old site's "we care" banner as live type. */}
       <WeCareBanner />
 
-      {/* 6 — Customer reviews. Hidden on the live site until real reviews
-          are added in content/reviews.ts; shown with a notice in `next dev`. */}
-      {SHOW_REVIEWS ? (
-        <Section tone="muted" aria-labelledby="reviews-heading">
-          <SectionHeading
-            id="reviews-heading"
-            eyebrow="Customer reviews"
-            title="Trusted with Gurgaon's best-loved wardrobes"
-            intro={reviewsIntro}
-            align="center"
-            className="mx-auto"
-          />
-          <div className="mt-12">
-            <Reviews />
-          </div>
-          <p className="mt-10 text-center">
-            <Link href="/reviews/" className="btn-secondary btn-lg">
-              Read all {reviews.length} reviews
-            </Link>
-          </p>
-        </Section>
-      ) : null}
-
       {/* 10 — Areas we serve */}
-      <Section tone="surface" aria-labelledby="areas-heading">
-        <SectionHeading
-          id="areas-heading"
-          eyebrow="Where we deliver"
-          title="Every area we serve in Gurgaon"
-          intro={`Free pickup and delivery across ${serviceAreas.length} neighbourhoods in ${areaGroups.length} corridors — from DLF and Golf Course Road to New Gurgaon. Find yours below.`}
-          align="center"
-          className="mx-auto"
-        />
-        <div className="mt-12">
-          <AreaCoverageGrid headingLevel="h3" showBlurb={false} />
-        </div>
-        <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
-          <a href={links.bookPickup} target="_blank" rel="noopener noreferrer" className="btn-primary btn-md">
-            Book Pickup
-          </a>
-          <a href={links.whatsapp} target="_blank" rel="noopener noreferrer" className="btn-secondary btn-md">
-            Chat on WhatsApp
-          </a>
-        </div>
-        <p className="mt-6 text-center">
-          <Link
-            href="/areas-we-serve/"
-            className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand transition-colors hover:text-brand-dark"
-          >
-            Check your pincode & see full coverage details
-            <span aria-hidden="true">→</span>
-          </Link>
-        </p>
-      </Section>
+      <AreasSection />
 
       {/* 11 — Blog preview */}
       <Section tone="surface" aria-labelledby="blog-preview-heading">

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { AreasSection } from '@/components/AreasSection';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { CtaBanner } from '@/components/CtaBanner';
 import { JsonLd } from '@/components/JsonLd';
@@ -36,6 +37,7 @@ export default function PricingPage() {
       <JsonLd data={breadcrumbSchema(CRUMBS)} />
 
       <PageHeader
+        seoH1="Best & Premium Dry Cleaning Prices in Gurgaon"
         eyebrow="Pricing"
         title="Pricing"
         intro={`${tariffIntro} Add anything you need cleaned or pressed to your cart and send us the list — we'll confirm the quote and collect from your door, free, anywhere in Gurgaon.`}
@@ -166,6 +168,8 @@ export default function PricingPage() {
           secondary={{ label: 'Talk to us first', href: '/contact-us/' }}
         />
       </Section>
+
+      <AreasSection />
     </>
   );
 }

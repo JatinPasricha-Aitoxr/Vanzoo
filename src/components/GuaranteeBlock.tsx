@@ -1,3 +1,4 @@
+import { Highlight } from '@/components/ui/Highlight';
 import { guarantee } from '@/content/marketing';
 import { Reveal } from './ui/Reveal';
 import { links } from '@/lib/site';
@@ -20,7 +21,7 @@ export function GuaranteeBlock() {
         ))}
       </div>
 
-      <h2 className="mt-6 text-display-lg text-white">{guarantee.headline}</h2>
+      <h2 className="mt-6 text-display-lg text-white"><Highlight text={guarantee.headline} dark={true} /></h2>
 
       <p className="mt-5 text-lead leading-relaxed text-pretty text-white/80">
         {guarantee.statement}

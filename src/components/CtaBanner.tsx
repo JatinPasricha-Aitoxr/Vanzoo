@@ -1,3 +1,4 @@
+import { Highlight } from '@/components/ui/Highlight';
 import Link from 'next/link';
 import { Mascot } from './Mascot';
 import { Reveal } from './ui/Reveal';
@@ -25,7 +26,7 @@ export function CtaBanner({
         className="pointer-events-none absolute -bottom-2 right-6 hidden w-36 xl:block 2xl:w-44"
         sizes="176px"
       />
-      <h2 className="mx-auto max-w-2xl text-display-md text-white">{heading}</h2>
+      <h2 className="mx-auto max-w-2xl text-display-md text-white"><Highlight text={heading} dark={true} /></h2>
       <p className="mx-auto mt-4 max-w-xl text-lead text-pretty text-white/75">{body}</p>
       <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
         <a

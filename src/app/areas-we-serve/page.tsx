@@ -26,6 +26,7 @@ export default function AreasWeServePage() {
       <JsonLd data={[localBusinessSchema(), breadcrumbSchema(CRUMBS)]} />
 
       <PageHeader
+        seoH1="Best & Premium Dry Cleaning Services Across Gurgaon"
         eyebrow="Areas We Serve"
         title="Free pickup and delivery across Gurgaon"
         intro={`Two stores, ${totalAreas} neighbourhoods, one city. Our valets collect from your door and return everything pressed and wrapped — at no extra charge, anywhere we serve.`}

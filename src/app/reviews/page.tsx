@@ -20,7 +20,7 @@ export default function ReviewsPage() {
   return (
     <>
       <JsonLd data={breadcrumbSchema(CRUMBS)} />
-      <PageHeader eyebrow="Customer reviews" title={`What ${reviews.length} customers say`} intro={reviewsIntro}>
+      <PageHeader seoH1="Best & Premium Dry Cleaning Reviews in Gurgaon" eyebrow="Customer reviews" title={`What ${reviews.length} customers say`} intro={reviewsIntro}>
         <Breadcrumbs crumbs={CRUMBS} />
       </PageHeader>
       <Section tone="surface">

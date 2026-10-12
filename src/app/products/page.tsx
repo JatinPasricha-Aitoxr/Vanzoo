@@ -17,7 +17,7 @@ export function generateMetadata() {
 export default function ProductsIndexPage() {
   return (
     <>
-      <PageHeader eyebrow="Products" title="Shop by garment" intro={productsIntro} />
+      <PageHeader seoH1="Best & Premium Garment Dry Cleaning in Gurgaon" eyebrow="Products" title="Shop by garment" intro={productsIntro} />
 
       <Section tone="surface" aria-labelledby="products-heading">
         <h2 id="products-heading" className="sr-only">

@@ -1,3 +1,4 @@
+import { Highlight } from '@/components/ui/Highlight';
 import Image from 'next/image';
 import Link from 'next/link';
 import { AppPromo } from '@/components/AppPromo';
@@ -30,6 +31,7 @@ export default function HydrocarbonTechPage() {
       <JsonLd data={[breadcrumbSchema(CRUMBS), faqSchema(hydrocarbon.faqs)]} />
 
       <Hero
+        seoH1="Best & Premium Hydrocarbon Dry Cleaning in Gurgaon"
         headline={hydrocarbon.hero.headline}
         subhead={hydrocarbon.hero.subhead}
         image={hydrocarbon.hero.image}
@@ -77,9 +79,7 @@ export default function HydrocarbonTechPage() {
             </div>
             <div className="max-w-lg">
               <p className="eyebrow">{section.eyebrow}</p>
-              <h2 id={`${section.id}-heading`} className="mt-3 text-display-md">
-                {section.heading}
-              </h2>
+              <h2 id={`${section.id}-heading`} className="mt-3 text-display-md"><Highlight text={section.heading} dark={false} /></h2>
               <p className="mt-5 text-lead text-pretty text-neutral-body">{section.body}</p>
               {index === 1 ? (
                 <div className="mt-8">

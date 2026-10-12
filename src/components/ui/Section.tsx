@@ -1,3 +1,4 @@
+import { highlightNode } from './Highlight';
 import { Reveal } from './Reveal';
 import { cn } from '@/lib/cn';
 
@@ -88,7 +89,7 @@ export function SectionHeading({
           tone === 'dark' && 'text-white',
         )}
       >
-        {title}
+        {highlightNode(title, tone === 'dark')}
       </Tag>
       {intro ? (
         <p

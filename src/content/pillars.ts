@@ -40,7 +40,7 @@ export const pillars: readonly Pillar[] = [
   {
     id: 'western-technology',
     title: 'Western Technology',
-    tagline: 'Imported Italian hydrocarbon systems, and a nine-step process built around them.',
+    tagline: 'Imported Italian hydrocarbon systems, and a seven-step process built around them.',
     icon: {
       src: '/images/icons/western-technology.png',
       alt: 'Circuit and gear icon representing imported Western dry cleaning technology',
@@ -62,8 +62,8 @@ export const pillars: readonly Pillar[] = [
       },
       {
         icon: 'steps',
-        heading: 'Nine steps, every order',
-        body: 'Every piece runs the same nine stages, from individual assessment and stain treatment to hand finishing, quality inspection and protective packaging.',
+        heading: 'Seven steps, every order',
+        body: 'Every piece runs the same seven steps, from detailed assessment and stain treatment to finishing, quality inspection and secure packaging.',
       },
     ],
   },

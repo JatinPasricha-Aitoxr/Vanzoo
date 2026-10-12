@@ -24,6 +24,7 @@ export default function LocateUsPage() {
       <JsonLd data={[localBusinessSchema(), breadcrumbSchema(CRUMBS)]} />
 
       <PageHeader
+        seoH1="Best & Premium Dry Cleaning Stores in Gurgaon"
         eyebrow="Locate Us"
         title="Two Gurgaon stores. Free pickup across the city."
         intro="Drop in at either store, or let us collect from your door — free pickup and delivery covers every Gurgaon sector we serve."

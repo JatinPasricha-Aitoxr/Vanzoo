@@ -639,10 +639,6 @@ export const hydrocarbon = {
       },
     ],
   },
-  processImage: {
-    src: '/images/tech-nine-step-process.jpg',
-    alt: 'Vanzoo nine-step garment care process from pickup and item collection through targeted stain treatment, premium hydrocarbon cleaning, drying, finishing touches, final quality inspection and secure packaging and delivery',
-  },
   faqs: [
     {
       question: 'How does the hydrocarbon cleaning system actually work?',
