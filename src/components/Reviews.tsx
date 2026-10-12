@@ -9,7 +9,7 @@ import { RevealGroup } from './ui/Reveal';
  * placeholder that looks like a finished testimonial is worse than no
  * testimonial at all.
  */
-export function Reviews() {
+export function Reviews({ limit = 8 }: { limit?: number }) {
   if (reviews.length === 0) return null;
 
   return (
@@ -32,7 +32,7 @@ export function Reviews() {
         step={90}
         className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4"
       >
-        {reviews.map((review, index) => (
+        {reviews.slice(0, limit).map((review, index) => (
           <ReviewCard key={`${review.author}-${index}`} review={review} />
         ))}
       </RevealGroup>
