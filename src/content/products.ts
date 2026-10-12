@@ -620,6 +620,67 @@ export const productEntries: readonly ProductEntry[] = [
     ],
   },
 
+  {
+    id: 'double-blanket-2-ply',
+    title: 'Double Blanket 2 Ply / Quilt',
+    intro: 'Double 2-ply blankets and quilts, deep-cleaned and returned allergen-free — collected free from your door.',
+    heroImage: '/images/tariffs/double-blanket.jpg',
+    heroImageAlt: 'Double 2-ply blanket folded after professional cleaning by Vanzoo',
+    services: [
+      cleanAndPress(
+        'home-textiles',
+        'home-textiles',
+        'Double Blanket 2 Ply / Quilt',
+        'Cleaned in our closed-loop hydrocarbon system and returned crisp, fresh and allergen-free.',
+      ),
+    ],
+  },
+  {
+    id: 'single-blanket-2-ply',
+    title: 'Single Blanket 2 Ply / Quilt',
+    intro: 'Single 2-ply blankets and quilts, deep-cleaned and returned allergen-free — collected free from your door.',
+    heroImage: '/images/tariffs/single-blanket.jpg',
+    heroImageAlt: 'Single 2-ply blanket folded after professional cleaning by Vanzoo',
+    services: [
+      cleanAndPress(
+        'home-textiles',
+        'home-textiles',
+        'Single Blanket 2 Ply / Quilt',
+        'Cleaned in our closed-loop hydrocarbon system and returned crisp, fresh and allergen-free.',
+      ),
+    ],
+  },
+  {
+    id: 'bed-spread-double',
+    title: 'Bed Spread Double',
+    intro: 'Double bed spreads, cleaned and returned fresh — collected free from your door.',
+    heroImage: '/images/tariffs/double-bedsheet.jpg',
+    heroImageAlt: 'Double bed spread folded after Vanzoo fabric care',
+    services: [
+      cleanAndPress(
+        'home-textiles',
+        'home-textiles',
+        'Bed Spread Double',
+        'Cleaned in our closed-loop hydrocarbon system and returned crisp, fresh and ready for the bed.',
+      ),
+    ],
+  },
+  {
+    id: 'comforter-double',
+    title: 'Comforter Double',
+    intro: 'Double comforters, deep-cleaned and returned fresh — collected free from your door.',
+    heroImage: '/images/tariffs/double-blanket.jpg',
+    heroImageAlt: 'Double comforter folded after professional cleaning by Vanzoo',
+    services: [
+      cleanAndPress(
+        'home-textiles',
+        'home-textiles',
+        'Comforter Double',
+        'Cleaned in our closed-loop hydrocarbon system and returned fresh, soft and allergen-free.',
+      ),
+    ],
+  },
+
   // ---------------------------------------------------------------------
   // Footwear
   // ---------------------------------------------------------------------
@@ -680,6 +741,67 @@ export const productEntries: readonly ProductEntry[] = [
         'footwear',
         'Sneakers Shoes',
         'Mesh, leather and sole treated as separate materials, so the clean matches what each part is made of.',
+      ),
+    ],
+  },
+
+  {
+    id: 'sneaker-ankle-shoes',
+    title: 'Sneaker Ankle Shoes',
+    intro: 'Ankle-length sneakers, cleaned uppers to soles without harsh scrubbing — collected free from your door.',
+    heroImage: '/images/tariffs/sneakers-shoes.jpg',
+    heroImageAlt: 'Ankle-length sneakers cleaned by Vanzoo shoe care',
+    services: [
+      cleanAndPress(
+        'shoe-care',
+        'footwear',
+        'Sneaker Ankle Shoes',
+        'Uppers, collar and sole treated as separate materials, so the clean matches what each part is made of.',
+      ),
+    ],
+  },
+  {
+    id: 'boots-mid-length-shoes',
+    title: 'Boots Mid Length Shoes',
+    intro: 'Mid-length boots, cleaned and conditioned to keep their shape and finish — collected free from your door.',
+    heroImage: '/images/tariffs/leather-shoes.jpg',
+    heroImageAlt: 'Mid-length boots after professional cleaning and conditioning at Vanzoo',
+    services: [
+      cleanAndPress(
+        'shoe-care',
+        'footwear',
+        'Boots Mid Length Shoes',
+        'Cleaned and conditioned by hand, with the leather and sole each treated for what they are made of.',
+      ),
+    ],
+  },
+  {
+    id: 'birkenstock',
+    title: 'Birkenstock',
+    intro: 'Birkenstock footwear, cleaned with care for the footbed and straps — collected free from your door.',
+    heroImage: '/images/tariffs/suede-leather-shoes.jpg',
+    heroImageAlt: 'Birkenstock sandals cleaned by Vanzoo shoe care',
+    services: [
+      cleanAndPress(
+        'shoe-care',
+        'footwear',
+        'Birkenstock',
+        'Footbed, straps and sole cleaned as separate parts, so the material is protected rather than soaked.',
+      ),
+    ],
+  },
+  {
+    id: 'sandals',
+    title: 'Sandals',
+    intro: 'Sandals, cleaned and freshened — collected free from your door.',
+    heroImage: '/images/tariffs/sports-shoes.jpg',
+    heroImageAlt: 'Sandals cleaned by Vanzoo shoe care',
+    services: [
+      cleanAndPress(
+        'shoe-care',
+        'footwear',
+        'Sandals',
+        'Straps, footbed and sole cleaned and freshened, with the material of each part in mind.',
       ),
     ],
   },

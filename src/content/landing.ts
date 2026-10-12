@@ -63,7 +63,7 @@ export const nearMePage: LandingPage = {
     items: [
       {
         title: 'Pickup and delivery',
-        body: 'A dry cleaner "near you" should not need a trip. Vanzoo collects from your door and delivers back free, with no minimum order.',
+        body: 'A dry cleaner "near you" should not need a trip. Vanzoo collects from your door and delivers back free.',
       },
       {
         title: 'A turnaround you can plan around',
@@ -110,7 +110,7 @@ export const nearMePage: LandingPage = {
     {
       question: 'Do I have to visit the store?',
       answer:
-        'No. Book a pickup on the website or the Vanzoo app and a valet collects from your door. Delivery back is free too, with no minimum order.',
+        'No. Book a pickup on the website or the Vanzoo app and a valet collects from your door. Delivery back is free too.',
     },
     {
       question: 'How quickly can I get my clothes back?',
@@ -176,7 +176,7 @@ export const gurgaonPage: LandingPage = {
       },
       {
         title: 'Transparent pricing',
-        body: 'Item-wise, published tariff with no minimum order and no hidden charges.',
+        body: 'Item-wise, published tariff with no hidden charges.',
       },
       {
         title: 'Citywide convenience',

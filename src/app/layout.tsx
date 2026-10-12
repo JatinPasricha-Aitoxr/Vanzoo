@@ -10,6 +10,7 @@ import { ReviewsBand } from '@/components/ReviewsBand';
 import { StoresAndReviews } from '@/components/StoresAndReviews';
 import { CityProvider } from '@/components/CityProvider';
 import { BookNowButton } from '@/components/BookNowButton';
+import { PageGallery } from '@/components/PageGallery';
 import { PageVideo } from '@/components/PageVideo';
 import { CartProvider } from '@/lib/cart';
 import { organizationSchema, websiteSchema } from '@/lib/seo';
@@ -92,6 +93,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <CartProvider>
           <Header />
           <main id="main">{children}</main>
+          <PageGallery />
           <ReviewsBand />
           <StoresAndReviews />
           <Footer />

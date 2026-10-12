@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
+import { WhatsAppPrice } from './WhatsAppPrice';
 import { Reveal } from './ui/Reveal';
 import { formatPrice, lineId } from '@/content/pricing';
 import { tariffRowFor, type ProductEntry } from '@/content/products';
@@ -55,6 +56,7 @@ export function ProductBuyBox({ product }: { product: ProductEntry }) {
         <p className="mt-4 font-display text-3xl font-semibold tabular-nums text-brand">
           {formatPrice(row)}
         </p>
+        <WhatsAppPrice item={product.title} className="mt-2 text-sm" />
 
         {/* Variant picker — one pill per service treatment. */}
         <fieldset className="mt-7">

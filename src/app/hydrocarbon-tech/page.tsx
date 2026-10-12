@@ -112,6 +112,29 @@ export default function HydrocarbonTechPage() {
         </dl>
       </Section>
 
+      {/* The machine cycle, stage by stage */}
+      <Section tone="muted" aria-labelledby="cycle-heading">
+        <SectionHeading
+          id="cycle-heading"
+          eyebrow={hydrocarbon.cycle.eyebrow}
+          title={hydrocarbon.cycle.heading}
+          intro={hydrocarbon.cycle.intro}
+          align="center"
+          className="mx-auto"
+        />
+        <ol className="mx-auto mt-12 grid max-w-5xl gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {hydrocarbon.cycle.stages.map((stage, index) => (
+            <li key={stage.title} className="rounded-card border border-neutral-line bg-white p-6 shadow-lift">
+              <span className="font-display text-2xl font-semibold text-accent-gold-ink">
+                {String(index + 1).padStart(2, '0')}
+              </span>
+              <h3 className="mt-2 font-display text-lg font-semibold text-neutral-ink">{stage.title}</h3>
+              <p className="mt-2 text-[0.9375rem] leading-relaxed text-pretty text-neutral-body">{stage.body}</p>
+            </li>
+          ))}
+        </ol>
+      </Section>
+
       {/* Why Switch? — PERC comparison */}
       <Section tone="dark" aria-labelledby="comparison-heading">
         <SectionHeading
@@ -128,9 +151,76 @@ export default function HydrocarbonTechPage() {
           tone="dark"
           className="mt-12"
         />
+        <div className="mx-auto mt-16 max-w-5xl">
+          <h3 className="text-center font-display text-xl font-semibold text-white">
+            <Highlight text={hydrocarbon.detailedComparison.heading} dark />
+          </h3>
+          <div className="mt-8 overflow-x-auto rounded-card border border-accent-gold/50">
+            <table className="w-full min-w-[40rem] border-collapse text-left text-sm text-white">
+              <thead>
+                <tr className="bg-accent-gold text-brand-ink">
+                  <th scope="col" className="px-4 py-3 font-semibold" />
+                  {hydrocarbon.detailedComparison.columns.map((col) => (
+                    <th key={col} scope="col" className="px-4 py-3 font-semibold">
+                      {col}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {hydrocarbon.detailedComparison.rows.map((row) => (
+                  <tr key={row[0]} className="border-t border-white/15 align-top">
+                    <th scope="row" className="px-4 py-3.5 font-semibold text-accent-gold-soft">
+                      {row[0]}
+                    </th>
+                    {row.slice(1).map((cell, i) => (
+                      <td key={i} className={`px-4 py-3.5 leading-relaxed ${i === 0 ? 'font-medium text-white' : 'text-white/75'}`}>
+                        {cell}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </Section>
 
-      {/* The nine-step process, as live text */}
+      {/* Fabrics + safety */}
+      <Section tone="surface" aria-labelledby="fabrics-heading">
+        <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
+          <div>
+            <p className="eyebrow">{hydrocarbon.fabricsSuited.eyebrow}</p>
+            <h2 id="fabrics-heading" className="mt-3 text-display-md">
+              <Highlight text={hydrocarbon.fabricsSuited.heading} />
+            </h2>
+            <ul className="mt-8 flex flex-wrap gap-2.5">
+              {hydrocarbon.fabricsSuited.items.map((item) => (
+                <li key={item} className="rounded-pill border border-neutral-line bg-white px-4 py-2 text-sm font-medium text-neutral-ink shadow-lift">
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <p className="eyebrow">{hydrocarbon.safety.eyebrow}</p>
+            <h2 className="mt-3 text-display-md">
+              <Highlight text={hydrocarbon.safety.heading} />
+            </h2>
+            <ul className="mt-8 space-y-3.5">
+              {hydrocarbon.safety.points.map((point) => (
+                <li key={point} className="flex items-start gap-3 text-[0.9375rem] leading-relaxed text-neutral-body">
+                  <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 shrink-0 rounded-pill bg-accent-gold" />
+                  {point}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </Section>
+
+
+      {/* The seven-step process, as live text */}
       <VanzooProcess />
 
       <Section tone="muted" aria-label="Sustainability">

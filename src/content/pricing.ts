@@ -126,6 +126,10 @@ const coutureGroups: readonly TariffGroup[] = [
       { item: 'Single Blanket', amount: 499, image: img('single-blanket') },
       { item: 'Double Bedsheet', amount: 499, image: img('double-bedsheet') },
       { item: 'Single Bedsheet', amount: 299, image: img('single-bedsheet') },
+      { item: 'Double Blanket 2 Ply / Quilt', amount: 699, image: img('double-blanket') },
+      { item: 'Single Blanket 2 Ply / Quilt', amount: 599, image: img('single-blanket') },
+      { item: 'Bed Spread Double', amount: 649, image: img('double-bedsheet') },
+      { item: 'Comforter Double', amount: 349, image: img('double-blanket') },
     ],
   },
   {
@@ -136,6 +140,10 @@ const coutureGroups: readonly TariffGroup[] = [
       { item: 'Leather Shoes', amount: 799, image: img('leather-shoes') },
       { item: 'Suede Leather Shoes', amount: 799, image: img('suede-leather-shoes') },
       { item: 'Sneakers Shoes', amount: 649, image: img('sneakers-shoes') },
+      { item: 'Sneaker Ankle Shoes', amount: 699, image: img('sneakers-shoes') },
+      { item: 'Boots Mid Length Shoes', amount: 1399, image: img('leather-shoes') },
+      { item: 'Birkenstock', amount: 800, image: img('suede-leather-shoes') },
+      { item: 'Sandals', amount: 499, image: img('sports-shoes') },
     ],
   },
   {
@@ -196,14 +204,19 @@ const steamIronGroups: readonly TariffGroup[] = [
   },
 ];
 
+/** Every published price is a starting price — the final amount depends on the
+ *  fabric and the work required — so every row is flagged `from`. */
+const asStartingPrices = (groups: readonly TariffGroup[]): readonly TariffGroup[] =>
+  groups.map((group) => ({ ...group, rows: group.rows.map((row) => ({ ...row, from: true })) }));
+
 export const coutureCatalog: TariffCatalog = {
   id: 'couture',
   label: 'Couture Care',
-  groups: coutureGroups,
+  groups: asStartingPrices(coutureGroups),
 };
 
 export const steamIronCatalog: TariffCatalog = {
   id: 'steam-iron',
   label: 'Steam Iron',
-  groups: steamIronGroups,
+  groups: asStartingPrices(steamIronGroups),
 };

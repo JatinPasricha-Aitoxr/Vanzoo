@@ -4,6 +4,7 @@ import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { CtaBanner } from '@/components/CtaBanner';
 import { JsonLd } from '@/components/JsonLd';
 import { PageHeader } from '@/components/Hero';
+import { WhatsAppPrice } from '@/components/WhatsAppPrice';
 import { Section, SectionHeading } from '@/components/ui/Section';
 import { TariffGrid } from '@/components/TariffGrid';
 import {
@@ -65,9 +66,19 @@ export default function PricingPage() {
         </ul>
 
         <p className="mx-auto mt-8 max-w-3xl rounded-card border-2 border-accent-gold bg-accent-gold/10 p-5 text-center text-base font-bold text-neutral-ink sm:text-lg">
-          GST extra. Final prices depend on the type of fabric and the work required on it — the
-          care process also changes according to the type of fabric.
+          Prices start from the amounts shown. GST extra. Final prices depend on the type of fabric
+          and the work required on it — the care process also changes according to the type of
+          fabric.
         </p>
+        <div className="mt-5 flex flex-col items-center gap-3 text-center">
+          <p className="text-sm text-neutral-body">
+            Not sure what your garment will cost? Message us on WhatsApp for the actual price.
+          </p>
+          <WhatsAppPrice
+            label="Know the actual price on WhatsApp"
+            className="rounded-pill border border-[#25D366] bg-[#25D366]/10 px-5 py-2.5 text-sm"
+          />
+        </div>
       </Section>
 
       <Section tone="surface" size="sm" id="couture-care-tariffs" aria-labelledby="couture-tariffs-heading">

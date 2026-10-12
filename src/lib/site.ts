@@ -126,6 +126,7 @@ export const areaGroups = [
       'Sector 48',
       'Sector 49',
       'Sector 50',
+      'South City 2',
       'Sector 55',
       'Sector 56',
       'Sector 57',
@@ -159,7 +160,6 @@ export const areaGroups = [
       'Sector 14',
       'Sector 15',
       'South City 1',
-      'South City 2',
       'Sushant Lok 2',
       'Sushant Lok 3',
     ],
@@ -298,3 +298,8 @@ export const footerIntro = {
   body: 'Experience expert garment care, eco-conscious cleaning, and seamless door-to-door service—all designed to fit your lifestyle.',
   copyright: `Copyright © ${new Date().getFullYear()} Vanzoo. All Rights Reserved.`,
 } as const;
+
+/** wa.me link with a prefilled message, for "ask the actual price" prompts. */
+export function whatsappLink(message: string): string {
+  return `${links.whatsapp}?text=${encodeURIComponent(message)}`;
+}

@@ -189,7 +189,7 @@ export function LandingPageView({ page }: { page: LandingPage }) {
           id="landing-items-heading"
           eyebrow="Popular items"
           title="Pick an item, see the price"
-          intro="Published, item-wise pricing — no minimum order, no hidden charges. Exclusive of GST."
+          intro="Published, item-wise pricing — no hidden charges. Exclusive of GST."
         />
         <div className="mt-12">
           <PopularItems productIds={page.productIds} />

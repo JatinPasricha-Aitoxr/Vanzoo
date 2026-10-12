@@ -93,7 +93,7 @@ export const uspCards: readonly UspCard[] = [
   },
   {
     title: 'Free pickup and delivery',
-    body: 'Book on the website or the Vanzoo app, choose a slot, and a valet collects from your door — free across Gurgaon, with no minimum order.',
+    body: 'Book on the website or the Vanzoo app, choose a slot, and a valet collects from your door — free across Gurgaon.',
     image: '/images/hero-valet-handover.jpg',
     imageAlt: 'Vanzoo valet handing freshly cleaned garments in protective wrap to a customer',
   },
@@ -608,6 +608,73 @@ export const hydrocarbon = {
   sustainabilityImage: {
     src: '/images/tech-sustainability-wide.jpg',
     alt: 'Vanzoo sustainability diagram: no harmful solvents, zero waste, and eco-friendly reusable packaging',
+  },
+  /** The machine cycle, stage by stage — what happens inside the drum. */
+  cycle: {
+    eyebrow: 'Inside the machine',
+    heading: 'One closed-loop cycle, step by step',
+    intro:
+      'Every garment goes through the same sealed, controlled cycle — here is what happens between loading the drum and the finished piece coming out.',
+    stages: [
+      {
+        title: 'Load and set the programme',
+        body: 'Each item is assessed first, then grouped by fabric and colour so the programme — temperature and agitation — suits what is inside the drum.',
+      },
+      {
+        title: 'Immersion in hydrocarbon solvent',
+        body: 'Garments are immersed and gently tumbled in refined hydrocarbon solvent at controlled, moderate temperatures. There is no water and no harsh agitation.',
+      },
+      {
+        title: 'Continuous filtration and distillation',
+        body: 'While the cycle runs, the machine filters out particulates and distils the solvent, separating it from the soiling it has just lifted.',
+      },
+      {
+        title: 'Solvent recovery',
+        body: 'Solvent vapours are condensed and recovered for reuse. Roughly 99% of the solvent is recovered each cycle, so very little is wasted.',
+      },
+      {
+        title: 'Dry, finish and inspect',
+        body: 'The garment is dried under controlled conditions, then pressed and finished by hand and checked before it is packed.',
+      },
+    ],
+  },
+  /** Side-by-side detail: hydrocarbon vs PERC vs washing at home. */
+  detailedComparison: {
+    heading: 'Hydrocarbon, PERC and washing at home',
+    columns: ['Hydrocarbon (Vanzoo)', 'PERC dry cleaning', 'Washing at home'] as const,
+    rows: [
+      ['Cleaning medium', 'Refined, high-flashpoint hydrocarbon solvent', 'Perchloroethylene (PERC)', 'Water and detergent'],
+      ['System', 'Sealed, closed-loop machine', 'Machine-dependent', 'Open — no recovery'],
+      ['Solvent recovery', 'Roughly 99% recovered and reused', 'Varies by machine', 'Not applicable'],
+      ['Feel on fabric', 'Soft; no stiffness or shrinkage', 'Can leave fabric stiffer', 'Risk of swelling, shrinkage and colour loss on delicates'],
+      ['Odour', 'Low-odour, clean finish', 'Often a lingering chemical smell', 'Depends on detergent'],
+      ['Delicates and couture', 'Trusted for silk, cashmere, lace, wool and embellished pieces', 'Harsher on delicate finishes', 'Not recommended for delicates'],
+      ['Environment', 'Biodegradable solvent, low toxicity, lighter than water', 'Can contaminate soil and groundwater', 'Uses a lot of water'],
+    ],
+  },
+  fabricsSuited: {
+    eyebrow: 'Made for delicate care',
+    heading: 'The fabrics it is gentlest on',
+    items: [
+      'Silk',
+      'Cashmere',
+      'Wool',
+      'Lace',
+      'Embellished and hand-finished couture',
+      'Suits and tailored wear',
+      'Sarees and lehengas',
+      'Technical fabrics',
+    ],
+  },
+  safety: {
+    eyebrow: 'Safety and environment',
+    heading: 'Designed to be safer for you and the planet',
+    points: [
+      'High-flashpoint, chemically stable solvent — far less flammable and volatile than traditional dry-cleaning agents.',
+      'Sealed machines with solvent recovery and filtration, so vapour does not escape into the store or the air outside.',
+      'Biodegradable, low-odour solvent classified as low-toxicity under most international standards.',
+      'Solvent recovered and reused each cycle, so far less is wasted.',
+    ],
   },
   comparison: {
     eyebrow: 'Why Switch?',

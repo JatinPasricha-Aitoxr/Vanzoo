@@ -3,12 +3,13 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
+import { WhatsAppPrice } from './WhatsAppPrice';
 import { Reveal } from './ui/Reveal';
 import {
   lineId,
   type TariffCatalog,
   type TariffGroup,
-  type TariffRow,
+  type TariffRow, formatPrice,
 } from '@/content/pricing';
 import { productForTariffRow } from '@/content/products';
 import { useCart } from '@/lib/cart';
@@ -18,10 +19,11 @@ import { cn } from '@/lib/cn';
  * Tariff card grid (§3.4, §3.5).
  *
  * This restores the live site's layout — one card per garment — with
- * "Add to Cart" in place of its per-item "Enquire Now". Prices are not shown
- * here: GST and the final rate both depend on fabric and the work involved,
- * so the card only lets a visitor pick a quantity; the team confirms the
- * quote once they see the garment. The category chips are in-page anchors
+ * "Add to Cart" in place of its per-item "Enquire Now". Every price is shown
+ * as a starting price ("Starting from ₹…"): GST and the final rate depend on
+ * fabric and the work involved, so each card also carries a WhatsApp prompt to
+ * ask the actual price for that garment, and the team confirms the quote once
+ * they see it. The category chips are in-page anchors
  * rather than a filter, so every item stays crawlable and printable.
  *
  * The category nav only renders when there is more than one group — a service
@@ -210,7 +212,10 @@ function TariffCard({
           )}
         </h3>
 
-        <div className="mt-5">
+        <p className="mt-2 text-sm font-semibold tabular-nums text-brand">{formatPrice(row)}</p>
+        <WhatsAppPrice item={row.item} label="Know the actual price" className="mt-2" />
+
+        <div className="mt-4">
           {inCart > 0 ? (
             <div className="flex items-center justify-between gap-3">
               <span className="text-xs font-semibold uppercase tracking-[0.1em] text-brand-dark">

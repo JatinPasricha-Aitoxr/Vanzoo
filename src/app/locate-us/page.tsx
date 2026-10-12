@@ -5,6 +5,7 @@ import { JsonLd } from '@/components/JsonLd';
 import { PageHeader } from '@/components/Hero';
 import { PincodeChecker } from '@/components/PincodeChecker';
 import { RevealGroup } from '@/components/ui/Reveal';
+import { StoreMap } from '@/components/StoreMap';
 import { Section, SectionHeading } from '@/components/ui/Section';
 import { breadcrumbSchema, buildMetadata, localBusinessSchema } from '@/lib/seo';
 import { areaGroups, primaryStore, site, stores } from '@/lib/site';
@@ -33,17 +34,9 @@ export default function LocateUsPage() {
         <Breadcrumbs crumbs={CRUMBS} />
       </PageHeader>
 
-      {/* Full-width map of the primary store */}
-      <section aria-label={`Map of Vanzoo at ${primaryStore.name}`} className="bg-neutral-muted">
-        <div className="aspect-[16/10] w-full sm:aspect-[21/8]">
-          <iframe
-            title={`Map showing Vanzoo at ${primaryStore.name}, ${primaryStore.locality}`}
-            src={`https://www.google.com/maps?q=${encodeURIComponent(primaryStore.mapQuery)}&output=embed`}
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-            className="h-full w-full border-0"
-          />
-        </div>
+      {/* Map — switch between the two stores */}
+      <section aria-label="Map of Vanzoo stores" className="bg-neutral-muted">
+        <StoreMap stores={stores} />
       </section>
 
       {/* Store cards */}

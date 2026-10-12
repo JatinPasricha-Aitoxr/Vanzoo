@@ -185,7 +185,7 @@ export const serviceEntries: readonly ServiceEntry[] = [
     body: 'Expert care for luxury leather goods, handbags, and shoes. Cleaned, conditioned, and revived by skilled professionals.',
     metaTitle: 'Handbag & Leather Garment Care Gurgaon | Vanzoo',
     pageHeadline: 'Specialized Care for Designer Leather Bags & Jackets.',
-    contentHook: 'Deep conditioning, moisture restoration, and shape protection.',
+    contentHook: 'Deep conditioning, moisture care, and shape protection.',
     longBody:
       'A leather handbag is structure, hardware and stitching as much as it is material — and each of those needs a different kind of attention. We inspect hardware and linings before cleaning, condition the leather to bring its finish back rather than just remove surface dirt, and handle every bag the way its construction, not its price tag, demands.',
     highlights: [
@@ -339,9 +339,9 @@ export const serviceEntries: readonly ServiceEntry[] = [
       'Arranged with one phone call — no separate booking flow',
       'Every express order still gets a full individual assessment',
     ],
-    image: '/images/hero-valet-handover.jpg',
+    image: '/images/vanzoo/express-banner.jpg',
     imageAlt:
-      'Vanzoo valet handing over freshly cleaned garments in protective wrap for an express order',
+      'Vanzoo Express Services: clean shirts, sneakers and bedding ready in 24 to 48 hours',
     from: null,
     priceLine: 'Priced on request — call to arrange',
     tariffHref: '/pricing/',
@@ -395,9 +395,9 @@ export const serviceEntries: readonly ServiceEntry[] = [
     title: 'Free Pickup & Delivery',
     body: 'Enjoy seamless door-to-door service with optional same-day express turnaround.',
     longBody:
-      'Every service on this page includes the same door-to-door pickup and delivery — free, with no minimum order, anywhere we cover in Gurgaon. Book a slot from the app or the website, and a valet collects from your door and returns everything pressed, wrapped and ready.',
+      'Every service on this page includes the same door-to-door pickup and delivery — free, anywhere we cover in Gurgaon. Book a slot from the app or the website, and a valet collects from your door and returns everything pressed, wrapped and ready.',
     highlights: [
-      'Free, door-to-door, every time — no minimum order',
+      'Free, door-to-door, every time',
       'Covers every Gurgaon sector we serve',
       'Same-day express options available',
       'Track pickup and delivery from the Vanzoo app',

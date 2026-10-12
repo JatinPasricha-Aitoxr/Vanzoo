@@ -78,7 +78,7 @@ const handWrittenAreas: readonly AreaEntry[] = [
     intro:
       'Premium dry cleaning, steam pressing and fabric care, collected from your door in Ardee City and returned pressed, wrapped and ready to wear. Every piece is assessed individually and cleaned with Italian hydrocarbon technology.',
     localNotes: [
-      'Free pickup and delivery to Ardee City — no minimum order.',
+      'Free pickup and delivery to Ardee City.',
       'Standard turnaround is 3–5 days; same-day and next-day express on request.',
       'Served from our DLF Phase IV store, in the middle of the Golf Course Road corridor.',
       'Coverage is confirmed when you book — a handful of gated pockets need a quick call first.',
@@ -190,7 +190,7 @@ const handWrittenAreas: readonly AreaEntry[] = [
       {
         question: 'Do you offer free pickup in Ardee City?',
         answer:
-          'Yes. Pickup and delivery are free in Ardee City with no minimum order. Coverage is confirmed when you book.',
+          'Yes. Pickup and delivery are free in Ardee City. Coverage is confirmed when you book.',
       },
       {
         question: 'How long does dry cleaning take?',
@@ -429,7 +429,7 @@ const corridorProfiles: Record<CorridorId, CorridorProfile> = {
       paragraphs: [
         'Family homes send us a bit of everything — school uniforms and office shirts, a lehenga after a wedding, the curtains before Diwali. In {area}, one pickup covers all of it.',
         'Each item is checked for fabric, stains and construction before it is cleaned, so the cotton bedsheet and the embroidered dupatta each get the treatment they need.',
-        'Pricing is item by item from a published tariff, with no minimum order — so a single blanket is as welcome as a full wardrobe.',
+        'Pricing is item by item from a published tariff — so a single blanket is as welcome as a full wardrobe.',
       ],
       image: photos.linens,
     },
@@ -545,7 +545,7 @@ const corridorProfiles: Record<CorridorId, CorridorProfile> = {
       paragraphs: [
         'Our New Gurgaon & Dwarka Expressway route covers the newer sectors along NH-48 and the Expressway, and west towards Palam Vihar. {area} is on it — book a slot and a valet collects from your door.',
         'New homes send us curtains, carpets, quilts and blankets as often as clothes. Curtains are taken down and rehung free, and everything is assessed before it is cleaned.',
-        'Pricing is item by item from a published tariff, with no minimum order and no pickup charge.',
+        'Pricing is item by item from a published tariff, with no pickup charge.',
       ],
       image: photos.basket,
     },
@@ -618,7 +618,7 @@ function buildArea(name: string, corridorId: CorridorId, peers: readonly string[
     headline: `Dry Cleaning & Garment Care in ${name}, Gurgaon`,
     intro: fill(profile.intro),
     localNotes: [
-      `Free pickup and delivery to ${name} — no minimum order.`,
+      `Free pickup and delivery to ${name}.`,
       'Standard turnaround is 3–5 days; same-day and next-day express on request.',
       storeHosts[name] ?? `Served from ${storeName}.`,
       profile.corridorNote,
@@ -669,7 +669,7 @@ function buildArea(name: string, corridorId: CorridorId, peers: readonly string[
     faqs: [
       {
         question: `Do you offer free pickup in ${name}?`,
-        answer: `Yes. Pickup and delivery are free in ${name} with no minimum order. Coverage is confirmed when you book.`,
+        answer: `Yes. Pickup and delivery are free in ${name}. Coverage is confirmed when you book.`,
       },
       {
         question: 'How long does dry cleaning take?',
