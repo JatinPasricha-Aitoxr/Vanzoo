@@ -1,6 +1,7 @@
 import { Highlight } from '@/components/ui/Highlight';
 import Image from 'next/image';
 import Link from 'next/link';
+import { HydrocarbonBand } from '@/components/HydrocarbonBand';
 import { AreasSection } from '@/components/AreasSection';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { CtaBanner } from '@/components/CtaBanner';
@@ -57,31 +58,7 @@ export default function ServicesPage() {
         showCtas={false}
       />
 
-      {/* Hydrocarbon technology band */}
-      <Section tone="dark" aria-labelledby="services-tech-heading">
-        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
-          <Reveal variant="left">
-            <p className="eyebrow text-accent-gold-soft">{hydrocarbon.sections[0].eyebrow}</p>
-            <h2 id="services-tech-heading" className="mt-3 text-display-md text-white"><Highlight text="One technology behind every service" dark={true} /></h2>
-            <p className="mt-4 text-lead text-pretty text-white/75">
-              {hydrocarbon.sections[0].body}
-            </p>
-            <Link href="/hydrocarbon-tech/" className="btn-inverse btn-md mt-8">
-              Explore hydrocarbon tech
-            </Link>
-          </Reveal>
-          <Reveal variant="scale" delay={90} className="media-frame aspect-[4/3] bg-brand-dark">
-            <Image
-              src="/images/tech-hydrocarbon-machine.jpg"
-              alt="Closed-loop hydrocarbon dry cleaning machine that recycles 99% of solvent each cycle"
-              fill
-              loading="lazy"
-              sizes="(min-width: 1024px) 46vw, 90vw"
-              className="object-cover"
-            />
-          </Reveal>
-        </div>
-      </Section>
+      <HydrocarbonBand id="services-tech-heading" />
 
       <AreasSection />
 

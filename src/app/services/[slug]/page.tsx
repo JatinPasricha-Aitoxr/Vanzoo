@@ -7,11 +7,10 @@ import { JsonLd } from '@/components/JsonLd';
 import { PageHeader } from '@/components/Hero';
 import { PincodeChecker } from '@/components/PincodeChecker';
 import { ServiceCard } from '@/components/ServiceCard';
-import { TabbedExplainer } from '@/components/TabbedExplainer';
+import { VanzooProcess } from '@/components/VanzooProcess';
 import { TariffGrid } from '@/components/TariffGrid';
 import { RevealGroup, Reveal } from '@/components/ui/Reveal';
 import { Section, SectionHeading } from '@/components/ui/Section';
-import { howItWorksIntro, howItWorksSteps } from '@/content/marketing';
 import { coutureCatalog, steamIronCatalog, type TariffCatalog } from '@/content/pricing';
 import {
   getService,
@@ -184,19 +183,8 @@ export default function ServiceDetailPage({ params }: Params) {
         </Section>
       ) : null}
 
-      {/* How it works — the same three-step explainer as the homepage, so the
-          promise reads identically wherever a visitor lands on it. */}
-      <Section tone={tariffTable || service.id === 'pickup-delivery' ? 'surface' : 'muted'} id="how-it-works" aria-labelledby="service-how-heading">
-        <SectionHeading
-          id="service-how-heading"
-          eyebrow="How It Works"
-          title="Three steps, and it's handled"
-          intro={howItWorksIntro}
-        />
-        <div className="mt-14">
-          <TabbedExplainer steps={howItWorksSteps} />
-        </div>
-      </Section>
+      {/* The seven-step Vanzoo process, on every service page. */}
+      <VanzooProcess id="how-it-works" eyebrow="How we do it" showCtas={false} />
 
       {/* You might also need */}
       <Section tone="muted" aria-labelledby="related-services-heading">

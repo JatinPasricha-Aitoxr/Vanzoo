@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { HydrocarbonBand } from '@/components/HydrocarbonBand';
 import { PageHeader } from '@/components/Hero';
 import { RevealGroup } from '@/components/ui/Reveal';
 import { Section } from '@/components/ui/Section';
@@ -64,6 +65,8 @@ export default function ProductsIndexPage() {
           ))}
         </RevealGroup>
       </Section>
+
+      <HydrocarbonBand heading="How hydrocarbon cleans your garments" id="products-hydrocarbon-heading" />
     </>
   );
 }
