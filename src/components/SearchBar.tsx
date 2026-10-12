@@ -47,7 +47,7 @@ const SEARCH_INDEX: readonly SearchItem[] = [...PAGE_ITEMS, ...SERVICE_ITEMS, ..
  * under the trigger from `md` up, and a full-width panel under the header on
  * phones, where a fixed dropdown of that width wouldn't fit.
  */
-export function SearchBar({ solid }: { solid: boolean }) {
+export function SearchBar({ solid, wide = false }: { solid: boolean; wide?: boolean }) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
@@ -103,7 +103,10 @@ export function SearchBar({ solid }: { solid: boolean }) {
   }
 
   return (
-    <div ref={rootRef} className="relative">
+    <div
+      ref={rootRef}
+      className={cn('relative', wide && 'ml-auto lg:ml-0 lg:mx-auto lg:w-full lg:max-w-md lg:flex-1')}
+    >
       {open ? (
         <div
           className={cn(
@@ -178,13 +181,16 @@ export function SearchBar({ solid }: { solid: boolean }) {
           type="button"
           onClick={() => setOpen(true)}
           className={cn(
-            'inline-flex h-10 w-10 items-center justify-center rounded-pill border transition-colors duration-200',
+            'inline-flex h-10 items-center justify-center gap-2 rounded-pill border text-sm transition-colors duration-200',
+            wide ? 'w-10 lg:w-full lg:justify-start lg:px-4' : 'w-10',
             solid
               ? 'border-neutral-line text-neutral-ink hover:bg-neutral-muted'
               : 'border-white/40 text-white hover:bg-white/10',
           )}
         >
-          <span className="sr-only">Search</span>
+          <span className={cn(wide ? 'sr-only lg:not-sr-only lg:order-2 lg:opacity-70' : 'sr-only')}>
+            {wide ? 'Search products, services, pages…' : 'Search'}
+          </span>
           <SearchIcon />
         </button>
       )}

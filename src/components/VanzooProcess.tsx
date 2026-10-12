@@ -14,6 +14,19 @@ const STEPS = [
   { title: 'Secure Packaging & Delivery', icon: 'parcel' },
 ] as const;
 
+const ICON_X = (i: number) => 197 + i * 173.25;
+/** Odd-numbered steps (index 0, 2, …) sit low; even-numbered sit high. */
+const ICON_Y = (i: number) => (i % 2 === 0 ? 515 : 320);
+const WAVE_PATH = Array.from({ length: 9 }, (_, i) => {
+  const x = ICON_X(i);
+  const y = ICON_Y(i);
+  if (i === 0) return `M${x},${y}`;
+  const px = ICON_X(i - 1);
+  const py = ICON_Y(i - 1);
+  const mid = (px + x) / 2;
+  return `C${mid},${py} ${mid},${y} ${x},${y}`;
+}).join(' ');
+
 type IconName = (typeof STEPS)[number]['icon'];
 
 /**
@@ -37,34 +50,91 @@ export function VanzooProcess({ id }: { id?: string }) {
           </p>
         </Reveal>
 
-        {/* ≥lg — zigzag wave */}
-        <ol className="relative mt-16 hidden grid-cols-9 gap-2 lg:grid">
-          <span
-            aria-hidden="true"
-            className="absolute inset-x-6 top-1/2 h-10 -translate-y-1/2 rounded-pill bg-neutral-line/70"
-          />
-          {STEPS.map((step, index) => {
-            const high = index % 2 === 1; // even-numbered steps: icon high, label below
-            return (
-              <li key={step.title} className="relative flex h-[24rem] flex-col items-center">
-                <StepLabel index={index} title={step.title} className={high ? 'order-3 mt-auto' : 'order-1'} />
-                <span
-                  aria-hidden="true"
-                  className={`absolute left-1/2 w-px -translate-x-1/2 border-l-2 border-dotted border-brand/60 ${
-                    high ? 'bottom-[5.5rem] top-[7rem]' : 'bottom-[9rem] top-[5.5rem]'
-                  }`}
-                />
-                <span
-                  className={`absolute left-1/2 z-10 flex h-[4.5rem] w-[4.5rem] -translate-x-1/2 items-center justify-center rounded-full bg-brand text-white ring-[6px] ring-brand/20 ${
-                    high ? 'top-[5.5rem]' : 'bottom-[5.5rem]'
-                  }`}
-                >
-                  <Icon name={step.icon} />
-                </span>
-              </li>
-            );
-          })}
-        </ol>
+        {/* ≥lg — the wave. Everything sits in a fixed 1750×870 coordinate space
+            and is placed by percentage, with type sized in container units, so
+            the whole diagram scales as one picture. */}
+        <div className="mt-16 hidden lg:block [container-type:inline-size]">
+          <div className="relative w-full" style={{ aspectRatio: '1750 / 870' }}>
+            <svg viewBox="0 0 1750 870" className="absolute inset-0 h-full w-full" aria-hidden="true">
+              <path
+                d={WAVE_PATH}
+                fill="none"
+                stroke="#d9dbe0"
+                strokeWidth="92"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              {STEPS.map((_, i) => (
+                <circle key={i} cx={ICON_X(i)} cy={ICON_Y(i)} r="98" fill="#f4f5fa" />
+              ))}
+              {STEPS.map((_, i) => {
+                const low = i % 2 === 0;
+                return (
+                  <line
+                    key={i}
+                    x1={ICON_X(i)}
+                    x2={ICON_X(i)}
+                    y1={low ? 190 : ICON_Y(i) + 100}
+                    y2={low ? ICON_Y(i) - 100 : 688}
+                    stroke="#1f5547"
+                    strokeWidth="5"
+                    strokeLinecap="round"
+                    strokeDasharray="0.1 14"
+                  />
+                );
+              })}
+            </svg>
+
+            <ol className="absolute inset-0">
+              {STEPS.map((step, index) => {
+                const low = index % 2 === 0;
+                return (
+                  <li key={step.title}>
+                    <div
+                      className="absolute flex items-stretch rounded-[0.6cqw] border border-neutral-line bg-white shadow-lift"
+                      style={{
+                        left: `${((ICON_X(index) - 144) / 1750) * 100}%`,
+                        top: `${((low ? 20 : 720) / 870) * 100}%`,
+                        width: `${(288 / 1750) * 100}%`,
+                        height: `${(140 / 870) * 100}%`,
+                        gap: '1.2cqw',
+                        padding: '0 1.2cqw 0 1.6cqw',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <div className="text-neutral-ink" style={{ fontSize: '0.95cqw', lineHeight: 1.1 }}>
+                        STEP
+                        <span className="block font-semibold" style={{ fontSize: '1.6cqw' }}>
+                          {String(index + 1).padStart(2, '0')}
+                        </span>
+                      </div>
+                      <span aria-hidden="true" className="self-center rounded-pill bg-[#1f5547]" style={{ width: '0.45cqw', height: '6.3cqw' }} />
+                      <h3 className="font-display font-semibold text-neutral-ink" style={{ fontSize: '1.45cqw', lineHeight: 1.2 }}>
+                        {step.title}
+                      </h3>
+                    </div>
+
+                    <span
+                      className="absolute flex items-center justify-center rounded-full bg-[#173c32] text-white"
+                      style={{
+                        left: `${((ICON_X(index) - 78) / 1750) * 100}%`,
+                        top: `${((ICON_Y(index) - 78) / 870) * 100}%`,
+                        width: `${(156 / 1750) * 100}%`,
+                        height: `${(156 / 870) * 100}%`,
+                      }}
+                    >
+                      <span className="flex items-center justify-center rounded-full bg-[#21493e]" style={{ width: '77%', height: '77%' }}>
+                        <span className="block" style={{ width: '3.2cqw', height: '3.2cqw' }}>
+                          <Icon name={step.icon} />
+                        </span>
+                      </span>
+                    </span>
+                  </li>
+                );
+              })}
+            </ol>
+          </div>
+        </div>
 
         {/* <lg — flat horizontal strip, swipe sideways instead of stacking */}
         <ol className="no-scrollbar -mx-5 mt-10 flex snap-x snap-mandatory gap-3 overflow-x-auto px-5 pb-2 sm:-mx-8 sm:px-8 lg:hidden">
@@ -117,7 +187,7 @@ const p = {
   strokeWidth: 1.6,
   strokeLinecap: 'round',
   strokeLinejoin: 'round',
-  className: 'h-7 w-7',
+  className: 'h-full w-full',
   'aria-hidden': true,
 } as const;
 
@@ -160,7 +230,8 @@ function Icon({ name }: { name: IconName }) {
     case 'heat':
       return (
         <svg {...p}>
-          <path d="M8 4c-1.5 2 1.5 3 0 5s1.5 3 0 5M12 4c-1.5 2 1.5 3 0 5s1.5 3 0 5M16 4c-1.5 2 1.5 3 0 5s1.5 3 0 5M5 19h14" />
+          <circle cx="12" cy="12" r="9" />
+          <path d="M9 8c-1 1.3 1 2 0 3.5s1 2 0 3.5M12 8c-1 1.3 1 2 0 3.5s1 2 0 3.5M15 8c-1 1.3 1 2 0 3.5s1 2 0 3.5" />
         </svg>
       );
     case 'brush':

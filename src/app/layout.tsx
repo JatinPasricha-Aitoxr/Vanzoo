@@ -8,6 +8,7 @@ import { Header } from '@/components/Header';
 import { JsonLd } from '@/components/JsonLd';
 import { StoresAndReviews } from '@/components/StoresAndReviews';
 import { BookNowButton } from '@/components/BookNowButton';
+import { PageVideo } from '@/components/PageVideo';
 import { CartProvider } from '@/lib/cart';
 import { organizationSchema, websiteSchema } from '@/lib/seo';
 import { GOOGLE_SITE_VERIFICATION, GTM_ID, SITE_URL, site } from '@/lib/site';
@@ -92,6 +93,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Footer />
           <ContactRail />
           <BookNowButton />
+          <PageVideo />
           <CartDrawer />
         </CartProvider>
       </body>

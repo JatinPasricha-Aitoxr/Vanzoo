@@ -488,46 +488,61 @@ export const about = {
 /* Membership                                                                 */
 /* -------------------------------------------------------------------------- */
 
-/** AUTHORED — new membership programme, written in the guarantee block's voice. */
+/** Membership Club — tiers and wording taken from the Vanzoo membership poster. */
 export const membership = {
-  eyebrow: 'Membership',
-  heading: 'The Vanzoo Membership',
+  eyebrow: 'Membership Club',
+  heading: 'We don’t just clean. We care.',
   intro:
-    'For wardrobes that come back to us again and again — priority scheduling, a dedicated line, and the small conveniences that add up over a year of regular care.',
-  benefits: [
+    'From everyday wear to luxury essentials, we clean, protect and preserve what matters to you. Load credits once and save on every order.',
+  tiers: [
+    { name: 'Smart Saver', credits: 5000, discount: 10, validity: '3 Months' },
+    { name: 'Privilege', credits: 10000, discount: 20, validity: '6 Months' },
+    { name: 'Signature', credits: 20000, discount: 25, validity: '1 Year' },
+    { name: 'Pinnacle', credits: 35000, discount: 30, validity: 'Unlimited' },
+    { name: 'Prestige', credits: 50000, discount: 35, validity: 'Unlimited' },
+    { name: 'Elite', credits: 75000, discount: 40, validity: 'Unlimited' },
+  ],
+  whatWeDo: [
     {
-      title: 'Priority Pickup Slots',
-      body: 'First claim on same-day and next-day slots, even in our busiest weeks.',
-      icon: '/images/icons/convenient-time-saving.png',
-      iconAlt: 'Clock and hand icon representing priority pickup scheduling',
+      title: 'Premium & Luxury Garment Care',
+      body: 'Suits, Sarees, Lehengas, Shirts, Dresses & more',
+      image: '/images/service-bespoke-suit-couture.jpg',
     },
     {
-      title: 'Dedicated Member Line',
-      body: 'A direct WhatsApp and phone line to the team, skipping the general queue.',
-      icon: '/images/icons/expert-care.png',
-      iconAlt: 'Hanger with a star icon representing dedicated member support',
+      title: 'Shoe & Bag Care',
+      body: 'Sneakers, Heels, Leather Bags & more',
+      image: '/images/service-shoes-bags-accessories.jpg',
     },
     {
-      title: 'Complimentary Premium Packaging',
-      body: 'Every order returned in our premium wrap, at no extra charge.',
-      icon: '/images/icons/eco-process.png',
-      iconAlt: 'Leaf icon representing complimentary premium eco-friendly packaging',
+      title: 'Curtains & Carpets Care',
+      body: 'Curtains, Upholstery, Carpets & Rugs',
+      image: '/images/service-curtain-cleaning.jpg',
     },
     {
-      title: 'Faster Turnaround, By Default',
-      body: 'Member orders are queued ahead of standard bookings on the cleaning floor.',
-      icon: '/images/icons/hydrocarbon-technology.png',
-      iconAlt: 'Gear and circuit icon representing faster member turnaround',
+      title: 'Household Items Care',
+      body: 'Cushions, Comforters, Blankets, Quilts & more',
+      image: '/images/vanzoo/service-blankets.jpg',
+    },
+    {
+      title: 'Premium Sofa Cleaning',
+      body: 'Deep Cleaning for Sofas & Upholstery',
+      image: '/images/collage-folded-linens.jpg',
     },
   ],
-  howItWorks: [
-    'Tell us you’d like to join — by phone, WhatsApp, or the form below.',
-    'We set up your member profile against your phone number, no card or app needed.',
-    'Every pickup you book after that is recognised and prioritised automatically.',
+  why: [
+    { title: 'European Hydrocarbon Technology', icon: '/images/icons/hydrocarbon-technology.png' },
+    { title: 'German Organic Chemicals Only', icon: '/images/icons/toxin-free.png' },
+    { title: 'Trained Experts', icon: '/images/icons/expert-care.png' },
+    { title: 'Free Pickup & Delivery', icon: '/images/icons/convenient-time-saving.png' },
+    { title: 'Safe for You & Your Family', icon: '/images/icons/skin-friendly.png' },
   ],
-  ctaHeading: 'Ready to join?',
+  app: {
+    heading: 'Easy credits & order tracking',
+    body: 'Track your orders, manage credits and enjoy seamless experience — all in one app.',
+  },
+  ctaHeading: 'Ready to join the Membership Club?',
   ctaBody:
-    'Membership is arranged directly with our team — call or send an enquiry and we’ll set it up against your number.',
+    'Call or send an enquiry and we’ll set up your credits against your number.',
 } as const;
 
 /* -------------------------------------------------------------------------- */

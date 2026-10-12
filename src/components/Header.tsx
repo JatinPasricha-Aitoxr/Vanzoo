@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { BookPickupWidget } from './BookPickupWidget';
+import { WhatsAppIcon } from './BookNowButton';
 import { CartButton } from './CartButton';
 import { SearchBar } from './SearchBar';
 import { serviceEntries } from '@/content/services';
@@ -111,7 +112,7 @@ export function Header() {
           <Link
             href="/"
             aria-label="Vanzoo — home"
-            className="shrink-0 rounded-sm"
+            className="shrink-0 rounded-sm xl:hidden"
             onClick={() => setMenuOpen(false)}
           >
             <Image
@@ -120,20 +121,29 @@ export function Header() {
               width={2200}
               height={653}
               priority
-              sizes="(min-width: 1024px) 168px, 132px"
-              className={cn(
-                'header-logo h-8 w-auto lg:h-9',
-                // The wordmark is dark-on-transparent; over a photo hero it has
-                // to invert to stay legible.
-                !solid && 'brightness-0 invert',
-                scrolled && 'lg:scale-[0.94]',
-              )}
+              sizes="132px"
+              className={cn('header-logo h-8 w-auto', !solid && 'brightness-0 invert')}
+            />
+          </Link>
+          {/* xl+: the "V" mark owns the top row; the wordmark moves to the nav row. */}
+          <Link
+            href="/"
+            aria-label="Vanzoo — home"
+            className="hidden shrink-0 rounded-sm xl:block"
+          >
+            <Image
+              src="/images/brand/vanzoo-mark.png"
+              alt=""
+              width={96}
+              height={96}
+              priority
+              className={cn('h-11 w-auto', !solid && 'brightness-0 invert')}
             />
           </Link>
 
-          <div className="flex items-center gap-2">
-            <SearchBar solid={solid} />
+          <SearchBar solid={solid} wide />
 
+          <div className="flex items-center gap-2">
             <a
               href={`tel:${site.phoneHref}`}
               className={cn(
@@ -184,7 +194,17 @@ export function Header() {
             solid ? 'border-neutral-line' : 'border-white/20',
           )}
         >
-          <div className="shell flex h-full items-center justify-center">
+          <div className="shell flex h-full items-center justify-between gap-8">
+            <Link href="/" aria-label="Vanzoo — home" className="shrink-0 rounded-sm">
+              <Image
+                src="/images/brand/vanzoo-logo.png"
+                alt="Vanzoo — premium organic dryclean"
+                width={2200}
+                height={653}
+                sizes="132px"
+                className={cn('h-7 w-auto', !solid && 'brightness-0 invert')}
+              />
+            </Link>
             <DesktopNav pathname={pathname} solid={solid} />
           </div>
         </div>
@@ -509,14 +529,25 @@ function MobileBookBar({ hidden }: { hidden: boolean }) {
         hidden && 'translate-y-full',
       )}
     >
-      <a
-        href={links.bookPickup}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="btn-gold btn-md w-full"
-      >
-        Book Now
-      </a>
+      <div className="flex items-center gap-3">
+        <a
+          href={links.whatsapp}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Chat with Vanzoo on WhatsApp"
+          className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-pill bg-[#25D366] text-white"
+        >
+          <WhatsAppIcon className="h-6 w-6" />
+        </a>
+        <a
+          href={links.bookPickup}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn-gold btn-md flex-1"
+        >
+          Book Pickup
+        </a>
+      </div>
     </div>
   );
 }

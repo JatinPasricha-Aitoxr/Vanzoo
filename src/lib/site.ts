@@ -208,12 +208,12 @@ export const serviceAreas = areaGroups.flatMap((group) => group.areas);
  */
 export const navLinks = [
   { href: '/services/', label: 'Services' },
-  { href: '/pricing/', label: 'Pricing & Membership' },
-  { href: '/hydrocarbon-tech/', label: 'Hydrocarbon Tech' },
-  { href: '/about-us/', label: 'About Us' },
+  { href: '/pricing/', label: 'Pricing' },
+  { href: '/hydrocarbon-tech/', label: 'Technology' },
+  { href: '/membership/', label: 'Membership' },
   { href: '/areas-we-serve/', label: 'Areas' },
   { href: '/blogs/', label: 'Blogs' },
-  { href: '/contact-us/', label: 'Contact Us' },
+  { href: '/contact-us/', label: 'Contact' },
 ] as const;
 
 /** Mega-footer columns, data-driven so a link change never touches markup. */
@@ -229,6 +229,7 @@ export const footerColumns = [
       { label: 'Locate Us', href: '/locate-us/' },
       { label: 'Areas We Serve', href: '/areas-we-serve/' },
       { label: 'Blogs', href: '/blogs/' },
+      { label: 'Reviews', href: '/reviews/' },
       { label: 'Best Dry Cleaners Near Me', href: '/best-dry-cleaners-near-me/' },
       { label: 'Best Dry Cleaning in Gurgaon', href: '/best-dry-cleaning-in-gurgaon/' },
     ],

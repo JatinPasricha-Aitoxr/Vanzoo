@@ -11,6 +11,7 @@ import { GuaranteeBlock } from '@/components/GuaranteeBlock';
 import { Hero } from '@/components/Hero';
 import { IconFeatureGrid } from '@/components/IconFeatureGrid';
 import { JsonLd } from '@/components/JsonLd';
+import { Mascot } from '@/components/Mascot';
 import { PersonaScroller } from '@/components/PersonaScroller';
 import { ProcessRail } from '@/components/ProcessRail';
 import { Reviews } from '@/components/Reviews';
@@ -23,7 +24,7 @@ import { WeCareBanner } from '@/components/WeCareBanner';
 import { WhyChoosePillars } from '@/components/WhyChoosePillars';
 import { posts } from '@/content/blog';
 import { serviceEntries } from '@/content/services';
-import { SHOW_REVIEWS, reviewsIntro } from '@/content/reviews';
+import { SHOW_REVIEWS, reviews, reviewsIntro } from '@/content/reviews';
 import {
   collage,
   enquiryIntro,
@@ -191,18 +192,13 @@ export default function HomePage() {
           <div className="mt-12">
             <Reviews />
           </div>
+          <p className="mt-10 text-center">
+            <Link href="/reviews/" className="btn-secondary btn-lg">
+              Read all {reviews.length} reviews
+            </Link>
+          </p>
         </Section>
       ) : null}
-
-      {/* 8 — Guarantee */}
-      <Section tone="dark" size="sm">
-        <GuaranteeBlock />
-      </Section>
-
-      {/* 9 — App promo, on the dark band as the old site runs it */}
-      <Section tone="dark">
-        <AppPromo />
-      </Section>
 
       {/* 10 — Areas we serve */}
       <Section tone="surface" aria-labelledby="areas-heading">
@@ -267,7 +263,11 @@ export default function HomePage() {
       </Section>
 
       {/* 12 — FAQ */}
-      <Section tone="muted" id="faq" aria-labelledby="faq-heading">
+      <Section tone="muted" id="faq" aria-labelledby="faq-heading" className="relative">
+        <Mascot
+          className="pointer-events-none absolute right-8 top-10 hidden w-40 xl:block 2xl:right-24 2xl:w-48"
+          sizes="192px"
+        />
         <SectionHeading
           id="faq-heading"
           title="Frequently Asked Questions"
@@ -333,6 +333,16 @@ export default function HomePage() {
           </div>
           <EnquiryForm />
         </div>
+      </Section>
+
+      {/* 8 — Guarantee */}
+      <Section tone="dark" size="sm">
+        <GuaranteeBlock />
+      </Section>
+
+      {/* 9 — App promo, on the dark band as the old site runs it */}
+      <Section tone="dark">
+        <AppPromo />
       </Section>
     </>
   );
