@@ -1,5 +1,6 @@
 import { Highlight } from '@/components/ui/Highlight';
 import Image from 'next/image';
+import { BrandBand } from '@/components/BrandBand';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { CtaBanner } from '@/components/CtaBanner';
 import { IconFeatureGrid } from '@/components/IconFeatureGrid';
@@ -65,6 +66,8 @@ export default function AboutPage() {
         />
         <IconFeatureGrid items={about.pillars} columns={3} className="mt-12" />
       </Section>
+
+      <BrandBand />
 
       {/* Philosophy */}
       <Section tone="dark" size="sm" aria-labelledby="philosophy-heading">

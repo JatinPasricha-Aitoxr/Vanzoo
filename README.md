@@ -294,12 +294,17 @@ unchanged from before the motion work.
 ## Enquiry form
 
 `EnquiryForm` posts JSON to `/api/enquiry/`, which validates, drops honeypot
-submissions, and forwards to `ENQUIRY_WEBHOOK_URL`. `CartDrawer` posts to the
-same route (see "The tariff cart"), so one webhook covers both.
+submissions and stores the enquiry. `CartDrawer` posts to the same route, so one
+setup covers both. Storage channels (any combination):
 
-**Before launch, set `ENQUIRY_WEBHOOK_URL`** to a mail provider or CRM endpoint.
-Without it the route validates the submission, logs it server-side and returns
-success — fine for testing, but enquiries and cart requests go nowhere.
+- **File** — appended to `data/enquiries.jsonl` (git-ignored) on a normal server
+  and in `next dev`. Skipped on Vercel (read-only disk).
+- **Email** — set `RESEND_API_KEY` and `ENQUIRY_TO_EMAIL` ([Resend](https://resend.com)).
+- **Webhook** — set `ENQUIRY_WEBHOOK_URL` (Google Sheets Apps Script, Zapier, CRM).
+
+If no channel can store a submission the route returns **503**, and the form
+tells the visitor to call — it never reports success for a lost enquiry. **On
+Vercel, set the email variables (or a webhook) before launch.**
 
 Note the trailing slash on the fetch URL: `next.config.mjs` sets
 `trailingSlash: true`, so posting to `/api/enquiry` costs a 308 round trip first.

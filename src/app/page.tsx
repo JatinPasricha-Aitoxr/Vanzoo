@@ -5,6 +5,7 @@ import { AppPromo } from '@/components/AppPromo';
 import { AreasSection } from '@/components/AreasSection';
 import { BlogGrid } from '@/components/BlogCard';
 import { VanzooProcess } from '@/components/VanzooProcess';
+import { BrandBand } from '@/components/BrandBand';
 import { EnquiryDialog } from '@/components/EnquiryDialog';
 import { EnquiryForm } from '@/components/EnquiryForm';
 import { FAQAccordion } from '@/components/FAQAccordion';
@@ -137,6 +138,8 @@ export default function HomePage() {
           </RevealGroup>
         </div>
       </section>
+
+      <BrandBand />
 
       {/* Visit the store */}
       <Section tone="surface" aria-labelledby="store-heading">
