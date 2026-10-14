@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { AppleIcon } from './AppleIcon';
 import Link from 'next/link';
 import {
   dryCleanItems,
@@ -139,9 +140,20 @@ export function Footer() {
                     <span className="block text-sm font-semibold text-white">Google Play</span>
                   </span>
                 </a>
-                <span className="rounded-pill border border-white/15 px-3.5 py-2 text-xs text-white/75">
-                  iOS — coming soon
-                </span>
+                <a
+                  href={links.appStore}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2.5 rounded-card border border-white/25 px-4 py-2.5 transition-colors hover:border-accent-gold-soft"
+                >
+                  <AppleIcon />
+                  <span className="text-left leading-tight">
+                    <span className="block text-[0.625rem] uppercase tracking-wide text-white/75">
+                      Download on the
+                    </span>
+                    <span className="block text-sm font-semibold text-white">App Store</span>
+                  </span>
+                </a>
               </div>
             </div>
 

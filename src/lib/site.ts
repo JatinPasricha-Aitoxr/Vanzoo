@@ -43,6 +43,7 @@ export const links = {
   bookPickup: 'https://app.vanzoo.in/website/W10795?brand=VANZOO',
   bookService: 'https://app.vanzoo.in/website/W10541',
   playStore: 'https://play.google.com/store/apps/details?id=com.vanzoo.customer',
+  appStore: 'https://apps.apple.com/in/app/vanzoo-premium-dry-clean/id6755905301',
   facebook: 'https://www.facebook.com/profile.php?id=61581034320798',
   instagram: 'https://www.instagram.com/vanzoo._/',
   youtube: 'https://www.youtube.com/channel/UC-oPR8MnkAZpiOp0K08TNrQ',

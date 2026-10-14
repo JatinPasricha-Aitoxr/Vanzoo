@@ -123,9 +123,14 @@ export default function MembershipPage() {
         <div className="mx-auto flex max-w-3xl flex-col items-center gap-6 text-center">
           <h2 id="membership-app-heading" className="text-display-sm"><Highlight text={membership.app.heading} dark={false} /></h2>
           <p className="text-neutral-body">{membership.app.body}</p>
-          <a href={links.playStore} target="_blank" rel="noopener noreferrer" className="btn-secondary btn-lg">
-            Download the Vanzoo app
-          </a>
+          <div className="flex flex-wrap justify-center gap-3">
+            <a href={links.playStore} target="_blank" rel="noopener noreferrer" className="btn-secondary btn-lg">
+              Get it on Google Play
+            </a>
+            <a href={links.appStore} target="_blank" rel="noopener noreferrer" className="btn-secondary btn-lg">
+              Download on the App Store
+            </a>
+          </div>
         </div>
       </Section>
 

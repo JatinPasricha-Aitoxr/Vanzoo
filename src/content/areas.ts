@@ -67,7 +67,7 @@ const handWrittenAreas: readonly AreaEntry[] = [
     name: 'Ardee City',
     corridorId: 'dlf-golf-course',
     nearestStoreId: 'super-mart-1',
-    metaTitle: 'Dry Cleaning & Laundry in Ardee City, Gurgaon | Vanzoo Free Pickup',
+    metaTitle: 'Dry Cleaning in Ardee City, Gurgaon | Vanzoo Free Pickup',
     metaDescription:
       'Premium dry cleaning, steam pressing, shoe and curtain care in Ardee City, Gurgaon. Italian hydrocarbon technology, free doorstep pickup and delivery, 3–5 day turnaround.',
     heroImage: {
@@ -612,7 +612,7 @@ function buildArea(name: string, corridorId: CorridorId, peers: readonly string[
     name,
     corridorId,
     nearestStoreId: storeId,
-    metaTitle: `Dry Cleaning & Laundry in ${name}, Gurgaon | Vanzoo Free Pickup`,
+    metaTitle: `Dry Cleaning in ${name}, Gurgaon | Vanzoo Free Pickup`,
     metaDescription: `Premium ${profile.metaFocus} in ${name}, Gurgaon. Italian hydrocarbon technology, free doorstep pickup and delivery, 3–5 day turnaround.`,
     heroImage: profile.heroImage,
     headline: `Dry Cleaning & Garment Care in ${name}, Gurgaon`,

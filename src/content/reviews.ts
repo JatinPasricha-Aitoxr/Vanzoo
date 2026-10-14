@@ -81,14 +81,6 @@ export const reviews: readonly Review[] = [
   },
   {
     quote:
-      "Getting everyday clothes collected from home saved me a trip to the market. The returned clothes were folded well and easy to put away.",
-    author: "Vikram Singh",
-    context: "Sector 14, Gurgaon",
-    rating: 4,
-    service: "Laundry & Press",
-  },
-  {
-    quote:
       "I used the service for a few dresses and workwear. Everything came back clean-looking and organised, which made the experience stress-free.",
     author: "Neha Malhotra",
     context: "Sector 49, Gurgaon",
@@ -113,14 +105,6 @@ export const reviews: readonly Review[] = [
   },
   {
     quote:
-      "Convenient option for regular work clothes. I liked not having to coordinate a separate drop-off and collection.",
-    author: "Aditya Khanna",
-    context: "Sector 31, Gurgaon",
-    rating: 4,
-    service: "Laundry & Press",
-  },
-  {
-    quote:
       "I had a delicate blouse that I did not want to wash at home. The service was easy to book and the item came back neatly finished.",
     author: "Meera Iyer",
     context: "DLF Phase 1, Gurgaon",
@@ -142,14 +126,6 @@ export const reviews: readonly Review[] = [
     context: "Sector 43, Gurgaon",
     rating: 5,
     service: "Steam Press",
-  },
-  {
-    quote:
-      "I tried the service for everyday laundry and pressing. The process was simple and saved me time during a packed week.",
-    author: "Rahul Chawla",
-    context: "Sector 10A, Gurgaon",
-    rating: 4,
-    service: "Laundry & Press",
   },
   {
     quote:
@@ -193,14 +169,6 @@ export const reviews: readonly Review[] = [
   },
   {
     quote:
-      "Helpful for anyone who has little time for laundry during the workweek. Collection and delivery were the most convenient parts.",
-    author: "Arjun Bansal",
-    context: "Sector 83, Gurgaon",
-    rating: 4,
-    service: "Laundry & Press",
-  },
-  {
-    quote:
       "My occasion wear needed a professional clean after an event. The order was easy to arrange and the clothes came back neatly packed.",
     author: "Sana Khan",
     context: "Sector 46, Gurgaon",
@@ -225,14 +193,6 @@ export const reviews: readonly Review[] = [
   },
   {
     quote:
-      "I liked the convenience of not having to travel to a laundry shop. The clothes were returned folded and ready to store.",
-    author: "Nikhil Yadav",
-    context: "Sector 21, Gurgaon",
-    rating: 4,
-    service: "Laundry & Press",
-  },
-  {
-    quote:
       "I asked about handling a delicate fabric before sending it in and got clear guidance. That made me more comfortable placing the order.",
     author: "Tanya Bhalla",
     context: "South City 1, Gurgaon",
@@ -254,14 +214,6 @@ export const reviews: readonly Review[] = [
     context: "Sector 52, Gurgaon",
     rating: 5,
     service: "Steam Press",
-  },
-  {
-    quote:
-      "Good convenience for a household with a busy schedule. Pickup and delivery helped reduce one more weekly errand.",
-    author: "Amanpreet Singh",
-    context: "Sector 4, Gurgaon",
-    rating: 4,
-    service: "Laundry & Press",
   },
   {
     quote:
@@ -297,14 +249,6 @@ export const reviews: readonly Review[] = [
   },
   {
     quote:
-      "I found the service useful when I had guests coming over and lots to manage. The home collection made things easier.",
-    author: "Divya Bedi",
-    context: "Sector 67, Gurgaon",
-    rating: 4,
-    service: "Laundry & Press",
-  },
-  {
-    quote:
       "The cleaning order was handled professionally and my formal clothes were returned neatly packed. I would consider using the service again.",
     author: "Kushal Ahuja",
     context: "Sector 38, Gurgaon",
@@ -337,14 +281,6 @@ export const reviews: readonly Review[] = [
   },
   {
     quote:
-      "The ordering process was easy to follow. Having clothes picked up and dropped off at home is helpful when the week gets hectic.",
-    author: "Mohit Batra",
-    context: "Sector 41, Gurgaon",
-    rating: 4,
-    service: "Laundry & Press",
-  },
-  {
-    quote:
       "My ethnic wear came back neatly pressed, which was exactly what I needed before a family function. The service was convenient.",
     author: "Parul Anand",
     context: "Sector 58, Gurgaon",
@@ -366,14 +302,6 @@ export const reviews: readonly Review[] = [
     context: "Sector 69, Gurgaon",
     rating: 5,
     service: "Garment Care",
-  },
-  {
-    quote:
-      "A practical option for weekly workwear. The clothes were returned organised, and the pickup service saved me time.",
-    author: "Abhishek Dhingra",
-    context: "Sector 17, Gurgaon",
-    rating: 4,
-    service: "Laundry & Press",
   },
   {
     quote:
@@ -409,14 +337,6 @@ export const reviews: readonly Review[] = [
   },
   {
     quote:
-      "Helpful when I have a full workday and cannot visit a shop. The collection and delivery made laundry easier to manage.",
-    author: "Saloni Arora",
-    context: "Sector 66, Gurgaon",
-    rating: 5,
-    service: "Laundry & Press",
-  },
-  {
-    quote:
       "I booked cleaning for a couple of jackets. The clothes were returned neatly packed and the communication was straightforward.",
     author: "Ritesh Kumar",
     context: "Sector 5, Gurgaon",
@@ -430,14 +350,6 @@ export const reviews: readonly Review[] = [
     context: "Sector 53, Gurgaon",
     rating: 5,
     service: "Steam Press",
-  },
-  {
-    quote:
-      "A convenient way to handle regular clothes without spending time on drop-off and pickup. The order came back neatly folded.",
-    author: "Om Prakash",
-    context: "Sector 12, Gurgaon",
-    rating: 4,
-    service: "Laundry & Press",
   },
   {
     quote:

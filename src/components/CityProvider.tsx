@@ -5,9 +5,13 @@ import { createContext, useCallback, useContext, useEffect, useState } from 'rea
 export const CITIES = ['Gurgaon', 'Delhi'] as const;
 export type City = (typeof CITIES)[number];
 
-type CityContextValue = { city: City; setCity: (city: City) => void };
+type CityContextValue = { city: City; setCity: (city: City) => void; delhiEnabled: boolean };
 
-const CityContext = createContext<CityContextValue>({ city: 'Gurgaon', setCity: () => {} });
+const CityContext = createContext<CityContextValue>({
+  city: 'Gurgaon',
+  setCity: () => {},
+  delhiEnabled: false,
+});
 
 /**
  * The visitor's chosen city, shared by the whole site. Prices on the site are
@@ -16,6 +20,15 @@ const CityContext = createContext<CityContextValue>({ city: 'Gurgaon', setCity: 
  */
 export function CityProvider({ children }: { children: React.ReactNode }) {
   const [city, setCityState] = useState<City>('Gurgaon');
+  // Delhi is hidden until switched on in /admin; the flag is fetched fresh.
+  const [delhiEnabled, setDelhiEnabled] = useState(false);
+
+  useEffect(() => {
+    fetch('/api/settings/', { cache: 'no-store' })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data) => setDelhiEnabled(Boolean(data?.delhiEnabled)))
+      .catch(() => {});
+  }, []);
 
   useEffect(() => {
     try {
@@ -35,7 +48,9 @@ export function CityProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
-  return <CityContext.Provider value={{ city, setCity }}>{children}</CityContext.Provider>;
+  return <CityContext.Provider
+      value={{ city: delhiEnabled ? city : 'Gurgaon', setCity, delhiEnabled }}
+    >{children}</CityContext.Provider>;
 }
 
 export const useCity = () => useContext(CityContext);

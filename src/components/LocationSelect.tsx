@@ -15,7 +15,7 @@ const NOTES: Record<(typeof CITIES)[number], string> = {
  * "prices may differ" notice.
  */
 export function LocationSelect({ solid }: { solid: boolean }) {
-  const { city, setCity } = useCity();
+  const { city, setCity, delhiEnabled } = useCity();
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
 
@@ -34,6 +34,8 @@ export function LocationSelect({ solid }: { solid: boolean }) {
       document.removeEventListener('keydown', onKey);
     };
   }, [open]);
+
+  if (!delhiEnabled) return null;
 
   return (
     <div ref={rootRef} className="relative shrink-0">

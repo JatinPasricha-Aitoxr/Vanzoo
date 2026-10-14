@@ -5,6 +5,7 @@ import { AppPromo } from '@/components/AppPromo';
 import { AreasSection } from '@/components/AreasSection';
 import { BlogGrid } from '@/components/BlogCard';
 import { VanzooProcess } from '@/components/VanzooProcess';
+import { AutoScrollRow } from '@/components/AutoScrollRow';
 import { BrandBand } from '@/components/BrandBand';
 import { EnquiryDialog } from '@/components/EnquiryDialog';
 import { EnquiryForm } from '@/components/EnquiryForm';
@@ -84,7 +85,7 @@ export default function HomePage() {
           title="Our Premium Fabric Care Services"
           intro="Every service, one standard of care — each piece assessed individually before it goes anywhere near a machine."
         />
-        <ul className="no-scrollbar -mx-5 mt-10 flex snap-x snap-mandatory gap-5 overflow-x-auto px-5 pb-2 sm:-mx-8 sm:px-8 lg:mx-0 lg:px-0">
+        <AutoScrollRow className="no-scrollbar -mx-5 mt-10 flex snap-x snap-mandatory gap-5 overflow-x-auto px-5 pb-2 sm:-mx-8 sm:px-8 lg:mx-0 lg:px-0">
           {homeServices.map((service, index) => (
             <ServiceRow
               key={service.number}
@@ -93,7 +94,39 @@ export default function HomePage() {
               onEnquire={<EnquiryDialog subject={service.title} />}
             />
           ))}
-        </ul>
+        </AutoScrollRow>
+      </Section>
+
+      {/* Visit the store */}
+      <Section tone="surface" aria-labelledby="store-heading">
+        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+          <div className="media-frame mx-auto aspect-[3/4] w-full max-w-sm lg:max-w-md">
+            <Image
+              src="/images/vanzoo-store-front.jpg"
+              alt="Vanzoo storefront in Gurgaon — Premium Organic Dryclean, with garments and accessories displayed in the window"
+              fill
+              loading="lazy"
+              sizes="(min-width: 1024px) 28rem, 90vw"
+              className="object-cover"
+            />
+          </div>
+          <div>
+            <p className="eyebrow">Visit Us</p>
+            <h2 id="store-heading" className="mt-3 text-display-lg"><Highlight text="Step into the Vanzoo store" dark={false} /></h2>
+            <p className="mt-5 max-w-lg text-lead text-pretty text-neutral-body">
+              Drop in to see our premium organic dry cleaning up close — talk to our team about your
+              garments, bags and shoes, or collect your finished order in person.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link href="/locate-us/" className="btn-gold btn-lg">
+                Find our stores
+              </Link>
+              <a href={`tel:${site.phoneHref}`} className="btn-secondary btn-lg">
+                Call {site.phone}
+              </a>
+            </div>
+          </div>
+        </div>
       </Section>
 
       {/* 4 — The dry cleaning process (rinse.com pattern) */}
@@ -140,38 +173,6 @@ export default function HomePage() {
       </section>
 
       <BrandBand />
-
-      {/* Visit the store */}
-      <Section tone="surface" aria-labelledby="store-heading">
-        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
-          <div className="media-frame mx-auto aspect-[3/4] w-full max-w-sm lg:max-w-md">
-            <Image
-              src="/images/vanzoo-store-front.jpg"
-              alt="Vanzoo storefront in Gurgaon — Premium Organic Dryclean, with garments and accessories displayed in the window"
-              fill
-              loading="lazy"
-              sizes="(min-width: 1024px) 28rem, 90vw"
-              className="object-cover"
-            />
-          </div>
-          <div>
-            <p className="eyebrow">Visit Us</p>
-            <h2 id="store-heading" className="mt-3 text-display-lg"><Highlight text="Step into the Vanzoo store" dark={false} /></h2>
-            <p className="mt-5 max-w-lg text-lead text-pretty text-neutral-body">
-              Drop in to see our premium organic dry cleaning up close — talk to our team about your
-              garments, bags and shoes, or collect your finished order in person.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link href="/locate-us/" className="btn-gold btn-lg">
-                Find our stores
-              </Link>
-              <a href={`tel:${site.phoneHref}`} className="btn-secondary btn-lg">
-                Call {site.phone}
-              </a>
-            </div>
-          </div>
-        </div>
-      </Section>
 
       {/* Editorial statement band — the old site's "we care" banner as live type. */}
       <WeCareBanner />

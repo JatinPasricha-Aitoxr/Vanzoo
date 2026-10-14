@@ -1,6 +1,7 @@
 import { Highlight } from '@/components/ui/Highlight';
 import Image from 'next/image';
 import { appPromo } from '@/content/marketing';
+import { AppleIcon } from './AppleIcon';
 import { Reveal } from './ui/Reveal';
 import { links } from '@/lib/site';
 
@@ -95,9 +96,20 @@ export function AppPromo() {
                 <span className="block text-sm font-semibold">Google Play</span>
               </span>
             </a>
-            <span className="rounded-pill border border-white/15 px-4 py-2 text-center text-xs font-medium text-white/60">
-              iOS — coming soon
-            </span>
+            <a
+              href={links.appStore}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2.5 rounded-card border border-white/30 px-5 py-2.5 text-white transition-colors hover:border-accent-gold hover:text-accent-gold-soft"
+            >
+              <AppleIcon />
+              <span className="text-left leading-tight">
+                <span className="block text-[0.625rem] uppercase tracking-wide text-white/65">
+                  Download on the
+                </span>
+                <span className="block text-sm font-semibold">App Store</span>
+              </span>
+            </a>
           </div>
         </div>
       </Reveal>

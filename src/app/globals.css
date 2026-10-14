@@ -299,3 +299,27 @@
     scroll-behavior: auto !important;
   }
 }
+
+
+/* Bright, shimmering logo gold for highlighted heading keywords. The logo's own
+   gold is #D79F52; the gradient moves through lighter and deeper tones of it. */
+.gold-shine {
+  background-image: linear-gradient(100deg, #a8731a 0%, #cf9526 30%, #f0b92e 50%, #c98c1f 72%, #a8731a 100%);
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: #d79f52; /* fallback */
+  animation: gold-shimmer 5s ease-in-out infinite;
+}
+.gold-shine-dark {
+  background-image: linear-gradient(100deg, #f0b030 0%, #ffc93d 30%, #ffe07a 50%, #ffc43a 70%, #f0b030 100%);
+  filter: drop-shadow(0 0 10px rgba(255, 200, 80, 0.35));
+}
+@keyframes gold-shimmer {
+  0%, 100% { background-position: 0% 0; }
+  50% { background-position: 100% 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gold-shine { animation: none; }
+}

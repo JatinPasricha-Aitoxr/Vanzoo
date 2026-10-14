@@ -18,7 +18,7 @@ import { breadcrumbSchema, buildMetadata, localBusinessSchema } from '@/lib/seo'
 const CRUMBS = [{ name: 'Services', href: '/services/' }];
 
 export const metadata = buildMetadata({
-  title: 'Premium Laundry & Dry Cleaning Services in Gurgaon | Vanzoo',
+  title: 'Premium Dry Cleaning Services in Gurgaon | Vanzoo',
   description:
     'Every Vanzoo service in one place — couture and bespoke suit care, silks and delicates, sarees and lehengas, shoes, bags and leather, curtains, carpets, steam iron and express, with free pickup and delivery across Gurgaon.',
   path: '/services/',
