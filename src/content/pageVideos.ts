@@ -21,7 +21,7 @@ export const pageVideos: Record<string, PageVideo> = {
   '/services/sofa-bed-mattress-cleaning/': v('sofa-cleaning', 'Watch sofa, bed & mattress cleaning'),
   '/services/couture-care/': v('couture-care', 'Watch suit care', true),
   '/services/ethnic-wear/': v('ethnic-wear', 'Watch saree care', true),
-  '/services/delicate-fabrics/': v('delicate-fabrics', 'Watch our packaging', true),
+  '/services/delicate-fabrics/': v('lehenga', 'Watch lehenga care', true),
   '/services/shoe-care/': v('shoe-care', 'Watch shoe care', true),
   '/services/bags-leather-care/': v('bags-leather-care', 'Watch bag care'),
   '/services/toys-accessories-care/': v('toys-accessories-care', 'Watch toy & baby care', true),
