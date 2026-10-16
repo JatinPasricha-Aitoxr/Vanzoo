@@ -624,7 +624,7 @@ export const productEntries: readonly ProductEntry[] = [
     id: 'double-blanket-2-ply',
     title: 'Double Blanket 2 Ply / Quilt',
     intro: 'Double 2-ply blankets and quilts, deep-cleaned and returned allergen-free — collected free from your door.',
-    heroImage: '/images/tariffs/double-blanket.jpg',
+    heroImage: '/images/tariffs/quilt-double.jpg',
     heroImageAlt: 'Double 2-ply blanket folded after professional cleaning by Vanzoo',
     services: [
       cleanAndPress(
@@ -639,7 +639,7 @@ export const productEntries: readonly ProductEntry[] = [
     id: 'single-blanket-2-ply',
     title: 'Single Blanket 2 Ply / Quilt',
     intro: 'Single 2-ply blankets and quilts, deep-cleaned and returned allergen-free — collected free from your door.',
-    heroImage: '/images/tariffs/single-blanket.jpg',
+    heroImage: '/images/tariffs/quilt-single.jpg',
     heroImageAlt: 'Single 2-ply blanket folded after professional cleaning by Vanzoo',
     services: [
       cleanAndPress(
@@ -749,7 +749,7 @@ export const productEntries: readonly ProductEntry[] = [
     id: 'sneaker-ankle-shoes',
     title: 'Sneaker Ankle Shoes',
     intro: 'Ankle-length sneakers, cleaned uppers to soles without harsh scrubbing — collected free from your door.',
-    heroImage: '/images/tariffs/sneakers-shoes.jpg',
+    heroImage: '/images/tariffs/sneaker-ankle.jpg',
     heroImageAlt: 'Ankle-length sneakers cleaned by Vanzoo shoe care',
     services: [
       cleanAndPress(
@@ -764,7 +764,7 @@ export const productEntries: readonly ProductEntry[] = [
     id: 'boots-mid-length-shoes',
     title: 'Boots Mid Length Shoes',
     intro: 'Mid-length boots, cleaned and conditioned to keep their shape and finish — collected free from your door.',
-    heroImage: '/images/tariffs/leather-shoes.jpg',
+    heroImage: '/images/tariffs/boots-mid-length.jpg',
     heroImageAlt: 'Mid-length boots after professional cleaning and conditioning at Vanzoo',
     services: [
       cleanAndPress(
@@ -779,7 +779,7 @@ export const productEntries: readonly ProductEntry[] = [
     id: 'birkenstock',
     title: 'Birkenstock',
     intro: 'Birkenstock footwear, cleaned with care for the footbed and straps — collected free from your door.',
-    heroImage: '/images/tariffs/suede-leather-shoes.jpg',
+    heroImage: '/images/tariffs/birkenstock.jpg',
     heroImageAlt: 'Birkenstock sandals cleaned by Vanzoo shoe care',
     services: [
       cleanAndPress(
@@ -794,7 +794,7 @@ export const productEntries: readonly ProductEntry[] = [
     id: 'sandals',
     title: 'Sandals',
     intro: 'Sandals, cleaned and freshened — collected free from your door.',
-    heroImage: '/images/tariffs/sports-shoes.jpg',
+    heroImage: '/images/tariffs/sandals.jpg',
     heroImageAlt: 'Sandals cleaned by Vanzoo shoe care',
     services: [
       cleanAndPress(

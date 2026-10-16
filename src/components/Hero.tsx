@@ -217,6 +217,7 @@ export function PageHeader({
   imagePosition,
   seoH1,
   fixedCity,
+  tall = false,
   children,
 }: {
   eyebrow?: string;
@@ -232,6 +233,8 @@ export function PageHeader({
   /** CSS object-position — crop the banner so any baked-in artwork sits clear
    *  of the live title. */
   imagePosition?: string;
+  /** Extra height, so a photo with baked-in artwork shows closer to uncropped. */
+  tall?: boolean;
   children?: React.ReactNode;
 }) {
   const dark = Boolean(image);
@@ -239,7 +242,8 @@ export function PageHeader({
   return (
     <section
       className={cn(
-        'relative overflow-hidden pb-section-sm pt-[calc(var(--header-h)+3rem)]',
+        'relative overflow-hidden pt-[calc(var(--header-h)+3rem)]',
+        tall ? 'pb-40 sm:pb-52 lg:pb-64' : 'pb-section-sm',
         dark
           ? 'bg-brand-ink'
           : 'bg-gradient-to-b from-brand-light to-brand-tint after:absolute after:inset-x-0 after:bottom-0 after:h-px after:bg-gradient-to-r after:from-transparent after:via-accent-gold/50 after:to-transparent',

@@ -25,8 +25,8 @@ export default function MembershipPage() {
     <>
       <JsonLd data={breadcrumbSchema(CRUMBS)} />
 
-      <PageHeader seoH1="Best & Premium Dry Cleaning Membership in Gurgaon" eyebrow={membership.eyebrow} title={membership.heading} intro={membership.intro}>
-        <Breadcrumbs crumbs={CRUMBS} />
+      <PageHeader seoH1="Best & Premium Dry Cleaning Membership in Gurgaon" eyebrow={membership.eyebrow} title={membership.heading} intro={membership.intro} image="/images/vanzoo/membership-hero.jpg" imageAlt="A Vanzoo wardrobe wall of suits, shirts, shoes, bags and soft toys with the message One Package Covers Entire Wardrobe" imagePosition="75% 50%" tall>
+        <Breadcrumbs crumbs={CRUMBS} tone="dark" />
       </PageHeader>
 
       {/* Tiers */}
