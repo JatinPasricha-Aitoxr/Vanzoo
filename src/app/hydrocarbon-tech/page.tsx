@@ -17,9 +17,9 @@ import { breadcrumbSchema, buildMetadata, faqSchema } from '@/lib/seo';
 const CRUMBS = [{ name: 'Hydrocarbon Tech', href: '/hydrocarbon-tech/' }];
 
 export const metadata = buildMetadata({
-  title: 'Advanced Cleaning with Hydrocarbon Technology | Vanzoo',
+  title: 'Hydrocarbon Dry Cleaning in Gurgaon | Safer, Gentler | Vanzoo',
   description:
-    'Vanzoo’s hydrocarbon technology offers advanced, eco-friendly, fabric-safe cleaning solutions that ensure deep stain removal with minimal environmental impact.',
+    'Why Vanzoo uses closed-loop hydrocarbon dry cleaning: gentler on silk, wool and couture, 99% solvent recovered, no PERC. See how the cycle works step by step.',
   path: '/hydrocarbon-tech/',
   image: hydrocarbon.hero.image,
   imageAlt: hydrocarbon.hero.imageAlt,
@@ -37,6 +37,7 @@ export default function HydrocarbonTechPage() {
         image={hydrocarbon.hero.image}
         imageAlt={hydrocarbon.hero.imageAlt}
         variant="band"
+        highlightWord="Premium"
         secondaryCta={{ label: 'See couture care tariffs', href: '/pricing/' }}
       />
 

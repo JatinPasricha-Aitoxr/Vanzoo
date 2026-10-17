@@ -3,7 +3,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
+import { useTariffSearch } from './TariffSearchContext';
 import { WhatsAppPrice } from './WhatsAppPrice';
+import { matchesQuery } from '@/lib/tariffSearch';
 import { Reveal } from './ui/Reveal';
 import {
   lineId,
@@ -31,15 +33,20 @@ import { cn } from '@/lib/cn';
  * just that service's rows, and a one-chip nav with nothing to switch between
  * is clutter, not navigation.
  */
-export function TariffGrid({ catalog }: { catalog: TariffCatalog }) {
+export function TariffGrid({ catalog, searchable = false }: { catalog: TariffCatalog; searchable?: boolean }) {
   const showNav = catalog.groups.length > 1;
-  const [query, setQuery] = useState('');
+  const shared = useTariffSearch();
+  const [localQuery, setLocalQuery] = useState('');
+  // On the Pricing page one search box drives every grid; elsewhere a grid
+  // keeps its own query.
+  const query = shared ? shared.query : localQuery;
+  const setQuery = shared ? shared.setQuery : setLocalQuery;
   const needle = query.trim().toLowerCase();
   // Search narrows every category to the rows whose name matches, and drops
   // categories left empty.
   const groups = needle
     ? catalog.groups
-        .map((group) => ({ ...group, rows: group.rows.filter((row) => row.item.toLowerCase().includes(needle)) }))
+        .map((group) => ({ ...group, rows: group.rows.filter((row) => matchesQuery(needle, row.item, group.label)) }))
         .filter((group) => group.rows.length > 0)
     : catalog.groups;
   const [activeId, setActiveId] = useState(groups[0]?.id);
@@ -65,7 +72,7 @@ export function TariffGrid({ catalog }: { catalog: TariffCatalog }) {
 
   return (
     <div>
-      {showNav ? (
+      {showNav && searchable ? (
         <div className="relative mb-4">
           <label htmlFor={`tariff-search-${catalog.id}`} className="sr-only">
             Search {catalog.label} items
@@ -79,13 +86,19 @@ export function TariffGrid({ catalog }: { catalog: TariffCatalog }) {
             type="search"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="Search items — shirt, saree, sneakers, blanket…"
+            placeholder="Search all items — pants, saree, sneakers, blanket…"
             className="h-12 w-full rounded-pill border border-neutral-line bg-white pl-11 pr-4 text-sm text-neutral-ink placeholder:text-neutral-body/70 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand"
           />
         </div>
       ) : null}
 
-      {showNav && needle && groups.length === 0 ? (
+      {showNav && needle && groups.length === 0 && !searchable ? (
+        <p className="rounded-card border border-dashed border-neutral-line p-5 text-center text-sm text-neutral-body">
+          No {catalog.label} items match “{query.trim()}”.
+        </p>
+      ) : null}
+
+      {showNav && needle && groups.length === 0 && searchable ? (
         <div className="rounded-card border border-neutral-line bg-white p-8 text-center">
           <p className="font-display text-lg font-semibold text-neutral-ink">No items match “{query.trim()}”</p>
           <p className="mt-2 text-sm text-neutral-body">

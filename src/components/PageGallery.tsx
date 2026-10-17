@@ -10,10 +10,13 @@ import { galleries } from '@/content/galleries';
  * Rendered once from the root layout, above the reviews. A CSS-columns layout
  * keeps each photo at its own proportions instead of cropping to a grid.
  */
-export function PageGallery() {
+export function PageGallery({ galleryKey, inline = false }: { galleryKey?: string; inline?: boolean }) {
   const pathname = usePathname() ?? '/';
-  const key = pathname.endsWith('/') ? pathname : `${pathname}/`;
-  const gallery = galleries[key];
+  const current = pathname.endsWith('/') ? pathname : `${pathname}/`;
+  // Service pages render their own gallery above the pricing section, so the
+  // site-wide copy in the layout stays out of their way.
+  if (!inline && /^\/services\/[^/]+\/$/.test(current)) return null;
+  const gallery = galleries[galleryKey ?? current];
   if (!gallery) return null;
 
   return (

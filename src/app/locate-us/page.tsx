@@ -13,9 +13,9 @@ import { areaGroups, primaryStore, site, stores } from '@/lib/site';
 const CRUMBS = [{ name: 'Locate Us', href: '/locate-us/' }];
 
 export const metadata = buildMetadata({
-  title: 'Locate Us | Vanzoo Dry Cleaning Stores in Gurgaon',
+  title: 'Vanzoo Stores in Gurgaon | DLF Phase 4 & Sector 67 | Locate Us',
   description:
-    'Find Vanzoo premium dry cleaning in Gurgaon — Super Mart 1, DLF Phase IV and the Vanzoo Urbana store at M3M Urbana, Sector 67. Free pickup and delivery across Gurgaon.',
+    'Visit Vanzoo dry cleaning stores at Super Mart, DLF Phase IV and M3M Urbana, Sector 67, Gurgaon. Addresses, map and free pickup across the city.',
   path: '/locate-us/',
 });
 

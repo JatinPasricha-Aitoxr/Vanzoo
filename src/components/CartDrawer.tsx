@@ -5,7 +5,9 @@ import { useEffect, useId, useRef, useState } from 'react';
 import { tariffNote } from '@/content/pricing';
 import { useCart, type CartLine } from '@/lib/cart';
 import { cn } from '@/lib/cn';
-import { serviceAreas, site } from '@/lib/site';
+import { serviceAreas, site, whatsappLink } from '@/lib/site';
+import { WhatsAppIcon } from './BookNowButton';
+import { useCity } from './CityProvider';
 
 type Errors = Partial<Record<'name' | 'email' | 'phone', string>>;
 type Status = 'idle' | 'submitting' | 'sent' | 'error';
@@ -32,6 +34,7 @@ const PHONE_RE = /^(?:\+?91[\s-]?|0)?[6-9]\d{4}[\s-]?\d{5}$/;
  */
 export function CartDrawer() {
   const { lines, count, isOpen, closeCart, setQuantity, remove, clear } = useCart();
+  const { city } = useCity();
   const panelRef = useRef<HTMLDivElement>(null);
   const [status, setStatus] = useState<Status>('idle');
   const [errors, setErrors] = useState<Errors>({});
@@ -268,6 +271,19 @@ export function CartDrawer() {
               >
                 Request pickup for these items
               </button>
+              <a
+                href={whatsappLink(
+                  `Hi Vanzoo, I'd like to place this order (${city}):\n` +
+                    lines.map((line) => `• ${line.item} × ${line.quantity} (${line.service})`).join('\n') +
+                    '\nPlease confirm the price and pickup.',
+                )}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-pill bg-[#25D366] px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#1ebe5b]"
+              >
+                <WhatsAppIcon className="h-5 w-5" />
+                Continue on WhatsApp
+              </a>
             </div>
           </>
         ) : (

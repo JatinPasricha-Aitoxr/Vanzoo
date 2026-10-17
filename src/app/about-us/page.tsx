@@ -13,9 +13,9 @@ import { breadcrumbSchema, buildMetadata } from '@/lib/seo';
 const CRUMBS = [{ name: 'About Us', href: '/about-us/' }];
 
 export const metadata = buildMetadata({
-  title: 'About Vanzoo | Premium Fabric Care & Eco Cleaning Experts',
+  title: 'About Vanzoo | Premium Organic Dry Cleaners in Gurgaon',
   description:
-    'Vanzoo, a unit of Vaaruni Ventures LLP, blends couture-level precision with Italian hydrocarbon technology for luxury fabric care and eco-friendly dry cleaning in Gurgaon.',
+    'Meet Vanzoo — premium organic dry cleaners in Gurgaon using Italian hydrocarbon technology, trained experts and free pickup and delivery for every wardrobe.',
   path: '/about-us/',
   image: about.image,
   imageAlt: about.imageAlt,

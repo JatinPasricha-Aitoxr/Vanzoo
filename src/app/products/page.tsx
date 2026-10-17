@@ -9,8 +9,9 @@ import { buildMetadata } from '@/lib/seo';
 
 export function generateMetadata() {
   return buildMetadata({
-    title: 'Shop by Garment | Vanzoo',
-    description: `${productsIntro} Free pickup and delivery across Gurgaon.`.slice(0, 300),
+    title: 'Dry Cleaning Price by Garment in Gurgaon | Vanzoo',
+    description:
+      'Pick any garment — shirt, suit, saree, lehenga, shoes, blanket, curtain — see the dry cleaning and steam press options and prices. Free pickup in Gurgaon.',
     path: '/products/',
   });
 }

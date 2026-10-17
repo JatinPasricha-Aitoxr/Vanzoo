@@ -523,11 +523,6 @@ export const membership = {
       body: 'Cushions, Comforters, Blankets, Quilts & more',
       image: '/images/vanzoo/service-blankets.jpg',
     },
-    {
-      title: 'Premium Sofa Cleaning',
-      body: 'Deep Cleaning for Sofas & Upholstery',
-      image: '/images/collage-folded-linens.jpg',
-    },
   ],
   why: [
     { title: 'European Hydrocarbon Technology', icon: '/images/icons/hydrocarbon-technology.png' },

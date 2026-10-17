@@ -7,6 +7,7 @@ import { PageHeader } from '@/components/Hero';
 import { WhatsAppPrice } from '@/components/WhatsAppPrice';
 import { Section, SectionHeading } from '@/components/ui/Section';
 import { TariffGrid } from '@/components/TariffGrid';
+import { TariffSearchProvider } from '@/components/TariffSearchContext';
 import {
   additionalOptions,
   coutureCatalog,
@@ -26,9 +27,9 @@ const JUMP_LINKS = [
 ] as const;
 
 export const metadata = buildMetadata({
-  title: 'Pricing | Couture Care & Steam Iron Tariffs | Vanzoo',
+  title: 'Dry Cleaning Price List Gurgaon | Starting Prices | Vanzoo',
   description:
-    'Vanzoo pricing for couture and bespoke suit care, sarees, lehengas, leather, footwear, curtains, carpets and steam-iron-only pressing — transparent per-item tariffs with free pickup and delivery in Gurgaon.',
+    'Dry cleaning and steam press prices in Gurgaon from ₹79 — shirts, suits, sarees, lehengas, shoes, blankets and curtains. Search any item, ask on WhatsApp.',
   path: '/pricing/',
 });
 
@@ -81,6 +82,7 @@ export default function PricingPage() {
         </div>
       </Section>
 
+      <TariffSearchProvider>
       <Section tone="surface" size="sm" id="couture-care-tariffs" aria-labelledby="couture-tariffs-heading">
         <SectionHeading
           id="couture-tariffs-heading"
@@ -89,7 +91,7 @@ export default function PricingPage() {
           intro="Full cleaning and finishing — for garments, ethnic wear, leather, footwear, carpets and home textiles."
         />
         <div className="mt-10">
-          <TariffGrid catalog={coutureCatalog} />
+          <TariffGrid catalog={coutureCatalog} searchable />
         </div>
       </Section>
 
@@ -104,6 +106,8 @@ export default function PricingPage() {
           <TariffGrid catalog={steamIronCatalog} />
         </div>
       </Section>
+
+      </TariffSearchProvider>
 
       <Section tone="muted" size="sm" aria-labelledby="additional-options-heading">
         <SectionHeading

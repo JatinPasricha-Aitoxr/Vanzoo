@@ -5,6 +5,7 @@ import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { CtaBanner } from '@/components/CtaBanner';
 import { JsonLd } from '@/components/JsonLd';
 import { PageHeader } from '@/components/Hero';
+import { PageGallery } from '@/components/PageGallery';
 import { PincodeChecker } from '@/components/PincodeChecker';
 import { ServiceCard } from '@/components/ServiceCard';
 import { VanzooProcess } from '@/components/VanzooProcess';
@@ -121,13 +122,13 @@ export default function ServiceDetailPage({ params }: Params) {
 
           <Reveal variant="right" delay={90} className="media-frame aspect-[4/5] bg-brand-light lg:aspect-[3/4]">
             <Image
-              src={service.image}
-              alt={service.imageAlt}
+              src={service.detailImage ?? service.image}
+              alt={service.detailImageAlt ?? service.imageAlt}
               fill
               loading="lazy"
               sizes="(min-width: 1024px) 38vw, 90vw"
               className="object-cover"
-              style={service.imagePosition ? { objectPosition: service.imagePosition } : undefined}
+              style={service.detailImage ? undefined : service.imagePosition ? { objectPosition: service.imagePosition } : undefined}
             />
           </Reveal>
         </div>
@@ -153,6 +154,9 @@ export default function ServiceDetailPage({ params }: Params) {
           </RevealGroup>
         </Section>
       ) : null}
+
+      {/* Photos sit above the pricing section */}
+      <PageGallery galleryKey={`/services/${service.id}/`} inline />
 
       {/* Pricing preview, where the service has a per-item tariff */}
       {tariffTable ? (

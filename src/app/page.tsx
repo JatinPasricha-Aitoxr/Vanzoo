@@ -16,7 +16,6 @@ import { IconFeatureGrid } from '@/components/IconFeatureGrid';
 import { JsonLd } from '@/components/JsonLd';
 import { Mascot } from '@/components/Mascot';
 import { PersonaScroller } from '@/components/PersonaScroller';
-import { RevealGroup } from '@/components/ui/Reveal';
 import { Section, SectionHeading } from '@/components/ui/Section';
 import { ServiceRow } from '@/components/ServiceRow';
 import { TrustStrip } from '@/components/TrustStrip';
@@ -25,7 +24,6 @@ import { WhyChoosePillars } from '@/components/WhyChoosePillars';
 import { posts } from '@/content/blog';
 import { serviceEntries } from '@/content/services';
 import {
-  collage,
   enquiryIntro,
   faqIntro,
   heroOffer,
@@ -36,9 +34,9 @@ import { buildMetadata, faqSchema, localBusinessSchema } from '@/lib/seo';
 import { links, site } from '@/lib/site';
 
 export const metadata = buildMetadata({
-  title: 'Vanzoo – Luxury Fabric Care & Eco-Friendly Dry Cleaning',
+  title: 'Premium & Luxury Dry Cleaning in Gurgaon | Vanzoo',
   description:
-    'Experience premium fabric care by Vanzoo using advanced Italian hydrocarbon technology—eco-conscious, gentle on fabrics, and powerful on tough everyday stains. Free pickup and delivery across Gurgaon.',
+    "Vanzoo is Gurgaon's premium organic dry cleaner. Hydrocarbon cleaning for suits, sarees, lehengas, shoes, bags, curtains and carpets. Free pickup and delivery.",
   path: '/',
   image: homeHero.image,
   imageAlt: homeHero.imageAlt,
@@ -148,30 +146,6 @@ export default function HomePage() {
           <EnquiryDialog label="Enquire Now" variant="button" />
         </div>
       </Section>
-
-      {/* Photo-brick collage (§2.3.5) — used once, here. */}
-      <section aria-label="Vanzoo fabric care in practice" className="pb-section-sm">
-        <div className="shell">
-          <RevealGroup
-            variant="scale"
-            step={70}
-            className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4"
-          >
-            {collage.map((tile) => (
-              <div key={tile.src} className={`media-frame group ${tile.span} ${tile.ratio}`}>
-                <Image
-                  src={tile.src}
-                  alt={tile.alt}
-                  fill
-                  loading="lazy"
-                  sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
-                  className="card-media object-cover"
-                />
-              </div>
-            ))}
-          </RevealGroup>
-        </div>
-      </section>
 
       <BrandBand />
 

@@ -118,7 +118,7 @@ const coutureGroups: readonly TariffGroup[] = [
   },
   {
     id: 'home-textiles',
-    label: 'Home Textiles',
+    label: 'Blanket, Quilts & Home Textiles',
     rows: [
       { item: 'Carpet (per Sqft)', amount: 59, image: img('carpet') },
       { item: 'Curtain (per panel)', amount: 349, image: img('curtain') },

@@ -18,9 +18,9 @@ import { breadcrumbSchema, buildMetadata, localBusinessSchema } from '@/lib/seo'
 const CRUMBS = [{ name: 'Services', href: '/services/' }];
 
 export const metadata = buildMetadata({
-  title: 'Premium Dry Cleaning Services in Gurgaon | Vanzoo',
+  title: 'Dry Cleaning Services in Gurgaon | Suits to Sofas | Vanzoo',
   description:
-    'Every Vanzoo service in one place — couture and bespoke suit care, silks and delicates, sarees and lehengas, shoes, bags and leather, curtains, carpets, steam iron and express, with free pickup and delivery across Gurgaon.',
+    'Garment, saree, lehenga, shoe, bag, curtain, carpet, blanket and sofa dry cleaning in Gurgaon — hydrocarbon care, hand finishing, free pickup and delivery.',
   path: '/services/',
   image: '/images/persona-fashion-collectors.jpg',
   imageAlt: 'Designer garments displayed in a boutique, cared for by Vanzoo premium dry cleaning',

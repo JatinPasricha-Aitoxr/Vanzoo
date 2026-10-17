@@ -12,9 +12,9 @@ import { areaGroups, primaryStore, site, stores } from '@/lib/site';
 const CRUMBS = [{ name: 'Areas We Serve', href: '/areas-we-serve/' }];
 
 export const metadata = buildMetadata({
-  title: 'Areas We Serve in Gurgaon | Vanzoo Dry Cleaning Pickup & Delivery',
+  title: 'Dry Cleaning Pickup & Delivery Across Gurgaon | Vanzoo',
   description:
-    'Free dry cleaning pickup and delivery across Gurgaon — DLF Phases 1–5, Golf Course Road, Sohna Road, Sectors 47–70, Cyber City, Palam Vihar and New Gurgaon. Check your pincode.',
+    'Free dry cleaning pickup and delivery in 49 Gurgaon localities — DLF, Golf Course Road, Sohna Road, Sector 65–70, New Gurgaon. Find your area.',
   path: '/areas-we-serve/',
 });
 

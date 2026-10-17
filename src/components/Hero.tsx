@@ -24,6 +24,8 @@ type HeroProps = {
   seoH1?: string;
   /** Which line takes the gold highlight: the trailing lines (default) or the first. */
   highlight?: 'trailing' | 'first';
+  /** Highlight only this word in the headline, in shimmering gold. */
+  highlightWord?: string;
   children?: React.ReactNode;
 };
 
@@ -72,6 +74,7 @@ export function Hero({
   variant = 'full',
   seoH1,
   highlight = 'trailing',
+  highlightWord,
   children,
 }: HeroProps) {
   return (
@@ -165,7 +168,15 @@ export function Hero({
                   )}
                   style={{ '--line': index } as React.CSSProperties}
                 >
-                  {line}
+                  {highlightWord && line.includes(highlightWord) ? (
+                    <>
+                      {line.split(highlightWord)[0]}
+                      <span className="gold-shine gold-shine-dark">{highlightWord}</span>
+                      {line.split(highlightWord).slice(1).join(highlightWord)}
+                    </>
+                  ) : (
+                    line
+                  )}
                 </span>
               </span>
             ))}

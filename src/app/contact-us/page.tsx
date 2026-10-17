@@ -12,9 +12,9 @@ import { primaryStore, site, socialLinks, stores } from '@/lib/site';
 const CRUMBS = [{ name: 'Contact Us', href: '/contact-us/' }];
 
 export const metadata = buildMetadata({
-  title: 'Contact Vanzoo for Premium Fabric Care Services',
+  title: 'Contact Vanzoo | Dry Cleaners in Gurgaon | +91 90916 71666',
   description:
-    'Contact Vanzoo for expert garment care, couture cleaning, and eco-friendly fabric solutions. Reach our team for support and service inquiries.',
+    'Call, WhatsApp or write to Vanzoo for dry cleaning in Gurgaon. Ask about a garment, a bulk order or express turnaround — our team answers every enquiry.',
   path: '/contact-us/',
 });
 

@@ -4,6 +4,7 @@ import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { CtaBanner } from '@/components/CtaBanner';
 import { EnquiryForm } from '@/components/EnquiryForm';
 import { JsonLd } from '@/components/JsonLd';
+import { MembershipTiers } from '@/components/MembershipTiers';
 import { Mascot } from '@/components/Mascot';
 import { PageHeader } from '@/components/Hero';
 import { Section, SectionHeading } from '@/components/ui/Section';
@@ -14,23 +15,59 @@ import { links, site } from '@/lib/site';
 const CRUMBS = [{ name: 'Membership', href: '/membership/' }];
 
 export const metadata = buildMetadata({
-  title: 'Membership Club | Save up to 40% on Dry Cleaning | Vanzoo',
+  title: 'Dry Cleaning Membership Gurgaon | Save up to 40% | Vanzoo',
   description:
-    'Join the Vanzoo Membership Club: load credits from ₹5,000 to ₹75,000 and get a flat 10% to 40% off premium dry cleaning, shoe, bag, curtain, carpet and sofa care in Gurgaon.',
+    'Join the Vanzoo Membership Club. Load ₹5,000 to ₹75,000 in credits and get a flat 10% to 40% off dry cleaning, shoe, bag, curtain and carpet care in Gurgaon.',
   path: '/membership/',
 });
+
+function MembershipHeroCopy() {
+  return (
+    <div className="max-w-md xl:max-w-lg">
+      <Breadcrumbs crumbs={CRUMBS} />
+      <h1 className="mt-4 text-sm font-semibold uppercase tracking-[0.12em] text-neutral-ink sm:text-base">
+        <Highlight text="Best & Premium Dry Cleaning Membership in Gurgaon" />
+      </h1>
+      <h2 id="membership-hero-heading" className="mt-3 text-display-lg text-neutral-ink">
+        <Highlight text="Join the Vanzoo Membership Club" />
+      </h2>
+      <p className="mt-4 text-lead text-pretty text-neutral-body">
+        Load credits once and save 10% to 40% on every order — garments, shoes, bags, curtains,
+        carpets and more, with free pickup and delivery.
+      </p>
+      <a href="#choose-your-club" className="btn-gold btn-lg mt-7">
+        Choose your club
+      </a>
+    </div>
+  );
+}
 
 export default function MembershipPage() {
   return (
     <>
       <JsonLd data={breadcrumbSchema(CRUMBS)} />
 
-      <PageHeader seoH1="Best & Premium Dry Cleaning Membership in Gurgaon" eyebrow={membership.eyebrow} title={membership.heading} intro={membership.intro} image="/images/vanzoo/membership-hero.jpg" imageAlt="A Vanzoo wardrobe wall of suits, shirts, shoes, bags and soft toys with the message One Package Covers Entire Wardrobe" imagePosition="75% 50%" tall>
-        <Breadcrumbs crumbs={CRUMBS} tone="dark" />
-      </PageHeader>
+      {/* Hero — the artwork is shown whole (its own "One Package Covers Entire
+          Wardrobe" message sits on the right); our copy fills its blank left half. */}
+      <section aria-labelledby="membership-hero-heading" className="bg-[#fbf3e6] pt-[var(--header-h)]">
+        <div className="relative">
+          <Image
+            src="/images/vanzoo/membership-hero.jpg"
+            alt="A Vanzoo wardrobe wall of suits, shirts, shoes, bags and soft toys with the message One Package Covers Entire Wardrobe"
+            width={1600}
+            height={600}
+            priority
+            sizes="100vw"
+            className="h-auto w-full lg:min-h-[26rem] lg:object-cover lg:object-right"
+          />
+          <div className="px-5 pb-12 pt-8 sm:px-8 lg:absolute lg:inset-y-0 lg:left-0 lg:flex lg:w-[46%] lg:items-center lg:pb-0 lg:pl-[max(2rem,calc((100vw-80rem)/2+2rem))] lg:pr-4 lg:pt-0">
+            <MembershipHeroCopy />
+          </div>
+        </div>
+      </section>
 
       {/* Tiers */}
-      <Section tone="dark" aria-labelledby="membership-tiers-heading">
+      <Section tone="dark" id="choose-your-club" aria-labelledby="membership-tiers-heading">
         <SectionHeading
           id="membership-tiers-heading"
           eyebrow="Membership Club"
@@ -45,28 +82,7 @@ export default function MembershipPage() {
             className="pointer-events-none absolute -left-44 bottom-0 hidden w-40 2xl:block"
             sizes="160px"
           />
-        <div className="overflow-x-auto rounded-card border border-accent-gold/60">
-          <table className="w-full min-w-[34rem] border-collapse text-center text-white">
-            <thead>
-              <tr className="bg-accent-gold text-sm font-semibold uppercase tracking-[0.08em] text-brand-ink">
-                <th scope="col" className="px-4 py-3.5">Club</th>
-                <th scope="col" className="px-4 py-3.5">Credits (₹)</th>
-                <th scope="col" className="px-4 py-3.5">Flat discount</th>
-                <th scope="col" className="px-4 py-3.5">Validity</th>
-              </tr>
-            </thead>
-            <tbody>
-              {membership.tiers.map((tier) => (
-                <tr key={tier.name} className="border-t border-accent-gold/30">
-                  <th scope="row" className="px-4 py-4 text-sm font-medium uppercase tracking-[0.08em]">{tier.name}</th>
-                  <td className="px-4 py-4 tabular-nums">₹{tier.credits.toLocaleString('en-IN')}</td>
-                  <td className="px-4 py-4 font-semibold tabular-nums text-accent-gold-soft">{tier.discount}% OFF</td>
-                  <td className="px-4 py-4 text-sm uppercase tracking-[0.08em]">{tier.validity}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+          <MembershipTiers />
         </div>
         <div className="mt-10 text-center">
           <a href="#join" className="btn-gold btn-lg">Join the Membership Club</a>

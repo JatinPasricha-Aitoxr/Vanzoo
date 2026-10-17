@@ -44,6 +44,9 @@ export type ServiceEntry = {
    *  look soft stretched full-bleed. */
   image: string;
   imageAlt: string;
+  /** Portrait photo for the service page's "How we care" box (cards keep `image`). */
+  detailImage?: string;
+  detailImageAlt?: string;
   /** CSS object-position for the card / side image crop, e.g. '20% 50%'. */
   imagePosition?: string;
   /** Full-bleed photo for the service's own page. Falls back to `image` when
@@ -92,6 +95,8 @@ export const serviceEntries: readonly ServiceEntry[] = [
       'Hand-pressed and finished by trained artisans',
       'Delivered on a hanger, wrapped and ready to wear',
     ],
+    detailImage: '/images/posts/post-2837.jpg',
+    detailImageAlt: 'Grey suit jacket on a hanger — Vanzoo suit dry cleaning',
     image: '/images/service-bespoke-suit-couture.jpg',
     imageAlt:
       'Bespoke two-piece suit and evening dress hanging after couture dry cleaning at Vanzoo Gurgaon',
@@ -118,6 +123,8 @@ export const serviceEntries: readonly ServiceEntry[] = [
       'Safe for silk, cashmere, wool and other delicate weaves',
       'Hand-finished before it comes back to you',
     ],
+    detailImage: '/images/posts/post-2821.jpg',
+    detailImageAlt: 'Cream wool scarf — Vanzoo delicate fabric dry cleaning',
     image: '/images/vanzoo/service-silk-wool.jpg',
     imageAlt:
       'Folded silk and knitted wool fabrics against a deep green backdrop',
@@ -143,6 +150,8 @@ export const serviceEntries: readonly ServiceEntry[] = [
       'Individually assessed — no two lehengas or sarees are cleaned the same way',
       'Hand-finished and returned ready for the next occasion',
     ],
+    detailImage: '/images/posts/post-2833.jpg',
+    detailImageAlt: 'Royal bridal lehenga — Vanzoo couture preservation',
     image: '/images/vanzoo/service-saree-lehenga.jpg',
     imagePosition: '55% 50%',
     imageAlt:
@@ -169,6 +178,8 @@ export const serviceEntries: readonly ServiceEntry[] = [
       'Shape restored without cracking or discolouring the material',
       'Returned looking cared for, not just wiped down',
     ],
+    detailImage: '/images/posts/post-2810.jpg',
+    detailImageAlt: 'Polished tan leather oxford shoes — Vanzoo shoe cleaning and conditioning',
     image: '/images/vanzoo/service-shoe-care.jpg',
     imagePosition: '62% 50%',
     imageAlt:
@@ -194,6 +205,8 @@ export const serviceEntries: readonly ServiceEntry[] = [
       'Safe for fine leather, suede and structured handbags',
       'Handled the way a couture handbag deserves to be',
     ],
+    detailImage: '/images/posts/post-2839.jpg',
+    detailImageAlt: 'Dark brown leather jacket — Vanzoo leather care and conditioning',
     image: '/images/service-shoes-bags-accessories.jpg',
     imageAlt:
       'Leather brogues and a tan leather handbag cleaned and conditioned by Vanzoo luxury accessory care',
@@ -244,6 +257,8 @@ export const serviceEntries: readonly ServiceEntry[] = [
       'Pleats and linings preserved through the wash',
       'Rehung the same day wherever possible',
     ],
+    detailImage: '/images/posts/post-2823.jpg',
+    detailImageAlt: 'Golden floor-length curtains — Vanzoo curtain cleaning',
     image: '/images/vanzoo/service-curtains.jpg',
     imageAlt:
       'Vanzoo team member vacuum-cleaning floor-length green curtains in a living room',
@@ -252,7 +267,7 @@ export const serviceEntries: readonly ServiceEntry[] = [
       note: 'per panel',
     },
     tariffHref: '/pricing/#home-textiles',
-    tariffLabel: 'View home textile tariffs',
+    tariffLabel: 'View blanket, quilt & home textile tariffs',
     tariffPreview: { catalogId: 'couture', groupId: 'home-textiles' },
   },
   {
@@ -269,6 +284,8 @@ export const serviceEntries: readonly ServiceEntry[] = [
       'Colours refreshed and pile restored',
       'Safe for wool, silk-blend and synthetic carpets',
     ],
+    detailImage: '/images/posts/post-2815.jpg',
+    detailImageAlt: 'Carpet being vacuum cleaned — Vanzoo carpet cleaning',
     image: '/images/vanzoo/service-carpet.jpg',
     imageAlt:
       'A rolled and a laid-out handknotted carpet, cleaned by Vanzoo',
@@ -283,8 +300,8 @@ export const serviceEntries: readonly ServiceEntry[] = [
   {
     /* AUTHORED */
     id: 'home-textiles',
-    seoH1: "Best & Premium Blanket & Bedding Dry Cleaning in Gurgaon",
-    title: 'Home Textiles',
+    seoH1: "Best & Premium Blanket, Quilt & Home Textile Dry Cleaning in Gurgaon",
+    title: 'Blanket, Quilts and Home Textiles',
     body: 'Blankets, quilts and bedsheets returned crisp and allergen-free — the pieces you live with, cared for like the pieces you wear.',
     longBody:
       "Blankets, quilts and bedsheets get more daily contact than almost anything else in the wardrobe, yet they're usually the last thing sent for proper cleaning. We give them the same individual assessment and hydrocarbon process as a couture garment, so what comes back is crisp, allergen-free and ready for the bed — not just tumbled through a wash-and-fold.",
@@ -294,6 +311,8 @@ export const serviceEntries: readonly ServiceEntry[] = [
       'Crisp, fresh and ready for the bed the day they arrive',
       'Free pickup, so bulky textiles never need to leave your hands',
     ],
+    detailImage: '/images/posts/post-2816.jpg',
+    detailImageAlt: 'Soft cream throw blanket — Vanzoo blanket and home textile care',
     image: '/images/vanzoo/service-blankets.jpg',
     imagePosition: '55% 50%',
     imageAlt:
@@ -317,6 +336,8 @@ export const serviceEntries: readonly ServiceEntry[] = [
       'Priced separately and lower than full cleaning',
       'Same free pickup and delivery as every other service',
     ],
+    detailImage: '/images/posts/post-2836.jpg',
+    detailImageAlt: 'Wool blazer being steam pressed — Vanzoo steam ironing',
     image: '/images/vanzoo/service-steam-iron.jpg',
     imageAlt:
       'Vanzoo team member steam-ironing a shirt at the Vanzoo pressing station',
@@ -339,6 +360,8 @@ export const serviceEntries: readonly ServiceEntry[] = [
       'Arranged with one phone call — no separate booking flow',
       'Every express order still gets a full individual assessment',
     ],
+    detailImage: '/images/posts/post-2851.jpg',
+    detailImageAlt: 'Vanzoo rider on a scooter — express pickup and delivery',
     image: '/images/vanzoo/express-banner.jpg',
     imageAlt:
       'Vanzoo Express Services: clean shirts, sneakers and bedding ready in 24 to 48 hours',
@@ -382,6 +405,8 @@ export const serviceEntries: readonly ServiceEntry[] = [
     ],
     image: '/images/vanzoo/service-blankets.jpg',
     imagePosition: '55% 50%',
+    heroImage: '/images/vanzoo/sofa-hero.jpg',
+    heroImageAlt: 'Vanzoo team member deep cleaning a sofa on-site in a bright living room, with the Vanzoo extraction machine beside a bed',
     imageAlt: 'Vanzoo on-site sofa, bed and mattress cleaning, with fresh blankets and bedding in Vanzoo green packaging',
     from: null,
     priceLine: 'Quoted on enquiry — call to book an on-site visit',
@@ -402,6 +427,8 @@ export const serviceEntries: readonly ServiceEntry[] = [
       'Same-day express options available',
       'Track pickup and delivery from the Vanzoo app',
     ],
+    detailImage: '/images/posts/post-2853.jpg',
+    detailImageAlt: 'Green Vanzoo delivery van — free pickup and delivery in Gurgaon',
     image: '/images/vanzoo/service-pickup-rider.jpg',
     imagePosition: '50% 85%',
     imageAlt:
