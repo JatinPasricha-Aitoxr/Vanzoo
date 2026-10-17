@@ -8,8 +8,10 @@ export const dynamic = 'force-dynamic';
 
 const COOKIE = 'vz_admin';
 
-const password = () => process.env.ADMIN_PASSWORD ?? '';
-const token = () => createHmac('sha256', password()).update('vanzoo-admin-session').digest('hex');
+// Defaults are admin / admin; set ADMIN_USERNAME and ADMIN_PASSWORD in Vercel to change them.
+const username = () => process.env.ADMIN_USERNAME || 'admin';
+const password = () => process.env.ADMIN_PASSWORD || 'admin';
+const token = () => createHmac('sha256', password()).update(`vanzoo-admin-session:${username()}`).digest('hex');
 
 function safeEqual(a: string, b: string): boolean {
   const x = Buffer.from(a);
@@ -18,7 +20,6 @@ function safeEqual(a: string, b: string): boolean {
 }
 
 function isAuthed(): boolean {
-  if (!password()) return false;
   const value = cookies().get(COOKIE)?.value;
   return Boolean(value) && safeEqual(value!, token());
 }
@@ -26,7 +27,7 @@ function isAuthed(): boolean {
 /** Session + settings for the admin screen. */
 export async function GET() {
   return NextResponse.json({
-    configured: Boolean(password()),
+    configured: true,
     authed: isAuthed(),
     storage: storageKind(),
     settings: isAuthed() ? await getSettings() : null,
@@ -34,10 +35,7 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
-  if (!password()) {
-    return NextResponse.json({ error: 'ADMIN_PASSWORD is not set on the server.' }, { status: 503 });
-  }
-  let body: { action?: string; password?: string; delhiEnabled?: boolean };
+  let body: { action?: string; username?: string; password?: string; delhiEnabled?: boolean };
   try {
     body = await request.json();
   } catch {
@@ -45,8 +43,8 @@ export async function POST(request: Request) {
   }
 
   if (body.action === 'login') {
-    if (!safeEqual(body.password ?? '', password())) {
-      return NextResponse.json({ error: 'Wrong password.' }, { status: 401 });
+    if (!safeEqual(body.username ?? '', username()) || !safeEqual(body.password ?? '', password())) {
+      return NextResponse.json({ error: 'Wrong username or password.' }, { status: 401 });
     }
     const response = NextResponse.json({ ok: true });
     response.cookies.set(COOKIE, token(), {

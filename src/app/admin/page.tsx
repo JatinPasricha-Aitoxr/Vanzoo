@@ -20,6 +20,7 @@ async function call(method: 'GET' | 'POST', body?: unknown) {
 
 export default function AdminPage() {
   const [state, setState] = useState<State | null>(null);
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
   const [busy, setBusy] = useState(false);
@@ -37,7 +38,7 @@ export default function AdminPage() {
     event.preventDefault();
     setBusy(true);
     setMessage('');
-    const { ok, data } = await call('POST', { action: 'login', password });
+    const { ok, data } = await call('POST', { action: 'login', username, password });
     setBusy(false);
     if (!ok) return setMessage(data.error ?? 'Could not sign in.');
     setPassword('');
@@ -71,6 +72,17 @@ export default function AdminPage() {
         </p>
       ) : !state.authed ? (
         <form onSubmit={login} className="mt-6 space-y-4">
+          <label className="block text-sm font-medium" htmlFor="un">
+            Username
+          </label>
+          <input
+            id="un"
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            autoComplete="username"
+            className="h-11 w-full rounded-pill border border-neutral-line px-4"
+          />
           <label className="block text-sm font-medium" htmlFor="pw">
             Password
           </label>

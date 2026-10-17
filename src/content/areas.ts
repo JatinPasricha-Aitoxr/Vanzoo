@@ -118,7 +118,7 @@ const handWrittenAreas: readonly AreaEntry[] = [
           href: '/services/ethnic-wear/',
         },
         {
-          title: 'Home textiles & curtains',
+          title: 'Blankets, quilts, home textiles & curtains',
           body: 'Bedsheets, blankets, quilts and curtains — with free curtain deinstallation and reinstallation.',
           image: {
             src: '/images/collage-folded-linens.jpg',
@@ -348,7 +348,7 @@ const cards = {
     href: '/services/delicate-fabrics/',
   },
   home: {
-    title: 'Home textiles & curtains',
+    title: 'Blankets, quilts, home textiles & curtains',
     body: 'Bedsheets, blankets, quilts and curtains — with free curtain deinstallation and reinstallation.',
     image: photos.linens,
     href: '/services/home-textiles/',

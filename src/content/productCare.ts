@@ -586,7 +586,7 @@ const homeTextiles: Bucket = {
     ],
   },
   fabricCare: {
-    heading: 'Care Across Home Textiles',
+    heading: 'Care Across Blankets, Quilts and Home Textiles',
     items: [
       { title: 'Cotton', body: 'Everyday textiles that benefit from a deep, professional clean.' },
       { title: 'Wool & Blended Carpets', body: 'Treated according to pile and backing construction.' },

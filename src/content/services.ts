@@ -294,7 +294,7 @@ export const serviceEntries: readonly ServiceEntry[] = [
       note: 'per sqft',
     },
     tariffHref: '/pricing/#home-textiles',
-    tariffLabel: 'View home textile tariffs',
+    tariffLabel: 'View blanket, quilt & home textile tariffs',
     tariffPreview: { catalogId: 'couture', groupId: 'home-textiles' },
   },
   {
@@ -319,7 +319,7 @@ export const serviceEntries: readonly ServiceEntry[] = [
       'Blankets and bed linen in Vanzoo green packaging beside a folded throw',
     from: { amount: amountOf(coutureCatalog, 'home-textiles', 'Single Bedsheet') },
     tariffHref: '/pricing/#home-textiles',
-    tariffLabel: 'View home textile tariffs',
+    tariffLabel: 'View blanket, quilt & home textile tariffs',
     tariffPreview: { catalogId: 'couture', groupId: 'home-textiles' },
   },
   {

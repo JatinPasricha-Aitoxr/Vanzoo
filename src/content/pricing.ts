@@ -195,7 +195,7 @@ const steamIronGroups: readonly TariffGroup[] = [
   },
   {
     id: 'home-textiles-steam',
-    label: 'Home Textiles',
+    label: 'Blanket, Quilts & Home Textiles',
     rows: [
       { item: 'Curtain Window', amount: 149, from: true, image: img('curtain') },
       { item: 'Single Bedsheet', amount: 99, image: img('single-bedsheet') },

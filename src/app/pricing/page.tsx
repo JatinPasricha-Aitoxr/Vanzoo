@@ -88,7 +88,7 @@ export default function PricingPage() {
           id="couture-tariffs-heading"
           eyebrow="Couture Care"
           title="Couture Care Tariffs"
-          intro="Full cleaning and finishing — for garments, ethnic wear, leather, footwear, carpets and home textiles."
+          intro="Full cleaning and finishing — for garments, ethnic wear, leather, footwear, carpets, blankets, quilts and home textiles."
         />
         <div className="mt-10">
           <TariffGrid catalog={coutureCatalog} searchable />
