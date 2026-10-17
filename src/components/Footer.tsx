@@ -29,7 +29,7 @@ export function Footer() {
               width={2200}
               height={653}
               sizes="176px"
-              className="h-9 w-auto brightness-0 invert"
+              className="h-9 w-auto"
             />
             <h2 className="mt-6 font-display text-xl font-semibold text-white">
               {footerIntro.heading}
@@ -173,17 +173,18 @@ export function Footer() {
         </div>
       </div>
 
-      {/* Signature sign-off, carried over from the old site: the wordmark set
-          across the full footer width in brand gold. Text rather than an image
-          so it scales losslessly and stays selectable; aria-hidden because the
-          header logo already names the site for assistive tech. */}
-      <div aria-hidden="true" className="select-none overflow-hidden pb-6">
-        <p className="wordmark-giant text-center font-display font-semibold uppercase">
-          Vanzoo
-        </p>
-        <p className="mt-1 text-center text-[clamp(0.5rem,1.1vw,0.8125rem)] font-semibold uppercase tracking-[0.68em] text-accent-gold-soft/80 sm:tracking-[0.9em]">
-          Premium Organic Dryclean
-        </p>
+      {/* Sign-off: the same Vanzoo logo used in the header, set large. */}
+      <div className="select-none pb-10 pt-2">
+        <Image
+          src="/images/brand/vanzoo-logo.png"
+          alt=""
+          aria-hidden="true"
+          width={2200}
+          height={653}
+          loading="lazy"
+          sizes="(min-width: 1280px) 720px, 80vw"
+          className="mx-auto h-auto w-[80vw] max-w-[45rem]"
+        />
       </div>
     </footer>
   );

@@ -13,7 +13,7 @@
 
 /** AUTHORED — hero restyle sanctioned by the brief (§3.2, §6). */
 export const homeHero = {
-  headline: ['Premium and luxury dryclean', 'and garment care.'],
+  headline: ['Premium and Luxury Dry Clean', 'and garment care.'],
   subhead:
     'With pickup and delivered to your doorstep — Italian hydrocarbon technology and couture-trained finishing, across Gurgaon.',
   image: '/images/hero-valet-handover.jpg',

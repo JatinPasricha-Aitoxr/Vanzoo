@@ -68,8 +68,8 @@ export function AppPromo() {
               width={1648}
               height={1284}
               loading="lazy"
-              sizes="(min-width: 640px) 360px, 300px"
-              className="h-auto w-64 max-w-full sm:w-80"
+              sizes="(min-width: 640px) 440px, 340px"
+              className="h-auto w-72 max-w-full sm:w-[27rem]"
             />
             <span className="text-center leading-tight">
               <span className="block text-[0.6875rem] font-semibold uppercase tracking-[0.12em] text-neutral-body">

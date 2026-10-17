@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { storePhotos } from '@/content/socialProof';
+import { ReviewThumbs } from './ReviewThumbs';
 import { stores } from '@/lib/site';
 import { Section, SectionHeading } from './ui/Section';
 
@@ -28,6 +29,10 @@ export function StoresAndReviews() {
         >
           Read customer stories <span aria-hidden="true">→</span>
         </Link>
+      </div>
+
+      <div className="mt-8">
+        <ReviewThumbs />
       </div>
 
       <h2 id="stores-heading" className="mt-16 text-display-sm">

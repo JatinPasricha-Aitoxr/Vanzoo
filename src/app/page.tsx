@@ -64,6 +64,7 @@ export default function HomePage() {
 
       <Hero
         seoH1="Best & Premium Dry Cleaning Services in Gurgaon"
+        highlight="first"
         headline={homeHero.headline}
         subhead={homeHero.subhead}
         image={homeHero.image}
@@ -85,7 +86,7 @@ export default function HomePage() {
           title="Our Premium Fabric Care Services"
           intro="Every service, one standard of care — each piece assessed individually before it goes anywhere near a machine."
         />
-        <AutoScrollRow className="no-scrollbar -mx-5 mt-10 flex snap-x snap-mandatory gap-5 overflow-x-auto px-5 pb-2 sm:-mx-8 sm:px-8 lg:mx-0 lg:px-0">
+        <AutoScrollRow label="services" className="no-scrollbar -mx-5 mt-10 flex snap-x snap-mandatory gap-5 overflow-x-auto px-5 pb-2 sm:-mx-8 sm:px-8 lg:mx-0 lg:px-0">
           {homeServices.map((service, index) => (
             <ServiceRow
               key={service.number}

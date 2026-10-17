@@ -22,6 +22,8 @@ type HeroProps = {
   variant?: 'full' | 'band';
   /** Keyword headline — rendered as the page's H1; `headline` becomes an H2. */
   seoH1?: string;
+  /** Which line takes the gold highlight: the trailing lines (default) or the first. */
+  highlight?: 'trailing' | 'first';
   children?: React.ReactNode;
 };
 
@@ -69,6 +71,7 @@ export function Hero({
   offer,
   variant = 'full',
   seoH1,
+  highlight = 'trailing',
   children,
 }: HeroProps) {
   return (
@@ -154,7 +157,12 @@ export function Hero({
                   // Trailing lines take the soft gold: the one typographic
                   // flourish in the hero, and the cue that carries the couture
                   // register before a word of copy is read.
-                  className={cn('hero-line', index > 0 && 'text-accent-gold-soft')}
+                  className={cn(
+                    'hero-line',
+                    highlight === 'first'
+                      ? index === 0 && 'gold-shine gold-shine-dark'
+                      : index > 0 && 'text-accent-gold-soft',
+                  )}
                   style={{ '--line': index } as React.CSSProperties}
                 >
                   {line}
