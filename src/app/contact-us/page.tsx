@@ -3,6 +3,8 @@ import { EnquiryForm } from '@/components/EnquiryForm';
 import { FAQAccordion } from '@/components/FAQAccordion';
 import { JsonLd } from '@/components/JsonLd';
 import { PageHeader } from '@/components/Hero';
+import Image from 'next/image';
+import { Mascot } from '@/components/Mascot';
 import { Reveal } from '@/components/ui/Reveal';
 import { Section, SectionHeading } from '@/components/ui/Section';
 import { enquiryIntro, faqIntro, homeFaqs } from '@/content/marketing';
@@ -35,7 +37,11 @@ export default function ContactPage() {
         <div className="grid gap-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-16">
           {/* Contact details + map */}
           <Reveal variant="left">
-            <h2 className="text-display-sm">{site.descriptor}</h2>
+            <div className="flex items-center gap-5">
+              <Image src="/images/brand/vanzoo-mark.png" alt="Vanzoo V logo" width={72} height={72} className="h-[4.5rem] w-[4.5rem]" />
+              <Mascot size={96} />
+            </div>
+            <h2 className="mt-6 text-display-sm">{site.descriptor}</h2>
             <p className="mt-2 text-lead text-neutral-body">{site.serviceArea}</p>
 
             <dl className="mt-8 space-y-6">

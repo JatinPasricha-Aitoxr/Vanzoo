@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { weCare } from '@/content/marketing';
+import { Mascot } from './Mascot';
 import { Reveal } from './ui/Reveal';
 import { links } from '@/lib/site';
 
@@ -40,6 +41,9 @@ export function WeCareBanner() {
             aria-hidden="true"
             className="absolute -bottom-3 -right-3 h-full w-full rounded-media border border-accent-gold/40"
           />
+          <div className="absolute -bottom-5 -left-3 z-10 sm:-left-6">
+            <Mascot size={96} />
+          </div>
           <div className="media-frame aspect-[4/3] bg-brand-dark">
             <Image
               src={weCare.image}

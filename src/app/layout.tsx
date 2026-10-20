@@ -7,10 +7,11 @@ import { Footer } from '@/components/Footer';
 import { Header } from '@/components/Header';
 import { JsonLd } from '@/components/JsonLd';
 import { StoresAndReviews } from '@/components/StoresAndReviews';
-import { WhatsAppButton } from '@/components/WhatsAppButton';
+import { FloatingDock } from '@/components/FloatingDock';
+import { availableVideos } from '@/lib/videos';
 import { CartProvider } from '@/lib/cart';
 import { organizationSchema, websiteSchema } from '@/lib/seo';
-import { GOOGLE_SITE_VERIFICATION, GTM_ID, SITE_URL, site } from '@/lib/site';
+import { GA_ID, GOOGLE_SITE_VERIFICATION, GTM_ID, SITE_URL, site } from '@/lib/site';
 import './globals.css';
 
 /**
@@ -61,14 +62,22 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en-IN" className={`${display.variable} ${sans.variable}`}>
+      <head>
+        {GTM_ID ? (
+          <Script id="gtm" strategy="beforeInteractive">
+            {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${GTM_ID}');`}
+          </Script>
+        ) : null}
+        {/* Google tag (gtag.js) — in the root layout, so every page gets exactly
+            one copy. beforeInteractive injects it into <head>. */}
+        <Script src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} strategy="beforeInteractive" />
+        <Script id="gtag-init" strategy="beforeInteractive">
+          {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA_ID}');`}
+        </Script>
+      </head>
       <body>
         {GTM_ID ? (
           <>
-            {/* afterInteractive keeps GTM off the critical path — it loads once
-                the page is usable rather than blocking first paint. */}
-            <Script id="gtm" strategy="afterInteractive">
-              {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${GTM_ID}');`}
-            </Script>
             <noscript>
               <iframe
                 src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
@@ -91,7 +100,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <StoresAndReviews />
           <Footer />
           <ContactRail />
-          <WhatsAppButton />
+          <FloatingDock videos={availableVideos()} />
           <CartDrawer />
         </CartProvider>
       </body>

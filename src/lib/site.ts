@@ -12,8 +12,11 @@ export const SITE_URL = (
   process.env.NEXT_PUBLIC_SITE_URL ?? 'https://vanzoo.in'
 ).replace(/\/$/, '');
 
+/** Google tag (gtag.js) measurement ID, loaded once from the root layout. */
+export const GA_ID = process.env.NEXT_PUBLIC_GA_ID ?? 'G-XKW9LN8QLT';
+
 /** Existing GTM container — keep in sync with the live site's tag. */
-export const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID ?? '';
+export const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID ?? 'GTM-TLM8SCP2';
 
 /** Existing Search Console verification token, carried over from vanzoo.in. */
 export const GOOGLE_SITE_VERIFICATION =
@@ -43,6 +46,9 @@ export const links = {
   bookPickup: 'https://app.vanzoo.in/website/W10795?brand=VANZOO',
   bookService: 'https://app.vanzoo.in/website/W10541',
   playStore: 'https://play.google.com/store/apps/details?id=com.vanzoo.customer',
+  /** App Store listing. Empty until the client supplies the live URL — the
+   *  footer and app promo show "coming soon" while it is blank. */
+  appStore: process.env.NEXT_PUBLIC_APP_STORE_URL ?? '',
   facebook: 'https://www.facebook.com/profile.php?id=61581034320798',
   instagram: 'https://www.instagram.com/vanzoo._/',
   youtube: 'https://www.youtube.com/channel/UC-oPR8MnkAZpiOp0K08TNrQ',
@@ -68,8 +74,7 @@ export const stores = [
       'Ground Floor, Block No. B, Super Mart Commercial Complex, B-211, 1, DLF Phase IV, Gurugram, Haryana 122009',
     locality: 'DLF Phase IV, Gurugram',
     postalCode: '122009',
-    mapQuery:
-      'Vanzoo, Ground Floor, Block No. B, Super Mart Commercial Complex, B-211, DLF Phase IV, Gurugram, Haryana 122009',
+    mapQuery: 'Vanzoo Premium Organic Dryclean, Super Mart 1, DLF Phase 4, Gurugram',
   },
   {
     id: 'vanzoo-urbana',
@@ -78,8 +83,7 @@ export const stores = [
       'Unit no, First Floor, M3M URBANA, R3-112, near KFC, Ramgarh, Sector 67, Gurugram, Haryana 122102',
     locality: 'Sector 67, Gurugram',
     postalCode: '122102',
-    mapQuery:
-      'Vanzoo, M3M URBANA, R3-112, Sector 67, Gurugram, Haryana 122102',
+    mapQuery: 'Vanzoo Premium Organic Dryclean, M3M Urbana, Sector 67, Gurugram',
   },
 ] as const;
 
@@ -129,6 +133,7 @@ export const areaGroups = [
       'Sector 55',
       'Sector 56',
       'Sector 57',
+      'South City 2',
       'Sohna Road',
       'Badshahpur',
     ],
@@ -159,7 +164,6 @@ export const areaGroups = [
       'Sector 14',
       'Sector 15',
       'South City 1',
-      'South City 2',
       'Sushant Lok 2',
       'Sushant Lok 3',
     ],
@@ -207,13 +211,14 @@ export const serviceAreas = areaGroups.flatMap((group) => group.areas);
  * now one page ("Pricing") with both catalogues on it, at /pricing/.
  */
 export const navLinks = [
-  { href: '/about-us/', label: 'About Us' },
   { href: '/services/', label: 'Services' },
   { href: '/pricing/', label: 'Pricing' },
-  { href: '/hydrocarbon-tech/', label: 'Hydrocarbon Tech' },
+  { href: '/hydrocarbon-tech/', label: 'Technology' },
+  { href: '/membership/', label: 'Membership' },
   { href: '/areas-we-serve/', label: 'Areas' },
+  { href: '/about-us/', label: 'About Us' },
   { href: '/blogs/', label: 'Blogs' },
-  { href: '/contact-us/', label: 'Contact Us' },
+  { href: '/contact-us/', label: 'Contact' },
 ] as const;
 
 /** Mega-footer columns, data-driven so a link change never touches markup. */
@@ -238,14 +243,19 @@ export const footerColumns = [
     // Each link goes to that service's own dedicated page; booking stays on
     // the "Book" CTAs, so these describe before they sell.
     links: [
-      { label: 'Garment Care', href: '/services/couture-care/' },
-      { label: 'Bags Care', href: '/services/bags-leather-care/' },
-      { label: 'Shoes Care', href: '/services/shoe-care/' },
+      { label: 'Bespoke Suit & Couture Care', href: '/services/couture-care/' },
+      { label: 'Silks, Wool & Delicate Fabrics', href: '/services/delicate-fabrics/' },
+      { label: 'Sarees, Lehengas & Ethnic Wear', href: '/services/ethnic-wear/' },
+      { label: 'Shoe Care', href: '/services/shoe-care/' },
+      { label: 'Bags & Leather Care', href: '/services/bags-leather-care/' },
       { label: 'Toys & Accessories Care', href: '/services/toys-accessories-care/' },
-      { label: 'Leather Care', href: '/services/bags-leather-care/' },
-      { label: 'Curtains Care', href: '/services/curtain-cleaning/' },
-      { label: 'Carpet Care', href: '/services/carpet-cleaning/' },
+      { label: 'Curtain Cleaning', href: '/services/curtain-cleaning/' },
+      { label: 'Carpet Cleaning', href: '/services/carpet-cleaning/' },
+      { label: 'Blanket & Home Textiles', href: '/services/home-textiles/' },
+      { label: 'Bed, Sofa & Mattress Cleaning', href: '/services/sofa-mattress-cleaning/' },
+      { label: 'Steam Iron & Pressing', href: '/services/steam-iron/' },
       { label: 'Express Service', href: '/services/express-service/' },
+      { label: 'Free Pickup & Delivery', href: '/services/pickup-delivery/' },
     ],
   },
   {

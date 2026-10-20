@@ -653,9 +653,9 @@ const leatherAndFootwear: Bucket = {
       'At Vanzoo, every piece is assessed on its own construction before any cleaning begins.',
     ],
     features: [
-      { title: 'Finish Restored', body: 'Conditioning brings back the material’s finish rather than just wiping off surface dirt.' },
+      { title: 'Finish Revived', body: 'Conditioning brings back the material’s finish rather than just wiping off surface dirt.' },
       { title: 'Soles & Hardware Protected', body: 'Cleaned and conditioned separately from the upper material.' },
-      { title: 'Shape Maintained', body: 'Structure and shape restored without cracking or discolouring the material.' },
+      { title: 'Shape Maintained', body: 'Structure and shape kept intact, without cracking or discolouring the material.' },
       { title: 'Ready to Use', body: 'Comes back looking cared for, not just wiped down.' },
     ],
   },

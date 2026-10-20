@@ -8,18 +8,38 @@ import { serviceEntries } from '@/content/services';
 import { navLinks } from '@/lib/site';
 import { cn } from '@/lib/cn';
 
-type SearchItem = { label: string; href: string; group: string; price?: string };
+type SearchItem = {
+  label: string;
+  href: string;
+  group: string;
+  price?: string;
+  /** Extra words that should find this entry ("dryclean", "laundry"…). */
+  keywords?: string;
+};
+
+/** Words every dry-cleaning-type entry answers to, so "dryclean", "dry clean",
+ *  "laundry" and "wash" all land somewhere useful instead of "No matches". */
+const CARE_WORDS = 'dryclean dry clean dry cleaning dry-cleaning dryclean laundry wash care cleaner';
+
+const normalize = (value: string) => value.toLowerCase().replace(/[^a-z0-9]/g, '');
 
 const PAGE_ITEMS: SearchItem[] = navLinks.map((link) => ({
   label: link.label,
   href: link.href,
   group: 'Pages',
+  keywords: link.href === '/pricing/' ? 'price rate tariff cost membership' : undefined,
 }));
+
+const EXTRA_PAGES: SearchItem[] = [
+  { label: 'Membership', href: '/membership/', group: 'Pages', keywords: 'club credits discount offer' },
+  { label: 'Book a pickup', href: '/services/pickup-delivery/', group: 'Pages', keywords: 'schedule collect' },
+];
 
 const SERVICE_ITEMS: SearchItem[] = serviceEntries.map((service) => ({
   label: service.title,
   href: `/services/${service.id}/`,
   group: 'Services',
+  keywords: `${CARE_WORDS} ${service.body}`,
 }));
 
 /** Every priced tariff row from both catalogues — so searching a garment name
@@ -32,11 +52,17 @@ const PRODUCT_ITEMS: SearchItem[] = [coutureCatalog, steamIronCatalog].flatMap((
       href: `/pricing/#${group.id}`,
       group: `${group.label} · ${catalog.label}`,
       price: formatPrice(row),
+      keywords: CARE_WORDS,
     })),
   ),
 );
 
-const SEARCH_INDEX: readonly SearchItem[] = [...PAGE_ITEMS, ...SERVICE_ITEMS, ...PRODUCT_ITEMS];
+const SEARCH_INDEX: readonly SearchItem[] = [
+  ...PAGE_ITEMS,
+  ...EXTRA_PAGES,
+  ...SERVICE_ITEMS,
+  ...PRODUCT_ITEMS,
+];
 
 /**
  * Header search — a lightweight client-side lookup over the site's own pages,
@@ -81,17 +107,23 @@ export function SearchBar({ solid }: { solid: boolean }) {
   }, [open]);
 
   const trimmed = query.trim().toLowerCase();
-  // Names that start with the query rank above ones that merely contain it
-  // (searching "shirt" should lead with "Shirt", not bury it under "T-shirt").
-  const results = trimmed
-    ? SEARCH_INDEX.filter((item) => item.label.toLowerCase().includes(trimmed))
-        .sort(
-          (a, b) =>
-            Number(!a.label.toLowerCase().startsWith(trimmed)) -
-            Number(!b.label.toLowerCase().startsWith(trimmed)),
-        )
-        .slice(0, 10)
+  const flat = normalize(trimmed);
+  const tokens = trimmed.split(/\s+/).filter(Boolean);
+  // A label match (spaces and punctuation ignored) outranks a keyword match;
+  // multi-word queries match when every word appears in the label or keywords.
+  const scored = flat
+    ? SEARCH_INDEX.map((item) => {
+        const label = normalize(item.label);
+        const hay = normalize(`${item.label} ${item.keywords ?? ''}`);
+        if (label.startsWith(flat)) return { item, score: 0 };
+        if (label.includes(flat)) return { item, score: 1 };
+        if (tokens.every((token) => hay.includes(normalize(token)))) return { item, score: 2 };
+        return null;
+      })
+        .filter((entry): entry is { item: SearchItem; score: number } => entry !== null)
+        .sort((a, b) => a.score - b.score)
     : [];
+  const results = scored.slice(0, 10).map((entry) => entry.item);
 
   function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -178,13 +210,13 @@ export function SearchBar({ solid }: { solid: boolean }) {
           type="button"
           onClick={() => setOpen(true)}
           className={cn(
-            'inline-flex h-10 w-10 items-center justify-center rounded-pill border transition-colors duration-200',
+            'inline-flex h-10 w-10 items-center justify-center gap-2 rounded-pill border text-sm transition-colors duration-200 lg:w-40 lg:justify-start lg:px-3.5',
             solid
               ? 'border-neutral-line text-neutral-ink hover:bg-neutral-muted'
               : 'border-white/40 text-white hover:bg-white/10',
           )}
         >
-          <span className="sr-only">Search</span>
+          <span className="sr-only lg:not-sr-only lg:text-[0.8125rem] lg:opacity-70 lg:order-2">Search…</span>
           <SearchIcon />
         </button>
       )}

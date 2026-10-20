@@ -93,7 +93,7 @@ export const uspCards: readonly UspCard[] = [
   },
   {
     title: 'Free pickup and delivery',
-    body: 'Book on the website or the Vanzoo app, choose a slot, and a valet collects from your door — free across Gurgaon, with no minimum order.',
+    body: 'Book on the website or the Vanzoo app, choose a slot, and a valet collects from your door — free across Gurgaon.',
     image: '/images/hero-valet-handover.jpg',
     imageAlt: 'Vanzoo valet handing freshly cleaned garments in protective wrap to a customer',
   },
@@ -160,7 +160,7 @@ export const services: readonly Service[] = [
   {
     number: '02',
     title: 'Silks, Wool & Delicate Fabrics',
-    body: 'Gentle treatment for silks, woolens, and cashmere. We restore their natural softness and lustre without damage.',
+    body: 'Gentle treatment for silks, woolens, and cashmere. We bring back their natural softness and lustre without damage.',
     image: '/images/service-silk-wool-delicates.jpg',
     imageAlt:
       'Folded silk, wool and cashmere garments after gentle hydrocarbon dry cleaning in Gurgaon',
@@ -488,6 +488,16 @@ export const about = {
 /* -------------------------------------------------------------------------- */
 
 /** AUTHORED — new membership programme, written in the guarantee block's voice. */
+/** Membership Club tiers — from the Vanzoo membership flyer. */
+export const membershipTiers = [
+  { club: 'Smart Saver', credits: 5000, discount: 10, validity: '3 months' },
+  { club: 'Privilege', credits: 10000, discount: 20, validity: '6 months' },
+  { club: 'Signature', credits: 20000, discount: 25, validity: '1 year' },
+  { club: 'Pinnacle', credits: 35000, discount: 30, validity: 'Unlimited' },
+  { club: 'Prestige', credits: 50000, discount: 35, validity: 'Unlimited' },
+  { club: 'Elite', credits: 75000, discount: 40, validity: 'Unlimited' },
+] as const;
+
 export const membership = {
   eyebrow: 'Membership',
   heading: 'The Vanzoo Membership',
@@ -532,6 +542,39 @@ export const membership = {
 /* -------------------------------------------------------------------------- */
 /* Hydrocarbon Tech page                                                      */
 /* -------------------------------------------------------------------------- */
+
+/** Extra, in-depth hydrocarbon content — rendered on /hydrocarbon-tech/. */
+export const hydrocarbonDetail = {
+  glance: [
+    { value: '99%', label: 'of solvent purified and reused every cycle' },
+    { value: '0', label: 'harsh PERC fumes or petrol-wash odour' },
+    { value: '9', label: 'steps from doorstep pickup to delivery' },
+    { value: '1', label: 'closed-loop, sealed machine per batch' },
+  ],
+  cycleHeading: 'One cycle, step by step',
+  cycle: [
+    { title: 'Inspect & tag', body: 'Every garment is checked for fabric, trims and stains. Stains are tagged and pre-treated by hand before the machine.' },
+    { title: 'Immerse & tumble', body: 'Garments are gently tumbled in refined hydrocarbon solvent at moderate temperature — no water, no harsh agitation.' },
+    { title: 'Filter & extract', body: 'The solvent is filtered continuously so lifted soil never settles back onto the fabric, then spun out.' },
+    { title: 'Dry & recover', body: 'Warm air dries the load while the machine distils and recovers the solvent for the next cycle.' },
+    { title: 'Finish by hand', body: 'Each piece is pressed on the right form, quality-checked and wrapped for delivery.' },
+  ],
+  fabricsHeading: 'What hydrocarbon cleaning is best for',
+  fabrics: [
+    'Bespoke suits & blazers', 'Silk & satin', 'Wool & cashmere', 'Sarees & lehengas', 'Zari, embroidery & beadwork',
+    'Velvet & structured fabrics', 'Sherwanis & kurtas', 'Dresses & gowns', 'Leather-trimmed garments', 'Everyday shirts & trousers',
+  ],
+  compareHeading: 'Hydrocarbon vs PERC vs water washing',
+  compareColumns: ['Hydrocarbon (Vanzoo)', 'Traditional PERC', 'Water wash'],
+  compareRows: [
+    { label: 'Feel of the fabric', values: ['Soft, natural drape', 'Can feel stiff', 'Can shrink or stiffen delicates'] },
+    { label: 'Odour after cleaning', values: ['Clean finish, no harsh odour', 'Often a chemical smell', 'Neutral'] },
+    { label: 'Structured garments (suits, canvas)', values: ['Shape preserved', 'Generally safe', 'Risk of shrinkage and distortion'] },
+    { label: 'Embroidery, zari & dyes', values: ['Gentle, colour-safe', 'Harsher on trims', 'Colour can bleed'] },
+    { label: 'Solvent recovery', values: ['Up to 99% recycled', 'Recovered, but a harsher chemical', 'Not applicable'] },
+    { label: 'Environmental profile', values: ['Eco-forward, closed loop', 'Persistent environmental concerns', 'Uses large amounts of water'] },
+  ],
+} as const;
 
 export const hydrocarbon = {
   hero: {

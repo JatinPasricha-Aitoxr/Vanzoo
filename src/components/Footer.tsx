@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { StoreBadges } from './StoreBadges';
 import {
   dryCleanItems,
   footerColumns,
@@ -22,6 +23,14 @@ export function Footer() {
       <div className="shell pb-24 pt-section-sm sm:py-section-sm">
         <div className="grid gap-12 lg:grid-cols-[minmax(0,1.4fr)_repeat(3,minmax(0,1fr))] lg:gap-8">
           <div className="max-w-sm">
+            <Image
+              src="/images/brand/vanzoo-mark.png"
+              alt=""
+              width={512}
+              height={512}
+              sizes="56px"
+              className="mb-3 h-14 w-14"
+            />
             <Image
               src="/images/brand/vanzoo-logo.png"
               alt="Vanzoo — premium organic dryclean"
@@ -124,25 +133,7 @@ export function Footer() {
           <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <p className="text-sm font-medium text-white">Get the Vanzoo app</p>
-              <div className="mt-3 flex flex-wrap items-center gap-3">
-                <a
-                  href={links.playStore}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2.5 rounded-card border border-white/25 px-4 py-2.5 transition-colors hover:border-accent-gold-soft"
-                >
-                  <PlayIcon />
-                  <span className="text-left leading-tight">
-                    <span className="block text-[0.625rem] uppercase tracking-wide text-white/75">
-                      Get it on
-                    </span>
-                    <span className="block text-sm font-semibold text-white">Google Play</span>
-                  </span>
-                </a>
-                <span className="rounded-pill border border-white/15 px-3.5 py-2 text-xs text-white/75">
-                  iOS — coming soon
-                </span>
-              </div>
+              <StoreBadges className="mt-3" />
             </div>
 
             <a
@@ -196,14 +187,6 @@ function SocialIcon({ name }: { name: string }) {
   return (
     <svg viewBox="0 0 24 24" {...common}>
       <path d="M21.6 7.2a2.5 2.5 0 00-1.76-1.77C18.25 5 12 5 12 5s-6.25 0-7.84.43A2.5 2.5 0 002.4 7.2C2 8.8 2 12 2 12s0 3.2.4 4.8a2.5 2.5 0 001.76 1.77C5.75 19 12 19 12 19s6.25 0 7.84-.43a2.5 2.5 0 001.76-1.77C22 15.2 22 12 22 12s0-3.2-.4-4.8zM10 15.06V8.94L15.2 12 10 15.06z" />
-    </svg>
-  );
-}
-
-function PlayIcon() {
-  return (
-    <svg viewBox="0 0 24 24" className="h-6 w-6" fill="currentColor" aria-hidden="true">
-      <path d="M3.6 2.6c-.3.3-.5.8-.5 1.4v16c0 .6.2 1.1.5 1.4l.1.1 9-9v-.2l-9-9-.1.1zm12.2 5.9L5.4 2.4l8.8 8.8 1.6-1.6v-1.1zm2.9 2.1-2.2-1.3-1.8 1.8 1.8 1.8 2.2-1.3c.7-.4.7-1.2 0-1.6zM5.4 21.6l10.4-6.1-1.6-1.6-8.8 7.7z" />
     </svg>
   );
 }

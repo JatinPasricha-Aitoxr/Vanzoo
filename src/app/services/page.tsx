@@ -4,7 +4,11 @@ import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { CtaBanner } from '@/components/CtaBanner';
 import { JsonLd } from '@/components/JsonLd';
 import { PageHeader } from '@/components/Hero';
-import { ProcessRail } from '@/components/ProcessRail';
+import { AreaCoverageGrid } from '@/components/AreaCoverageGrid';
+import { NineStepProcess } from '@/components/NineStepProcess';
+import { OfferBand } from '@/components/OfferBand';
+import { SectionCtas } from '@/components/SectionCtas';
+import { videoFor } from '@/lib/videos';
 import { ServiceCard } from '@/components/ServiceCard';
 import { RevealGroup, Reveal } from '@/components/ui/Reveal';
 import { Section, SectionHeading } from '@/components/ui/Section';
@@ -30,13 +34,46 @@ export default function ServicesPage() {
 
       <PageHeader
         eyebrow="What we do"
-        title="Every service, one standard of care"
+        title="Best Dry Cleaning Services in Gurgaon — Every Service, One Standard of Care"
         intro={servicesIntro}
         image="/images/persona-fashion-collectors.jpg"
         imageAlt="Designer and limited-edition pieces displayed on mannequins in a fashion boutique"
       >
         <Breadcrumbs crumbs={CRUMBS} tone="dark" />
       </PageHeader>
+
+      {/* Headline + all-services video */}
+      <Section tone="light" size="sm" aria-labelledby="services-lead-heading">
+        <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:gap-14">
+          <div>
+            <h2 id="services-lead-heading" className="text-display-sm">
+              From <span className="hl">garments, shoes, handbags</span> to{' '}
+              <span className="hl-green">home textiles</span> — professionally dry cleaned with one
+              standard of care
+            </h2>
+            <p className="mt-4 text-lead text-pretty text-neutral-body">
+              Premium <mark className="hl">dry cleaning</mark> with Italian hydrocarbon technology,
+              hand finishing and free doorstep pickup and delivery across Gurgaon.
+            </p>
+            <SectionCtas />
+          </div>
+          {videoFor('services') ? (
+            <video
+              src="/videos/services.mp4"
+              controls
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              className="aspect-video w-full rounded-card bg-brand-ink object-cover shadow-lift"
+            />
+          ) : (
+            <div className="media-frame relative aspect-video">
+              <Image src="/images/client/store-interior-mascot.jpg" alt="Inside the Vanzoo store — every service, one standard of care" fill sizes="(min-width: 1024px) 40vw, 90vw" className="object-cover" />
+            </div>
+          )}
+        </div>
+      </Section>
 
       {/* Full services grid */}
       <Section tone="surface" aria-label="All Vanzoo services">
@@ -45,6 +82,7 @@ export default function ServicesPage() {
             <ServiceCard key={service.id} service={service} />
           ))}
         </RevealGroup>
+        <SectionCtas />
       </Section>
 
       {/* Nine-step process */}
@@ -57,8 +95,9 @@ export default function ServicesPage() {
           className="mx-auto"
         />
         <div className="mt-14">
-          <ProcessRail />
+          <NineStepProcess />
         </div>
+        <SectionCtas className="justify-center" />
       </Section>
 
       {/* Hydrocarbon technology band */}
@@ -88,6 +127,34 @@ export default function ServicesPage() {
           </Reveal>
         </div>
       </Section>
+
+      {/* Areas + pricing */}
+      <Section tone="surface" aria-labelledby="services-areas-heading">
+        <SectionHeading
+          id="services-areas-heading"
+          eyebrow="Where we deliver"
+          title={<>Free pickup & delivery across <span className="hl">Gurgaon</span></>}
+          intro="Find your neighbourhood — coverage is confirmed when you book."
+        />
+        <div className="mt-10">
+          <AreaCoverageGrid headingLevel="h3" showBlurb={false} />
+        </div>
+        <SectionCtas />
+      </Section>
+
+      <Section tone="muted" size="sm" aria-labelledby="services-pricing-heading">
+        <div className="flex flex-wrap items-center justify-between gap-6">
+          <SectionHeading
+            id="services-pricing-heading"
+            eyebrow="Pricing"
+            title="Transparent, item-wise pricing"
+            intro="Every service has a published starting price. WhatsApp us to know the actual price for your garment."
+          />
+          <Link href="/pricing/" className="btn-primary btn-lg">See all pricing</Link>
+        </div>
+      </Section>
+
+      <OfferBand />
 
       <Section tone="surface" size="sm">
         <CtaBanner

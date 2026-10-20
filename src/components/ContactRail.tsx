@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { links, site, socialLinks } from '@/lib/site';
+import { site, socialLinks } from '@/lib/site';
 import { cn } from '@/lib/cn';
 
 /**
@@ -42,20 +42,13 @@ export function ContactRail() {
       external: false,
       icon: <PhoneIcon />,
     },
-    {
-      label: 'Chat on WhatsApp',
-      short: 'WhatsApp',
-      href: links.whatsapp,
-      external: true,
-      icon: <WhatsAppIcon />,
-    },
   ];
 
   return (
     <div
       ref={rootRef}
       // Below the mobile "Book Pickup" bar in the stack but above page content.
-      className="fixed right-0 top-1/2 z-40 -translate-y-1/2 print:hidden"
+      className="fixed right-0 top-[40%] z-40 -translate-y-1/2 print:hidden"
     >
       {/* ≥sm — always-visible rail. */}
       <div className="hidden sm:block">
@@ -174,14 +167,6 @@ function PhoneIcon() {
   return (
     <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" className="h-6 w-6">
       <path d="M6.6 2.4a1.4 1.4 0 0 0-1.8-.3L3.2 3.2A2.4 2.4 0 0 0 2.3 6c.7 2.6 2.1 5 4 6.9 1.9 1.9 4.3 3.3 6.9 4a2.4 2.4 0 0 0 2.6-.9l1.1-1.6a1.4 1.4 0 0 0-.3-1.8l-2-1.6a1.4 1.4 0 0 0-1.7 0l-.9.7a.5.5 0 0 1-.6 0 12 12 0 0 1-3.7-3.7.5.5 0 0 1 0-.6l.7-.9a1.4 1.4 0 0 0 0-1.7l-1.8-2z" />
-    </svg>
-  );
-}
-
-function WhatsAppIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className="h-6 w-6">
-      <path d="M12.04 2C6.6 2 2.2 6.4 2.2 11.84c0 1.74.46 3.44 1.32 4.94L2.1 22l5.36-1.4a9.8 9.8 0 0 0 4.58 1.16h.01c5.43 0 9.84-4.4 9.84-9.84A9.78 9.78 0 0 0 12.04 2zm0 17.9h-.01a8.2 8.2 0 0 1-4.15-1.13l-.3-.18-3.08.8.82-3-.19-.31a8.13 8.13 0 0 1-1.25-4.34c0-4.5 3.67-8.16 8.17-8.16 2.18 0 4.23.85 5.77 2.4a8.1 8.1 0 0 1 2.39 5.77c0 4.5-3.67 8.16-8.17 8.16zm4.48-6.1c-.24-.13-1.45-.72-1.68-.8-.22-.08-.39-.12-.55.12s-.63.8-.77.96c-.14.17-.28.19-.52.06a6.7 6.7 0 0 1-1.97-1.22 7.4 7.4 0 0 1-1.36-1.7c-.14-.24-.01-.37.11-.49.11-.11.24-.28.36-.42.12-.15.16-.25.24-.41.08-.17.04-.31-.02-.43-.06-.12-.55-1.33-.76-1.82-.2-.47-.4-.4-.55-.41h-.47c-.16 0-.43.06-.65.3-.22.25-.85.84-.85 2.04s.87 2.37.99 2.53c.12.17 1.71 2.62 4.15 3.67.58.25 1.03.4 1.39.51.58.19 1.11.16 1.53.1.47-.07 1.45-.6 1.65-1.17.2-.58.2-1.07.14-1.17-.06-.11-.22-.17-.46-.29z" />
     </svg>
   );
 }

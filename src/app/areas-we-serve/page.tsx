@@ -1,4 +1,6 @@
+import Image from 'next/image';
 import Link from 'next/link';
+import { SectionCtas } from '@/components/SectionCtas';
 import { AreaCoverageGrid } from '@/components/AreaCoverageGrid';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { CtaBanner } from '@/components/CtaBanner';
@@ -107,6 +109,36 @@ export default function AreasWeServePage() {
             </div>
           </div>
         </div>
+      </Section>
+
+      {/* Brand + store imagery, with text */}
+      <Section tone="surface" size="sm" aria-labelledby="areas-stores-heading">
+        <SectionHeading
+          id="areas-stores-heading"
+          eyebrow="Our stores & team"
+          title={<>Visit us, or let our <span className="hl">riders</span> come to you</>}
+          align="center"
+          className="mx-auto"
+        />
+        <ul className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {[
+            ['/images/client/store-front.jpg', 'Store front', 'Our Gurgaon store — walk in, drop off, get advice.'],
+            ['/images/client/store-interior-mascot.jpg', 'Inside the store', 'Every service in one place, with our tiger mascot keeping watch.'],
+            ['/images/client/rider-door.jpg', 'Doorstep pickup', 'Trained riders collect and deliver free across Gurgaon.'],
+            ['/images/client/van.jpg', 'Pickup van', 'Branded vans for bulk pickups and on-site services.'],
+          ].map(([src, title, body]) => (
+            <li key={title} className="overflow-hidden rounded-card border border-neutral-line bg-white shadow-lift">
+              <div className="media-frame relative aspect-[4/3] rounded-none">
+                <Image src={src} alt={`Vanzoo — ${title}`} fill loading="lazy" sizes="(min-width: 1024px) 25vw, 90vw" className="object-cover" />
+              </div>
+              <div className="p-4">
+                <h3 className="font-display text-base font-semibold text-neutral-ink">{title}</h3>
+                <p className="mt-1.5 text-[0.8125rem] text-neutral-body">{body}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+        <SectionCtas className="justify-center" />
       </Section>
 
       <Section tone="surface" size="sm">

@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { OfferBar } from './OfferBar';
 import { BookPickupWidget } from './BookPickupWidget';
 import { CartButton } from './CartButton';
 import { SearchBar } from './SearchBar';
@@ -25,7 +26,7 @@ const SERVICES_HREF = '/services/';
  *
  * `/services/` and every `/services/<slug>/` detail page use the same
  * photographic `PageHeader`, so they're matched by prefix rather than listed
- * one by one — there are twelve service slugs and the list would only grow.
+ * one by one — there are many service slugs and the list would only grow.
  */
 const HERO_ROUTES = new Set(['/', '/hydrocarbon-tech/', '/hydrocarbon-tech']);
 
@@ -107,13 +108,23 @@ export function Header() {
           solid ? 'bg-white/95 shadow-header backdrop-blur-md' : 'bg-transparent',
         )}
       >
-        <div className="shell flex h-[var(--header-h)] items-center justify-between gap-4">
+        <OfferBar />
+        <div className="shell flex h-[calc(var(--header-h)-var(--bar-h))] items-center justify-between gap-4">
           <Link
             href="/"
             aria-label="Vanzoo — home"
-            className="shrink-0 rounded-sm"
+            className="flex shrink-0 items-center gap-2 rounded-sm"
             onClick={() => setMenuOpen(false)}
           >
+            <Image
+              src="/images/brand/vanzoo-mark.png"
+              alt=""
+              width={512}
+              height={512}
+              priority
+              sizes="44px"
+              className="h-9 w-9 lg:h-10 lg:w-10"
+            />
             <Image
               src="/images/brand/vanzoo-logo.png"
               alt="Vanzoo — premium organic dryclean"

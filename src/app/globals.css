@@ -14,12 +14,13 @@
     color-scheme: light;
     /* Consumed by the sticky header offset and by scroll-margin on anchors, so
        in-page links never land underneath the header. */
-    --header-h: 68px;
+    --bar-h: 32px;
+    --header-h: calc(68px + var(--bar-h));
   }
 
   @media (min-width: 1024px) {
     :root {
-      --header-h: 84px;
+      --header-h: calc(84px + var(--bar-h));
     }
   }
 
@@ -288,5 +289,24 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+/* Keyword highlight — gold marker underline for the phrases that matter. */
+@layer components {
+  .hl {
+    background-image: linear-gradient(transparent 62%, rgb(212 160 60 / 0.45) 62%);
+    color: inherit;
+    padding: 0 0.1em;
+    border-radius: 2px;
+  }
+  .hl-green {
+    background-image: linear-gradient(transparent 62%, rgb(0 74 64 / 0.22) 62%);
+    color: inherit;
+    padding: 0 0.1em;
+  }
+  .band-dark .hl,
+  .hl-on-dark {
+    background-image: linear-gradient(transparent 62%, rgb(212 160 60 / 0.55) 62%);
   }
 }

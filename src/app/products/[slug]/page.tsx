@@ -1,5 +1,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { AreaCoverageGrid } from '@/components/AreaCoverageGrid';
+import { NineStepProcess } from '@/components/NineStepProcess';
+import { OfferBand } from '@/components/OfferBand';
+import { SectionCtas } from '@/components/SectionCtas';
 import { notFound } from 'next/navigation';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { ComparisonTable } from '@/components/ComparisonTable';
@@ -9,7 +13,6 @@ import { FeatureGrid } from '@/components/FeatureGrid';
 import { IconFeatureGrid } from '@/components/IconFeatureGrid';
 import { JsonLd } from '@/components/JsonLd';
 import { PageHeader } from '@/components/Hero';
-import { ProcessTimeline } from '@/components/ProcessTimeline';
 import { ProductBuyBox } from '@/components/ProductBuyBox';
 import { TabbedExplainer } from '@/components/TabbedExplainer';
 import { Reveal } from '@/components/ui/Reveal';
@@ -194,9 +197,10 @@ export default function ProductDetailPage({ params }: Params) {
               align="center"
               className="mx-auto"
             />
-            <div className="mt-14">
-              <ProcessTimeline stages={care.process.stages} />
+            <div className="mt-10">
+              <NineStepProcess />
             </div>
+            <SectionCtas className="justify-center" />
           </Section>
 
           {/* SECTION 5 — Technology */}
@@ -399,6 +403,31 @@ export default function ProductDetailPage({ params }: Params) {
           </div>
         </Section>
       ) : null}
+
+      {/* Areas we serve + brand imagery, on every product page */}
+      <Section tone="muted" aria-labelledby="product-areas-heading">
+        <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-14">
+          <div>
+            <p className="eyebrow">Where we deliver</p>
+            <h2 id="product-areas-heading" className="mt-3 text-display-sm">
+              Free <span className="hl">{product.title.toLowerCase()}</span> pickup & delivery across Gurgaon
+            </h2>
+            <p className="mt-4 text-lead text-pretty text-neutral-body">
+              Our riders collect from your door in every sector and neighbourhood below — and return it pressed, wrapped and ready to wear.
+            </p>
+            <SectionCtas />
+          </div>
+          <div className="media-frame relative aspect-[16/10]">
+            <Image src="/images/client/store-interior-mascot.jpg" alt="Inside the Vanzoo store in Gurgaon" fill loading="lazy" sizes="(min-width: 1024px) 45vw, 90vw" className="object-cover" />
+          </div>
+        </div>
+        <div className="mt-12">
+          <AreaCoverageGrid headingLevel="h3" showBlurb={false} />
+        </div>
+        <SectionCtas className="justify-center" />
+      </Section>
+
+      <OfferBand />
 
       {/* SECTION 14 — Final CTA */}
       <Section tone="surface" size="sm">

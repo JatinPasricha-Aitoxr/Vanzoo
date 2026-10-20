@@ -136,7 +136,7 @@ const iconProps = {
   'aria-hidden': true,
 } as const;
 
-const STEP_ICONS = [
+export const STEP_ICONS = [
   // Doorstep pickup — calendar
   <svg key="pickup" {...iconProps}>
     <rect x="3.5" y="5" width="17" height="15" rx="2" />

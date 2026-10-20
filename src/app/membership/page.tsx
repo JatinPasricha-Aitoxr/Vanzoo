@@ -5,7 +5,9 @@ import { IconFeatureGrid } from '@/components/IconFeatureGrid';
 import { JsonLd } from '@/components/JsonLd';
 import { PageHeader } from '@/components/Hero';
 import { Section, SectionHeading } from '@/components/ui/Section';
-import { membership } from '@/content/marketing';
+import { membership, membershipTiers } from '@/content/marketing';
+import { Mascot } from '@/components/Mascot';
+import { SectionCtas } from '@/components/SectionCtas';
 import { breadcrumbSchema, buildMetadata } from '@/lib/seo';
 import { site } from '@/lib/site';
 
@@ -26,6 +28,47 @@ export default function MembershipPage() {
       <PageHeader eyebrow={membership.eyebrow} title={membership.heading} intro={membership.intro}>
         <Breadcrumbs crumbs={CRUMBS} />
       </PageHeader>
+
+      {/* Membership Club tiers */}
+      <Section tone="light" aria-labelledby="membership-club-heading">
+        <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,0.3fr)_minmax(0,0.7fr)] lg:gap-14">
+          <div className="text-center lg:text-left">
+            <Mascot size={200} className="mx-auto lg:mx-0" />
+          </div>
+          <div>
+            <SectionHeading
+              id="membership-club-heading"
+              eyebrow="Membership Club"
+              title={<>Add credits, get a <span className="hl">flat discount</span> on every order</>}
+              intro="Pick a club, load credits once, and the discount applies automatically to every Vanzoo service — dry cleaning, shoes, home textiles and more."
+              className="max-w-none"
+            />
+            <div className="mt-8 overflow-x-auto rounded-card border border-neutral-line bg-white shadow-lift">
+              <table className="w-full min-w-[30rem] text-left text-[0.9375rem]">
+                <thead className="bg-brand-ink text-accent-gold-soft">
+                  <tr>
+                    <th scope="col" className="px-5 py-3.5 font-semibold">Club</th>
+                    <th scope="col" className="px-5 py-3.5 font-semibold">Credits (₹)</th>
+                    <th scope="col" className="px-5 py-3.5 font-semibold">Flat discount</th>
+                    <th scope="col" className="px-5 py-3.5 font-semibold">Validity</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-neutral-line">
+                  {membershipTiers.map((tier) => (
+                    <tr key={tier.club}>
+                      <th scope="row" className="px-5 py-3.5 font-display font-semibold text-neutral-ink">{tier.club}</th>
+                      <td className="px-5 py-3.5 tabular-nums">₹{tier.credits.toLocaleString('en-IN')}</td>
+                      <td className="px-5 py-3.5 font-semibold text-brand">{tier.discount}% off</td>
+                      <td className="px-5 py-3.5">{tier.validity}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <SectionCtas />
+          </div>
+        </div>
+      </Section>
 
       {/* Benefits */}
       <Section tone="surface" aria-labelledby="membership-benefits-heading">

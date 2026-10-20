@@ -88,7 +88,11 @@ export function SectionHeading({
           tone === 'dark' && 'text-white',
         )}
       >
-        {title}
+        {typeof title === 'string' ? (
+          <span className={tone === 'dark' ? 'hl-on-dark' : 'hl'}>{title}</span>
+        ) : (
+          title
+        )}
       </Tag>
       {intro ? (
         <p

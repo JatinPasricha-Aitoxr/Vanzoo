@@ -13,7 +13,9 @@ import {
   tariffNote,
 } from '@/content/pricing';
 import { breadcrumbSchema, buildMetadata } from '@/lib/seo';
-import { site } from '@/lib/site';
+import { site, links } from '@/lib/site';
+import { Mascot } from '@/components/Mascot';
+import { SectionCtas } from '@/components/SectionCtas';
 
 const CRUMBS = [{ name: 'Pricing', href: '/pricing/' }];
 
@@ -24,7 +26,7 @@ const JUMP_LINKS = [
 ] as const;
 
 export const metadata = buildMetadata({
-  title: 'Pricing | Couture Care & Steam Iron Tariffs | Vanzoo',
+  title: 'Pricing & Membership | Couture Care & Steam Iron Tariffs | Vanzoo',
   description:
     'Vanzoo pricing for couture and bespoke suit care, sarees, lehengas, leather, footwear, curtains, carpets and steam-iron-only pressing — transparent per-item tariffs with free pickup and delivery in Gurgaon.',
   path: '/pricing/',
@@ -62,22 +64,53 @@ export default function PricingPage() {
           ))}
         </ul>
 
-        <p className="mx-auto mt-8 max-w-3xl rounded-card border-2 border-accent-gold bg-accent-gold/10 p-5 text-center text-base font-bold text-neutral-ink sm:text-lg">
-          GST extra. Final prices depend on the type of fabric and the work required on it — the
-          care process also changes according to the type of fabric.
-        </p>
+        <div className="mx-auto mt-8 flex max-w-3xl flex-col items-center gap-4 sm:flex-row sm:justify-center">
+          <label className="flex items-center gap-2 text-sm font-semibold text-neutral-ink">
+            Location
+            <select
+              defaultValue="gurgaon"
+              aria-label="Pricing location"
+              className="h-11 rounded-pill border border-neutral-line bg-white px-4 text-sm font-semibold text-brand focus:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+            >
+              <option value="gurgaon">Gurgaon</option>
+            </select>
+          </label>
+          <a
+            href="/vanzoo-price-list.pdf"
+            download
+            className="btn-secondary btn-md"
+          >
+            Download price list (PDF)
+          </a>
+        </div>
+
+        <div className="mx-auto mt-6 flex max-w-3xl items-center gap-5 rounded-card border-2 border-accent-gold bg-accent-gold/10 p-5">
+          <Mascot size={72} className="hidden shrink-0 sm:inline-block" />
+          <p className="text-base font-bold text-neutral-ink sm:text-lg">
+            Prices start from — GST extra. Final prices depend on the type of fabric and the work
+            required.{' '}
+            <a href={links.whatsapp} target="_blank" rel="noopener noreferrer" className="text-brand underline underline-offset-2">
+              WhatsApp us to know the actual price for your garment.
+            </a>
+          </p>
+        </div>
+        <div className="mt-4 flex flex-wrap justify-center gap-3 text-sm font-semibold">
+          <Link href="/pricing/shoe-care/" className="text-brand underline underline-offset-2">Shoe care prices</Link>
+          <Link href="/pricing/home-textiles/" className="text-brand underline underline-offset-2">Blanket & home textile prices</Link>
+        </div>
       </Section>
 
       <Section tone="surface" size="sm" id="couture-care-tariffs" aria-labelledby="couture-tariffs-heading">
         <SectionHeading
           id="couture-tariffs-heading"
           eyebrow="Couture Care"
-          title="Couture Care Tariffs"
+          title={<>Couture Care Tariffs <span className="text-brand">(Starts From)</span></>}
           intro="Full cleaning and finishing — for garments, ethnic wear, leather, footwear, carpets and home textiles."
         />
         <div className="mt-10">
           <TariffGrid catalog={coutureCatalog} />
         </div>
+        <SectionCtas />
       </Section>
 
       <Section tone="muted" id="steam-iron-tariffs" aria-labelledby="steam-tariffs-heading">
@@ -90,6 +123,7 @@ export default function PricingPage() {
         <div className="mt-10">
           <TariffGrid catalog={steamIronCatalog} />
         </div>
+        <SectionCtas />
       </Section>
 
       <Section tone="muted" size="sm" aria-labelledby="additional-options-heading">
