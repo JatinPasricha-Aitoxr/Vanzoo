@@ -13,7 +13,7 @@
 
 /** AUTHORED — hero restyle sanctioned by the brief (§3.2, §6). */
 export const homeHero = {
-  headline: ['Premium and luxury dryclean', 'and garment care.'],
+  headline: ['Premium and Luxury Dry Clean', 'and garment care.'],
   subhead:
     'With pickup and delivered to your doorstep — Italian hydrocarbon technology and couture-trained finishing, across Gurgaon.',
   image: '/images/hero-valet-handover.jpg',
@@ -142,6 +142,7 @@ export type Service = {
   body: string;
   image: string;
   imageAlt: string;
+  imagePosition?: string;
   /** Internal destination for the "learn more" link — the brief's §5.3 rule
    *  that every service block links to its relevant tariff or tech page. */
   learnMore: { href: string; label: string };
@@ -160,7 +161,7 @@ export const services: readonly Service[] = [
   {
     number: '02',
     title: 'Silks, Wool & Delicate Fabrics',
-    body: 'Gentle treatment for silks, woolens, and cashmere. We bring back their natural softness and lustre without damage.',
+    body: 'Gentle treatment for silks, woolens, and cashmere. We restore their natural softness and lustre without damage.',
     image: '/images/service-silk-wool-delicates.jpg',
     imageAlt:
       'Folded silk, wool and cashmere garments after gentle hydrocarbon dry cleaning in Gurgaon',
@@ -487,94 +488,61 @@ export const about = {
 /* Membership                                                                 */
 /* -------------------------------------------------------------------------- */
 
-/** AUTHORED — new membership programme, written in the guarantee block's voice. */
-/** Membership Club tiers — from the Vanzoo membership flyer. */
-export const membershipTiers = [
-  { club: 'Smart Saver', credits: 5000, discount: 10, validity: '3 months' },
-  { club: 'Privilege', credits: 10000, discount: 20, validity: '6 months' },
-  { club: 'Signature', credits: 20000, discount: 25, validity: '1 year' },
-  { club: 'Pinnacle', credits: 35000, discount: 30, validity: 'Unlimited' },
-  { club: 'Prestige', credits: 50000, discount: 35, validity: 'Unlimited' },
-  { club: 'Elite', credits: 75000, discount: 40, validity: 'Unlimited' },
-] as const;
-
+/** Membership Club — tiers and wording taken from the Vanzoo membership poster. */
 export const membership = {
-  eyebrow: 'Membership',
-  heading: 'The Vanzoo Membership',
+  eyebrow: 'Membership Club',
+  heading: 'We don’t just clean. We care.',
   intro:
-    'For wardrobes that come back to us again and again — priority scheduling, a dedicated line, and the small conveniences that add up over a year of regular care.',
-  benefits: [
+    'From everyday wear to luxury essentials, we clean, protect and preserve what matters to you. Load credits once and save on every order.',
+  tiers: [
+    { name: 'Smart Saver', credits: 5000, discount: 10, validity: '3 Months' },
+    { name: 'Privilege', credits: 10000, discount: 20, validity: '6 Months' },
+    { name: 'Signature', credits: 20000, discount: 25, validity: '1 Year' },
+    { name: 'Pinnacle', credits: 35000, discount: 30, validity: 'Unlimited' },
+    { name: 'Prestige', credits: 50000, discount: 35, validity: 'Unlimited' },
+    { name: 'Elite', credits: 75000, discount: 40, validity: 'Unlimited' },
+  ],
+  whatWeDo: [
     {
-      title: 'Priority Pickup Slots',
-      body: 'First claim on same-day and next-day slots, even in our busiest weeks.',
-      icon: '/images/icons/convenient-time-saving.png',
-      iconAlt: 'Clock and hand icon representing priority pickup scheduling',
+      title: 'Premium & Luxury Garment Care',
+      body: 'Suits, Sarees, Lehengas, Shirts, Dresses & more',
+      image: '/images/service-bespoke-suit-couture.jpg',
     },
     {
-      title: 'Dedicated Member Line',
-      body: 'A direct WhatsApp and phone line to the team, skipping the general queue.',
-      icon: '/images/icons/expert-care.png',
-      iconAlt: 'Hanger with a star icon representing dedicated member support',
+      title: 'Shoe & Bag Care',
+      body: 'Sneakers, Heels, Leather Bags & more',
+      image: '/images/service-shoes-bags-accessories.jpg',
     },
     {
-      title: 'Complimentary Premium Packaging',
-      body: 'Every order returned in our premium wrap, at no extra charge.',
-      icon: '/images/icons/eco-process.png',
-      iconAlt: 'Leaf icon representing complimentary premium eco-friendly packaging',
+      title: 'Curtains & Carpets Care',
+      body: 'Curtains, Upholstery, Carpets & Rugs',
+      image: '/images/service-curtain-cleaning.jpg',
     },
     {
-      title: 'Faster Turnaround, By Default',
-      body: 'Member orders are queued ahead of standard bookings on the cleaning floor.',
-      icon: '/images/icons/hydrocarbon-technology.png',
-      iconAlt: 'Gear and circuit icon representing faster member turnaround',
+      title: 'Household Items Care',
+      body: 'Cushions, Comforters, Blankets, Quilts & more',
+      image: '/images/vanzoo/service-blankets.jpg',
     },
   ],
-  howItWorks: [
-    'Tell us you’d like to join — by phone, WhatsApp, or the form below.',
-    'We set up your member profile against your phone number, no card or app needed.',
-    'Every pickup you book after that is recognised and prioritised automatically.',
+  why: [
+    { title: 'European Hydrocarbon Technology', icon: '/images/icons/hydrocarbon-technology.png' },
+    { title: 'German Organic Chemicals Only', icon: '/images/icons/toxin-free.png' },
+    { title: 'Trained Experts', icon: '/images/icons/expert-care.png' },
+    { title: 'Free Pickup & Delivery', icon: '/images/icons/convenient-time-saving.png' },
+    { title: 'Safe for You & Your Family', icon: '/images/icons/skin-friendly.png' },
   ],
-  ctaHeading: 'Ready to join?',
+  app: {
+    heading: 'Easy credits & order tracking',
+    body: 'Track your orders, manage credits and enjoy seamless experience — all in one app.',
+  },
+  ctaHeading: 'Ready to join the Membership Club?',
   ctaBody:
-    'Membership is arranged directly with our team — call or send an enquiry and we’ll set it up against your number.',
+    'Call or send an enquiry and we’ll set up your credits against your number.',
 } as const;
 
 /* -------------------------------------------------------------------------- */
 /* Hydrocarbon Tech page                                                      */
 /* -------------------------------------------------------------------------- */
-
-/** Extra, in-depth hydrocarbon content — rendered on /hydrocarbon-tech/. */
-export const hydrocarbonDetail = {
-  glance: [
-    { value: '99%', label: 'of solvent purified and reused every cycle' },
-    { value: '0', label: 'harsh PERC fumes or petrol-wash odour' },
-    { value: '9', label: 'steps from doorstep pickup to delivery' },
-    { value: '1', label: 'closed-loop, sealed machine per batch' },
-  ],
-  cycleHeading: 'One cycle, step by step',
-  cycle: [
-    { title: 'Inspect & tag', body: 'Every garment is checked for fabric, trims and stains. Stains are tagged and pre-treated by hand before the machine.' },
-    { title: 'Immerse & tumble', body: 'Garments are gently tumbled in refined hydrocarbon solvent at moderate temperature — no water, no harsh agitation.' },
-    { title: 'Filter & extract', body: 'The solvent is filtered continuously so lifted soil never settles back onto the fabric, then spun out.' },
-    { title: 'Dry & recover', body: 'Warm air dries the load while the machine distils and recovers the solvent for the next cycle.' },
-    { title: 'Finish by hand', body: 'Each piece is pressed on the right form, quality-checked and wrapped for delivery.' },
-  ],
-  fabricsHeading: 'What hydrocarbon cleaning is best for',
-  fabrics: [
-    'Bespoke suits & blazers', 'Silk & satin', 'Wool & cashmere', 'Sarees & lehengas', 'Zari, embroidery & beadwork',
-    'Velvet & structured fabrics', 'Sherwanis & kurtas', 'Dresses & gowns', 'Leather-trimmed garments', 'Everyday shirts & trousers',
-  ],
-  compareHeading: 'Hydrocarbon vs PERC vs water washing',
-  compareColumns: ['Hydrocarbon (Vanzoo)', 'Traditional PERC', 'Water wash'],
-  compareRows: [
-    { label: 'Feel of the fabric', values: ['Soft, natural drape', 'Can feel stiff', 'Can shrink or stiffen delicates'] },
-    { label: 'Odour after cleaning', values: ['Clean finish, no harsh odour', 'Often a chemical smell', 'Neutral'] },
-    { label: 'Structured garments (suits, canvas)', values: ['Shape preserved', 'Generally safe', 'Risk of shrinkage and distortion'] },
-    { label: 'Embroidery, zari & dyes', values: ['Gentle, colour-safe', 'Harsher on trims', 'Colour can bleed'] },
-    { label: 'Solvent recovery', values: ['Up to 99% recycled', 'Recovered, but a harsher chemical', 'Not applicable'] },
-    { label: 'Environmental profile', values: ['Eco-forward, closed loop', 'Persistent environmental concerns', 'Uses large amounts of water'] },
-  ],
-} as const;
 
 export const hydrocarbon = {
   hero: {
@@ -591,9 +559,9 @@ export const hydrocarbon = {
       eyebrow: 'Why Hydrocarbon?',
       heading: 'The Future of Dry Cleaning Is Here',
       body: 'Hydrocarbon solvents are a modern, eco-forward replacement to PERC – safer for fabric, skin, and planet. At Vanzoo, we harness this innovation to offer a Premium Organic Dryclean experience that’s gentle, efficient, and sustainable.',
-      image: '/images/tech-hydrocarbon-plant.jpg',
+      image: '/images/vanzoo/tech-hydrocarbon-floor.jpg',
       imageAlt:
-        'Industrial hydrocarbon dry cleaning plant used by Vanzoo as an eco-friendly replacement for PERC',
+        'Vanzoo operator loading a hydrocarbon dry cleaning machine on the Vanzoo cleaning floor',
     },
     {
       id: 'how-it-works',
@@ -636,6 +604,73 @@ export const hydrocarbon = {
     src: '/images/tech-sustainability-wide.jpg',
     alt: 'Vanzoo sustainability diagram: no harmful solvents, zero waste, and eco-friendly reusable packaging',
   },
+  /** The machine cycle, stage by stage — what happens inside the drum. */
+  cycle: {
+    eyebrow: 'Inside the machine',
+    heading: 'One closed-loop cycle, step by step',
+    intro:
+      'Every garment goes through the same sealed, controlled cycle — here is what happens between loading the drum and the finished piece coming out.',
+    stages: [
+      {
+        title: 'Load and set the programme',
+        body: 'Each item is assessed first, then grouped by fabric and colour so the programme — temperature and agitation — suits what is inside the drum.',
+      },
+      {
+        title: 'Immersion in hydrocarbon solvent',
+        body: 'Garments are immersed and gently tumbled in refined hydrocarbon solvent at controlled, moderate temperatures. There is no water and no harsh agitation.',
+      },
+      {
+        title: 'Continuous filtration and distillation',
+        body: 'While the cycle runs, the machine filters out particulates and distils the solvent, separating it from the soiling it has just lifted.',
+      },
+      {
+        title: 'Solvent recovery',
+        body: 'Solvent vapours are condensed and recovered for reuse. Roughly 99% of the solvent is recovered each cycle, so very little is wasted.',
+      },
+      {
+        title: 'Dry, finish and inspect',
+        body: 'The garment is dried under controlled conditions, then pressed and finished by hand and checked before it is packed.',
+      },
+    ],
+  },
+  /** Side-by-side detail: hydrocarbon vs PERC vs washing at home. */
+  detailedComparison: {
+    heading: 'Hydrocarbon, PERC and washing at home',
+    columns: ['Hydrocarbon (Vanzoo)', 'PERC dry cleaning', 'Washing at home'] as const,
+    rows: [
+      ['Cleaning medium', 'Refined, high-flashpoint hydrocarbon solvent', 'Perchloroethylene (PERC)', 'Water and detergent'],
+      ['System', 'Sealed, closed-loop machine', 'Machine-dependent', 'Open — no recovery'],
+      ['Solvent recovery', 'Roughly 99% recovered and reused', 'Varies by machine', 'Not applicable'],
+      ['Feel on fabric', 'Soft; no stiffness or shrinkage', 'Can leave fabric stiffer', 'Risk of swelling, shrinkage and colour loss on delicates'],
+      ['Odour', 'Low-odour, clean finish', 'Often a lingering chemical smell', 'Depends on detergent'],
+      ['Delicates and couture', 'Trusted for silk, cashmere, lace, wool and embellished pieces', 'Harsher on delicate finishes', 'Not recommended for delicates'],
+      ['Environment', 'Biodegradable solvent, low toxicity, lighter than water', 'Can contaminate soil and groundwater', 'Uses a lot of water'],
+    ],
+  },
+  fabricsSuited: {
+    eyebrow: 'Made for delicate care',
+    heading: 'The fabrics it is gentlest on',
+    items: [
+      'Silk',
+      'Cashmere',
+      'Wool',
+      'Lace',
+      'Embellished and hand-finished couture',
+      'Suits and tailored wear',
+      'Sarees and lehengas',
+      'Technical fabrics',
+    ],
+  },
+  safety: {
+    eyebrow: 'Safety and environment',
+    heading: 'Designed to be safer for you and the planet',
+    points: [
+      'High-flashpoint, chemically stable solvent — far less flammable and volatile than traditional dry-cleaning agents.',
+      'Sealed machines with solvent recovery and filtration, so vapour does not escape into the store or the air outside.',
+      'Biodegradable, low-odour solvent classified as low-toxicity under most international standards.',
+      'Solvent recovered and reused each cycle, so far less is wasted.',
+    ],
+  },
   comparison: {
     eyebrow: 'Why Switch?',
     heading: 'Hydrocarbon vs. Traditional Dry Cleaning (PERC)',
@@ -665,10 +700,6 @@ export const hydrocarbon = {
         iconAlt: 'Air flow icon representing an odour-free clean finish',
       },
     ],
-  },
-  processImage: {
-    src: '/images/tech-nine-step-process.jpg',
-    alt: 'Vanzoo nine-step garment care process from pickup and item collection through targeted stain treatment, premium hydrocarbon cleaning, drying, finishing touches, final quality inspection and secure packaging and delivery',
   },
   faqs: [
     {

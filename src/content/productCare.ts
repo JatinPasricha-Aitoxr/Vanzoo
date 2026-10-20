@@ -113,45 +113,37 @@ export type ProductCareContent = {
 /* Shared, garment-agnostic sections                                          */
 /* -------------------------------------------------------------------------- */
 
-/** The nine-stage care process — also shown on every /areas-we-serve/ page. */
+/** The seven-step care process — also shown on every /areas-we-serve/ page. */
 export const sharedProcess: ProductCareContent['process'] = {
   heading: 'From Your Wardrobe to Ready-to-Wear',
   stages: [
     {
-      title: 'Doorstep Pickup',
+      title: 'Schedule a Pickup',
       body: 'Schedule your pickup online or through the Vanzoo app. Our valet collects your items directly from your doorstep.',
     },
     {
-      title: 'Individual Assessment',
+      title: 'Detailed Assessment',
       body: 'Every item is assessed before cleaning. Fabric, stains, construction and care requirements are considered before treatment.',
     },
     {
-      title: 'Stain & Spot Treatment',
+      title: 'Targeted Stain Treatment',
       body: 'Visible stains and marks are identified and treated appropriately before the main cleaning process.',
     },
     {
-      title: 'Professional Cleaning',
+      title: 'Premium Cleaning',
       body: "For Dry Clean & Press orders, your item is cleaned using Vanzoo's closed-loop hydrocarbon cleaning system.",
     },
     {
-      title: 'Careful Drying',
-      body: 'The item is dried under controlled conditions appropriate to the cleaning process.',
+      title: 'Drying & Finishing',
+      body: 'The item is dried under controlled conditions, then professionally pressed and finished with attention to detail.',
     },
     {
-      title: 'Hand Finishing',
-      body: 'Your item is professionally pressed and finished, with particular attention to detail and overall presentation.',
-    },
-    {
-      title: 'Quality Inspection',
+      title: 'Final Quality Inspection',
       body: 'The finished item is checked before packaging.',
     },
     {
-      title: 'Protective Packaging',
-      body: 'Your item is carefully packed to help keep it clean and presentable.',
-    },
-    {
-      title: 'Doorstep Delivery',
-      body: 'Your finished item is returned to your door, ready for your wardrobe or home.',
+      title: 'Secure Packaging & Delivery',
+      body: 'Your item is carefully packed and returned to your door, ready for your wardrobe or home.',
     },
   ],
 };
@@ -594,7 +586,7 @@ const homeTextiles: Bucket = {
     ],
   },
   fabricCare: {
-    heading: 'Care Across Home Textiles',
+    heading: 'Care Across Blankets, Quilts and Home Textiles',
     items: [
       { title: 'Cotton', body: 'Everyday textiles that benefit from a deep, professional clean.' },
       { title: 'Wool & Blended Carpets', body: 'Treated according to pile and backing construction.' },

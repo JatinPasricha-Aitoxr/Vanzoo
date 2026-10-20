@@ -1,3 +1,4 @@
+import { highlightNode } from './highlightNode';
 import { Reveal } from './Reveal';
 import { cn } from '@/lib/cn';
 
@@ -56,6 +57,8 @@ type SectionHeadingProps = {
   className?: string;
   /** Rendered as h2 by default; pass 'h1' on pages where this is the page title. */
   as?: 'h1' | 'h2';
+  /** Keep "Gurgaon" as written instead of following the city toggle. */
+  fixedCity?: boolean;
 };
 
 export function SectionHeading({
@@ -67,6 +70,7 @@ export function SectionHeading({
   tone = 'light',
   className,
   as: Tag = 'h2',
+  fixedCity = false,
 }: SectionHeadingProps) {
   return (
     <Reveal
@@ -88,11 +92,7 @@ export function SectionHeading({
           tone === 'dark' && 'text-white',
         )}
       >
-        {typeof title === 'string' ? (
-          <span className={tone === 'dark' ? 'hl-on-dark' : 'hl'}>{title}</span>
-        ) : (
-          title
-        )}
+        {highlightNode(title, tone === 'dark', fixedCity)}
       </Tag>
       {intro ? (
         <p

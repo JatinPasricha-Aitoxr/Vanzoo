@@ -37,6 +37,7 @@ export function ServiceCard({
           loading="lazy"
           sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 90vw"
           className="card-media object-cover"
+          style={service.imagePosition ? { objectPosition: service.imagePosition } : undefined}
         />
       </Link>
 

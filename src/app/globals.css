@@ -14,13 +14,21 @@
     color-scheme: light;
     /* Consumed by the sticky header offset and by scroll-margin on anchors, so
        in-page links never land underneath the header. */
-    --bar-h: 32px;
-    --header-h: calc(68px + var(--bar-h));
+    --header-top: 68px;
+    --header-nav: 0px;
+    --header-h: calc(var(--header-top) + var(--header-nav));
   }
 
   @media (min-width: 1024px) {
     :root {
-      --header-h: calc(84px + var(--bar-h));
+      --header-top: 84px;
+    }
+  }
+
+  /* xl: the nav drops onto its own row under the logo/search/phone/CTA row. */
+  @media (min-width: 1280px) {
+    :root {
+      --header-nav: 48px;
     }
   }
 
@@ -292,21 +300,26 @@
   }
 }
 
-/* Keyword highlight — gold marker underline for the phrases that matter. */
-@layer components {
-  .hl {
-    background-image: linear-gradient(transparent 62%, rgb(212 160 60 / 0.45) 62%);
-    color: inherit;
-    padding: 0 0.1em;
-    border-radius: 2px;
-  }
-  .hl-green {
-    background-image: linear-gradient(transparent 62%, rgb(0 74 64 / 0.22) 62%);
-    color: inherit;
-    padding: 0 0.1em;
-  }
-  .band-dark .hl,
-  .hl-on-dark {
-    background-image: linear-gradient(transparent 62%, rgb(212 160 60 / 0.55) 62%);
-  }
+
+/* Bright, shimmering logo gold for highlighted heading keywords. The logo's own
+   gold is #D79F52; the gradient moves through lighter and deeper tones of it. */
+.gold-shine {
+  background-image: linear-gradient(100deg, #a8731a 0%, #cf9526 30%, #f0b92e 50%, #c98c1f 72%, #a8731a 100%);
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: #d79f52; /* fallback */
+  animation: gold-shimmer 5s ease-in-out infinite;
+}
+.gold-shine-dark {
+  background-image: linear-gradient(100deg, #f0b030 0%, #ffc93d 30%, #ffe07a 50%, #ffc43a 70%, #f0b030 100%);
+  filter: drop-shadow(0 0 10px rgba(255, 200, 80, 0.35));
+}
+@keyframes gold-shimmer {
+  0%, 100% { background-position: 0% 0; }
+  50% { background-position: 100% 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gold-shine { animation: none; }
 }

@@ -1,9 +1,6 @@
+import { Highlight } from '@/components/ui/Highlight';
 import Image from 'next/image';
 import Link from 'next/link';
-import { AreaCoverageGrid } from '@/components/AreaCoverageGrid';
-import { NineStepProcess } from '@/components/NineStepProcess';
-import { OfferBand } from '@/components/OfferBand';
-import { SectionCtas } from '@/components/SectionCtas';
 import { notFound } from 'next/navigation';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { ComparisonTable } from '@/components/ComparisonTable';
@@ -13,11 +10,10 @@ import { FeatureGrid } from '@/components/FeatureGrid';
 import { IconFeatureGrid } from '@/components/IconFeatureGrid';
 import { JsonLd } from '@/components/JsonLd';
 import { PageHeader } from '@/components/Hero';
+import { VanzooProcess } from '@/components/VanzooProcess';
 import { ProductBuyBox } from '@/components/ProductBuyBox';
-import { TabbedExplainer } from '@/components/TabbedExplainer';
 import { Reveal } from '@/components/ui/Reveal';
 import { Section, SectionHeading } from '@/components/ui/Section';
-import { howItWorksIntro, howItWorksSteps } from '@/content/marketing';
 import { lineId } from '@/content/pricing';
 import { getProduct, productEntries, tariffRowFor } from '@/content/products';
 import { getProductCareContent } from '@/content/productCare';
@@ -87,6 +83,7 @@ export default function ProductDetailPage({ params }: Params) {
 
       {/* SECTION 1 — Hero */}
       <PageHeader
+        seoH1={`Best & Premium ${product.title.replace(/\s*(dry\s*)?clean(ing)?$/i, '')} Dry Cleaning in Gurgaon`}
         eyebrow="Products"
         title={care?.hero.headline ?? product.title}
         intro={care?.hero.intro ?? product.intro}
@@ -189,19 +186,11 @@ export default function ProductDetailPage({ params }: Params) {
           </Section>
 
           {/* SECTION 4 — Vanzoo Process */}
-          <Section tone="muted" aria-labelledby="process-heading">
-            <SectionHeading
-              id="process-heading"
-              eyebrow="Our Process"
-              title={care.process.heading}
-              align="center"
-              className="mx-auto"
-            />
-            <div className="mt-10">
-              <NineStepProcess />
-            </div>
-            <SectionCtas className="justify-center" />
-          </Section>
+          <VanzooProcess
+            eyebrow="Our Process"
+            heading={care.process.heading}
+            showCtas={false}
+          />
 
           {/* SECTION 5 — Technology */}
           <Section tone="dark" aria-labelledby="technology-heading">
@@ -370,23 +359,8 @@ export default function ProductDetailPage({ params }: Params) {
         </>
       ) : null}
 
-      {/* How it works — the same three-step explainer as every other detail page.
-          Skipped where bespoke content (`care`) already walks through its own,
-          more detailed process — showing both would tell the customer two
-          different step counts for the same journey. */}
-      {!care ? (
-        <Section tone="muted" id="how-it-works" aria-labelledby="product-how-heading">
-          <SectionHeading
-            id="product-how-heading"
-            eyebrow="How It Works"
-            title="Three steps, and it's handled"
-            intro={howItWorksIntro}
-          />
-          <div className="mt-14">
-            <TabbedExplainer steps={howItWorksSteps} />
-          </div>
-        </Section>
-      ) : null}
+      {/* The seven-step process — bespoke `care` content already renders it above. */}
+      {!care ? <VanzooProcess id="how-it-works" eyebrow="How we do it" showCtas={false} /> : null}
 
       {/* SECTION 13 — FAQ */}
       {care ? (
@@ -404,31 +378,6 @@ export default function ProductDetailPage({ params }: Params) {
         </Section>
       ) : null}
 
-      {/* Areas we serve + brand imagery, on every product page */}
-      <Section tone="muted" aria-labelledby="product-areas-heading">
-        <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-14">
-          <div>
-            <p className="eyebrow">Where we deliver</p>
-            <h2 id="product-areas-heading" className="mt-3 text-display-sm">
-              Free <span className="hl">{product.title.toLowerCase()}</span> pickup & delivery across Gurgaon
-            </h2>
-            <p className="mt-4 text-lead text-pretty text-neutral-body">
-              Our riders collect from your door in every sector and neighbourhood below — and return it pressed, wrapped and ready to wear.
-            </p>
-            <SectionCtas />
-          </div>
-          <div className="media-frame relative aspect-[16/10]">
-            <Image src="/images/client/store-interior-mascot.jpg" alt="Inside the Vanzoo store in Gurgaon" fill loading="lazy" sizes="(min-width: 1024px) 45vw, 90vw" className="object-cover" />
-          </div>
-        </div>
-        <div className="mt-12">
-          <AreaCoverageGrid headingLevel="h3" showBlurb={false} />
-        </div>
-        <SectionCtas className="justify-center" />
-      </Section>
-
-      <OfferBand />
-
       {/* SECTION 14 — Final CTA */}
       <Section tone="surface" size="sm">
         {care ? (
@@ -436,7 +385,7 @@ export default function ProductDetailPage({ params }: Params) {
             variant="scale"
             className="band-dark overflow-hidden rounded-media px-6 py-14 text-center sm:px-12 sm:py-16"
           >
-            <h2 className="mx-auto max-w-2xl text-display-md text-white">{care.finalCta.heading}</h2>
+            <h2 className="mx-auto max-w-2xl text-display-md text-white"><Highlight text={care.finalCta.heading} dark={true} /></h2>
             <p className="mx-auto mt-4 max-w-xl text-lead text-pretty text-white/80">{care.finalCta.intro}</p>
             <p className="mx-auto mt-3 max-w-xl text-sm font-medium text-white/90">
               {care.finalCta.lines.join('  ·  ')}

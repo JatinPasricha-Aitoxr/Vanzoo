@@ -1,6 +1,4 @@
-import Image from 'next/image';
 import Link from 'next/link';
-import { SectionCtas } from '@/components/SectionCtas';
 import { AreaCoverageGrid } from '@/components/AreaCoverageGrid';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { CtaBanner } from '@/components/CtaBanner';
@@ -14,9 +12,9 @@ import { areaGroups, primaryStore, site, stores } from '@/lib/site';
 const CRUMBS = [{ name: 'Areas We Serve', href: '/areas-we-serve/' }];
 
 export const metadata = buildMetadata({
-  title: 'Areas We Serve in Gurgaon | Vanzoo Dry Cleaning Pickup & Delivery',
+  title: 'Dry Cleaning Pickup & Delivery Across Gurgaon | Vanzoo',
   description:
-    'Free dry cleaning pickup and delivery across Gurgaon — DLF Phases 1–5, Golf Course Road, Sohna Road, Sectors 47–70, Cyber City, Palam Vihar and New Gurgaon. Check your pincode.',
+    'Free dry cleaning pickup and delivery in 49 Gurgaon localities — DLF, Golf Course Road, Sohna Road, Sector 65–70, New Gurgaon. Find your area.',
   path: '/areas-we-serve/',
 });
 
@@ -28,6 +26,8 @@ export default function AreasWeServePage() {
       <JsonLd data={[localBusinessSchema(), breadcrumbSchema(CRUMBS)]} />
 
       <PageHeader
+        fixedCity
+        seoH1="Best & Premium Dry Cleaning Services Across Gurgaon"
         eyebrow="Areas We Serve"
         title="Free pickup and delivery across Gurgaon"
         intro={`Two stores, ${totalAreas} neighbourhoods, one city. Our valets collect from your door and return everything pressed and wrapped — at no extra charge, anywhere we serve.`}
@@ -37,7 +37,7 @@ export default function AreasWeServePage() {
 
       {/* Corridor groups */}
       <Section tone="surface" aria-labelledby="corridors-heading">
-        <SectionHeading
+        <SectionHeading fixedCity
           id="corridors-heading"
           eyebrow="Where we collect"
           title="Gurgaon, corridor by corridor"
@@ -62,7 +62,7 @@ export default function AreasWeServePage() {
       <Section tone="muted" aria-labelledby="check-heading">
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
           <div>
-            <SectionHeading
+            <SectionHeading fixedCity
               id="check-heading"
               eyebrow="Check your pincode"
               title="One field, and you'll know"
@@ -109,36 +109,6 @@ export default function AreasWeServePage() {
             </div>
           </div>
         </div>
-      </Section>
-
-      {/* Brand + store imagery, with text */}
-      <Section tone="surface" size="sm" aria-labelledby="areas-stores-heading">
-        <SectionHeading
-          id="areas-stores-heading"
-          eyebrow="Our stores & team"
-          title={<>Visit us, or let our <span className="hl">riders</span> come to you</>}
-          align="center"
-          className="mx-auto"
-        />
-        <ul className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {[
-            ['/images/client/store-front.jpg', 'Store front', 'Our Gurgaon store — walk in, drop off, get advice.'],
-            ['/images/client/store-interior-mascot.jpg', 'Inside the store', 'Every service in one place, with our tiger mascot keeping watch.'],
-            ['/images/client/rider-door.jpg', 'Doorstep pickup', 'Trained riders collect and deliver free across Gurgaon.'],
-            ['/images/client/van.jpg', 'Pickup van', 'Branded vans for bulk pickups and on-site services.'],
-          ].map(([src, title, body]) => (
-            <li key={title} className="overflow-hidden rounded-card border border-neutral-line bg-white shadow-lift">
-              <div className="media-frame relative aspect-[4/3] rounded-none">
-                <Image src={src} alt={`Vanzoo — ${title}`} fill loading="lazy" sizes="(min-width: 1024px) 25vw, 90vw" className="object-cover" />
-              </div>
-              <div className="p-4">
-                <h3 className="font-display text-base font-semibold text-neutral-ink">{title}</h3>
-                <p className="mt-1.5 text-[0.8125rem] text-neutral-body">{body}</p>
-              </div>
-            </li>
-          ))}
-        </ul>
-        <SectionCtas className="justify-center" />
       </Section>
 
       <Section tone="surface" size="sm">

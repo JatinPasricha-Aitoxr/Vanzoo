@@ -6,9 +6,12 @@ import { ContactRail } from '@/components/ContactRail';
 import { Footer } from '@/components/Footer';
 import { Header } from '@/components/Header';
 import { JsonLd } from '@/components/JsonLd';
+import { ReviewsBand } from '@/components/ReviewsBand';
 import { StoresAndReviews } from '@/components/StoresAndReviews';
-import { FloatingDock } from '@/components/FloatingDock';
-import { availableVideos } from '@/lib/videos';
+import { CityProvider } from '@/components/CityProvider';
+import { BookNowButton } from '@/components/BookNowButton';
+import { PageGallery } from '@/components/PageGallery';
+import { PageVideo } from '@/components/PageVideo';
 import { CartProvider } from '@/lib/cart';
 import { organizationSchema, websiteSchema } from '@/lib/seo';
 import { GA_ID, GOOGLE_SITE_VERIFICATION, GTM_ID, SITE_URL, site } from '@/lib/site';
@@ -68,8 +71,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${GTM_ID}');`}
           </Script>
         ) : null}
-        {/* Google tag (gtag.js) — in the root layout, so every page gets exactly
-            one copy. beforeInteractive injects it into <head>. */}
         <Script src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} strategy="beforeInteractive" />
         <Script id="gtag-init" strategy="beforeInteractive">
           {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA_ID}');`}
@@ -94,15 +95,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
         {/* The cart wraps the whole tree, not just the tariff pages: the header
             badge and the drawer live outside those routes. */}
+        <CityProvider>
         <CartProvider>
           <Header />
           <main id="main">{children}</main>
+          <PageGallery />
+          <ReviewsBand />
           <StoresAndReviews />
           <Footer />
           <ContactRail />
-          <FloatingDock videos={availableVideos()} />
+          <BookNowButton />
+          <PageVideo />
           <CartDrawer />
         </CartProvider>
+        </CityProvider>
       </body>
     </html>
   );

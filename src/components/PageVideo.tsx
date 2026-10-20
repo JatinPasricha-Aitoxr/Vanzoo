@@ -1,114 +1,108 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { pageVideos } from '@/content/pageVideos';
 import { cn } from '@/lib/cn';
 
-/** Maps a route to the video key in /public/videos (see lib/videos.ts). */
-function videoKey(pathname: string): string {
-  const path = pathname.replace(/\/+$/, '') || '/';
-  if (path === '/') return 'home';
-  const [section, slug] = path.split('/').filter(Boolean);
-  if (section === 'services') return slug ?? 'services';
-  if (section === 'areas-we-serve') return 'areas';
-  if (section === 'hydrocarbon-tech') return 'hydrocarbon';
-  if (section === 'about-us') return 'about';
-  if (section === 'contact-us') return 'contact';
-  return section;
-}
-
 /**
- * Floating video preview, bottom-right. A small muted looping thumbnail that
- * opens full-screen on click and plays from the start with sound. Falls back to
- * the `home` video on pages that have no video of their own.
+ * Bottom-right corner player. A small muted loop previews the page's clip;
+ * tapping it opens the clip fullscreen with sound and controls. Dismissing the
+ * preview (×) hides it for the rest of the visit.
  */
-export function PageVideo({ available }: { available: string[] }) {
-  const pathname = usePathname();
-  const key = videoKey(pathname);
-  const resolved = available.includes(key) ? key : available.includes('home') ? 'home' : null;
-  const src = resolved ? `/videos/${resolved}.mp4` : null;
+export function PageVideo() {
+  const pathname = usePathname() ?? '/';
+  const key = pathname.endsWith('/') ? pathname : `${pathname}/`;
+  const clip = pageVideos[key];
 
-  const [dismissed, setDismissed] = useState(false);
   const [open, setOpen] = useState(false);
+  const [dismissed, setDismissed] = useState(false);
   const stageRef = useRef<HTMLDivElement>(null);
-  const fullRef = useRef<HTMLVideoElement>(null);
 
-  // A fresh page gets a fresh preview even if the last one was closed.
   useEffect(() => {
-    setDismissed(false);
-    setOpen(false);
-  }, [src]);
-
-  const close = useCallback(() => {
-    setOpen(false);
-    if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
+    try {
+      setDismissed(sessionStorage.getItem('vz-video-dismissed') === '1');
+    } catch {
+      /* storage unavailable — keep showing it */
+    }
   }, []);
+
+  // Close on route change.
+  useEffect(() => setOpen(false), [key]);
 
   useEffect(() => {
     if (!open) return;
-    const onKey = (event: KeyboardEvent) => event.key === 'Escape' && close();
-    // Leaving browser fullscreen (Esc, swipe) also closes the player.
-    const onFs = () => !document.fullscreenElement && setOpen(false);
-    document.addEventListener('keydown', onKey);
-    document.addEventListener('fullscreenchange', onFs);
-    const previous = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-
-    // The click that opened the player is the user gesture that allows
-    // fullscreen and audio. Restart from 0 and play with sound.
+    const { body } = document;
+    const prev = body.style.overflow;
+    body.style.overflow = 'hidden';
+    // Called from the click that opened the dialog, so the browser allows it.
     stageRef.current?.requestFullscreen?.().catch(() => {});
-    const video = fullRef.current;
-    if (video) {
-      video.currentTime = 0;
-      video.muted = false;
-      video.play().catch(() => {
-        // Sound blocked — fall back to muted autoplay rather than a dead player.
-        video.muted = true;
-        video.play().catch(() => {});
-      });
-    }
-    return () => {
-      document.removeEventListener('keydown', onKey);
-      document.removeEventListener('fullscreenchange', onFs);
-      document.body.style.overflow = previous;
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setOpen(false);
     };
-  }, [open, close]);
+    const onFullscreenChange = () => {
+      if (!document.fullscreenElement) setOpen(false);
+    };
+    document.addEventListener('keydown', onKey);
+    document.addEventListener('fullscreenchange', onFullscreenChange);
+    return () => {
+      body.style.overflow = prev;
+      document.removeEventListener('keydown', onKey);
+      document.removeEventListener('fullscreenchange', onFullscreenChange);
+      if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
+    };
+  }, [open]);
 
-  if (!src || dismissed) return null;
+  if (!clip) return null;
 
   return (
     <>
-      {!open ? (
-        <div className="relative w-24 sm:w-28 lg:w-32">
+      {!dismissed ? (
+        <div className="fixed bottom-24 right-4 z-30 sm:bottom-28 sm:right-6 print:hidden">
           <button
             type="button"
             onClick={() => setOpen(true)}
-            aria-label="Watch the Vanzoo video full screen"
-            className="group relative block aspect-[9/16] w-full overflow-hidden rounded-card border-2 border-accent-gold bg-brand-ink shadow-lift-hover transition-transform duration-200 hover:-translate-y-0.5"
+            aria-label={`${clip.label} — open video with sound`}
+            className={cn(
+              'group relative block overflow-hidden rounded-card border-2 border-accent-gold bg-brand-ink shadow-lift-hover transition-transform duration-200 ease-entrance hover:-translate-y-0.5',
+              clip.portrait ? 'aspect-[9/16] w-24 sm:w-28' : 'aspect-video w-36 sm:w-48',
+            )}
           >
             <video
-              key={src}
-              src={src}
-              autoPlay
+              key={clip.src}
+              src={clip.src}
+              poster={clip.poster}
               muted
               loop
+              autoPlay
               playsInline
               preload="metadata"
+              aria-hidden="true"
               className="h-full w-full object-cover"
             />
-            <span className="absolute inset-0 flex items-end justify-center bg-gradient-to-t from-brand-ink/70 via-transparent to-transparent pb-2">
-              <span className="rounded-pill bg-white/90 px-2.5 py-1 text-[0.625rem] font-semibold uppercase tracking-wide text-brand-ink">
-                Watch
-              </span>
+            <span className="absolute inset-x-0 bottom-0 flex items-center gap-1.5 bg-gradient-to-t from-black/75 to-transparent px-2 pb-1.5 pt-5 text-[0.6875rem] font-semibold leading-tight text-white">
+              <svg viewBox="0 0 16 16" className="h-3 w-3 shrink-0" fill="currentColor" aria-hidden="true">
+                <path d="M4 2.5v11l9-5.5-9-5.5z" />
+              </svg>
+              {clip.label}
             </span>
           </button>
           <button
             type="button"
-            onClick={() => setDismissed(true)}
-            aria-label="Close video preview"
-            className="absolute -right-2 -top-2 inline-flex h-6 w-6 items-center justify-center rounded-pill bg-brand-ink text-xs text-white shadow-lift"
+            onClick={() => {
+              setDismissed(true);
+              try {
+                sessionStorage.setItem('vz-video-dismissed', '1');
+              } catch {
+                /* ignore */
+              }
+            }}
+            aria-label="Hide video"
+            className="absolute -left-2 -top-2 flex h-6 w-6 items-center justify-center rounded-full bg-white text-neutral-ink shadow-lift"
           >
-            ×
+            <svg viewBox="0 0 12 12" className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
+              <path d="M2.5 2.5l7 7M9.5 2.5l-7 7" />
+            </svg>
           </button>
         </div>
       ) : null}
@@ -118,24 +112,29 @@ export function PageVideo({ available }: { available: string[] }) {
           ref={stageRef}
           role="dialog"
           aria-modal="true"
-          aria-label="Vanzoo video"
-          className={cn('fixed inset-0 z-[70] flex items-center justify-center bg-black')}
+          aria-label={clip.label}
+          className="fixed inset-0 z-[70] flex items-center justify-center bg-black"
+          onClick={(event) => {
+            if (event.target === event.currentTarget) setOpen(false);
+          }}
         >
           <video
-            ref={fullRef}
-            src={src}
+            src={clip.src}
+            poster={clip.poster}
             controls
             autoPlay
             playsInline
-            className="h-full w-full object-contain"
+            className="max-h-full max-w-full"
           />
           <button
             type="button"
-            onClick={close}
-            className="absolute right-4 top-4 inline-flex h-11 w-11 items-center justify-center rounded-pill bg-white/90 text-xl text-brand-ink shadow-lift"
+            onClick={() => setOpen(false)}
             aria-label="Close video"
+            className="absolute right-4 top-4 flex h-11 w-11 items-center justify-center rounded-full bg-white/90 text-neutral-ink shadow-lift"
           >
-            ×
+            <svg viewBox="0 0 12 12" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
+              <path d="M2.5 2.5l7 7M9.5 2.5l-7 7" />
+            </svg>
           </button>
         </div>
       ) : null}

@@ -3,8 +3,6 @@ import { EnquiryForm } from '@/components/EnquiryForm';
 import { FAQAccordion } from '@/components/FAQAccordion';
 import { JsonLd } from '@/components/JsonLd';
 import { PageHeader } from '@/components/Hero';
-import Image from 'next/image';
-import { Mascot } from '@/components/Mascot';
 import { Reveal } from '@/components/ui/Reveal';
 import { Section, SectionHeading } from '@/components/ui/Section';
 import { enquiryIntro, faqIntro, homeFaqs } from '@/content/marketing';
@@ -14,9 +12,9 @@ import { primaryStore, site, socialLinks, stores } from '@/lib/site';
 const CRUMBS = [{ name: 'Contact Us', href: '/contact-us/' }];
 
 export const metadata = buildMetadata({
-  title: 'Contact Vanzoo for Premium Fabric Care Services',
+  title: 'Contact Vanzoo | Dry Cleaners in Gurgaon | +91 90916 71666',
   description:
-    'Contact Vanzoo for expert garment care, couture cleaning, and eco-friendly fabric solutions. Reach our team for support and service inquiries.',
+    'Call, WhatsApp or write to Vanzoo for dry cleaning in Gurgaon. Ask about a garment, a bulk order or express turnaround — our team answers every enquiry.',
   path: '/contact-us/',
 });
 
@@ -26,6 +24,7 @@ export default function ContactPage() {
       <JsonLd data={[localBusinessSchema(), breadcrumbSchema(CRUMBS)]} />
 
       <PageHeader
+        seoH1="Contact Gurgaon's Best & Premium Dry Cleaners — Vanzoo"
         eyebrow="Get In Touch"
         title="Let's Talk with us"
         intro="Questions about a specific garment, a bulk order or an express turnaround? Our team answers every enquiry personally."
@@ -37,11 +36,7 @@ export default function ContactPage() {
         <div className="grid gap-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-16">
           {/* Contact details + map */}
           <Reveal variant="left">
-            <div className="flex items-center gap-5">
-              <Image src="/images/brand/vanzoo-mark.png" alt="Vanzoo V logo" width={72} height={72} className="h-[4.5rem] w-[4.5rem]" />
-              <Mascot size={96} />
-            </div>
-            <h2 className="mt-6 text-display-sm">{site.descriptor}</h2>
+            <h2 className="text-display-sm">{site.descriptor}</h2>
             <p className="mt-2 text-lead text-neutral-body">{site.serviceArea}</p>
 
             <dl className="mt-8 space-y-6">

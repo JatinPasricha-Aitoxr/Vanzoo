@@ -12,11 +12,11 @@ export const SITE_URL = (
   process.env.NEXT_PUBLIC_SITE_URL ?? 'https://vanzoo.in'
 ).replace(/\/$/, '');
 
-/** Google tag (gtag.js) measurement ID, loaded once from the root layout. */
-export const GA_ID = process.env.NEXT_PUBLIC_GA_ID ?? 'G-XKW9LN8QLT';
-
 /** Existing GTM container — keep in sync with the live site's tag. */
 export const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID ?? 'GTM-TLM8SCP2';
+
+/** Google tag (gtag.js) measurement ID, loaded once from the root layout. */
+export const GA_ID = process.env.NEXT_PUBLIC_GA_ID ?? 'G-XKW9LN8QLT';
 
 /** Existing Search Console verification token, carried over from vanzoo.in. */
 export const GOOGLE_SITE_VERIFICATION =
@@ -46,9 +46,7 @@ export const links = {
   bookPickup: 'https://app.vanzoo.in/website/W10795?brand=VANZOO',
   bookService: 'https://app.vanzoo.in/website/W10541',
   playStore: 'https://play.google.com/store/apps/details?id=com.vanzoo.customer',
-  /** App Store listing. Empty until the client supplies the live URL — the
-   *  footer and app promo show "coming soon" while it is blank. */
-  appStore: process.env.NEXT_PUBLIC_APP_STORE_URL ?? '',
+  appStore: 'https://apps.apple.com/in/app/vanzoo-premium-dry-clean/id6755905301',
   facebook: 'https://www.facebook.com/profile.php?id=61581034320798',
   instagram: 'https://www.instagram.com/vanzoo._/',
   youtube: 'https://www.youtube.com/channel/UC-oPR8MnkAZpiOp0K08TNrQ',
@@ -74,7 +72,8 @@ export const stores = [
       'Ground Floor, Block No. B, Super Mart Commercial Complex, B-211, 1, DLF Phase IV, Gurugram, Haryana 122009',
     locality: 'DLF Phase IV, Gurugram',
     postalCode: '122009',
-    mapQuery: 'Vanzoo Premium Organic Dryclean, Super Mart 1, DLF Phase 4, Gurugram',
+    mapQuery:
+      'Vanzoo, Ground Floor, Block No. B, Super Mart Commercial Complex, B-211, DLF Phase IV, Gurugram, Haryana 122009',
   },
   {
     id: 'vanzoo-urbana',
@@ -83,7 +82,8 @@ export const stores = [
       'Unit no, First Floor, M3M URBANA, R3-112, near KFC, Ramgarh, Sector 67, Gurugram, Haryana 122102',
     locality: 'Sector 67, Gurugram',
     postalCode: '122102',
-    mapQuery: 'Vanzoo Premium Organic Dryclean, M3M Urbana, Sector 67, Gurugram',
+    mapQuery:
+      'Vanzoo, M3M URBANA, R3-112, Sector 67, Gurugram, Haryana 122102',
   },
 ] as const;
 
@@ -130,10 +130,10 @@ export const areaGroups = [
       'Sector 48',
       'Sector 49',
       'Sector 50',
+      'South City 2',
       'Sector 55',
       'Sector 56',
       'Sector 57',
-      'South City 2',
       'Sohna Road',
       'Badshahpur',
     ],
@@ -216,7 +216,6 @@ export const navLinks = [
   { href: '/hydrocarbon-tech/', label: 'Technology' },
   { href: '/membership/', label: 'Membership' },
   { href: '/areas-we-serve/', label: 'Areas' },
-  { href: '/about-us/', label: 'About Us' },
   { href: '/blogs/', label: 'Blogs' },
   { href: '/contact-us/', label: 'Contact' },
 ] as const;
@@ -234,6 +233,8 @@ export const footerColumns = [
       { label: 'Locate Us', href: '/locate-us/' },
       { label: 'Areas We Serve', href: '/areas-we-serve/' },
       { label: 'Blogs', href: '/blogs/' },
+      { label: 'Reviews', href: '/reviews/' },
+      { label: 'Customer Stories', href: '/customer-stories/' },
       { label: 'Best Dry Cleaners Near Me', href: '/best-dry-cleaners-near-me/' },
       { label: 'Best Dry Cleaning in Gurgaon', href: '/best-dry-cleaning-in-gurgaon/' },
     ],
@@ -243,19 +244,15 @@ export const footerColumns = [
     // Each link goes to that service's own dedicated page; booking stays on
     // the "Book" CTAs, so these describe before they sell.
     links: [
-      { label: 'Bespoke Suit & Couture Care', href: '/services/couture-care/' },
-      { label: 'Silks, Wool & Delicate Fabrics', href: '/services/delicate-fabrics/' },
-      { label: 'Sarees, Lehengas & Ethnic Wear', href: '/services/ethnic-wear/' },
-      { label: 'Shoe Care', href: '/services/shoe-care/' },
-      { label: 'Bags & Leather Care', href: '/services/bags-leather-care/' },
+      { label: 'Garment Care', href: '/services/couture-care/' },
+      { label: 'Bags Care', href: '/services/bags-leather-care/' },
+      { label: 'Shoes Care', href: '/services/shoe-care/' },
       { label: 'Toys & Accessories Care', href: '/services/toys-accessories-care/' },
-      { label: 'Curtain Cleaning', href: '/services/curtain-cleaning/' },
-      { label: 'Carpet Cleaning', href: '/services/carpet-cleaning/' },
-      { label: 'Blanket & Home Textiles', href: '/services/home-textiles/' },
-      { label: 'Bed, Sofa & Mattress Cleaning', href: '/services/sofa-mattress-cleaning/' },
-      { label: 'Steam Iron & Pressing', href: '/services/steam-iron/' },
+      { label: 'Leather Care', href: '/services/bags-leather-care/' },
+      { label: 'Curtains Care', href: '/services/curtain-cleaning/' },
+      { label: 'Carpet Care', href: '/services/carpet-cleaning/' },
+      { label: 'Sofa, Bed & Mattress Cleaning', href: '/services/sofa-bed-mattress-cleaning/' },
       { label: 'Express Service', href: '/services/express-service/' },
-      { label: 'Free Pickup & Delivery', href: '/services/pickup-delivery/' },
     ],
   },
   {
@@ -306,3 +303,8 @@ export const footerIntro = {
   body: 'Experience expert garment care, eco-conscious cleaning, and seamless door-to-door service—all designed to fit your lifestyle.',
   copyright: `Copyright © ${new Date().getFullYear()} Vanzoo. All Rights Reserved.`,
 } as const;
+
+/** wa.me link with a prefilled message, for "ask the actual price" prompts. */
+export function whatsappLink(message: string): string {
+  return `${links.whatsapp}?text=${encodeURIComponent(message)}`;
+}

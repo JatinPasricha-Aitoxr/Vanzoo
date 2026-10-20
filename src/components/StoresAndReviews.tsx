@@ -1,7 +1,8 @@
 import Image from 'next/image';
-import { CLIPS_PUBLISHED, SHOW_CLIPS, reviewClips, storePhotos } from '@/content/socialProof';
-import { links, stores } from '@/lib/site';
-import { ReviewClipSlider } from './ReviewClipSlider';
+import Link from 'next/link';
+import { storePhotos } from '@/content/socialProof';
+import { ReviewThumbs } from './ReviewThumbs';
+import { stores } from '@/lib/site';
 import { Section, SectionHeading } from './ui/Section';
 
 /**
@@ -14,43 +15,27 @@ import { Section, SectionHeading } from './ui/Section';
  */
 export function StoresAndReviews() {
   return (
-    <Section tone="light" aria-labelledby={SHOW_CLIPS ? 'stories-heading' : 'stores-heading'}>
-      {SHOW_CLIPS ? (
-        <>
-          <div className="flex flex-wrap items-end justify-between gap-6">
-            <SectionHeading
-              id="stories-heading"
-              eyebrow="Customer stories"
-              title="Seen it come back from Vanzoo?"
-              intro="Short reviews from customers across Gurgaon — what they sent us, and how it came back."
-            />
-            <a
-              href={links.instagram}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand transition-colors hover:text-brand-dark"
-            >
-              More on Instagram <span aria-hidden="true">→</span>
-            </a>
-          </div>
+    <Section tone="light" aria-labelledby="stories-heading">
+      <div className="flex flex-wrap items-end justify-between gap-6">
+        <SectionHeading
+          id="stories-heading"
+          eyebrow="Customer stories"
+          title="Seen it come back from Vanzoo?"
+          intro="Real words from customers across Gurgaon — what they sent us, and how it came back."
+        />
+        <Link
+          href="/customer-stories/"
+          className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand transition-colors hover:text-brand-dark"
+        >
+          Read customer stories <span aria-hidden="true">→</span>
+        </Link>
+      </div>
 
-          {!CLIPS_PUBLISHED ? (
-            <p className="mt-8 rounded-card border border-dashed border-accent-gold-ink/40 bg-accent-gold/10 px-5 py-4 text-sm text-accent-gold-ink">
-              <strong className="font-semibold">Sample content —</strong> these thumbnails are
-              placeholders, not real reviews. Add customer clips in{' '}
-              <code className="rounded bg-white/60 px-1.5 py-0.5 text-[0.8125rem]">src/content/socialProof.ts</code>{' '}
-              and set <code className="rounded bg-white/60 px-1.5 py-0.5 text-[0.8125rem]">CLIPS_PUBLISHED</code> to{' '}
-              <code className="rounded bg-white/60 px-1.5 py-0.5 text-[0.8125rem]">true</code> to remove this notice.
-            </p>
-          ) : null}
+      <div className="mt-8">
+        <ReviewThumbs />
+      </div>
 
-          <div className="mt-8">
-            <ReviewClipSlider clips={reviewClips} />
-          </div>
-        </>
-      ) : null}
-
-      <h2 id="stores-heading" className={SHOW_CLIPS ? 'mt-16 text-display-sm' : 'text-display-sm'}>
+      <h2 id="stores-heading" className="mt-16 text-display-sm">
         Visit our stores
       </h2>
       <ul className="mt-6 grid grid-cols-[minmax(0,1fr)] gap-5 md:grid-cols-2">

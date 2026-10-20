@@ -11,7 +11,7 @@ import { IconFeatureGrid } from './IconFeatureGrid';
 import { JsonLd } from './JsonLd';
 import { PincodeChecker } from './PincodeChecker';
 import { PopularItems } from './PopularItems';
-import { ProcessTimeline } from './ProcessTimeline';
+import { VanzooProcess } from './VanzooProcess';
 import { ServiceCard } from './ServiceCard';
 import { Reveal, RevealGroup } from './ui/Reveal';
 import { Section, SectionHeading } from './ui/Section';
@@ -175,20 +175,13 @@ export function LandingPageView({ page }: { page: LandingPage }) {
         </p>
       </Section>
 
-      {/* Nine-step process */}
-      <Section tone="light" aria-labelledby="landing-process-heading">
-        <SectionHeading
-          id="landing-process-heading"
-          eyebrow="Inside the Vanzoo process"
-          title="Nine steps for every piece"
-          intro="From doorstep pickup to protective packaging, every garment follows the same nine stages."
-          align="center"
-          className="mx-auto"
-        />
-        <div className="mt-14">
-          <ProcessTimeline stages={sharedProcess.stages} />
-        </div>
-      </Section>
+      {/* Seven-step process */}
+      <VanzooProcess
+        eyebrow="Inside the Vanzoo process"
+        heading="Seven steps for every piece"
+        intro="From doorstep pickup to protective packaging, every garment follows the same seven steps."
+        showCtas={false}
+      />
 
       {/* Prices */}
       <Section tone="surface" aria-labelledby="landing-items-heading">

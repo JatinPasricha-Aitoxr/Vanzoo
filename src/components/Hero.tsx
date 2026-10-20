@@ -2,6 +2,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { links } from '@/lib/site';
 import { HeroVideo } from './HeroVideo';
+import { Highlight } from './ui/Highlight';
+import { highlightNode } from './ui/highlightNode';
 import { cn } from '@/lib/cn';
 
 type HeroProps = {
@@ -18,8 +20,32 @@ type HeroProps = {
   /** `full` is the homepage's full-bleed treatment; `band` is the shorter
    *  variant inner pages use so their content starts above the fold. */
   variant?: 'full' | 'band';
+  /** Keyword headline — rendered as the page's H1; `headline` becomes an H2. */
+  seoH1?: string;
+  /** Which line takes the gold highlight: the trailing lines (default) or the first. */
+  highlight?: 'trailing' | 'first';
+  /** Highlight only this word in the headline, in shimmering gold. */
+  highlightWord?: string;
   children?: React.ReactNode;
 };
+
+function Headline({
+  as: Tag,
+  className,
+  style,
+  children,
+}: {
+  as: 'h1' | 'h2';
+  className?: string;
+  style?: React.CSSProperties;
+  children: React.ReactNode;
+}) {
+  return (
+    <Tag className={className} style={style}>
+      {children}
+    </Tag>
+  );
+}
 
 /**
  * Full-bleed photographic hero (§2.3.2).
@@ -27,6 +53,15 @@ type HeroProps = {
  * The image is the LCP element on every page that uses this, so it is the only
  * `priority` image on the site and carries an explicit `sizes` of 100vw.
  */
+const SEO_H1_DARK =
+  'hero-stagger mb-4 text-sm font-semibold uppercase tracking-[0.12em] text-white sm:text-base';
+const SEO_H1_LIGHT =
+  'hero-stagger mt-6 text-sm font-semibold uppercase tracking-[0.12em] text-neutral-ink sm:text-base';
+
+function SeoH1Text({ text, dark, fixedCity }: { text: string; dark: boolean; fixedCity?: boolean }) {
+  return <Highlight text={text} dark={dark} fixedCity={fixedCity} />;
+}
+
 export function Hero({
   headline,
   subhead,
@@ -37,6 +72,9 @@ export function Hero({
   secondaryCta,
   offer,
   variant = 'full',
+  seoH1,
+  highlight = 'trailing',
+  highlightWord,
   children,
 }: HeroProps) {
   return (
@@ -104,7 +142,13 @@ export function Hero({
 
           {/* Each line rises out of its own overflow-hidden mask, so the text
               appears to lift off the baseline rather than simply fade in. */}
-          <h1
+          {seoH1 ? (
+            <h1 className={SEO_H1_DARK}>
+              <SeoH1Text text={seoH1} dark />
+            </h1>
+          ) : null}
+          <Headline
+            as={seoH1 ? 'h2' : 'h1'}
             className={cn(
               'text-display-xl text-white',
               video && '[text-shadow:0_2px_24px_rgba(0,0,0,0.45)]',
@@ -116,14 +160,27 @@ export function Hero({
                   // Trailing lines take the soft gold: the one typographic
                   // flourish in the hero, and the cue that carries the couture
                   // register before a word of copy is read.
-                  className={cn('hero-line', index > 0 && 'text-accent-gold-soft')}
+                  className={cn(
+                    'hero-line',
+                    highlight === 'first'
+                      ? index === 0 && 'gold-shine gold-shine-dark'
+                      : index > 0 && 'text-accent-gold-soft',
+                  )}
                   style={{ '--line': index } as React.CSSProperties}
                 >
-                  {line}
+                  {highlightWord && line.includes(highlightWord) ? (
+                    <>
+                      {line.split(highlightWord)[0]}
+                      <span className="gold-shine gold-shine-dark">{highlightWord}</span>
+                      {line.split(highlightWord).slice(1).join(highlightWord)}
+                    </>
+                  ) : (
+                    line
+                  )}
                 </span>
               </span>
             ))}
-          </h1>
+          </Headline>
           <p
             className="hero-stagger mt-6 max-w-xl text-pretty text-[clamp(1.125rem,1.4vw,1.3125rem)] leading-relaxed text-white/95 [text-shadow:0_1px_14px_rgba(0,26,22,0.5)]"
             style={{ '--line': headline.length } as React.CSSProperties}
@@ -177,9 +234,16 @@ export function PageHeader({
   image,
   imageAlt,
   imagePosition,
+  seoH1,
+  fixedCity,
+  tall = false,
   children,
 }: {
   eyebrow?: string;
+  /** Keep "Gurgaon" as written in the headings (Gurgaon-specific pages). */
+  fixedCity?: boolean;
+  /** Keyword headline — rendered as the page's H1; `title` becomes an H2. */
+  seoH1?: string;
   title: string;
   intro?: string;
   /** Banner photograph. Text switches to on-dark styling over a green scrim. */
@@ -188,6 +252,8 @@ export function PageHeader({
   /** CSS object-position — crop the banner so any baked-in artwork sits clear
    *  of the live title. */
   imagePosition?: string;
+  /** Extra height, so a photo with baked-in artwork shows closer to uncropped. */
+  tall?: boolean;
   children?: React.ReactNode;
 }) {
   const dark = Boolean(image);
@@ -195,7 +261,8 @@ export function PageHeader({
   return (
     <section
       className={cn(
-        'relative overflow-hidden pb-section-sm pt-[calc(var(--header-h)+3rem)]',
+        'relative overflow-hidden pt-[calc(var(--header-h)+3rem)]',
+        tall ? 'pb-40 sm:pb-52 lg:pb-64' : 'pb-section-sm',
         dark
           ? 'bg-brand-ink'
           : 'bg-gradient-to-b from-brand-light to-brand-tint after:absolute after:inset-x-0 after:bottom-0 after:h-px after:bg-gradient-to-r after:from-transparent after:via-accent-gold/50 after:to-transparent',
@@ -233,7 +300,14 @@ export function PageHeader({
         <div className="hero-stagger" style={{ '--line': 0 } as React.CSSProperties}>
           {children}
         </div>
-        {eyebrow ? (
+        {seoH1 ? (
+          <h1
+            className={cn(dark ? SEO_H1_DARK : SEO_H1_LIGHT, dark && '!mb-0 mt-6')}
+            style={{ '--line': 1 } as React.CSSProperties}
+          >
+            <SeoH1Text text={seoH1} dark={dark} fixedCity={fixedCity} />
+          </h1>
+        ) : eyebrow ? (
           <p
             className={cn('hero-stagger eyebrow mt-6', dark && 'text-accent-gold-soft')}
             style={{ '--line': 1 } as React.CSSProperties}
@@ -241,16 +315,17 @@ export function PageHeader({
             {eyebrow}
           </p>
         ) : null}
-        <h1
+        <Headline
+          as={seoH1 ? 'h2' : 'h1'}
           className={cn(
             'hero-stagger text-display-lg',
-            eyebrow ? 'mt-3' : 'mt-6',
+            seoH1 || eyebrow ? 'mt-3' : 'mt-6',
             dark && 'text-white',
           )}
-          style={{ '--line': eyebrow ? 2 : 1 } as React.CSSProperties}
+          style={{ '--line': 2 } as React.CSSProperties}
         >
-          {title}
-        </h1>
+          {highlightNode(title, dark, fixedCity)}
+        </Headline>
         {intro ? (
           <p
             className={cn(

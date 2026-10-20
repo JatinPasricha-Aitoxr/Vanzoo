@@ -1,4 +1,6 @@
+import { Highlight } from '@/components/ui/Highlight';
 import Image from 'next/image';
+import { BrandBand } from '@/components/BrandBand';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { CtaBanner } from '@/components/CtaBanner';
 import { IconFeatureGrid } from '@/components/IconFeatureGrid';
@@ -11,9 +13,9 @@ import { breadcrumbSchema, buildMetadata } from '@/lib/seo';
 const CRUMBS = [{ name: 'About Us', href: '/about-us/' }];
 
 export const metadata = buildMetadata({
-  title: 'About Vanzoo | Premium Fabric Care & Eco Cleaning Experts',
+  title: 'About Vanzoo | Premium Organic Dry Cleaners in Gurgaon',
   description:
-    'Vanzoo, a unit of Vaaruni Ventures LLP, blends couture-level precision with Italian hydrocarbon technology for luxury fabric care and eco-friendly dry cleaning in Gurgaon.',
+    'Meet Vanzoo — premium organic dry cleaners in Gurgaon using Italian hydrocarbon technology, trained experts and free pickup and delivery for every wardrobe.',
   path: '/about-us/',
   image: about.image,
   imageAlt: about.imageAlt,
@@ -25,6 +27,7 @@ export default function AboutPage() {
       <JsonLd data={breadcrumbSchema(CRUMBS)} />
 
       <PageHeader
+        seoH1="About Vanzoo — Best & Premium Dry Cleaners in Gurgaon"
         eyebrow="About Us"
         title={about.heading}
         intro="Luxury deserves reverence — and a process built to earn it."
@@ -46,9 +49,7 @@ export default function AboutPage() {
             />
           </div>
           <div className="max-w-lg">
-            <h2 id="story-heading" className="text-display-md">
-              Why we started Vanzoo
-            </h2>
+            <h2 id="story-heading" className="text-display-md"><Highlight text="Why we started Vanzoo" dark={false} /></h2>
             <p className="mt-5 text-lead text-pretty text-neutral-body">{about.intro}</p>
           </div>
         </div>
@@ -65,6 +66,8 @@ export default function AboutPage() {
         />
         <IconFeatureGrid items={about.pillars} columns={3} className="mt-12" />
       </Section>
+
+      <BrandBand />
 
       {/* Philosophy */}
       <Section tone="dark" size="sm" aria-labelledby="philosophy-heading">

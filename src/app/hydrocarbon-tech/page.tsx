@@ -1,25 +1,25 @@
+import { Highlight } from '@/components/ui/Highlight';
 import Image from 'next/image';
 import Link from 'next/link';
 import { AppPromo } from '@/components/AppPromo';
-import { NineStepProcess } from '@/components/NineStepProcess';
-import { SectionCtas } from '@/components/SectionCtas';
-import { OfferBand } from '@/components/OfferBand';
 import { EnquiryDialog } from '@/components/EnquiryDialog';
 import { FAQAccordion } from '@/components/FAQAccordion';
 import { Hero } from '@/components/Hero';
 import { IconFeatureGrid } from '@/components/IconFeatureGrid';
 import { JsonLd } from '@/components/JsonLd';
+import { VanzooProcess } from '@/components/VanzooProcess';
 import { Section, SectionHeading } from '@/components/ui/Section';
+import { SustainabilityPanel } from '@/components/SustainabilityPanel';
 import { UspCarousel } from '@/components/UspCarousel';
-import { hydrocarbon, hydrocarbonDetail as detail, uspCards } from '@/content/marketing';
+import { hydrocarbon, uspCards } from '@/content/marketing';
 import { breadcrumbSchema, buildMetadata, faqSchema } from '@/lib/seo';
 
 const CRUMBS = [{ name: 'Hydrocarbon Tech', href: '/hydrocarbon-tech/' }];
 
 export const metadata = buildMetadata({
-  title: 'Advanced Cleaning with Hydrocarbon Technology | Vanzoo',
+  title: 'Hydrocarbon Dry Cleaning in Gurgaon | Safer, Gentler | Vanzoo',
   description:
-    'Vanzoo’s hydrocarbon technology offers advanced, eco-friendly, fabric-safe cleaning solutions that ensure deep stain removal with minimal environmental impact.',
+    'Why Vanzoo uses closed-loop hydrocarbon dry cleaning: gentler on silk, wool and couture, 99% solvent recovered, no PERC. See how the cycle works step by step.',
   path: '/hydrocarbon-tech/',
   image: hydrocarbon.hero.image,
   imageAlt: hydrocarbon.hero.imageAlt,
@@ -31,26 +31,15 @@ export default function HydrocarbonTechPage() {
       <JsonLd data={[breadcrumbSchema(CRUMBS), faqSchema(hydrocarbon.faqs)]} />
 
       <Hero
+        seoH1="Best & Premium Hydrocarbon Dry Cleaning in Gurgaon"
         headline={hydrocarbon.hero.headline}
         subhead={hydrocarbon.hero.subhead}
         image={hydrocarbon.hero.image}
         imageAlt={hydrocarbon.hero.imageAlt}
         variant="band"
+        highlightWord="Premium"
         secondaryCta={{ label: 'See couture care tariffs', href: '/pricing/' }}
       />
-
-      {/* At a glance */}
-      <Section tone="light" size="sm" aria-label="Hydrocarbon at a glance">
-        <ul className="grid grid-cols-2 gap-6 text-center lg:grid-cols-4">
-          {detail.glance.map((stat) => (
-            <li key={stat.label}>
-              <p className="font-display text-4xl font-semibold text-brand sm:text-5xl">{stat.value}</p>
-              <p className="mt-2 text-sm text-neutral-body">{stat.label}</p>
-            </li>
-          ))}
-        </ul>
-        <SectionCtas className="justify-center" />
-      </Section>
 
       {/* USPs as photo cards (rinse.com pattern) */}
       <Section tone="surface" aria-labelledby="hydrocarbon-usp-heading">
@@ -91,9 +80,7 @@ export default function HydrocarbonTechPage() {
             </div>
             <div className="max-w-lg">
               <p className="eyebrow">{section.eyebrow}</p>
-              <h2 id={`${section.id}-heading`} className="mt-3 text-display-md">
-                {section.heading}
-              </h2>
+              <h2 id={`${section.id}-heading`} className="mt-3 text-display-md"><Highlight text={section.heading} dark={false} /></h2>
               <p className="mt-5 text-lead text-pretty text-neutral-body">{section.body}</p>
               {index === 1 ? (
                 <div className="mt-8">
@@ -126,86 +113,27 @@ export default function HydrocarbonTechPage() {
         </dl>
       </Section>
 
-      {/* The cycle, step by step */}
+      {/* The machine cycle, stage by stage */}
       <Section tone="muted" aria-labelledby="cycle-heading">
-        <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-14">
-          <div className="media-frame relative aspect-[4/5]">
-            <Image src="/images/client/machine-operator.jpg" alt="Vanzoo operator running the closed-loop hydrocarbon dry cleaning machine" fill loading="lazy" sizes="(min-width: 1024px) 40vw, 90vw" className="object-cover" />
-          </div>
-          <div>
-            <p className="eyebrow">The cycle</p>
-            <h2 id="cycle-heading" className="mt-3 text-display-md">
-              <span className="hl">{detail.cycleHeading}</span>
-            </h2>
-            <ol className="mt-8 space-y-5">
-              {detail.cycle.map((step, index) => (
-                <li key={step.title} className="flex gap-4">
-                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-pill border border-accent-gold/60 bg-white font-display text-sm font-semibold text-brand">
-                    {index + 1}
-                  </span>
-                  <div>
-                    <h3 className="font-display text-lg font-semibold text-neutral-ink">{step.title}</h3>
-                    <p className="mt-1 text-[0.9375rem] leading-relaxed text-pretty text-neutral-body">{step.body}</p>
-                  </div>
-                </li>
-              ))}
-            </ol>
-            <SectionCtas />
-          </div>
-        </div>
-      </Section>
-
-      {/* Best for */}
-      <Section tone="surface" aria-labelledby="best-for-heading">
         <SectionHeading
-          id="best-for-heading"
-          eyebrow="Fabrics & garments"
-          title={<span className="hl-green">{detail.fabricsHeading}</span>}
+          id="cycle-heading"
+          eyebrow={hydrocarbon.cycle.eyebrow}
+          title={hydrocarbon.cycle.heading}
+          intro={hydrocarbon.cycle.intro}
           align="center"
           className="mx-auto"
         />
-        <ul className="mx-auto mt-10 flex max-w-4xl flex-wrap justify-center gap-3">
-          {detail.fabrics.map((fabric) => (
-            <li key={fabric} className="rounded-pill border border-neutral-line bg-white px-5 py-2.5 text-sm font-semibold text-neutral-ink shadow-lift">
-              {fabric}
+        <ol className="mx-auto mt-12 grid max-w-5xl gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {hydrocarbon.cycle.stages.map((stage, index) => (
+            <li key={stage.title} className="rounded-card border border-neutral-line bg-white p-6 shadow-lift">
+              <span className="font-display text-2xl font-semibold text-accent-gold-ink">
+                {String(index + 1).padStart(2, '0')}
+              </span>
+              <h3 className="mt-2 font-display text-lg font-semibold text-neutral-ink">{stage.title}</h3>
+              <p className="mt-2 text-[0.9375rem] leading-relaxed text-pretty text-neutral-body">{stage.body}</p>
             </li>
           ))}
-        </ul>
-        <SectionCtas className="justify-center" />
-      </Section>
-
-      {/* Three-way comparison */}
-      <Section tone="muted" aria-labelledby="compare-heading">
-        <SectionHeading
-          id="compare-heading"
-          eyebrow="Side by side"
-          title={detail.compareHeading}
-          align="center"
-          className="mx-auto"
-        />
-        <div className="mt-10 overflow-x-auto rounded-card border border-neutral-line bg-white shadow-lift">
-          <table className="w-full min-w-[40rem] text-left text-sm">
-            <thead className="bg-brand-ink text-accent-gold-soft">
-              <tr>
-                <th scope="col" className="px-5 py-3.5 font-semibold" />
-                {detail.compareColumns.map((column) => (
-                  <th key={column} scope="col" className="px-5 py-3.5 font-semibold">{column}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-neutral-line">
-              {detail.compareRows.map((row) => (
-                <tr key={row.label}>
-                  <th scope="row" className="px-5 py-3.5 font-display font-semibold text-neutral-ink">{row.label}</th>
-                  {row.values.map((value, index) => (
-                    <td key={value} className={index === 0 ? 'bg-brand-light px-5 py-3.5 font-medium text-brand-dark' : 'px-5 py-3.5 text-neutral-body'}>{value}</td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <SectionCtas className="justify-center" />
+        </ol>
       </Section>
 
       {/* Why Switch? — PERC comparison */}
@@ -224,60 +152,81 @@ export default function HydrocarbonTechPage() {
           tone="dark"
           className="mt-12"
         />
-      </Section>
-
-      {/* The nine-step process, flat */}
-      <Section tone="surface" aria-labelledby="hc-process-heading">
-        <SectionHeading
-          id="hc-process-heading"
-          eyebrow="Inside the process"
-          title={<>What actually happens to <span className="hl">your garment</span></>}
-          intro="Every order runs the same nine steps, from doorstep pickup through final quality inspection and delivery."
-        />
-        <div className="mt-10">
-          <NineStepProcess />
-        </div>
-        <SectionCtas />
-      </Section>
-
-      <Section tone="muted" aria-label="Process and sustainability diagrams">
-        <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
-          <figure>
-            <div className="media-frame mx-auto aspect-[824/1412] max-w-sm">
-              <Image
-                src={hydrocarbon.processImage.src}
-                alt={hydrocarbon.processImage.alt}
-                fill
-                loading="lazy"
-                sizes="(min-width: 640px) 24rem, 100vw"
-                className="object-contain"
-              />
-            </div>
-            <figcaption className="mt-4 text-center text-sm text-neutral-body">
-              The full nine-step Vanzoo garment care process.
-            </figcaption>
-          </figure>
-
-          <figure>
-            {/* Aspect matches the source exactly so object-contain leaves no bars. */}
-            <div className="media-frame aspect-[2400/1458]">
-              <Image
-                src={hydrocarbon.sustainabilityImage.src}
-                alt={hydrocarbon.sustainabilityImage.alt}
-                fill
-                loading="lazy"
-                sizes="(min-width: 1024px) 46vw, 100vw"
-                className="object-contain"
-              />
-            </div>
-            <figcaption className="mt-4 text-center text-sm text-neutral-body">
-              Where the environmental gains come from.
-            </figcaption>
-          </figure>
+        <div className="mx-auto mt-16 max-w-5xl">
+          <h3 className="text-center font-display text-xl font-semibold text-white">
+            <Highlight text={hydrocarbon.detailedComparison.heading} dark />
+          </h3>
+          <div className="mt-8 overflow-x-auto rounded-card border border-accent-gold/50">
+            <table className="w-full min-w-[40rem] border-collapse text-left text-sm text-white">
+              <thead>
+                <tr className="bg-accent-gold text-brand-ink">
+                  <th scope="col" className="px-4 py-3 font-semibold" />
+                  {hydrocarbon.detailedComparison.columns.map((col) => (
+                    <th key={col} scope="col" className="px-4 py-3 font-semibold">
+                      {col}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {hydrocarbon.detailedComparison.rows.map((row) => (
+                  <tr key={row[0]} className="border-t border-white/15 align-top">
+                    <th scope="row" className="px-4 py-3.5 font-semibold text-accent-gold-soft">
+                      {row[0]}
+                    </th>
+                    {row.slice(1).map((cell, i) => (
+                      <td key={i} className={`px-4 py-3.5 leading-relaxed ${i === 0 ? 'font-medium text-white' : 'text-white/75'}`}>
+                        {cell}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </Section>
 
-      <OfferBand />
+      {/* Fabrics + safety */}
+      <Section tone="surface" aria-labelledby="fabrics-heading">
+        <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
+          <div>
+            <p className="eyebrow">{hydrocarbon.fabricsSuited.eyebrow}</p>
+            <h2 id="fabrics-heading" className="mt-3 text-display-md">
+              <Highlight text={hydrocarbon.fabricsSuited.heading} />
+            </h2>
+            <ul className="mt-8 flex flex-wrap gap-2.5">
+              {hydrocarbon.fabricsSuited.items.map((item) => (
+                <li key={item} className="rounded-pill border border-neutral-line bg-white px-4 py-2 text-sm font-medium text-neutral-ink shadow-lift">
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <p className="eyebrow">{hydrocarbon.safety.eyebrow}</p>
+            <h2 className="mt-3 text-display-md">
+              <Highlight text={hydrocarbon.safety.heading} />
+            </h2>
+            <ul className="mt-8 space-y-3.5">
+              {hydrocarbon.safety.points.map((point) => (
+                <li key={point} className="flex items-start gap-3 text-[0.9375rem] leading-relaxed text-neutral-body">
+                  <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 shrink-0 rounded-pill bg-accent-gold" />
+                  {point}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </Section>
+
+
+      {/* The seven-step process, as live text */}
+      <VanzooProcess />
+
+      <Section tone="muted" aria-label="Sustainability">
+        <SustainabilityPanel />
+      </Section>
 
       <Section tone="dark">
         <AppPromo />

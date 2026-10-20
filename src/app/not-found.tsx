@@ -1,9 +1,14 @@
 import Link from 'next/link';
+import { Mascot } from '@/components/Mascot';
 import { navLinks } from '@/lib/site';
 
 export default function NotFound() {
   return (
-    <div className="shell flex min-h-[70svh] flex-col justify-center py-section">
+    <div className="shell relative flex min-h-[70svh] flex-col justify-center py-section">
+      <Mascot
+        className="pointer-events-none absolute bottom-6 right-4 hidden w-48 md:block lg:right-16 lg:w-64"
+        sizes="256px"
+      />
       <p className="eyebrow">404</p>
       <h1 className="mt-3 text-display-lg">We couldn&apos;t find that page</h1>
       <p className="mt-4 max-w-xl text-lead text-neutral-body">

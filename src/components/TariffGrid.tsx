@@ -3,12 +3,15 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
+import { useTariffSearch } from './TariffSearchContext';
+import { WhatsAppPrice } from './WhatsAppPrice';
+import { matchesQuery } from '@/lib/tariffSearch';
 import { Reveal } from './ui/Reveal';
 import {
   lineId,
   type TariffCatalog,
   type TariffGroup,
-  type TariffRow,
+  type TariffRow, formatPrice,
 } from '@/content/pricing';
 import { productForTariffRow } from '@/content/products';
 import { useCart } from '@/lib/cart';
@@ -18,10 +21,11 @@ import { cn } from '@/lib/cn';
  * Tariff card grid (§3.4, §3.5).
  *
  * This restores the live site's layout — one card per garment — with
- * "Add to Cart" in place of its per-item "Enquire Now". Prices are not shown
- * here: GST and the final rate both depend on fabric and the work involved,
- * so the card only lets a visitor pick a quantity; the team confirms the
- * quote once they see the garment. The category chips are in-page anchors
+ * "Add to Cart" in place of its per-item "Enquire Now". Every price is shown
+ * as a starting price ("Starting from ₹…"): GST and the final rate depend on
+ * fabric and the work involved, so each card also carries a WhatsApp prompt to
+ * ask the actual price for that garment, and the team confirms the quote once
+ * they see it. The category chips are in-page anchors
  * rather than a filter, so every item stays crawlable and printable.
  *
  * The category nav only renders when there is more than one group — a service
@@ -29,9 +33,22 @@ import { cn } from '@/lib/cn';
  * just that service's rows, and a one-chip nav with nothing to switch between
  * is clutter, not navigation.
  */
-export function TariffGrid({ catalog }: { catalog: TariffCatalog }) {
-  const { groups } = catalog;
-  const showNav = groups.length > 1;
+export function TariffGrid({ catalog, searchable = false }: { catalog: TariffCatalog; searchable?: boolean }) {
+  const showNav = catalog.groups.length > 1;
+  const shared = useTariffSearch();
+  const [localQuery, setLocalQuery] = useState('');
+  // On the Pricing page one search box drives every grid; elsewhere a grid
+  // keeps its own query.
+  const query = shared ? shared.query : localQuery;
+  const setQuery = shared ? shared.setQuery : setLocalQuery;
+  const needle = query.trim().toLowerCase();
+  // Search narrows every category to the rows whose name matches, and drops
+  // categories left empty.
+  const groups = needle
+    ? catalog.groups
+        .map((group) => ({ ...group, rows: group.rows.filter((row) => matchesQuery(needle, row.item, group.label)) }))
+        .filter((group) => group.rows.length > 0)
+    : catalog.groups;
   const [activeId, setActiveId] = useState(groups[0]?.id);
   const headingRefs = useRef<Record<string, HTMLHeadingElement | null>>({});
 
@@ -51,11 +68,47 @@ export function TariffGrid({ catalog }: { catalog: TariffCatalog }) {
     );
     nodes.forEach((node) => observer.observe(node));
     return () => observer.disconnect();
-  }, []);
+  }, [needle]);
 
   return (
     <div>
-      {showNav ? (
+      {showNav && searchable ? (
+        <div className="relative mb-4">
+          <label htmlFor={`tariff-search-${catalog.id}`} className="sr-only">
+            Search {catalog.label} items
+          </label>
+          <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-neutral-body">
+            <circle cx="7" cy="7" r="5" stroke="currentColor" strokeWidth="1.4" />
+            <path d="m11 11 3.5 3.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+          </svg>
+          <input
+            id={`tariff-search-${catalog.id}`}
+            type="search"
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+            placeholder="Search all items — pants, saree, sneakers, blanket…"
+            className="h-12 w-full rounded-pill border border-neutral-line bg-white pl-11 pr-4 text-sm text-neutral-ink placeholder:text-neutral-body/70 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+          />
+        </div>
+      ) : null}
+
+      {showNav && needle && groups.length === 0 && !searchable ? (
+        <p className="rounded-card border border-dashed border-neutral-line p-5 text-center text-sm text-neutral-body">
+          No {catalog.label} items match “{query.trim()}”.
+        </p>
+      ) : null}
+
+      {showNav && needle && groups.length === 0 && searchable ? (
+        <div className="rounded-card border border-neutral-line bg-white p-8 text-center">
+          <p className="font-display text-lg font-semibold text-neutral-ink">No items match “{query.trim()}”</p>
+          <p className="mt-2 text-sm text-neutral-body">
+            We care for many more items than are listed — ask us about yours.
+          </p>
+          <WhatsAppPrice item={query.trim()} label="Ask about it on WhatsApp" className="mt-4 text-sm" />
+        </div>
+      ) : null}
+
+      {showNav && groups.length > 0 ? (
         <nav
           aria-label="Tariff categories"
           className="sticky top-[var(--header-h)] z-20 -mx-5 border-b border-neutral-line bg-white/95 px-5 py-3 backdrop-blur sm:-mx-8 sm:px-8 lg:mx-0 lg:rounded-card lg:border lg:px-4"
@@ -210,7 +263,10 @@ function TariffCard({
           )}
         </h3>
 
-        <div className="mt-5">
+        <p className="mt-2 text-sm font-semibold tabular-nums text-brand">{formatPrice(row)}</p>
+        <WhatsAppPrice item={row.item} label="Know the actual price" className="mt-2" />
+
+        <div className="mt-4">
           {inCart > 0 ? (
             <div className="flex items-center justify-between gap-3">
               <span className="text-xs font-semibold uppercase tracking-[0.1em] text-brand-dark">

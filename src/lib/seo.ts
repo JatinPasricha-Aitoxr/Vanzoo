@@ -24,6 +24,23 @@ const DEFAULT_OG_ALT =
  * hand-rolling tags, which is what keeps the "unique per page" requirement
  * true as pages get added.
  */
+/** Search results cut a description at about 155–160 characters; end it cleanly before that. */
+function fitDescription(text: string, max = 158): string {
+  const clean = text.replace(/\s+/g, ' ').trim();
+  if (clean.length <= max) return clean;
+  const cut = clean.slice(0, max);
+  const stop = Math.max(cut.lastIndexOf('. '), cut.lastIndexOf(' — '), cut.lastIndexOf('; '));
+  if (stop > 90) return cut.slice(0, stop).replace(/[.;—\s]+$/, '') + '.';
+  return cut.slice(0, cut.lastIndexOf(' ')).replace(/[,;:—\s]+$/, '') + '.';
+}
+
+/** Keep titles within ~60 characters by dropping the trailing brand suffix when needed. */
+function fitTitle(text: string, max = 60): string {
+  if (text.length <= max) return text;
+  const withoutBrand = text.replace(/\s*\|\s*Vanzoo.*$/, '');
+  return withoutBrand.length <= max && withoutBrand.length > 20 ? withoutBrand : text;
+}
+
 export function buildMetadata({
   title,
   description,
@@ -35,6 +52,8 @@ export function buildMetadata({
   modifiedTime,
   noIndex = false,
 }: PageMetaInput): Metadata {
+  title = fitTitle(title);
+  description = fitDescription(description);
   const url = `${SITE_URL}${path}`;
   const absoluteImage = image.startsWith('http') ? image : `${SITE_URL}${image}`;
 
@@ -183,6 +202,7 @@ export function localBusinessSchema() {
           ['Leather Care', 'bags-leather-care'],
           ['Curtains Care', 'curtain-cleaning'],
           ['Carpet Care', 'carpet-cleaning'],
+          ['Sofa, Bed & Mattress Cleaning', 'sofa-bed-mattress-cleaning'],
           ['Express Service', 'express-service'],
         ] as const
       ).map(([name, slug]) => ({

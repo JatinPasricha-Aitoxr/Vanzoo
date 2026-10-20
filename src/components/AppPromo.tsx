@@ -1,8 +1,9 @@
+import { Highlight } from '@/components/ui/Highlight';
 import Image from 'next/image';
 import { appPromo } from '@/content/marketing';
+import { AppleIcon } from './AppleIcon';
 import { Reveal } from './ui/Reveal';
 import { links } from '@/lib/site';
-import { StoreBadges } from './StoreBadges';
 
 /**
  * App promo band (§3.2.8) — phone mockup, benefit list, QR download card and
@@ -39,7 +40,7 @@ export function AppPromo() {
       </Reveal>
 
       <Reveal variant="right" delay={80}>
-        <h2 className="text-display-md text-white">{appPromo.heading}</h2>
+        <h2 className="text-display-md text-white"><Highlight text={appPromo.heading} dark={true} /></h2>
         <p className="mt-4 text-lead text-pretty text-white/75">{appPromo.body}</p>
 
         <ul className="mt-8 space-y-3.5">
@@ -59,7 +60,7 @@ export function AppPromo() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Scan or tap to get the Vanzoo app on Google Play"
-            className="flex items-center gap-4 rounded-card bg-white p-4 pr-6 transition-transform duration-200 ease-entrance hover:-translate-y-0.5"
+            className="flex flex-col items-center gap-3 rounded-card bg-white p-5 transition-transform duration-200 ease-entrance hover:-translate-y-0.5 sm:p-6"
           >
             <Image
               src="/images/app-qr-download.png"
@@ -67,21 +68,48 @@ export function AppPromo() {
               width={1648}
               height={1284}
               loading="lazy"
-              sizes="224px"
-              className="h-44 w-auto sm:h-56"
+              sizes="(min-width: 640px) 440px, 340px"
+              className="h-auto w-72 max-w-full sm:w-[27rem]"
             />
-            <span className="text-left leading-tight">
-              <span className="block text-[0.625rem] font-semibold uppercase tracking-[0.12em] text-neutral-body">
+            <span className="text-center leading-tight">
+              <span className="block text-[0.6875rem] font-semibold uppercase tracking-[0.12em] text-neutral-body">
                 Scan to download
               </span>
-              <span className="block font-display text-sm font-semibold text-brand-dark">
+              <span className="block font-display text-base font-semibold text-brand-dark">
                 Get the Vanzoo app
               </span>
             </span>
           </a>
 
           <div className="flex flex-col gap-2.5">
-            <StoreBadges className="flex-col items-stretch" />
+            <a
+              href={links.playStore}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2.5 rounded-card border border-white/30 px-5 py-2.5 text-white transition-colors hover:border-accent-gold hover:text-accent-gold-soft"
+            >
+              <PlayIcon />
+              <span className="text-left leading-tight">
+                <span className="block text-[0.625rem] uppercase tracking-wide text-white/65">
+                  Get it on
+                </span>
+                <span className="block text-sm font-semibold">Google Play</span>
+              </span>
+            </a>
+            <a
+              href={links.appStore}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2.5 rounded-card border border-white/30 px-5 py-2.5 text-white transition-colors hover:border-accent-gold hover:text-accent-gold-soft"
+            >
+              <AppleIcon />
+              <span className="text-left leading-tight">
+                <span className="block text-[0.625rem] uppercase tracking-wide text-white/65">
+                  Download on the
+                </span>
+                <span className="block text-sm font-semibold">App Store</span>
+              </span>
+            </a>
           </div>
         </div>
       </Reveal>
@@ -105,5 +133,13 @@ function CheckIcon() {
         />
       </svg>
     </span>
+  );
+}
+
+function PlayIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-6 w-6" fill="currentColor" aria-hidden="true">
+      <path d="M3.6 2.6c-.3.3-.5.8-.5 1.4v16c0 .6.2 1.1.5 1.4l.1.1 9-9v-.2l-9-9-.1.1zm12.2 5.9L5.4 2.4l8.8 8.8 1.6-1.6v-1.1zm2.9 2.1-2.2-1.3-1.8 1.8 1.8 1.8 2.2-1.3c.7-.4.7-1.2 0-1.6zM5.4 21.6l10.4-6.1-1.6-1.6-8.8 7.7z" />
+    </svg>
   );
 }

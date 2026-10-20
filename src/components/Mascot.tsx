@@ -2,24 +2,28 @@ import Image from 'next/image';
 import { cn } from '@/lib/cn';
 
 /**
- * The Vanzoo tiger mascot. The artwork is supplied on the brand's dark green,
- * so it is framed as a rounded green tile and works on any background.
+ * The Vanzoo tiger. Decorative by default (empty alt) — it never carries
+ * information a screen reader would need. Size it with `className` (width);
+ * the source is a 1966×2810 transparent PNG so it stays sharp at any of them.
  */
-export function Mascot({ className, size = 160 }: { className?: string; size?: number }) {
+export function Mascot({
+  className,
+  sizes = '(min-width: 1024px) 220px, 160px',
+  alt = '',
+}: {
+  className?: string;
+  sizes?: string;
+  alt?: string;
+}) {
   return (
-    <span
-      className={cn('inline-block overflow-hidden rounded-2xl bg-[#0e3b25] shadow-lift', className)}
-      style={{ width: size }}
-    >
-      <Image
-        src="/images/client/mascot-on-green.png"
-        alt="Vanzoo tiger mascot pointing to the offer"
-        width={278}
-        height={322}
-        loading="lazy"
-        sizes={`${size}px`}
-        className="h-auto w-full"
-      />
-    </span>
+    <Image
+      src="/images/mascot/vanzoo-tiger.png"
+      alt={alt}
+      width={1966}
+      height={2810}
+      loading="lazy"
+      sizes={sizes}
+      className={cn('h-auto select-none drop-shadow-[0_8px_16px_rgba(0,0,0,0.18)]', className)}
+    />
   );
 }

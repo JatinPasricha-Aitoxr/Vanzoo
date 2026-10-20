@@ -4,9 +4,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { OfferBar } from './OfferBar';
 import { BookPickupWidget } from './BookPickupWidget';
+import { WhatsAppIcon } from './BookNowButton';
 import { CartButton } from './CartButton';
+import { LocationSelect } from './LocationSelect';
 import { SearchBar } from './SearchBar';
 import { serviceEntries } from '@/content/services';
 import { links, navLinks, site } from '@/lib/site';
@@ -26,7 +27,7 @@ const SERVICES_HREF = '/services/';
  *
  * `/services/` and every `/services/<slug>/` detail page use the same
  * photographic `PageHeader`, so they're matched by prefix rather than listed
- * one by one — there are many service slugs and the list would only grow.
+ * one by one — there are twelve service slugs and the list would only grow.
  */
 const HERO_ROUTES = new Set(['/', '/hydrocarbon-tech/', '/hydrocarbon-tech']);
 
@@ -108,45 +109,46 @@ export function Header() {
           solid ? 'bg-white/95 shadow-header backdrop-blur-md' : 'bg-transparent',
         )}
       >
-        <OfferBar />
-        <div className="shell flex h-[calc(var(--header-h)-var(--bar-h))] items-center justify-between gap-4">
+        <div className="shell flex h-[var(--header-top)] items-center justify-between gap-4">
           <Link
             href="/"
             aria-label="Vanzoo — home"
-            className="flex shrink-0 items-center gap-2 rounded-sm"
+            className="shrink-0 rounded-sm xl:hidden"
             onClick={() => setMenuOpen(false)}
           >
-            <Image
-              src="/images/brand/vanzoo-mark.png"
-              alt=""
-              width={512}
-              height={512}
-              priority
-              sizes="44px"
-              className="h-9 w-9 lg:h-10 lg:w-10"
-            />
             <Image
               src="/images/brand/vanzoo-logo.png"
               alt="Vanzoo — premium organic dryclean"
               width={2200}
               height={653}
               priority
-              sizes="(min-width: 1024px) 168px, 132px"
-              className={cn(
-                'header-logo h-8 w-auto lg:h-9',
-                // The wordmark is dark-on-transparent; over a photo hero it has
-                // to invert to stay legible.
-                !solid && 'brightness-0 invert',
-                scrolled && 'lg:scale-[0.94]',
-              )}
+              sizes="132px"
+              className={cn('header-logo h-8 w-auto', !solid && 'brightness-0 invert')}
+            />
+          </Link>
+          {/* xl+: the "V" mark owns the top row; the wordmark moves to the nav row. */}
+          <Link
+            href="/"
+            aria-label="Vanzoo — home"
+            className="hidden shrink-0 rounded-sm xl:block"
+          >
+            <Image
+              src="/images/brand/vanzoo-mark.png"
+              alt=""
+              width={96}
+              height={96}
+              priority
+              className={cn('h-11 w-auto', !solid && 'brightness-0 invert')}
             />
           </Link>
 
-          <DesktopNav pathname={pathname} solid={solid} />
+          {/* Centre of the top row: city picker + search, grouped. */}
+          <div className="flex min-w-0 flex-1 items-center justify-end gap-3 lg:justify-center">
+            <LocationSelect solid={solid} />
+            <SearchBar solid={solid} wide />
+          </div>
 
           <div className="flex items-center gap-2">
-            <SearchBar solid={solid} />
-
             <a
               href={`tel:${site.phoneHref}`}
               className={cn(
@@ -187,6 +189,28 @@ export function Header() {
               <span className="sr-only">{menuOpen ? 'Close menu' : 'Open menu'}</span>
               <MenuIcon open={menuOpen} />
             </button>
+          </div>
+        </div>
+
+        {/* Second row, xl+ only: the primary nav. */}
+        <div
+          className={cn(
+            'hidden h-[var(--header-nav)] border-t xl:block',
+            solid ? 'border-neutral-line' : 'border-white/20',
+          )}
+        >
+          <div className="shell flex h-full items-center justify-between gap-8">
+            <Link href="/" aria-label="Vanzoo — home" className="shrink-0 rounded-sm">
+              <Image
+                src="/images/brand/vanzoo-logo.png"
+                alt="Vanzoo — premium organic dryclean"
+                width={2200}
+                height={653}
+                sizes="132px"
+                className={cn('h-7 w-auto', !solid && 'brightness-0 invert')}
+              />
+            </Link>
+            <DesktopNav pathname={pathname} solid={solid} />
           </div>
         </div>
       </header>
@@ -239,9 +263,7 @@ function DesktopNav({ pathname, solid }: { pathname: string; solid: boolean }) {
   }, [measure]);
 
   return (
-    /* xl rather than lg: eight labels plus the logo, cart and pickup button do
-       not fit inside the 1280px shell until then, and a wrapped nav row is
-       worse than the overlay the hamburger already gives us. */
+    /* Lives on its own row from xl up; below that the hamburger overlay takes over. */
     <nav aria-label="Primary" className="hidden xl:block">
       <ul ref={listRef} className="relative flex items-center gap-0.5">
         <span
@@ -512,14 +534,25 @@ function MobileBookBar({ hidden }: { hidden: boolean }) {
         hidden && 'translate-y-full',
       )}
     >
-      <a
-        href={links.bookPickup}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="btn-gold btn-md w-full"
-      >
-        Book Pickup
-      </a>
+      <div className="flex items-center gap-3">
+        <a
+          href={links.whatsapp}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Chat with Vanzoo on WhatsApp"
+          className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-pill bg-[#25D366] text-white"
+        >
+          <WhatsAppIcon className="h-6 w-6" />
+        </a>
+        <a
+          href={links.bookPickup}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn-gold btn-md flex-1"
+        >
+          Book Pickup
+        </a>
+      </div>
     </div>
   );
 }

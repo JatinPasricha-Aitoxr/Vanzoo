@@ -2,7 +2,7 @@
  * The full service catalogue — cards on /services/ and the source for each
  * service's own page at /services/[slug]/.
  *
- * Many services: the six the homepage carries (wording preserved from
+ * Twelve services: the six the homepage carries (wording preserved from
  * content/marketing.ts, itself carried over from vanzoo.in) plus the six the
  * footer's "Our Services" list and the tariff tables imply but no page has ever
  * described. Copy for those six is AUTHORED in the same voice.
@@ -25,16 +25,15 @@ export type ServiceEntry = {
   /** Optimized `<title>` for this service's own page. Falls back to
    *  `${title} in Gurgaon | Vanzoo` when absent. */
   metaTitle?: string;
-  /** SEO H1 for the page — carries the "Dry Cleaning / Dry Cleaner … in Gurgaon"
-   *  keywords. Falls back to `pageHeadline`, then `title`. */
-  h1?: string;
-  /** Short phrase inside `longBody` to highlight in gold (must appear verbatim). */
-  highlight?: string[];
-  /** On-site service (sofa, mattress) rather than pickup — changes the CTA copy. */
-  onSite?: boolean;
   /** Punchier H1 for the service's own page hero. Falls back to `title`
    *  everywhere else (nav, cards, footer) still use `title`. */
   pageHeadline?: string;
+  /** Keyword H1 for the service's own page; `pageHeadline` then renders as H2. */
+  seoH1?: string;
+  /** Work is done at the customer's home, not at our facility. */
+  onsite?: boolean;
+  /** Optional breakdown shown as cards under the intro (e.g. Sofa / Bed / Mattress). */
+  subServices?: readonly { title: string; body: string }[];
   /** One-line hook shown under `pageHeadline` on the service's own page.
    *  Falls back to `body`. */
   contentHook?: string;
@@ -45,6 +44,11 @@ export type ServiceEntry = {
    *  look soft stretched full-bleed. */
   image: string;
   imageAlt: string;
+  /** Portrait photo for the service page's "How we care" box (cards keep `image`). */
+  detailImage?: string;
+  detailImageAlt?: string;
+  /** CSS object-position for the card / side image crop, e.g. '20% 50%'. */
+  imagePosition?: string;
   /** Full-bleed photo for the service's own page. Falls back to `image` when
    *  a higher-resolution, more editorial shot isn't available for this service. */
   heroImage?: string;
@@ -72,17 +76,14 @@ function amountOf(catalog: TariffCatalog, groupId: string, item: string): number
 }
 
 export const servicesIntro =
-  'Many ways we look after what you wear and live with — every piece assessed individually, cleaned with Italian hydrocarbon technology and finished by hand.';
+  'Twelve ways we look after what you wear and live with — every one of them assessed piece by piece, cleaned with Italian hydrocarbon technology and finished by hand.';
 
 export const serviceEntries: readonly ServiceEntry[] = [
   {
     id: 'couture-care',
-    heroImage: '/images/client/hero-showcase.jpg',
-    heroImageAlt: 'Vanzoo showcase of a pressed white shirt, trousers, leather bag and shoes after premium suit dry cleaning',
-    h1: 'Best & Premium Suit Dry Cleaning in Gurgaon',
-    highlight: ['bespoke suit', 'closed-loop hydrocarbon system', 'hand'],
+    seoH1: "Best & Premium Suit Dry Cleaning in Gurgaon",
     title: 'Bespoke Suit & Couture Care',
-    body: 'Suits, jackets, kurtas and all menswear — plus everyday women\'s wear — preserved in shape, structure and elegance by Italian hydrocarbon dry cleaning.',
+    body: 'Tailored for your most refined garments. We preserve the shape, structure, and elegance of custom suits and designer wear.',
     metaTitle: 'Bespoke Suit & Couture Dry Cleaning Gurgaon | Vanzoo',
     pageHeadline: 'Preserve the Shape of Your Finest Tailored Suits.',
     contentHook: 'Meticulous structural care for canvas linings, lapels, and designer wear.',
@@ -93,11 +94,14 @@ export const serviceEntries: readonly ServiceEntry[] = [
       'Structural padding, canvas and linings preserved through cleaning',
       'Hand-pressed and finished by trained artisans',
       'Delivered on a hanger, wrapped and ready to wear',
-      'Also covers kurtas, jackets, shirts, trousers and basic women\'s wear',
     ],
+    detailImage: '/images/posts/post-2837.jpg',
+    detailImageAlt: 'Grey suit jacket on a hanger — Vanzoo suit dry cleaning',
     image: '/images/service-bespoke-suit-couture.jpg',
     imageAlt:
       'Bespoke two-piece suit and evening dress hanging after couture dry cleaning at Vanzoo Gurgaon',
+    heroImage: '/images/garment-rail-couture.jpg',
+    heroImageAlt: 'Rail of pastel couture blazers cleaned and pressed at the Vanzoo Gurgaon atelier',
     from: { amount: amountOf(coutureCatalog, 'mens-garments', 'Men Suit 2 Pcs') },
     tariffHref: '/pricing/#mens-garments',
     tariffLabel: 'View couture tariffs',
@@ -105,14 +109,11 @@ export const serviceEntries: readonly ServiceEntry[] = [
   },
   {
     id: 'delicate-fabrics',
-    heroImage: '/images/client/silk-fabric.jpg',
-    heroImageAlt: 'Silk and fine knit fabrics gently dry cleaned by Vanzoo in Gurgaon',
-    h1: 'Best Silk, Wool & Cashmere Dry Cleaner in Gurgaon',
-    highlight: ['hydrocarbon', 'silk, cashmere and fine wool'],
-    title: 'Silks, Wool & Delicate Fabrics',
-    body: 'Gentle treatment for silks, woolens, and cashmere. We bring back their natural softness and lustre without damage.',
+    seoH1: "Best & Premium Silk, Wool & Delicate Fabric Dry Cleaning in Gurgaon",
+    title: 'Silks, Wool & Delicate Fabrics Dryclean',
+    body: 'Gentle treatment for silks, woolens, and cashmere. We restore their natural softness and lustre without damage.',
     metaTitle: 'Silk, Wool & Cashmere Dry Cleaning Gurgaon | Vanzoo',
-    pageHeadline: 'Nourishing Care for Pure Silks & Fine Woolens.',
+    pageHeadline: 'Silks, Wool & Delicate Fabrics Dryclean',
     contentHook: 'Gentle hydrocarbon washing that prevents fabric stiffness and shrinkage.',
     longBody:
       "Silk, cashmere and fine wool lose their character the moment they meet the wrong solvent or too much agitation. Our hydrocarbon process runs at lower mechanical and thermal stress than conventional dry cleaning, so fibres keep their original drape instead of stiffening or dulling. Every garment is checked for its specific weave and finish before we decide how it's cleaned — not run through a standard cycle regardless of what it is.",
@@ -122,9 +123,11 @@ export const serviceEntries: readonly ServiceEntry[] = [
       'Safe for silk, cashmere, wool and other delicate weaves',
       'Hand-finished before it comes back to you',
     ],
-    image: '/images/service-silk-wool-delicates.jpg',
+    detailImage: '/images/posts/post-2821.jpg',
+    detailImageAlt: 'Cream wool scarf — Vanzoo delicate fabric dry cleaning',
+    image: '/images/vanzoo/service-silk-wool.jpg',
     imageAlt:
-      'Folded silk, wool and cashmere garments after gentle hydrocarbon dry cleaning in Gurgaon',
+      'Folded silk and knitted wool fabrics against a deep green backdrop',
     from: { amount: amountOf(coutureCatalog, 'casual-outerwear', 'Sweater Full Sleeves') },
     tariffHref: '/pricing/#casual-outerwear',
     tariffLabel: 'View couture tariffs',
@@ -133,14 +136,11 @@ export const serviceEntries: readonly ServiceEntry[] = [
   {
     /* AUTHORED */
     id: 'ethnic-wear',
-    heroImage: '/images/client/store-ethnic.jpg',
-    heroImageAlt: 'Sarees, lehengas and sherwanis displayed at the Vanzoo ethnic wear dry cleaning counter',
-    h1: 'Sarees, Lehengas & Ethnic Wear Dry Cleaner in Gurgaon',
-    highlight: ['embroidery, zari work', 'ethnic piece'],
-    title: 'Sarees, Lehengas & Ethnic Wear Dry Clean',
+    seoH1: "Best & Premium Saree & Lehenga Dry Cleaning in Gurgaon",
+    title: 'Sarees, Lehengas & Ethnic Wear Dryclean',
     body: 'Bridal lehengas, heirloom sarees and sherwanis handled with reverence — embroidery, zari and delicate dyes protected through every step.',
-    metaTitle: 'Sarees, Lehengas & Ethnic Wear Dry Cleaner in Gurgaon | Vanzoo',
-    pageHeadline: 'Gentle Care for Heavy Sarees, Lehengas & Zari Work.',
+    metaTitle: 'Saree & Lehenga Dry Cleaning Services Gurgaon | Vanzoo',
+    pageHeadline: 'Sarees, Lehengas & Ethnic Wear Dryclean',
     contentHook: 'Protect delicate embroidery and rich silk fabrics from discoloration or fraying.',
     longBody:
       "A wedding lehenga or an heirloom saree carries more than fabric — hand embroidery, zari work and dyes that a standard clean can bleed or crush. We treat every ethnic piece as its own case: checking embroidery and beadwork before cleaning, choosing a process that won't run the colour, and finishing by hand so pleats and drape return the way they were meant to fall.",
@@ -150,8 +150,12 @@ export const serviceEntries: readonly ServiceEntry[] = [
       'Individually assessed — no two lehengas or sarees are cleaned the same way',
       'Hand-finished and returned ready for the next occasion',
     ],
-    image: '/images/tariffs/lehenga.jpg',
-    imageAlt: 'Embroidered bridal lehenga cared for with couture-grade cleaning at Vanzoo',
+    detailImage: '/images/posts/post-2833.jpg',
+    detailImageAlt: 'Royal bridal lehenga — Vanzoo couture preservation',
+    image: '/images/vanzoo/service-saree-lehenga.jpg',
+    imagePosition: '55% 50%',
+    imageAlt:
+      'Silk sarees, a lehenga and a sherwani styled on the Vanzoo premium organic dryclean display',
     from: { amount: amountOf(coutureCatalog, 'traditional-ethnic', 'Kurta') },
     tariffHref: '/pricing/#traditional-ethnic',
     tariffLabel: 'View ethnic wear tariffs',
@@ -160,10 +164,7 @@ export const serviceEntries: readonly ServiceEntry[] = [
   {
     /* AUTHORED */
     id: 'shoe-care',
-    h1: 'Best Shoe & Sneaker Dry Cleaning in Gurgaon',
-    highlight: ['Leather, suede and mesh', 'conditioned'],
-    heroImage: '/images/client/shoes-display.jpg',
-    heroImageAlt: 'Sneakers and leather shoes cleaned with Vanzoo shoe care products',
+    seoH1: "Best & Premium Shoe & Sneaker Cleaning in Gurgaon",
     title: 'Shoes & Sneaker Care',
     body: 'Leather, suede and sports shoes cleaned, conditioned and revived — soles, uppers and laces each treated the way the material asks.',
     metaTitle: 'Luxury Shoe & Sneaker Cleaning Gurgaon | Vanzoo',
@@ -174,11 +175,15 @@ export const serviceEntries: readonly ServiceEntry[] = [
     highlights: [
       'Leather, suede and sports materials each treated the way they ask for',
       'Soles, uppers and laces cleaned and conditioned separately',
-      'Shape kept intact without cracking or discolouring the material',
+      'Shape restored without cracking or discolouring the material',
       'Returned looking cared for, not just wiped down',
     ],
-    image: '/images/tariffs/leather-shoes.jpg',
-    imageAlt: 'Polished brown leather shoes after professional cleaning and conditioning at Vanzoo',
+    detailImage: '/images/posts/post-2810.jpg',
+    detailImageAlt: 'Polished tan leather oxford shoes — Vanzoo shoe cleaning and conditioning',
+    image: '/images/vanzoo/service-shoe-care.jpg',
+    imagePosition: '62% 50%',
+    imageAlt:
+      'Cleaned sneakers, loafers and boots with shoe-care products on a Vanzoo display',
     from: { amount: amountOf(coutureCatalog, 'footwear', 'Sports Shoes') },
     tariffHref: '/pricing/#footwear',
     tariffLabel: 'View footwear tariffs',
@@ -186,15 +191,12 @@ export const serviceEntries: readonly ServiceEntry[] = [
   },
   {
     id: 'bags-leather-care',
-    h1: 'Best Handbag & Leather Dry Cleaning in Gurgaon',
-    highlight: ['leather handbag', 'condition the leather'],
-    heroImage: '/images/client/bag-before-after.jpg',
-    heroImageAlt: 'Before and after: a leather handbag deep cleaned and revived by Vanzoo',
+    seoH1: "Best & Premium Bag & Leather Dry Cleaning in Gurgaon",
     title: 'Bags & Leather Care',
     body: 'Expert care for luxury leather goods, handbags, and shoes. Cleaned, conditioned, and revived by skilled professionals.',
     metaTitle: 'Handbag & Leather Garment Care Gurgaon | Vanzoo',
     pageHeadline: 'Specialized Care for Designer Leather Bags & Jackets.',
-    contentHook: 'Deep conditioning, moisture care and shape protection.',
+    contentHook: 'Deep conditioning, moisture care, and shape protection.',
     longBody:
       'A leather handbag is structure, hardware and stitching as much as it is material — and each of those needs a different kind of attention. We inspect hardware and linings before cleaning, condition the leather to bring its finish back rather than just remove surface dirt, and handle every bag the way its construction, not its price tag, demands.',
     highlights: [
@@ -203,6 +205,8 @@ export const serviceEntries: readonly ServiceEntry[] = [
       'Safe for fine leather, suede and structured handbags',
       'Handled the way a couture handbag deserves to be',
     ],
+    detailImage: '/images/posts/post-2839.jpg',
+    detailImageAlt: 'Dark brown leather jacket — Vanzoo leather care and conditioning',
     image: '/images/service-shoes-bags-accessories.jpg',
     imageAlt:
       'Leather brogues and a tan leather handbag cleaned and conditioned by Vanzoo luxury accessory care',
@@ -214,10 +218,7 @@ export const serviceEntries: readonly ServiceEntry[] = [
   {
     /* AUTHORED */
     id: 'toys-accessories-care',
-    heroImage: '/images/client/toys-pram.jpg',
-    heroImageAlt: 'Soft toys and a baby pram, cleaned skin-safe by Vanzoo',
-    h1: 'Best Soft Toy & Accessories Dry Cleaning in Gurgaon',
-    highlight: ['skin-safe', '99% chemical-free hydrocarbon process'],
+    seoH1: "Best & Premium Soft Toy & Baby Item Cleaning in Gurgaon",
     title: 'Toys & Accessories Care',
     body: 'Soft toys and everyday accessories cleaned in the same skin-safe, toxin-free process we trust with couture — gentle enough for the nursery.',
     metaTitle: 'Soft Toy & Accessory Cleaning Gurgaon | Vanzoo',
@@ -231,8 +232,10 @@ export const serviceEntries: readonly ServiceEntry[] = [
       'Assessed individually, never batch-washed',
       'Returned fresh, sanitised and ready to hug',
     ],
-    image: '/images/tariffs/soft-toy.jpg',
-    imageAlt: 'Plush soft toy freshly cleaned with skin-safe hydrocarbon care at Vanzoo',
+    image: '/images/vanzoo/service-toys-baby.jpg',
+    imagePosition: '55% 50%',
+    imageAlt:
+      'Soft toys and a baby stroller cared for by Vanzoo, styled in the Vanzoo store',
     from: { amount: amountOf(coutureCatalog, 'accessories', 'Soft Toy') },
     tariffHref: '/pricing/#accessories',
     tariffLabel: 'View accessory tariffs',
@@ -240,10 +243,7 @@ export const serviceEntries: readonly ServiceEntry[] = [
   },
   {
     id: 'curtain-cleaning',
-    heroImage: '/images/client/curtain-cleaning.jpg',
-    heroImageAlt: 'Vanzoo team member steam cleaning green curtains at home',
-    h1: 'Best Curtain Dry Cleaning in Gurgaon — Free Removal & Re-hanging',
-    highlight: ['free deinstallation and reinstallation', 'at no extra charge'],
+    seoH1: "Best & Premium Curtain Dry Cleaning in Gurgaon",
     title: 'Curtain Cleaning',
     body: 'Professional drapery care that includes free deinstallation and reinstallation, ensuring a flawless finish every time.',
     metaTitle: 'Curtain & Drapery Dry Cleaning Gurgaon | Vanzoo',
@@ -257,24 +257,23 @@ export const serviceEntries: readonly ServiceEntry[] = [
       'Pleats and linings preserved through the wash',
       'Rehung the same day wherever possible',
     ],
-    image: '/images/service-curtain-cleaning.jpg',
+    detailImage: '/images/posts/post-2823.jpg',
+    detailImageAlt: 'Golden floor-length curtains — Vanzoo curtain cleaning',
+    image: '/images/vanzoo/service-curtains.jpg',
     imageAlt:
-      'Floor-length living room curtains professionally cleaned, deinstalled and reinstalled by Vanzoo',
+      'Vanzoo team member vacuum-cleaning floor-length green curtains in a living room',
     from: {
       amount: amountOf(coutureCatalog, 'home-textiles', 'Curtain (per panel)'),
       note: 'per panel',
     },
     tariffHref: '/pricing/#home-textiles',
-    tariffLabel: 'View home textile tariffs',
+    tariffLabel: 'View blanket, quilt & home textile tariffs',
     tariffPreview: { catalogId: 'couture', groupId: 'home-textiles' },
   },
   {
     /* AUTHORED */
     id: 'carpet-cleaning',
-    heroImage: '/images/client/carpet-roll.jpg',
-    heroImageAlt: 'Hand-knotted carpet rolled out after deep dry cleaning by Vanzoo',
-    h1: 'Best Carpet Dry Cleaning in Gurgaon',
-    highlight: ['per square foot', 'without saturating the carpet'],
+    seoH1: "Best & Premium Carpet Dry Cleaning in Gurgaon",
     title: 'Carpet Cleaning',
     body: 'Deep, dust-free cleaning for carpets and rugs, priced by the square foot — colours refreshed and pile restored without harsh chemistry.',
     longBody:
@@ -285,24 +284,24 @@ export const serviceEntries: readonly ServiceEntry[] = [
       'Colours refreshed and pile restored',
       'Safe for wool, silk-blend and synthetic carpets',
     ],
-    image: '/images/tariffs/carpet.jpg',
-    imageAlt: 'Patterned area carpet deep-cleaned and colour-refreshed by Vanzoo in Gurgaon',
+    detailImage: '/images/posts/post-2815.jpg',
+    detailImageAlt: 'Carpet being vacuum cleaned — Vanzoo carpet cleaning',
+    image: '/images/vanzoo/service-carpet.jpg',
+    imageAlt:
+      'A rolled and a laid-out handknotted carpet, cleaned by Vanzoo',
     from: {
       amount: amountOf(coutureCatalog, 'home-textiles', 'Carpet (per Sqft)'),
       note: 'per sqft',
     },
     tariffHref: '/pricing/#home-textiles',
-    tariffLabel: 'View home textile tariffs',
+    tariffLabel: 'View blanket, quilt & home textile tariffs',
     tariffPreview: { catalogId: 'couture', groupId: 'home-textiles' },
   },
   {
     /* AUTHORED */
     id: 'home-textiles',
-    heroImage: '/images/client/blanket-packaging.jpg',
-    heroImageAlt: 'Blankets and bed linen in Vanzoo protective packaging',
-    h1: 'Blanket & Home Textile Dry Cleaning in Gurgaon',
-    highlight: ['hydrocarbon process', 'allergen-free'],
-    title: 'Blanket & Home Textiles',
+    seoH1: "Best & Premium Blanket, Quilt & Home Textile Dry Cleaning in Gurgaon",
+    title: 'Blanket, Quilts and Home Textiles',
     body: 'Blankets, quilts and bedsheets returned crisp and allergen-free — the pieces you live with, cared for like the pieces you wear.',
     longBody:
       "Blankets, quilts and bedsheets get more daily contact than almost anything else in the wardrobe, yet they're usually the last thing sent for proper cleaning. We give them the same individual assessment and hydrocarbon process as a couture garment, so what comes back is crisp, allergen-free and ready for the bed — not just tumbled through a wash-and-fold.",
@@ -312,20 +311,21 @@ export const serviceEntries: readonly ServiceEntry[] = [
       'Crisp, fresh and ready for the bed the day they arrive',
       'Free pickup, so bulky textiles never need to leave your hands',
     ],
-    image: '/images/collage-folded-linens.jpg',
-    imageAlt: 'Neatly folded cleaned linens and towels after Vanzoo fabric care',
+    detailImage: '/images/posts/post-2816.jpg',
+    detailImageAlt: 'Soft cream throw blanket — Vanzoo blanket and home textile care',
+    image: '/images/vanzoo/service-blankets.jpg',
+    imagePosition: '55% 50%',
+    imageAlt:
+      'Blankets and bed linen in Vanzoo green packaging beside a folded throw',
     from: { amount: amountOf(coutureCatalog, 'home-textiles', 'Single Bedsheet') },
     tariffHref: '/pricing/#home-textiles',
-    tariffLabel: 'View home textile tariffs',
+    tariffLabel: 'View blanket, quilt & home textile tariffs',
     tariffPreview: { catalogId: 'couture', groupId: 'home-textiles' },
   },
   {
     /* AUTHORED */
     id: 'steam-iron',
-    heroImage: '/images/client/steam-iron-operator.jpg',
-    heroImageAlt: 'Vanzoo team member steam pressing a shirt',
-    h1: 'Premium Steam Iron & Pressing Service in Gurgaon',
-    highlight: ['Steam pressing', 'sharper than a home iron'],
+    seoH1: "Best & Premium Steam Ironing Service in Gurgaon",
     title: 'Steam Iron & Pressing',
     body: 'Pressing only, for garments that are already clean — professional steam finishing that returns everything sharp, soft and ready to wear.',
     longBody:
@@ -336,48 +336,20 @@ export const serviceEntries: readonly ServiceEntry[] = [
       'Priced separately and lower than full cleaning',
       'Same free pickup and delivery as every other service',
     ],
-    image: '/images/process-delivered-pressed.jpg',
-    imageAlt: 'Cream cable-knit sweater finished, pressed and hung ready for delivery by Vanzoo',
+    detailImage: '/images/posts/post-2836.jpg',
+    detailImageAlt: 'Wool blazer being steam pressed — Vanzoo steam ironing',
+    image: '/images/vanzoo/service-steam-iron.jpg',
+    imageAlt:
+      'Vanzoo team member steam-ironing a shirt at the Vanzoo pressing station',
     from: { amount: amountOf(steamIronCatalog, 'everyday-wear', 'Jeans') },
     tariffHref: '/pricing/#steam-iron-tariffs',
     tariffLabel: 'View steam iron tariffs',
     tariffPreview: { catalogId: 'steam' },
   },
   {
-    id: 'sofa-mattress-cleaning',
-    h1: 'Best Sofa, Mattress & Bed Cleaning at Home in Gurgaon',
-    highlight: ['on-site', 'deep-cleaned'],
-    onSite: true,
-    title: 'Bed, Sofa & Mattress Cleaning',
-    body: 'On-site deep cleaning for sofas, mattresses and beds — our team comes to your home, so nothing heavy ever has to be moved.',
-    metaTitle: 'Sofa, Mattress & Bed Cleaning at Home Gurgaon | Vanzoo',
-    pageHeadline: 'Fresh, Allergen-Free Sofas, Mattresses and Beds — Cleaned at Your Home.',
-    contentHook: 'On-site deep cleaning: we come to you, so there is nothing to carry or collect.',
-    longBody:
-      "Sofas, mattresses and beds are too large to send out, and too used to ignore. Our team brings the equipment to your home and deep-cleans on-site — lifting dust, dirt, stains and allergens out of the upholstery and mattress without soaking it, so everything is usable again quickly. Fabric, leather and velvet sofas, single to king-size mattresses and bed frames are each treated the way the material needs.",
-    highlights: [
-      'On-site service — we come to your home, nothing to carry',
-      'Sofas in fabric, leather and velvet, and L-shaped or sectional sets',
-      'Mattress deep cleaning that removes dust mites, stains and odours',
-      'Bed frames, headboards and cushions freshened in the same visit',
-    ],
-    image: '/images/client/store-interior-wardrobe.jpg',
-    imageAlt: 'Vanzoo on-site sofa, mattress and bed cleaning service in Gurgaon',
-    heroImage: '/images/client/store-interior-mascot.jpg',
-    heroImageAlt: 'Vanzoo store with sofa and home textile cleaning services',
-    from: null,
-    priceLine: 'Priced per item on-site — WhatsApp for a quick quote',
-    tariffHref: '/contact-us/',
-    tariffLabel: 'Get an on-site quote',
-    tariffPreview: null,
-  },
-  {
     /* AUTHORED */
     id: 'express-service',
-    heroImage: '/images/client/express-24-48.jpg',
-    heroImageAlt: 'Vanzoo express dry cleaning — ready in 24 to 48 hours',
-    h1: 'Express Dry Cleaning in Gurgaon — Ready in 24–48 Hours',
-    highlight: ['same-day or next-day', 'individual assessment'],
+    seoH1: "Best & Premium Express Dry Cleaning in Gurgaon",
     title: 'Express Service',
     body: 'Same-day and next-day turnarounds for the moments that cannot wait — priced on request, arranged with one call.',
     longBody:
@@ -388,9 +360,11 @@ export const serviceEntries: readonly ServiceEntry[] = [
       'Arranged with one phone call — no separate booking flow',
       'Every express order still gets a full individual assessment',
     ],
-    image: '/images/hero-valet-handover.jpg',
+    detailImage: '/images/posts/post-2851.jpg',
+    detailImageAlt: 'Vanzoo rider on a scooter — express pickup and delivery',
+    image: '/images/vanzoo/express-banner.jpg',
     imageAlt:
-      'Vanzoo valet handing over freshly cleaned garments in protective wrap for an express order',
+      'Vanzoo Express Services: clean shirts, sneakers and bedding ready in 24 to 48 hours',
     from: null,
     priceLine: 'Priced on request — call to arrange',
     tariffHref: '/pricing/',
@@ -398,11 +372,51 @@ export const serviceEntries: readonly ServiceEntry[] = [
     tariffPreview: null,
   },
   {
+    /* AUTHORED */
+    id: 'sofa-bed-mattress-cleaning',
+    seoH1: 'Best & Premium Sofa, Bed & Mattress Cleaning in Gurgaon',
+    title: 'Bed, Sofa & Mattress Cleaning',
+    body: 'On-site deep cleaning for sofas, beds and mattresses — our team comes to your home, so nothing has to be moved out.',
+    pageHeadline: 'Sofa, Bed & Mattress Cleaning, Done at Your Home.',
+    contentHook: 'An on-site service: we bring the work to your door.',
+    onsite: true,
+    metaTitle: 'Sofa, Bed & Mattress Cleaning at Home in Gurgaon | Vanzoo',
+    longBody:
+      "Sofas, beds and mattresses are the pieces you can't post to a cleaner — so Vanzoo comes to you. Our team carries out the cleaning at your home, working with the fabric and construction of each piece, so upholstery, bedding and mattresses are refreshed in place with no pickup, no carrying and no days without your sofa or bed.",
+    highlights: [
+      'Done on-site at your home — nothing to pick up or carry out',
+      'Sofas, upholstery, beds and mattresses covered',
+      'Fabric-aware cleaning for everyday dust, marks and stains',
+      'Scope confirmed and quoted when you enquire',
+    ],
+    subServices: [
+      {
+        title: 'Sofa Cleaning',
+        body: 'Fabric and upholstered sofas, sectionals, armchairs and cushions deep cleaned in place, to lift everyday dust, marks and stains.',
+      },
+      {
+        title: 'Bed Cleaning',
+        body: 'Upholstered beds and headboards refreshed on the spot, along with the surfaces around them that collect dust and marks.',
+      },
+      {
+        title: 'Mattress Cleaning',
+        body: 'Mattresses cleaned and freshened at home — spills, dust and odours treated without moving the mattress out of your room.',
+      },
+    ],
+    image: '/images/vanzoo/service-blankets.jpg',
+    imagePosition: '55% 50%',
+    heroImage: '/images/vanzoo/sofa-hero.jpg',
+    heroImageAlt: 'Vanzoo team member deep cleaning a sofa on-site in a bright living room, with the Vanzoo extraction machine beside a bed',
+    imageAlt: 'Vanzoo on-site sofa, bed and mattress cleaning, with fresh blankets and bedding in Vanzoo green packaging',
+    from: null,
+    priceLine: 'Quoted on enquiry — call to book an on-site visit',
+    tariffHref: '/contact-us/',
+    tariffLabel: 'Get a quote',
+    tariffPreview: null,
+  },
+  {
     id: 'pickup-delivery',
-    heroImage: '/images/client/rider-bike.jpg',
-    heroImageAlt: 'Vanzoo rider on a motorbike with the green delivery bag for free doorstep pickup',
-    h1: 'Free Pickup & Delivery Dry Cleaner in Gurgaon',
-    highlight: ['free', 'Gurgaon'],
+    seoH1: "Best & Premium Dry Cleaning with Free Pickup & Delivery in Gurgaon",
     title: 'Free Pickup & Delivery',
     body: 'Enjoy seamless door-to-door service with optional same-day express turnaround.',
     longBody:
@@ -413,8 +427,14 @@ export const serviceEntries: readonly ServiceEntry[] = [
       'Same-day express options available',
       'Track pickup and delivery from the Vanzoo app',
     ],
-    image: '/images/service-pickup-delivery.jpg',
-    imageAlt: 'Basket of clothes ready for free Vanzoo doorstep pickup and delivery in Gurgaon',
+    detailImage: '/images/posts/post-2853.jpg',
+    detailImageAlt: 'Green Vanzoo delivery van — free pickup and delivery in Gurgaon',
+    image: '/images/vanzoo/service-pickup-rider.jpg',
+    imagePosition: '50% 85%',
+    imageAlt:
+      'Vanzoo rider with a green delivery bag on a motorbike, ready for doorstep pickup and delivery',
+    heroImage: '/images/service-pickup-delivery.jpg',
+    heroImageAlt: 'Basket of clothes ready for free Vanzoo doorstep pickup and delivery in Gurgaon',
     from: null,
     priceLine: 'Free with every order',
     tariffHref: '/areas-we-serve/',

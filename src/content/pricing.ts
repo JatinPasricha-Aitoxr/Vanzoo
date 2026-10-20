@@ -88,6 +88,8 @@ const coutureGroups: readonly TariffGroup[] = [
       { item: 'Coat', amount: 499, image: img('coat') },
       { item: 'Men Suit 2 Pcs', amount: 699, image: img('men-suit-2-pcs') },
       { item: 'Men Suit 3 Pcs', amount: 899, image: img('men-suit-3-pcs') },
+      { item: 'Kurta', amount: 249, from: true, image: img('kurta') },
+      { item: 'Jacket', amount: 499, image: img('jacket') },
     ],
   },
   {
@@ -101,12 +103,6 @@ const coutureGroups: readonly TariffGroup[] = [
       { item: 'Salwar', amount: 249, from: true, image: img('salwar') },
       { item: 'Saree', amount: 299, from: true, image: img('saree') },
       { item: 'Lehenga', amount: 699, from: true, image: img('lehenga') },
-      { item: 'Bridal Lehenga', amount: 1999, from: true, image: img('lehenga') },
-      { item: 'Dress Long', amount: 499, from: true, image: img('dress') },
-      { item: 'Dupatta', amount: 149, from: true, image: img('shawl') },
-      { item: 'Blouse', amount: 149, from: true, image: img('blouse') },
-      { item: 'Top', amount: 199, from: true, image: img('blouse') },
-      { item: 'Palazzo', amount: 199, from: true, image: img('salwar') },
     ],
   },
   {
@@ -118,14 +114,11 @@ const coutureGroups: readonly TariffGroup[] = [
       { item: 'Sweater Full Sleeves', amount: 299, image: img('sweater') },
       { item: 'Jacket', amount: 499, image: img('jacket') },
       { item: 'Leather Jacket', amount: 999, image: img('leather-jacket') },
-      { item: 'Long Coat', amount: 649, image: img('coat') },
-      { item: 'Cardigan', amount: 330, image: img('sweater') },
-      { item: 'Sweatshirt', amount: 249, image: img('sweater') },
     ],
   },
   {
     id: 'home-textiles',
-    label: 'Home Textiles',
+    label: 'Blanket, Quilts & Home Textiles',
     rows: [
       { item: 'Carpet (per Sqft)', amount: 59, image: img('carpet') },
       { item: 'Curtain (per panel)', amount: 349, image: img('curtain') },
@@ -133,10 +126,10 @@ const coutureGroups: readonly TariffGroup[] = [
       { item: 'Single Blanket', amount: 499, image: img('single-blanket') },
       { item: 'Double Bedsheet', amount: 499, image: img('double-bedsheet') },
       { item: 'Single Bedsheet', amount: 299, image: img('single-bedsheet') },
+      { item: 'Double Blanket 2 Ply / Quilt', amount: 699, image: img('quilt-double') },
+      { item: 'Single Blanket 2 Ply / Quilt', amount: 599, image: img('quilt-single') },
       { item: 'Bed Spread Double', amount: 649, image: img('double-bedsheet') },
       { item: 'Comforter Double', amount: 349, image: img('double-blanket') },
-      { item: 'Double Blanket 2 Ply / Quilt', amount: 699, image: img('double-blanket') },
-      { item: 'Single Blanket 2 Ply / Quilt', amount: 599, image: img('single-blanket') },
     ],
   },
   {
@@ -147,10 +140,10 @@ const coutureGroups: readonly TariffGroup[] = [
       { item: 'Leather Shoes', amount: 799, image: img('leather-shoes') },
       { item: 'Suede Leather Shoes', amount: 799, image: img('suede-leather-shoes') },
       { item: 'Sneakers Shoes', amount: 649, image: img('sneakers-shoes') },
-      { item: 'Sneaker Ankle Shoes', amount: 699, image: img('sneakers-shoes') },
-      { item: 'Boots Mid Length Shoes', amount: 1399, image: img('leather-shoes') },
-      { item: 'Birkenstock', amount: 800, image: img('suede-leather-shoes') },
-      { item: 'Sandals', amount: 499, image: img('sports-shoes') },
+      { item: 'Sneaker Ankle Shoes', amount: 699, image: img('sneaker-ankle') },
+      { item: 'Boots Mid Length Shoes', amount: 1399, image: img('boots-mid-length') },
+      { item: 'Birkenstock', amount: 800, image: img('birkenstock') },
+      { item: 'Sandals', amount: 499, image: img('sandals') },
     ],
   },
   {
@@ -202,7 +195,7 @@ const steamIronGroups: readonly TariffGroup[] = [
   },
   {
     id: 'home-textiles-steam',
-    label: 'Home Textiles',
+    label: 'Blanket, Quilts & Home Textiles',
     rows: [
       { item: 'Curtain Window', amount: 149, from: true, image: img('curtain') },
       { item: 'Single Bedsheet', amount: 99, image: img('single-bedsheet') },
@@ -211,14 +204,19 @@ const steamIronGroups: readonly TariffGroup[] = [
   },
 ];
 
+/** Every published price is a starting price — the final amount depends on the
+ *  fabric and the work required — so every row is flagged `from`. */
+const asStartingPrices = (groups: readonly TariffGroup[]): readonly TariffGroup[] =>
+  groups.map((group) => ({ ...group, rows: group.rows.map((row) => ({ ...row, from: true })) }));
+
 export const coutureCatalog: TariffCatalog = {
   id: 'couture',
   label: 'Couture Care',
-  groups: coutureGroups,
+  groups: asStartingPrices(coutureGroups),
 };
 
 export const steamIronCatalog: TariffCatalog = {
   id: 'steam-iron',
   label: 'Steam Iron',
-  groups: steamIronGroups,
+  groups: asStartingPrices(steamIronGroups),
 };

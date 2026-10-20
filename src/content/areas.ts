@@ -67,7 +67,7 @@ const handWrittenAreas: readonly AreaEntry[] = [
     name: 'Ardee City',
     corridorId: 'dlf-golf-course',
     nearestStoreId: 'super-mart-1',
-    metaTitle: 'Dry Cleaning & Laundry in Ardee City, Gurgaon | Vanzoo Free Pickup',
+    metaTitle: 'Dry Cleaning in Ardee City, Gurgaon | Vanzoo Free Pickup',
     metaDescription:
       'Premium dry cleaning, steam pressing, shoe and curtain care in Ardee City, Gurgaon. Italian hydrocarbon technology, free doorstep pickup and delivery, 3–5 day turnaround.',
     heroImage: {
@@ -118,7 +118,7 @@ const handWrittenAreas: readonly AreaEntry[] = [
           href: '/services/ethnic-wear/',
         },
         {
-          title: 'Home textiles & curtains',
+          title: 'Blankets, quilts, home textiles & curtains',
           body: 'Bedsheets, blankets, quilts and curtains — with free curtain deinstallation and reinstallation.',
           image: {
             src: '/images/collage-folded-linens.jpg',
@@ -348,7 +348,7 @@ const cards = {
     href: '/services/delicate-fabrics/',
   },
   home: {
-    title: 'Home textiles & curtains',
+    title: 'Blankets, quilts, home textiles & curtains',
     body: 'Bedsheets, blankets, quilts and curtains — with free curtain deinstallation and reinstallation.',
     image: photos.linens,
     href: '/services/home-textiles/',
@@ -429,7 +429,7 @@ const corridorProfiles: Record<CorridorId, CorridorProfile> = {
       paragraphs: [
         'Family homes send us a bit of everything — school uniforms and office shirts, a lehenga after a wedding, the curtains before Diwali. In {area}, one pickup covers all of it.',
         'Each item is checked for fabric, stains and construction before it is cleaned, so the cotton bedsheet and the embroidered dupatta each get the treatment they need.',
-        'Pricing is item by item from a published tariff, so a single blanket is as welcome as a full wardrobe.',
+        'Pricing is item by item from a published tariff — so a single blanket is as welcome as a full wardrobe.',
       ],
       image: photos.linens,
     },
@@ -612,7 +612,7 @@ function buildArea(name: string, corridorId: CorridorId, peers: readonly string[
     name,
     corridorId,
     nearestStoreId: storeId,
-    metaTitle: `Dry Cleaning & Laundry in ${name}, Gurgaon | Vanzoo Free Pickup`,
+    metaTitle: `Dry Cleaning in ${name}, Gurgaon | Vanzoo Free Pickup`,
     metaDescription: `Premium ${profile.metaFocus} in ${name}, Gurgaon. Italian hydrocarbon technology, free doorstep pickup and delivery, 3–5 day turnaround.`,
     heroImage: profile.heroImage,
     headline: `Dry Cleaning & Garment Care in ${name}, Gurgaon`,

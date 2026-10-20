@@ -9,7 +9,7 @@ export default function robots(): MetadataRoute.Robots {
         allow: '/',
         // The booking flow lives on app.vanzoo.in, but these paths are
         // disallowed defensively in case it is ever proxied under this origin.
-        disallow: ['/api/', '/app/'],
+        disallow: ['/api/', '/app/', '/admin/'],
       },
     ],
     sitemap: `${SITE_URL}/sitemap.xml`,

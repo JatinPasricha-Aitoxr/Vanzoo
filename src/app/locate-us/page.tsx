@@ -5,6 +5,7 @@ import { JsonLd } from '@/components/JsonLd';
 import { PageHeader } from '@/components/Hero';
 import { PincodeChecker } from '@/components/PincodeChecker';
 import { RevealGroup } from '@/components/ui/Reveal';
+import { StoreMap } from '@/components/StoreMap';
 import { Section, SectionHeading } from '@/components/ui/Section';
 import { breadcrumbSchema, buildMetadata, localBusinessSchema } from '@/lib/seo';
 import { areaGroups, primaryStore, site, stores } from '@/lib/site';
@@ -12,9 +13,9 @@ import { areaGroups, primaryStore, site, stores } from '@/lib/site';
 const CRUMBS = [{ name: 'Locate Us', href: '/locate-us/' }];
 
 export const metadata = buildMetadata({
-  title: 'Locate Us | Vanzoo Dry Cleaning Stores in Gurgaon',
+  title: 'Vanzoo Stores in Gurgaon | DLF Phase 4 & Sector 67 | Locate Us',
   description:
-    'Find Vanzoo premium dry cleaning in Gurgaon — Super Mart 1, DLF Phase IV and the Vanzoo Urbana store at M3M Urbana, Sector 67. Free pickup and delivery across Gurgaon.',
+    'Visit Vanzoo dry cleaning stores at Super Mart, DLF Phase IV and M3M Urbana, Sector 67, Gurgaon. Addresses, map and free pickup across the city.',
   path: '/locate-us/',
 });
 
@@ -24,6 +25,8 @@ export default function LocateUsPage() {
       <JsonLd data={[localBusinessSchema(), breadcrumbSchema(CRUMBS)]} />
 
       <PageHeader
+        fixedCity
+        seoH1="Best & Premium Dry Cleaning Stores in Gurgaon"
         eyebrow="Locate Us"
         title="Two Gurgaon stores. Free pickup across the city."
         intro="Drop in at either store, or let us collect from your door — free pickup and delivery covers every Gurgaon sector we serve."
@@ -31,22 +34,14 @@ export default function LocateUsPage() {
         <Breadcrumbs crumbs={CRUMBS} />
       </PageHeader>
 
-      {/* Full-width map of the primary store */}
-      <section aria-label={`Map of Vanzoo at ${primaryStore.name}`} className="bg-neutral-muted">
-        <div className="aspect-[16/10] w-full sm:aspect-[21/8]">
-          <iframe
-            title={`Map showing Vanzoo at ${primaryStore.name}, ${primaryStore.locality}`}
-            src={`https://www.google.com/maps?q=${encodeURIComponent(primaryStore.mapQuery)}&output=embed`}
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-            className="h-full w-full border-0"
-          />
-        </div>
+      {/* Map — switch between the two stores */}
+      <section aria-label="Map of Vanzoo stores" className="bg-neutral-muted">
+        <StoreMap stores={stores} />
       </section>
 
       {/* Store cards */}
       <Section tone="surface" aria-labelledby="stores-heading">
-        <SectionHeading id="stores-heading" eyebrow="Our stores" title="Where to find us" />
+        <SectionHeading fixedCity id="stores-heading" eyebrow="Our stores" title="Where to find us" />
 
         <RevealGroup as="ul" step={110} className="mt-12 grid gap-6 lg:grid-cols-2">
           {stores.map((store) => (
@@ -83,7 +78,7 @@ export default function LocateUsPage() {
       <Section tone="muted" aria-labelledby="areas-heading">
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
           <div>
-            <SectionHeading
+            <SectionHeading fixedCity
               id="areas-heading"
               eyebrow="Service areas"
               title="Free pickup and delivery across Gurgaon"

@@ -2,17 +2,13 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
-import { AreaCoverageGrid } from '@/components/AreaCoverageGrid';
-import { NineStepProcess } from '@/components/NineStepProcess';
-import { OfferBand } from '@/components/OfferBand';
-import { SectionCtas } from '@/components/SectionCtas';
-import { highlight } from '@/lib/highlight';
-import { videoFor } from '@/lib/videos';
 import { CtaBanner } from '@/components/CtaBanner';
 import { JsonLd } from '@/components/JsonLd';
 import { PageHeader } from '@/components/Hero';
+import { PageGallery } from '@/components/PageGallery';
 import { PincodeChecker } from '@/components/PincodeChecker';
 import { ServiceCard } from '@/components/ServiceCard';
+import { VanzooProcess } from '@/components/VanzooProcess';
 import { TariffGrid } from '@/components/TariffGrid';
 import { RevealGroup, Reveal } from '@/components/ui/Reveal';
 import { Section, SectionHeading } from '@/components/ui/Section';
@@ -24,10 +20,11 @@ import {
   type ServiceEntry,
 } from '@/content/services';
 import { breadcrumbSchema, buildMetadata, serviceSchema } from '@/lib/seo';
+import { links } from '@/lib/site';
 
 type Params = { params: { slug: string } };
 
-/** All services are static; an unknown slug is a 404, not a runtime render. */
+/** All twelve services are static; an unknown slug is a 404, not a runtime render. */
 export const dynamicParams = false;
 
 export function generateStaticParams() {
@@ -67,8 +64,6 @@ export default function ServiceDetailPage({ params }: Params) {
   ];
   const related = relatedServices(service);
   const tariffTable = service.tariffPreview ? previewCatalog(service.tariffPreview) : null;
-  const video = videoFor(service.id);
-  const h1 = service.h1 ?? service.pageHeadline ?? service.title;
 
   return (
     <>
@@ -86,7 +81,8 @@ export default function ServiceDetailPage({ params }: Params) {
 
       <PageHeader
         eyebrow="Services"
-        title={h1}
+        seoH1={service.seoH1}
+        title={service.pageHeadline ?? service.title}
         intro={service.contentHook ?? service.body}
         image={service.heroImage ?? service.image}
         imageAlt={service.heroImageAlt ?? service.imageAlt}
@@ -99,11 +95,9 @@ export default function ServiceDetailPage({ params }: Params) {
         <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-16">
           <Reveal variant="left">
             <h2 id="service-detail-heading" className="text-display-sm">
-              <span className="hl">{service.pageHeadline ?? `How we care for ${service.title}`}</span>
+              How we care for it
             </h2>
-            <p className="mt-4 text-lead text-pretty text-neutral-body">
-              {highlight(service.longBody, service.highlight)}
-            </p>
+            <p className="mt-4 text-lead text-pretty text-neutral-body">{service.longBody}</p>
 
             <ul className="mt-8 space-y-3.5">
               {service.highlights.map((point) => (
@@ -116,91 +110,62 @@ export default function ServiceDetailPage({ params }: Params) {
               ))}
             </ul>
 
-            <SectionCtas className="!mt-9" />
-            <Link
-              href={service.tariffHref}
-              className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:text-brand-dark"
-            >
-              {service.tariffLabel} <span aria-hidden="true">→</span>
-            </Link>
+            <div className="mt-9 flex flex-wrap items-center gap-3">
+              <a href={links.bookPickup} target="_blank" rel="noopener noreferrer" className="btn-primary btn-lg">
+                Book pickup
+              </a>
+              <Link href={service.tariffHref} className="btn-secondary btn-lg">
+                {service.tariffLabel}
+              </Link>
+            </div>
           </Reveal>
 
-          {/* The service's own video plays here when one has been added to
-              /public/videos/<slug>.mp4; otherwise its photograph. */}
           <Reveal variant="right" delay={90} className="media-frame aspect-[4/5] bg-brand-light lg:aspect-[3/4]">
-            {video ? (
-              <video
-                src={video}
-                poster={service.image}
-                controls
-                muted
-                loop
-                playsInline
-                preload="metadata"
-                className="h-full w-full bg-brand-ink object-cover"
-              />
-            ) : (
-              <Image
-                src={service.image}
-                alt={service.imageAlt}
-                fill
-                loading="lazy"
-                sizes="(min-width: 1024px) 38vw, 90vw"
-                className="object-cover"
-              />
-            )}
+            <Image
+              src={service.detailImage ?? service.image}
+              alt={service.detailImageAlt ?? service.imageAlt}
+              fill
+              loading="lazy"
+              sizes="(min-width: 1024px) 38vw, 90vw"
+              className="object-cover"
+              style={service.detailImage ? undefined : service.imagePosition ? { objectPosition: service.imagePosition } : undefined}
+            />
           </Reveal>
         </div>
       </Section>
 
-      {/* Hydrocarbon explainer — on the garment-care pages, where it matters most */}
-      {['couture-care', 'delicate-fabrics', 'ethnic-wear'].includes(service.id) ? (
-        <Section tone="light" size="sm" aria-labelledby="service-hydrocarbon-heading">
-          <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-14">
-            <div>
-              <p className="eyebrow">Hydrocarbon technology</p>
-              <h2 id="service-hydrocarbon-heading" className="mt-3 text-display-sm">
-                Why <span className="hl-green">hydrocarbon dry cleaning</span> is gentler on your garments
-              </h2>
-              <p className="mt-4 text-lead text-pretty text-neutral-body">
-                Vanzoo uses an Italian, closed-loop <mark className="hl">hydrocarbon</mark> system — no
-                petrol wash, no harsh perchloroethylene (PERC) odour. Fabrics keep their softness,
-                colour and shape, and your clothes come back smelling of nothing but fresh.
-              </p>
-              <SectionCtas />
-              <Link href="/hydrocarbon-tech/" className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:text-brand-dark">
-                How hydrocarbon cleaning works <span aria-hidden="true">→</span>
-              </Link>
-            </div>
-            <div className="media-frame relative aspect-[16/10]">
-              <Image src="/images/client/machine-operator.jpg" alt="Vanzoo operator running the hydrocarbon dry cleaning machine" fill loading="lazy" sizes="(min-width: 1024px) 45vw, 90vw" className="object-cover" />
-            </div>
-          </div>
+      {service.subServices ? (
+        <Section tone="muted" aria-labelledby="service-sub-heading">
+          <SectionHeading
+            id="service-sub-heading"
+            eyebrow={service.onsite ? 'On-site service' : 'What we cover'}
+            title={service.onsite ? 'We come to you — sofas, beds and mattresses' : 'What we cover'}
+            intro={service.onsite ? 'No pickup and no carrying: the work is done at your home.' : undefined}
+            align="center"
+            className="mx-auto"
+          />
+          <RevealGroup as="ul" step={80} className="mx-auto mt-12 grid max-w-5xl gap-5 md:grid-cols-3">
+            {service.subServices.map((item) => (
+              <li key={item.title} className="rounded-card border border-neutral-line bg-white p-6 shadow-lift">
+                <h3 className="font-display text-lg font-semibold text-neutral-ink">{item.title}</h3>
+                <p className="mt-2 text-[0.9375rem] leading-relaxed text-neutral-body">{item.body}</p>
+              </li>
+            ))}
+          </RevealGroup>
         </Section>
       ) : null}
 
-      {/* How Vanzoo does it — the same nine steps on every service page */}
-      <Section tone="muted" id="how-it-works" aria-labelledby="service-how-heading">
-        <SectionHeading
-          id="service-how-heading"
-          eyebrow="The Vanzoo way"
-          title={<>How Vanzoo does <span className="hl">dry cleaning</span> for you</>}
-          intro="Nine steps, whatever the service — every piece assessed, treated, finished and delivered with the same standard of care."
-        />
-        <div className="mt-10">
-          <NineStepProcess />
-        </div>
-        <SectionCtas />
-      </Section>
+      {/* Photos sit above the pricing section */}
+      <PageGallery galleryKey={`/services/${service.id}/`} inline />
 
       {/* Pricing preview, where the service has a per-item tariff */}
       {tariffTable ? (
-        <Section tone="surface" aria-labelledby="service-pricing-heading">
+        <Section tone="muted" aria-labelledby="service-pricing-heading">
           <SectionHeading
             id="service-pricing-heading"
             eyebrow="Pricing"
-            title={`${service.title} tariffs (starts from)`}
-            intro="Add what you need to your cart and send us the list — we'll confirm the quote and collect from your door, free, anywhere in Gurgaon. WhatsApp us to know the actual price for your garment."
+            title={`${service.title} tariffs`}
+            intro="Add what you need to your cart and send us the list — we'll confirm the quote and collect from your door, free, anywhere in Gurgaon."
           />
           <div className="mt-10">
             <TariffGrid catalog={tariffTable} />
@@ -215,7 +180,6 @@ export default function ServiceDetailPage({ params }: Params) {
             </Link>
             .
           </p>
-          <SectionCtas className="!mt-6" />
         </Section>
       ) : null}
 
@@ -244,21 +208,8 @@ export default function ServiceDetailPage({ params }: Params) {
         </Section>
       ) : null}
 
-      {/* Areas we serve */}
-      <Section tone="muted" aria-labelledby="service-areas-heading">
-        <SectionHeading
-          id="service-areas-heading"
-          eyebrow="Where we deliver"
-          title={<>{service.onSite ? 'On-site service' : 'Free pickup & delivery'} across <span className="hl">Gurgaon</span></>}
-          intro="Find your neighbourhood below — coverage is confirmed when you book."
-        />
-        <div className="mt-10">
-          <AreaCoverageGrid headingLevel="h3" showBlurb={false} />
-        </div>
-        <SectionCtas />
-      </Section>
-
-      <OfferBand />
+      {/* The seven-step Vanzoo process, on every service page. */}
+      <VanzooProcess id="how-it-works" eyebrow="How we do it" showCtas={false} />
 
       {/* You might also need */}
       <Section tone="muted" aria-labelledby="related-services-heading">
@@ -274,7 +225,6 @@ export default function ServiceDetailPage({ params }: Params) {
             <ServiceCard key={entry.id} service={entry} headingLevel="h3" />
           ))}
         </RevealGroup>
-        <SectionCtas className="justify-center" />
       </Section>
 
       <Section tone="surface" size="sm">

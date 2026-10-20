@@ -1,10 +1,13 @@
 import Link from 'next/link';
+import { AreasSection } from '@/components/AreasSection';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { CtaBanner } from '@/components/CtaBanner';
 import { JsonLd } from '@/components/JsonLd';
 import { PageHeader } from '@/components/Hero';
+import { WhatsAppPrice } from '@/components/WhatsAppPrice';
 import { Section, SectionHeading } from '@/components/ui/Section';
 import { TariffGrid } from '@/components/TariffGrid';
+import { TariffSearchProvider } from '@/components/TariffSearchContext';
 import {
   additionalOptions,
   coutureCatalog,
@@ -13,9 +16,7 @@ import {
   tariffNote,
 } from '@/content/pricing';
 import { breadcrumbSchema, buildMetadata } from '@/lib/seo';
-import { site, links } from '@/lib/site';
-import { Mascot } from '@/components/Mascot';
-import { SectionCtas } from '@/components/SectionCtas';
+import { site } from '@/lib/site';
 
 const CRUMBS = [{ name: 'Pricing', href: '/pricing/' }];
 
@@ -26,9 +27,9 @@ const JUMP_LINKS = [
 ] as const;
 
 export const metadata = buildMetadata({
-  title: 'Pricing & Membership | Couture Care & Steam Iron Tariffs | Vanzoo',
+  title: 'Dry Cleaning Price List Gurgaon | Starting Prices | Vanzoo',
   description:
-    'Vanzoo pricing for couture and bespoke suit care, sarees, lehengas, leather, footwear, curtains, carpets and steam-iron-only pressing — transparent per-item tariffs with free pickup and delivery in Gurgaon.',
+    'Dry cleaning and steam press prices in Gurgaon from ₹79 — shirts, suits, sarees, lehengas, shoes, blankets and curtains. Search any item, ask on WhatsApp.',
   path: '/pricing/',
 });
 
@@ -38,6 +39,7 @@ export default function PricingPage() {
       <JsonLd data={breadcrumbSchema(CRUMBS)} />
 
       <PageHeader
+        seoH1="Best & Premium Dry Cleaning Prices in Gurgaon"
         eyebrow="Pricing"
         title="Pricing"
         intro={`${tariffIntro} Add anything you need cleaned or pressed to your cart and send us the list — we'll confirm the quote and collect from your door, free, anywhere in Gurgaon.`}
@@ -64,53 +66,33 @@ export default function PricingPage() {
           ))}
         </ul>
 
-        <div className="mx-auto mt-8 flex max-w-3xl flex-col items-center gap-4 sm:flex-row sm:justify-center">
-          <label className="flex items-center gap-2 text-sm font-semibold text-neutral-ink">
-            Location
-            <select
-              defaultValue="gurgaon"
-              aria-label="Pricing location"
-              className="h-11 rounded-pill border border-neutral-line bg-white px-4 text-sm font-semibold text-brand focus:outline-none focus-visible:ring-2 focus-visible:ring-brand"
-            >
-              <option value="gurgaon">Gurgaon</option>
-            </select>
-          </label>
-          <a
-            href="/vanzoo-price-list.pdf"
-            download
-            className="btn-secondary btn-md"
-          >
-            Download price list (PDF)
-          </a>
-        </div>
-
-        <div className="mx-auto mt-6 flex max-w-3xl items-center gap-5 rounded-card border-2 border-accent-gold bg-accent-gold/10 p-5">
-          <Mascot size={72} className="hidden shrink-0 sm:inline-block" />
-          <p className="text-base font-bold text-neutral-ink sm:text-lg">
-            Prices start from — GST extra. Final prices depend on the type of fabric and the work
-            required.{' '}
-            <a href={links.whatsapp} target="_blank" rel="noopener noreferrer" className="text-brand underline underline-offset-2">
-              WhatsApp us to know the actual price for your garment.
-            </a>
+        <p className="mx-auto mt-8 max-w-3xl rounded-card border-2 border-accent-gold bg-accent-gold/10 p-5 text-center text-base font-bold text-neutral-ink sm:text-lg">
+          Prices start from the amounts shown. GST extra. Final prices depend on the type of fabric
+          and the work required on it — the care process also changes according to the type of
+          fabric.
+        </p>
+        <div className="mt-5 flex flex-col items-center gap-3 text-center">
+          <p className="text-sm text-neutral-body">
+            Not sure what your garment will cost? Message us on WhatsApp for the actual price.
           </p>
-        </div>
-        <div className="mt-4 flex flex-wrap justify-center gap-3 text-sm font-semibold">
-          <Link href="/pricing/shoe-care/" className="text-brand underline underline-offset-2">Shoe care prices</Link>
-          <Link href="/pricing/home-textiles/" className="text-brand underline underline-offset-2">Blanket & home textile prices</Link>
+          <WhatsAppPrice
+            label="Know the actual price on WhatsApp"
+            className="rounded-pill border border-[#25D366] bg-[#25D366]/10 px-5 py-2.5 text-sm"
+          />
         </div>
       </Section>
 
+      <TariffSearchProvider>
       <Section tone="surface" size="sm" id="couture-care-tariffs" aria-labelledby="couture-tariffs-heading">
         <SectionHeading
           id="couture-tariffs-heading"
           eyebrow="Couture Care"
-          title={<>Couture Care Tariffs <span className="text-brand">(Starts From)</span></>}
-          intro="Full cleaning and finishing — for garments, ethnic wear, leather, footwear, carpets and home textiles."
+          title="Couture Care Tariffs"
+          intro="Full cleaning and finishing — for garments, ethnic wear, leather, footwear, carpets, blankets, quilts and home textiles."
         />
         <div className="mt-10">
-          <TariffGrid catalog={coutureCatalog} />
+          <TariffGrid catalog={coutureCatalog} searchable />
         </div>
-        <SectionCtas />
       </Section>
 
       <Section tone="muted" id="steam-iron-tariffs" aria-labelledby="steam-tariffs-heading">
@@ -123,8 +105,9 @@ export default function PricingPage() {
         <div className="mt-10">
           <TariffGrid catalog={steamIronCatalog} />
         </div>
-        <SectionCtas />
       </Section>
+
+      </TariffSearchProvider>
 
       <Section tone="muted" size="sm" aria-labelledby="additional-options-heading">
         <SectionHeading
@@ -171,6 +154,14 @@ export default function PricingPage() {
         </div>
 
         <p className="mt-8 text-sm text-neutral-body">
+          Want priority pickups and faster turnaround on every order? See the{' '}
+          <Link href="/membership/" className="font-medium text-brand">
+            Vanzoo Membership
+          </Link>
+          .
+        </p>
+
+        <p className="mt-4 text-sm text-neutral-body">
           Curious how we clean without water or harsh solvents? Read how{' '}
           <Link
             href="/hydrocarbon-tech/"
@@ -192,6 +183,8 @@ export default function PricingPage() {
           secondary={{ label: 'Talk to us first', href: '/contact-us/' }}
         />
       </Section>
+
+      <AreasSection />
     </>
   );
 }
