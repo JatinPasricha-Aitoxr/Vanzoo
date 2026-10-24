@@ -43,7 +43,7 @@ export const site = {
 
 /** Outbound links, preserved exactly as they appear on vanzoo.in. */
 export const links = {
-  bookPickup: 'https://app.vanzoo.in/website/W10795?brand=VANZOO',
+  bookPickup: 'https://app.vanzoo.in/website/W10795',
   bookService: 'https://app.vanzoo.in/website/W10541',
   playStore: 'https://play.google.com/store/apps/details?id=com.vanzoo.customer',
   appStore: 'https://apps.apple.com/in/app/vanzoo-premium-dry-clean/id6755905301',
