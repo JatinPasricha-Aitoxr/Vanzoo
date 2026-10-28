@@ -1,3 +1,4 @@
+import { withSeo } from '@/cms/withSeo';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -31,17 +32,17 @@ export function generateStaticParams() {
   return serviceEntries.map((service) => ({ slug: service.id }));
 }
 
-export function generateMetadata({ params }: Params) {
+export async function generateMetadata({ params }: Params) {
   const service = getService(params.slug);
   if (!service) return {};
 
-  return buildMetadata({
+  return withSeo(buildMetadata({
     title: service.metaTitle ?? `${service.title} in Gurgaon | Vanzoo`,
     description: `${service.body} Free pickup and delivery across Gurgaon.`.slice(0, 300),
     path: `/services/${service.id}/`,
     image: service.heroImage ?? service.image,
     imageAlt: service.heroImageAlt ?? service.imageAlt,
-  });
+  }));
 }
 
 /** Narrows a full tariff catalogue to the one group (or all groups) a service

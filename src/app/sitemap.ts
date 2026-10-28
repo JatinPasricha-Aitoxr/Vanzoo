@@ -3,6 +3,7 @@ import { areaEntries } from '@/content/areas';
 import { categories, categorySlug, posts, postsInCategory } from '@/content/blog';
 import { productEntries } from '@/content/products';
 import { serviceEntries } from '@/content/services';
+import { getGlobalSeo } from '@/cms/seoStore';
 import { listPublishedSlugs } from '@/cms/store';
 import { SITE_URL } from '@/lib/site';
 
@@ -15,6 +16,7 @@ import { SITE_URL } from '@/lib/site';
  * entry, as generators often do, teaches crawlers to ignore the field.
  */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const seoSettings = await getGlobalSeo();
   const cmsPages = (await listPublishedSlugs()).map((p) => ({
     url: `${SITE_URL}${p.slug}`,
     lastModified: new Date(p.updated_at.replace(' ', 'T') + 'Z'),
@@ -88,7 +90,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.6,
   }));
 
-  return [
+  const all: MetadataRoute.Sitemap = [
     ...staticPages,
     ...servicePages,
     ...productPages,
@@ -98,4 +100,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...postPages,
     ...cmsPages,
   ];
+  const excluded = seoSettings.sitemapExclude;
+  const isExcluded = (url: string) => {
+    const path = url.slice(SITE_URL.length) || '/';
+    return excluded.some((rule) => (rule.endsWith('*') ? path.startsWith(rule.slice(0, -1)) : path === rule || path === rule + '/'));
+  };
+  const extra = seoSettings.sitemapExtra.map((p) => ({ url: `${SITE_URL}${p}`, changeFrequency: 'monthly' as const, priority: 0.5 }));
+  return [...all, ...extra].filter((e) => !isExcluded(e.url));
 }

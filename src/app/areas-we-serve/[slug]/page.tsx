@@ -1,3 +1,4 @@
+import { withSeo } from '@/cms/withSeo';
 import { Highlight } from '@/components/ui/Highlight';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -26,16 +27,16 @@ export function generateStaticParams() {
   return areaEntries.map((area) => ({ slug: area.id }));
 }
 
-export function generateMetadata({ params }: Params) {
+export async function generateMetadata({ params }: Params) {
   const area = getArea(params.slug);
   if (!area) return {};
-  return buildMetadata({
+  return withSeo(buildMetadata({
     title: area.metaTitle,
     description: area.metaDescription,
     path: `/areas-we-serve/${area.id}/`,
     image: area.heroImage.src,
     imageAlt: area.heroImage.alt,
-  });
+  }));
 }
 
 export default function AreaPage({ params }: Params) {

@@ -1,3 +1,4 @@
+import { withSeo } from '@/cms/withSeo';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -29,12 +30,12 @@ export function generateStaticParams() {
   return posts.map((post) => ({ slug: post.slug }));
 }
 
-export function generateMetadata({ params }: Params) {
+export async function generateMetadata({ params }: Params) {
   const post = getPost(params.slug);
   if (!post) return {};
   const image = postImage(post);
 
-  return buildMetadata({
+  return withSeo(buildMetadata({
     title: `${post.title} | Vanzoo`,
     description: post.excerpt.slice(0, 200),
     path: `/blogs/${post.slug}/`,
@@ -43,7 +44,7 @@ export function generateMetadata({ params }: Params) {
     type: 'article',
     publishedTime: post.publishedAt,
     modifiedTime: post.updatedAt,
-  });
+  }));
 }
 
 export default function BlogPostPage({ params }: Params) {

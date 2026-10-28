@@ -1,3 +1,4 @@
+import { withSeo } from '@/cms/withSeo';
 import { Highlight } from '@/components/ui/Highlight';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -17,14 +18,16 @@ import { breadcrumbSchema, buildMetadata, localBusinessSchema } from '@/lib/seo'
 
 const CRUMBS = [{ name: 'Services', href: '/services/' }];
 
-export const metadata = buildMetadata({
+export async function generateMetadata() {
+  return withSeo(buildMetadata({
   title: 'Dry Cleaning Services in Gurgaon | Suits to Sofas | Vanzoo',
   description:
     'Garment, saree, lehenga, shoe, bag, curtain, carpet, blanket and sofa dry cleaning in Gurgaon — hydrocarbon care, hand finishing, free pickup and delivery.',
   path: '/services/',
   image: '/images/persona-fashion-collectors.jpg',
   imageAlt: 'Designer garments displayed in a boutique, cared for by Vanzoo premium dry cleaning',
-});
+}));
+}
 
 export default function ServicesPage() {
   return (

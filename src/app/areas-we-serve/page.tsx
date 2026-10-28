@@ -1,3 +1,4 @@
+import { withSeo } from '@/cms/withSeo';
 import Link from 'next/link';
 import { AreaCoverageGrid } from '@/components/AreaCoverageGrid';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
@@ -11,12 +12,14 @@ import { areaGroups, primaryStore, site, stores } from '@/lib/site';
 
 const CRUMBS = [{ name: 'Areas We Serve', href: '/areas-we-serve/' }];
 
-export const metadata = buildMetadata({
+export async function generateMetadata() {
+  return withSeo(buildMetadata({
   title: 'Dry Cleaning Pickup & Delivery Across Gurgaon | Vanzoo',
   description:
     'Free dry cleaning pickup and delivery in 49 Gurgaon localities — DLF, Golf Course Road, Sohna Road, Sector 65–70, New Gurgaon. Find your area.',
   path: '/areas-we-serve/',
-});
+}));
+}
 
 export default function AreasWeServePage() {
   const totalAreas = areaGroups.reduce((count, group) => count + group.areas.length, 0);

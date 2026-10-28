@@ -1,3 +1,4 @@
+import { withSeo } from '@/cms/withSeo';
 import Image from 'next/image';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { CtaBanner } from '@/components/CtaBanner';
@@ -11,12 +12,14 @@ import { breadcrumbSchema, buildMetadata } from '@/lib/seo';
 
 const CRUMBS = [{ name: 'Customer Stories', href: '/customer-stories/' }];
 
-export const metadata = buildMetadata({
+export async function generateMetadata() {
+  return withSeo(buildMetadata({
   title: 'Customer Stories | Vanzoo Dry Cleaning Gurgaon',
   description:
     'Real stories from Gurgaon customers — dry cleaning, steam press and garment care with free doorstep pickup and delivery — plus a before-and-after of our leather care.',
   path: '/customer-stories/',
-});
+}));
+}
 
 const average = reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length;
 const localities = new Set(reviews.map((r) => r.context)).size;

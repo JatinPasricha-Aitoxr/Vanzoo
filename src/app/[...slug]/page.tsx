@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { logNotFound } from '@/cms/seoStore';
 import { RenderDoc } from '@/cms/render';
 import { pageMetadata } from '@/cms/seo';
 import { getPublishedBySlug, normSlug } from '@/cms/store';
@@ -31,6 +32,11 @@ export async function generateMetadata({ params }: { params: { slug: string[] } 
 
 export default async function CmsPage({ params }: { params: { slug: string[] } }) {
   const live = await load(params.slug);
-  if (!live) notFound();
+  if (!live) {
+    // Record the miss so the SEO > Redirects screen can offer a fix.
+    // (Static caching means repeat hits inside the 5-minute window count once.)
+    await logNotFound('/' + params.slug.join('/') + '/', null);
+    notFound();
+  }
   return <RenderDoc doc={live.doc} />;
 }

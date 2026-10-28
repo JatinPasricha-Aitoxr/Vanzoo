@@ -1,3 +1,4 @@
+import { withSeo } from '@/cms/withSeo';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { CtaBanner } from '@/components/CtaBanner';
 import { JsonLd } from '@/components/JsonLd';
@@ -9,12 +10,14 @@ import { breadcrumbSchema, buildMetadata } from '@/lib/seo';
 
 const CRUMBS = [{ name: 'Reviews', href: '/reviews/' }];
 
-export const metadata = buildMetadata({
+export async function generateMetadata() {
+  return withSeo(buildMetadata({
   title: 'Customer Reviews | Vanzoo Dry Cleaning Gurgaon',
   description:
     'Read what Gurgaon customers say about Vanzoo — dry cleaning, steam press and garment care with free doorstep pickup and delivery.',
   path: '/reviews/',
-});
+}));
+}
 
 export default function ReviewsPage() {
   return (

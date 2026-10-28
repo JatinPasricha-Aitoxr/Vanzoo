@@ -1,3 +1,4 @@
+import { withSeo } from '@/cms/withSeo';
 import { Highlight } from '@/components/ui/Highlight';
 import Image from 'next/image';
 import { BrandBand } from '@/components/BrandBand';
@@ -12,14 +13,16 @@ import { breadcrumbSchema, buildMetadata } from '@/lib/seo';
 
 const CRUMBS = [{ name: 'About Us', href: '/about-us/' }];
 
-export const metadata = buildMetadata({
+export async function generateMetadata() {
+  return withSeo(buildMetadata({
   title: 'About Vanzoo | Premium Organic Dry Cleaners in Gurgaon',
   description:
     'Meet Vanzoo — premium organic dry cleaners in Gurgaon using Italian hydrocarbon technology, trained experts and free pickup and delivery for every wardrobe.',
   path: '/about-us/',
   image: about.image,
   imageAlt: about.imageAlt,
-});
+}));
+}
 
 export default function AboutPage() {
   return (

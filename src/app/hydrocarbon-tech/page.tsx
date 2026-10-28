@@ -1,3 +1,4 @@
+import { withSeo } from '@/cms/withSeo';
 import { Highlight } from '@/components/ui/Highlight';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -16,14 +17,16 @@ import { breadcrumbSchema, buildMetadata, faqSchema } from '@/lib/seo';
 
 const CRUMBS = [{ name: 'Hydrocarbon Tech', href: '/hydrocarbon-tech/' }];
 
-export const metadata = buildMetadata({
+export async function generateMetadata() {
+  return withSeo(buildMetadata({
   title: 'Hydrocarbon Dry Cleaning in Gurgaon | Safer, Gentler | Vanzoo',
   description:
     'Why Vanzoo uses closed-loop hydrocarbon dry cleaning: gentler on silk, wool and couture, 99% solvent recovered, no PERC. See how the cycle works step by step.',
   path: '/hydrocarbon-tech/',
   image: hydrocarbon.hero.image,
   imageAlt: hydrocarbon.hero.imageAlt,
-});
+}));
+}
 
 export default function HydrocarbonTechPage() {
   return (

@@ -1,18 +1,31 @@
 import type { MetadataRoute } from 'next';
+import { getGlobalSeo } from '@/cms/seoStore';
 import { SITE_URL } from '@/lib/site';
 
-export default function robots(): MetadataRoute.Robots {
+export default async function robots(): Promise<MetadataRoute.Robots> {
+  const g = await getGlobalSeo();
+  const disallow = ['/api/', '/app/', '/admin/', '/preview/'];
+  const allow: string[] = ['/'];
+  const sitemaps = [`${SITE_URL}/sitemap.xml`];
+  let crawlDelay: number | undefined;
+
+  // Admin-supplied lines (validated on save to Allow / Disallow / Crawl-delay / Sitemap / User-agent).
+  for (const raw of g.robotsExtra.split('\n')) {
+    const m = raw.trim().match(/^([A-Za-z-]+):\s*(.+)$/);
+    if (!m) continue;
+    const [, k, v] = m;
+    if (/^disallow$/i.test(k)) disallow.push(v);
+    else if (/^allow$/i.test(k)) allow.push(v);
+    else if (/^crawl-delay$/i.test(k) && Number.isFinite(Number(v))) crawlDelay = Number(v);
+    else if (/^sitemap$/i.test(k)) sitemaps.push(v);
+  }
+
+  // Site-wide noindex (e.g. a staging copy): block everything.
+  if (g.siteNoindex) return { rules: [{ userAgent: '*', disallow: '/' }] };
+
   return {
-    rules: [
-      {
-        userAgent: '*',
-        allow: '/',
-        // The booking flow lives on app.vanzoo.in, but these paths are
-        // disallowed defensively in case it is ever proxied under this origin.
-        disallow: ['/api/', '/app/', '/admin/', '/preview/'],
-      },
-    ],
-    sitemap: `${SITE_URL}/sitemap.xml`,
+    rules: [{ userAgent: '*', allow, disallow, ...(crawlDelay ? { crawlDelay } : {}) }],
+    sitemap: sitemaps,
     host: SITE_URL,
   };
 }

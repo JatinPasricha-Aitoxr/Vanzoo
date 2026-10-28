@@ -1,3 +1,4 @@
+import { withSeo } from '@/cms/withSeo';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
@@ -17,15 +18,15 @@ export function generateStaticParams() {
   return categories.map((category) => ({ slug: categorySlug(category) }));
 }
 
-export function generateMetadata({ params }: Params) {
+export async function generateMetadata({ params }: Params) {
   const category = categoryFromSlug(params.slug);
   if (!category) return {};
 
-  return buildMetadata({
+  return withSeo(buildMetadata({
     title: `${category} Articles | Vanzoo Fabric Care Journal`,
     description: `Vanzoo guides and advice on ${category.toLowerCase()} — from the luxury fabric care and eco-friendly dry cleaning team in Gurgaon.`,
     path: `/blogs/category/${params.slug}/`,
-  });
+  }));
 }
 
 export default function BlogCategoryPage({ params }: Params) {

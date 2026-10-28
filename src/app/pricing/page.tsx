@@ -1,3 +1,4 @@
+import { withSeo } from '@/cms/withSeo';
 import Link from 'next/link';
 import { AreasSection } from '@/components/AreasSection';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
@@ -26,12 +27,14 @@ const JUMP_LINKS = [
   { href: '#steam-iron-tariffs', label: 'Steam Iron & Pressing' },
 ] as const;
 
-export const metadata = buildMetadata({
+export async function generateMetadata() {
+  return withSeo(buildMetadata({
   title: 'Dry Cleaning Price List Gurgaon | Starting Prices | Vanzoo',
   description:
     'Dry cleaning and steam press prices in Gurgaon from ₹79 — shirts, suits, sarees, lehengas, shoes, blankets and curtains. Search any item, ask on WhatsApp.',
   path: '/pricing/',
-});
+}));
+}
 
 export default function PricingPage() {
   return (

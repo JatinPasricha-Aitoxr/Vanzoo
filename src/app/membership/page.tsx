@@ -1,3 +1,4 @@
+import { withSeo } from '@/cms/withSeo';
 import { Highlight } from '@/components/ui/Highlight';
 import Image from 'next/image';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
@@ -14,12 +15,14 @@ import { links, site } from '@/lib/site';
 
 const CRUMBS = [{ name: 'Membership', href: '/membership/' }];
 
-export const metadata = buildMetadata({
+export async function generateMetadata() {
+  return withSeo(buildMetadata({
   title: 'Dry Cleaning Membership Gurgaon | Save up to 40% | Vanzoo',
   description:
     'Join the Vanzoo Membership Club. Load ₹5,000 to ₹75,000 in credits and get a flat 10% to 40% off dry cleaning, shoe, bag, curtain and carpet care in Gurgaon.',
   path: '/membership/',
-});
+}));
+}
 
 function MembershipHeroCopy() {
   return (

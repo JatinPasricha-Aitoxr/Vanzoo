@@ -5,15 +5,16 @@ import { PageHeader } from '@/components/Hero';
 import { RevealGroup } from '@/components/ui/Reveal';
 import { Section } from '@/components/ui/Section';
 import { productEntries, productsIntro } from '@/content/products';
+import { withSeo } from '@/cms/withSeo';
 import { buildMetadata } from '@/lib/seo';
 
-export function generateMetadata() {
-  return buildMetadata({
+export async function generateMetadata() {
+  return withSeo(buildMetadata({
     title: 'Dry Cleaning Price by Garment in Gurgaon | Vanzoo',
     description:
       'Pick any garment — shirt, suit, saree, lehenga, shoes, blanket, curtain — see the dry cleaning and steam press options and prices. Free pickup in Gurgaon.',
     path: '/products/',
-  });
+  }));
 }
 
 export default function ProductsIndexPage() {

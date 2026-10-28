@@ -49,3 +49,10 @@ export async function verifySession(token: string | undefined | null): Promise<S
     return null;
   }
 }
+
+/** Shared secret for middleware → internal API calls (never exposed to browsers). */
+export async function internalToken(): Promise<string> {
+  const k = await key();
+  if (!k) return '';
+  return b64url(await crypto.subtle.sign('HMAC', k, enc.encode('vanzoo-internal-v1')));
+}

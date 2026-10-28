@@ -1,5 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { SESSION_COOKIE, verifySession } from '@/lib/session';
+import { SESSION_COOKIE, internalToken, verifySession } from '@/lib/session';
+
+/** Redirect table cached in the middleware process for 30 seconds. */
+let redirectCache: { at: number; map: Record<string, { to: string; code: number }> } = { at: 0, map: {} };
+
+async function redirectFor(req: NextRequest, path: string) {
+  if (!process.env.MYSQL_URL && !process.env.MYSQL_USER) return null;
+  if (Date.now() - redirectCache.at > 30_000) {
+    try {
+      const token = await internalToken();
+      const r = await fetch(new URL('/api/internal/redirects', req.nextUrl.origin), { headers: { 'x-vz-internal': token }, cache: 'no-store' });
+      redirectCache = { at: Date.now(), map: r.ok ? await r.json() : {} };
+    } catch {
+      redirectCache = { at: Date.now(), map: redirectCache.map };
+    }
+  }
+  return redirectCache.map[path] ?? null;
+}
 
 /**
  * - admin.* host: serves the admin app (other paths redirect to /admin).
@@ -23,6 +40,19 @@ export async function middleware(req: NextRequest) {
     to.pathname = path === '/login' ? '/admin/login' : '/admin';
     to.search = '';
     return NextResponse.redirect(to);
+  }
+
+  // Admin-managed redirects (old URL -> new URL), for public paths only.
+  if (!path.startsWith('/admin') && !path.startsWith('/api') && !path.startsWith('/_next') && !path.startsWith('/uploads') && !path.startsWith('/preview')) {
+    const hit = await redirectFor(req, path);
+    if (hit) {
+      const to = hit.to.startsWith('http') ? new URL(hit.to) : new URL(hit.to, req.nextUrl.origin);
+      if (!hit.to.startsWith('http')) to.search = req.nextUrl.search;
+      void internalToken().then((t) =>
+        fetch(new URL('/api/internal/redirect-hit', req.nextUrl.origin), { method: 'POST', headers: { 'x-vz-internal': t, 'content-type': 'application/json' }, body: JSON.stringify({ source: path }) }).catch(() => {}),
+      );
+      return NextResponse.redirect(to, hit.code === 302 ? 307 : 308);
+    }
   }
 
   const isAdminPath = path.startsWith('/admin');

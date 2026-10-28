@@ -1,3 +1,4 @@
+import { withSeo } from '@/cms/withSeo';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { BlogGrid } from '@/components/BlogCard';
@@ -10,12 +11,14 @@ import { SITE_URL } from '@/lib/site';
 
 const CRUMBS = [{ name: 'Blogs', href: '/blogs/' }];
 
-export const metadata = buildMetadata({
+export async function generateMetadata() {
+  return withSeo(buildMetadata({
   title: 'Fabric Care Journal | Vanzoo Blog',
   description:
     'Care guides, stain-removal how-tos and local dry cleaning advice from the Vanzoo fabric care team in Gurgaon.',
   path: '/blogs/',
-});
+}));
+}
 
 /**
  * Blog index.

@@ -1,3 +1,4 @@
+import { withSeo } from '@/cms/withSeo';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { EnquiryForm } from '@/components/EnquiryForm';
 import { FAQAccordion } from '@/components/FAQAccordion';
@@ -11,12 +12,14 @@ import { primaryStore, site, socialLinks, stores } from '@/lib/site';
 
 const CRUMBS = [{ name: 'Contact Us', href: '/contact-us/' }];
 
-export const metadata = buildMetadata({
+export async function generateMetadata() {
+  return withSeo(buildMetadata({
   title: 'Contact Vanzoo | Dry Cleaners in Gurgaon | +91 90916 71666',
   description:
     'Call, WhatsApp or write to Vanzoo for dry cleaning in Gurgaon. Ask about a garment, a bulk order or express turnaround — our team answers every enquiry.',
   path: '/contact-us/',
-});
+}));
+}
 
 export default function ContactPage() {
   return (

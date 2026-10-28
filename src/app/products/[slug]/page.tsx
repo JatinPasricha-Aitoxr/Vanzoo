@@ -1,3 +1,4 @@
+import { withSeo } from '@/cms/withSeo';
 import { Highlight } from '@/components/ui/Highlight';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -30,18 +31,18 @@ export function generateStaticParams() {
   return productEntries.map((product) => ({ slug: product.id }));
 }
 
-export function generateMetadata({ params }: Params) {
+export async function generateMetadata({ params }: Params) {
   const product = getProduct(params.slug);
   if (!product) return {};
   const care = getProductCareContent(product.id);
 
-  return buildMetadata({
+  return withSeo(buildMetadata({
     title: care?.metaTitle ?? `${product.title} Dry Cleaning & Steam Press | Vanzoo`,
     description: care?.metaDescription ?? `${product.intro} Free pickup and delivery across Gurgaon.`.slice(0, 300),
     path: `/products/${product.id}/`,
     image: product.heroImage,
     imageAlt: product.heroImageAlt,
-  });
+  }));
 }
 
 export default function ProductDetailPage({ params }: Params) {

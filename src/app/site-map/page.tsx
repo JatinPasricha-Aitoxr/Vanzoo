@@ -1,3 +1,4 @@
+import { withSeo } from '@/cms/withSeo';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { PageHeader } from '@/components/Hero';
@@ -13,12 +14,14 @@ import { areaGroups } from '@/lib/site';
 
 const CRUMBS = [{ name: 'Site Map', href: '/site-map/' }];
 
-export const metadata = buildMetadata({
+export async function generateMetadata() {
+  return withSeo(buildMetadata({
   title: 'Site Map | All Pages | Vanzoo Dry Cleaning Gurgaon',
   description:
     'Every page on the Vanzoo website in one place — services, products and prices, the Gurgaon areas we serve, hydrocarbon technology, blog articles and policies.',
   path: '/site-map/',
-});
+}));
+}
 
 type LinkItem = { label: string; href: string };
 type Group = { heading: string; links: readonly LinkItem[] };

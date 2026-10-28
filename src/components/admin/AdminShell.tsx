@@ -8,6 +8,7 @@ import { api } from './ui';
 const NAV = [
   { group: 'Overview', items: [{ href: '/admin', label: 'Dashboard', icon: '▦' }] },
   { group: 'Website Builder', items: [{ href: '/admin/pages', label: 'Pages', icon: '▤' }, { href: '/admin/media', label: 'Media library', icon: '▣' }] },
+  { group: 'SEO', items: [{ href: '/admin/seo', label: 'SEO & redirects', icon: '◎' }] },
   { group: 'Website Settings', items: [{ href: '/admin/settings', label: 'Site settings', icon: '⚙' }] },
   { group: 'System', items: [{ href: '/admin/system', label: 'System & health', icon: '✚' }] },
 ];
