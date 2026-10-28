@@ -3,6 +3,7 @@ import { areaEntries } from '@/content/areas';
 import { categories, categorySlug, posts, postsInCategory } from '@/content/blog';
 import { productEntries } from '@/content/products';
 import { serviceEntries } from '@/content/services';
+import { listPublishedSlugs } from '@/cms/store';
 import { SITE_URL } from '@/lib/site';
 
 /**
@@ -13,7 +14,13 @@ import { SITE_URL } from '@/lib/site';
  * for the listing pages the newest post they contain. Stamping "now" on every
  * entry, as generators often do, teaches crawlers to ignore the field.
  */
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const cmsPages = (await listPublishedSlugs()).map((p) => ({
+    url: `${SITE_URL}${p.slug}`,
+    lastModified: new Date(p.updated_at.replace(' ', 'T') + 'Z'),
+    changeFrequency: 'monthly' as const,
+    priority: 0.6,
+  }));
   const newestPost = posts[0]?.updatedAt ?? new Date().toISOString();
 
   const staticPages: MetadataRoute.Sitemap = [
@@ -89,5 +96,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...blogIndex,
     ...categoryPages,
     ...postPages,
+    ...cmsPages,
   ];
 }

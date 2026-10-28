@@ -1,10 +1,10 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Admin | Vanzoo',
-  robots: { index: false, follow: false },
+  title: 'Vanzoo Admin',
+  robots: { index: false, follow: false, nocache: true },
 };
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
-  return children;
+  return <div className="admin-root min-h-screen bg-[#f4f6f5] text-neutral-ink">{children}</div>;
 }

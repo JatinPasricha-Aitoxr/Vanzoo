@@ -12,3 +12,6 @@ tsconfig.tsbuildinfo
 
 # Stored enquiries (personal data)
 /data/
+
+# Uploaded media (kept on the server, not in git)
+/uploads/

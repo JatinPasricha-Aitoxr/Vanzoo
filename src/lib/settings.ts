@@ -1,5 +1,6 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
+import { dbConfigured, exec, parseJson, query } from './db';
 
 /**
  * Site settings editable from /admin. Persisted to Upstash Redis (REST) when
@@ -16,7 +17,8 @@ const FILE = path.join(process.cwd(), 'data', 'settings.json');
 const redisUrl = () => process.env.UPSTASH_REDIS_REST_URL;
 const redisToken = () => process.env.UPSTASH_REDIS_REST_TOKEN;
 
-export function storageKind(): 'redis' | 'file' | 'none' {
+export function storageKind(): 'mysql' | 'redis' | 'file' | 'none' {
+  if (dbConfigured()) return 'mysql';
   if (redisUrl() && redisToken()) return 'redis';
   return process.env.VERCEL ? 'none' : 'file';
 }
@@ -35,6 +37,10 @@ async function redis(command: string[]): Promise<unknown> {
 export async function getSettings(): Promise<Settings> {
   try {
     const kind = storageKind();
+    if (kind === 'mysql') {
+      const rows = await query<{ v: unknown }>('SELECT v FROM settings WHERE k = ?', ['site']);
+      return { ...DEFAULT_SETTINGS, ...parseJson<Partial<Settings>>(rows[0]?.v, {}) };
+    }
     if (kind === 'redis') {
       const raw = (await redis(['GET', KEY])) as string | null;
       return raw ? { ...DEFAULT_SETTINGS, ...JSON.parse(raw) } : DEFAULT_SETTINGS;
@@ -50,7 +56,9 @@ export async function getSettings(): Promise<Settings> {
 
 export async function saveSettings(settings: Settings): Promise<void> {
   const kind = storageKind();
-  if (kind === 'redis') {
+  if (kind === 'mysql') {
+    await exec('INSERT INTO settings (k, v) VALUES (?, ?) ON DUPLICATE KEY UPDATE v = VALUES(v)', ['site', JSON.stringify(settings)]);
+  } else if (kind === 'redis') {
     await redis(['SET', KEY, JSON.stringify(settings)]);
   } else if (kind === 'file') {
     await mkdir(path.dirname(FILE), { recursive: true });

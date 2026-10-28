@@ -8,6 +8,7 @@ import { Header } from '@/components/Header';
 import { JsonLd } from '@/components/JsonLd';
 import { ReviewsBand } from '@/components/ReviewsBand';
 import { StoresAndReviews } from '@/components/StoresAndReviews';
+import { SiteChrome } from '@/components/SiteChrome';
 import { CityProvider } from '@/components/CityProvider';
 import { BookNowButton } from '@/components/BookNowButton';
 import { PageGallery } from '@/components/PageGallery';
@@ -97,16 +98,23 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             badge and the drawer live outside those routes. */}
         <CityProvider>
         <CartProvider>
-          <Header />
-          <main id="main">{children}</main>
-          <PageGallery />
-          <ReviewsBand />
-          <StoresAndReviews />
-          <Footer />
-          <ContactRail />
-          <BookNowButton />
-          <PageVideo />
-          <CartDrawer />
+          <SiteChrome
+            before={<Header />}
+            after={
+              <>
+                <PageGallery />
+                <ReviewsBand />
+                <StoresAndReviews />
+                <Footer />
+                <ContactRail />
+                <BookNowButton />
+                <PageVideo />
+                <CartDrawer />
+              </>
+            }
+          >
+            {children}
+          </SiteChrome>
         </CartProvider>
         </CityProvider>
       </body>
