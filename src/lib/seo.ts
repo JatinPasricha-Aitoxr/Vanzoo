@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { SITE_URL, links, primaryStore, serviceCities, site, socialLinks, stores } from './site';
+import { SITE_URL, brand, links, primaryStore, serviceCities, site, socialLinks, stores } from './site';
 
 type PageMetaInput = {
   title: string;
@@ -111,7 +111,7 @@ export function organizationSchema() {
     url: `${SITE_URL}/`,
     logo: {
       '@type': 'ImageObject',
-      url: `${SITE_URL}/images/brand/vanzoo-logo.png`,
+      url: `${SITE_URL}${brand.logo}`,
       width: 2200,
       height: 653,
     },
@@ -171,7 +171,7 @@ export function localBusinessSchema() {
     telephone: site.phone,
     email: site.email,
     image: `${SITE_URL}${DEFAULT_OG_IMAGE}`,
-    logo: `${SITE_URL}/images/brand/vanzoo-logo.png`,
+    logo: `${SITE_URL}${brand.logo}`,
     priceRange: '₹₹',
     currenciesAccepted: 'INR',
     parentOrganization: { '@id': ORGANIZATION_ID },

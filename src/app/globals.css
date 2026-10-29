@@ -32,7 +32,9 @@
        in-page links never land underneath the header. */
     --header-top: 68px;
     --header-nav: 0px;
-    --header-h: calc(var(--header-top) + var(--header-nav));
+    /* Height of the optional announcement bar (set on <html> by the layout; 0 when there is none). */
+    --announce-h: 0px;
+    --header-h: calc(var(--header-top) + var(--header-nav) + var(--announce-h));
   }
 
   @media (min-width: 1024px) {

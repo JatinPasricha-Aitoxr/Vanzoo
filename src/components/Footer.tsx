@@ -9,6 +9,7 @@ import {
   primaryStore,
   site,
   socialLinks,
+  brand,
 } from '@/lib/site';
 
 /**
@@ -24,7 +25,7 @@ export function Footer({ columns = footerColumns, socials = socialLinks }: { col
         <div className="grid gap-12 lg:grid-cols-[minmax(0,1.4fr)_repeat(3,minmax(0,1fr))] lg:gap-8">
           <div className="max-w-sm">
             <Image
-              src="/images/brand/vanzoo-logo.png"
+              src={brand.logo}
               alt="Vanzoo — premium organic dryclean"
               width={2200}
               height={653}
@@ -176,7 +177,7 @@ export function Footer({ columns = footerColumns, socials = socialLinks }: { col
       {/* Sign-off: the same Vanzoo logo used in the header, set large. */}
       <div className="select-none pb-10 pt-2">
         <Image
-          src="/images/brand/vanzoo-logo.png"
+          src={brand.logo}
           alt=""
           aria-hidden="true"
           width={2200}

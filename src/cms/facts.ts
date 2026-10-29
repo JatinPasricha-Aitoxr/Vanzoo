@@ -15,4 +15,11 @@ export function setLiveFacts(f: LiveFacts) {
 
 export async function loadLiveFacts() {
   setLiveFacts(await readFacts());
+  const { readSetting: read } = await import('./seoStore');
+  setLiveDesign(await read<Record<string, string>>('design', {}));
+}
+
+/** Publishes the design settings (breakpoints) to this process; cms/schema.ts reads them at render time. */
+export function setLiveDesign(d: Record<string, string>) {
+  (globalThis as { __vzDesign?: Record<string, string> }).__vzDesign = d;
 }

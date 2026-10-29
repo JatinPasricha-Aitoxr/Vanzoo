@@ -9,7 +9,7 @@ import { WhatsAppIcon } from './BookNowButton';
 import { CartButton } from './CartButton';
 import { LocationSelect } from './LocationSelect';
 import { SearchBar } from './SearchBar';
-import { links, site } from '@/lib/site';
+import { links, site, brand } from '@/lib/site';
 import { useNav, useServiceLinks } from './SiteConfigContext';
 import { cn } from '@/lib/cn';
 
@@ -105,7 +105,7 @@ export function Header() {
 
       <header
         className={cn(
-          'site-header fixed inset-x-0 top-0 z-50',
+          'site-header fixed inset-x-0 top-[var(--announce-h)] z-50',
           solid ? 'bg-white/95 shadow-header backdrop-blur-md' : 'bg-transparent',
         )}
       >
@@ -117,7 +117,7 @@ export function Header() {
             onClick={() => setMenuOpen(false)}
           >
             <Image
-              src="/images/brand/vanzoo-logo.png"
+              src={brand.logo}
               alt="Vanzoo — premium organic dryclean"
               width={2200}
               height={653}
@@ -133,7 +133,7 @@ export function Header() {
             className="hidden shrink-0 rounded-sm xl:block"
           >
             <Image
-              src="/images/brand/vanzoo-mark.png"
+              src={brand.mark}
               alt=""
               width={96}
               height={96}
@@ -202,7 +202,7 @@ export function Header() {
           <div className="shell flex h-full items-center justify-between gap-8">
             <Link href="/" aria-label="Vanzoo — home" className="shrink-0 rounded-sm">
               <Image
-                src="/images/brand/vanzoo-logo.png"
+                src={brand.logo}
                 alt="Vanzoo — premium organic dryclean"
                 width={2200}
                 height={653}

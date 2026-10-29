@@ -6,7 +6,20 @@ import { z } from 'zod';
  * Desktop is the base; `tablet` applies at <= BREAKPOINTS.tablet and `mobile` at
  * <= BREAKPOINTS.mobile, so a mobile tweak never rewrites the desktop layout.
  */
-export const BREAKPOINTS = { tablet: 1023, mobile: 639 } as const;
+const liveDesign = () => (globalThis as { __vzDesign?: Record<string, string> }).__vzDesign;
+const inRange = (v: unknown, lo: number, hi: number, fallback: number) => {
+  const n = Number(v);
+  return Number.isInteger(n) && n >= lo && n <= hi ? n : fallback;
+};
+/** Responsive breakpoints; editable in Design (defaults 1023 / 639). Read at call time from the live design settings. */
+export const BREAKPOINTS = {
+  get tablet(): number {
+    return inRange(liveDesign()?.['bp-tablet'], 768, 1279, 1023);
+  },
+  get mobile(): number {
+    return inRange(liveDesign()?.['bp-mobile'], 480, 767, 639);
+  },
+};
 export type Device = 'desktop' | 'tablet' | 'mobile';
 
 /** CSS properties the editor may set. Anything else is dropped on save. */

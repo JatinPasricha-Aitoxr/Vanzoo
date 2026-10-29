@@ -2,9 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import { api, btn, Card, input } from './ui';
+import { MediaPickerModal } from './MediaPicker';
 
 type StoreF = { name: string; address: string; locality: string; postalCode: string; mapQuery: string };
-type Facts = { phone?: string; whatsapp?: string; email?: string; bookPickup?: string; bookService?: string; playStore?: string; appStore?: string; stores?: Record<string, Partial<StoreF>> };
+type Facts = { logo?: string; mark?: string; favicon?: string; phone?: string; whatsapp?: string; email?: string; bookPickup?: string; bookService?: string; playStore?: string; appStore?: string; stores?: Record<string, Partial<StoreF>> };
 
 const STORE_LABEL: Record<string, string> = { 'super-mart-1': 'Store 1 — DLF Phase IV', 'vanzoo-urbana': 'Store 2 — M3M Urbana' };
 
@@ -12,6 +13,7 @@ export function ContactForm() {
   const [d, setD] = useState<(Required<Omit<Facts, 'stores'>> & { stores: Record<string, StoreF> }) | null>(null);
   const [v, setV] = useState<Facts>({});
   const [msg, setMsg] = useState<{ ok: boolean; text: string } | null>(null);
+  const [pick, setPick] = useState<'logo' | 'mark' | 'favicon' | null>(null);
   useEffect(() => { api<{ saved: Facts; defaults: NonNullable<typeof d> }>('/api/cms/facts').then((r) => { if (r.error) setMsg({ ok: false, text: r.error }); else { setD(r.defaults); setV(r.saved); } }); }, []);
   if (!d) return <p className="text-sm text-[#6b7a75]">{msg?.text ?? 'Loading…'}</p>;
   const f = (k: keyof Omit<Facts, 'stores'>, label: string, hint?: string) => (
@@ -19,7 +21,7 @@ export function ContactForm() {
   );
   const setStore = (id: string, k: keyof StoreF, val: string) => setV({ ...v, stores: { ...v.stores, [id]: { ...v.stores?.[id], [k]: val } } });
   const save = async () => {
-    const r = await api('/api/cms/facts', { method: 'PUT', json: { phone: v.phone ?? '', whatsapp: v.whatsapp ?? '', email: v.email ?? '', bookPickup: v.bookPickup ?? '', bookService: v.bookService ?? '', playStore: v.playStore ?? '', appStore: v.appStore ?? '', stores: v.stores ?? {} } });
+    const r = await api('/api/cms/facts', { method: 'PUT', json: { phone: v.phone ?? '', whatsapp: v.whatsapp ?? '', email: v.email ?? '', logo: v.logo ?? '', mark: v.mark ?? '', favicon: v.favicon ?? '', bookPickup: v.bookPickup ?? '', bookService: v.bookService ?? '', playStore: v.playStore ?? '', appStore: v.appStore ?? '', stores: v.stores ?? {} } });
     setMsg(r.error ? { ok: false, text: r.error } : { ok: true, text: 'Saved. Every page — header, footer, buttons, contact page, map and structured data — shows the new details within a minute.' });
   };
   return (
@@ -31,6 +33,20 @@ export function ContactForm() {
           {f('whatsapp', 'WhatsApp number (digits, with country code)', 'e.g. 919876543210 — used for wa.me links.')}
           {f('email', 'Email address')}
         </div>
+      </Card>
+      <Card title="Brand images">
+        <div className="grid gap-5 sm:grid-cols-3">
+          {([['logo', 'Wordmark (header & footer)'], ['mark', 'Icon (“V” mark, touch icon)'], ['favicon', 'Browser-tab icon']] as const).map(([k, label]) => (
+            <div key={k}>
+              <p className="mb-1 text-xs font-semibold">{label}</p>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={v[k] || d[k]} alt="" className="mb-2 h-16 w-full rounded-lg border border-[#e0e8e5] bg-[#f6f9f8] object-contain p-2" />
+              <div className="flex gap-2"><button type="button" className={btn.ghost + ' !py-1 text-xs'} onClick={() => setPick(k)}>Choose…</button>{v[k] ? <button type="button" className={btn.ghost + ' !py-1 text-xs'} onClick={() => setV({ ...v, [k]: '' })}>Use built-in</button> : null}</div>
+            </div>
+          ))}
+        </div>
+        <p className="mt-3 text-xs text-[#6b7a75]">PNG, JPG or WebP from the media library. The wordmark is also published as the business logo in structured data. Browsers cache favicons, so a change can take a while to show.</p>
+        {pick ? <MediaPickerModal onClose={() => setPick(null)} onPick={(m) => { setV({ ...v, [pick]: m.url }); setPick(null); }} /> : null}
       </Card>
       <Card title="Booking & app links">
         <div className="grid gap-4 sm:grid-cols-2">

@@ -5,7 +5,8 @@ import { api, btn, Card, input } from './ui';
 
 type Item = { label: string; href: string };
 type Col = { heading: string; links: Item[] };
-type Cfg = { nav: Item[]; footerColumns: Col[]; social: Item[] };
+type Ann = { enabled: boolean; text: string; linkLabel: string; href: string; tone: 'dark' | 'gold'; dismissible: boolean; startsAt: string; endsAt: string };
+type Cfg = { nav: Item[]; footerColumns: Col[]; social: Item[]; announcement: Ann };
 
 function ItemRows({ items, onChange, what }: { items: Item[]; onChange: (n: Item[]) => void; what: string }) {
   const move = (i: number, d: number) => { const n = [...items]; const j = i + d; if (j < 0 || j >= n.length) return; [n[i], n[j]] = [n[j], n[i]]; onChange(n); };
@@ -32,10 +33,23 @@ export function SiteMenus() {
   useEffect(() => { api<{ config: Cfg; customised: Record<string, boolean> }>('/api/cms/site-config').then((r) => { if (r.config) { setC(r.config); setCustom(r.customised); } else setMsg({ ok: false, text: r.error ?? 'Could not load.' }); }); }, []);
   if (!c) return <p className="text-sm text-[#6b7a75]">{msg?.text ?? 'Loading…'}</p>;
   const save = async (body: Partial<Cfg>, ok: string) => { const r = await api('/api/cms/site-config', { method: 'PUT', json: body }); setMsg(r.error ? { ok: false, text: r.error } : { ok: true, text: ok }); };
-  const saveAll = () => save({ nav: c.nav, footerColumns: c.footerColumns, social: c.social }, 'Saved. The header, footer and social links update within a minute.');
+  const saveAll = () => save({ nav: c.nav, footerColumns: c.footerColumns, social: c.social, announcement: c.announcement }, 'Saved. The header, footer and social links update within a minute.');
   return (
     <div className="space-y-6">
       <div><h1 className="text-2xl font-semibold">Header, footer &amp; social</h1><p className="text-sm text-[#6b7a75]">Reorder, rename, add or remove links. Until you save, the site uses its built-in menus{custom.nav ? ' (currently customised)' : ''}.</p></div>
+      <Card title="Announcement bar">
+        <label className="mb-3 flex items-center gap-2 text-sm font-medium"><input type="checkbox" className="h-4 w-4 accent-[#0A5C4B]" checked={c.announcement.enabled} onChange={(e) => setC({ ...c, announcement: { ...c.announcement, enabled: e.target.checked } })} /> Show a bar above the header on every page</label>
+        <div className="grid gap-3 sm:grid-cols-2">
+          <div className="sm:col-span-2"><label htmlFor="an-t" className="mb-1 block text-xs font-semibold">Message ({c.announcement.text.length}/200)</label><input id="an-t" className={input} value={c.announcement.text} onChange={(e) => setC({ ...c, announcement: { ...c.announcement, text: e.target.value } })} /></div>
+          <div><label htmlFor="an-l" className="mb-1 block text-xs font-semibold">Link text (optional)</label><input id="an-l" className={input} value={c.announcement.linkLabel} onChange={(e) => setC({ ...c, announcement: { ...c.announcement, linkLabel: e.target.value } })} /></div>
+          <div><label htmlFor="an-h" className="mb-1 block text-xs font-semibold">Link address</label><input id="an-h" className={input} placeholder="/pricing/ or https://…" value={c.announcement.href} onChange={(e) => setC({ ...c, announcement: { ...c.announcement, href: e.target.value } })} /></div>
+          <div><label htmlFor="an-s" className="mb-1 block text-xs font-semibold">Show from (optional)</label><input id="an-s" type="datetime-local" className={input} value={c.announcement.startsAt.slice(0, 16)} onChange={(e) => setC({ ...c, announcement: { ...c.announcement, startsAt: e.target.value ? new Date(e.target.value).toISOString() : '' } })} /></div>
+          <div><label htmlFor="an-e" className="mb-1 block text-xs font-semibold">Hide after (optional)</label><input id="an-e" type="datetime-local" className={input} value={c.announcement.endsAt.slice(0, 16)} onChange={(e) => setC({ ...c, announcement: { ...c.announcement, endsAt: e.target.value ? new Date(e.target.value).toISOString() : '' } })} /></div>
+          <div><label htmlFor="an-c" className="mb-1 block text-xs font-semibold">Look</label><select id="an-c" className={input} value={c.announcement.tone} onChange={(e) => setC({ ...c, announcement: { ...c.announcement, tone: e.target.value as 'dark' | 'gold' } })}><option value="dark">Dark green</option><option value="gold">Gold</option></select></div>
+          <label className="flex items-center gap-2 self-end pb-2 text-sm"><input type="checkbox" className="h-4 w-4 accent-[#0A5C4B]" checked={c.announcement.dismissible} onChange={(e) => setC({ ...c, announcement: { ...c.announcement, dismissible: e.target.checked } })} /> Visitors can dismiss it</label>
+        </div>
+        <p className="mt-3 text-xs text-[#6b7a75]">Dates are in your browser’s local time. Outside the window the bar disappears for visitors.</p>
+      </Card>
       <Card title="Header menu">
         <ItemRows items={c.nav} what="Header" onChange={(nav) => setC({ ...c, nav })} />
         <p className="mt-3 text-xs text-[#6b7a75]">Up to 10 links. “Services” keeps its dropdown. On mobile the same links appear in the menu overlay.</p>

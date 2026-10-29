@@ -1,3 +1,4 @@
+import { brand } from '@/lib/site';
 import Image from 'next/image';
 import { Highlight } from './ui/Highlight';
 import { Mascot } from './Mascot';
@@ -11,7 +12,7 @@ export function BrandBand() {
       <div className="grid items-center gap-10 lg:grid-cols-[1fr_auto_1fr] lg:gap-14">
         <Reveal variant="left" className="text-center lg:text-left">
           <Image
-            src="/images/brand/vanzoo-logo.png"
+            src={brand.logo}
             alt="Vanzoo — Premium Organic Dryclean"
             width={2200}
             height={653}

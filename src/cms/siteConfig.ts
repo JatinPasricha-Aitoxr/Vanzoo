@@ -1,4 +1,5 @@
 import { unstable_cache } from 'next/cache';
+import { DISPLAY_FONTS, SANS_FONTS } from './fonts';
 import { readSetting } from './seoStore';
 
 /** Editable design tokens and navigation. Anything unset falls back to the code defaults in site.ts / tailwind. */
@@ -32,11 +33,19 @@ export const getDesign = unstable_cache(() => readSetting<DesignOverrides>('desi
 export function designCss(o: DesignOverrides): string {
   const rules = TOKENS.filter((t) => o[t.key] && HEX.test(o[t.key]) && o[t.key].toUpperCase() !== t.def)
     .map((t) => `--c-${t.key}:${[1, 3, 5].map((i) => parseInt(o[t.key].slice(i, i + 2), 16)).join(' ')}`);
-  return rules.length ? `:root{${rules.join(';')}}` : '';
+  const out = rules.length ? [`:root{${rules.join(';')}}`] : [];
+  // Font choice: re-point the existing font variables at an alternative loaded in app/layout.tsx.
+  const fd = DISPLAY_FONTS.find((f) => f.id === o['font-display']);
+  const fs = SANS_FONTS.find((f) => f.id === o['font-sans']);
+  const fonts = [fd && fd.id !== 'fraunces' ? `--font-display:var(${fd.cssVar})` : '', fs && fs.id !== 'inter' ? `--font-sans:var(${fs.cssVar})` : ''].filter(Boolean);
+  if (fonts.length) out.push(`html:root{${fonts.join(';')}}`);
+  return out.join('');
 }
 
 export type NavItem = { label: string; href: string };
 export type FooterColumn = { heading: string; links: NavItem[] };
-export type SiteConfig = { nav?: NavItem[]; footerColumns?: FooterColumn[]; social?: { label: string; href: string }[] };
+export type Announcement = { enabled: boolean; text: string; linkLabel: string; href: string; tone: 'dark' | 'gold'; dismissible: boolean; startsAt: string; endsAt: string };
+export const DEFAULT_ANNOUNCEMENT: Announcement = { enabled: false, text: '', linkLabel: '', href: '', tone: 'dark', dismissible: true, startsAt: '', endsAt: '' };
+export type SiteConfig = { nav?: NavItem[]; footerColumns?: FooterColumn[]; social?: { label: string; href: string }[]; announcement?: Announcement };
 
 export const getSiteConfig = unstable_cache(() => readSetting<SiteConfig>('siteconfig', {}), ['siteconfig'], { tags: [SITECFG_TAG], revalidate: 300 });

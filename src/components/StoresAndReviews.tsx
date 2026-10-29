@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { storePhotos } from '@/content/socialProof';
 import { ReviewThumbs } from './ReviewThumbs';
-import { stores } from '@/lib/site';
+import { stores, brand } from '@/lib/site';
 import { Section, SectionHeading } from './ui/Section';
 
 /**
@@ -60,7 +60,7 @@ export function StoresAndReviews() {
                 ) : (
                   <div className="band-dark absolute inset-0 flex flex-col items-center justify-center gap-3 p-6 text-center">
                     <Image
-                      src="/images/brand/vanzoo-mark.png"
+                      src={brand.mark}
                       alt=""
                       width={56}
                       height={56}

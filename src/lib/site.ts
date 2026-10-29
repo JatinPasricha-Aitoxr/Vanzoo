@@ -37,6 +37,9 @@ export type LiveFacts = {
   bookService?: string;
   playStore?: string;
   appStore?: string;
+  logo?: string;
+  mark?: string;
+  favicon?: string;
   stores?: Record<string, Partial<{ name: string; address: string; locality: string; postalCode: string; mapQuery: string }>>;
 };
 const live = (): LiveFacts | undefined => (globalThis as { __vzFacts?: LiveFacts }).__vzFacts;
@@ -67,6 +70,19 @@ export const site = {
   },
   /** Standard turnaround, quoted verbatim from the homepage FAQ. */
   turnaround: '3-5 days',
+};
+
+/** Brand images, replaceable from the CMS (paths under /uploads/ or /images/). */
+export const brand = {
+  get logo(): string {
+    return live()?.logo ?? '/images/brand/vanzoo-logo.png';
+  },
+  get mark(): string {
+    return live()?.mark ?? '/images/brand/vanzoo-mark.png';
+  },
+  get favicon(): string {
+    return live()?.favicon ?? live()?.mark ?? '/images/brand/vanzoo-mark.png';
+  },
 };
 
 /** Outbound links, preserved exactly as they appear on vanzoo.in. */
