@@ -14,6 +14,7 @@
 import type { ComparisonRow } from '@/components/ComparisonTable';
 import type { FeatureGridItem } from '@/components/FeatureGrid';
 import type { Faq } from './marketing';
+import { liveCopy } from '@/cms/liveCopy';
 
 export type LandingPage = {
   path: string;
@@ -42,7 +43,7 @@ const hydrocarbonRows: readonly ComparisonRow[] = [
   { label: 'No harsh chemical odour on the finished garment', values: [true, false] },
 ];
 
-export const nearMePage: LandingPage = {
+export const nearMePage: LandingPage = liveCopy('nearMePage', {
   path: '/best-dry-cleaners-near-me/',
   name: 'Best Dry Cleaners Near Me',
   metaTitle: 'Best Dry Cleaners Near Me in Gurgaon | Free Pickup | Vanzoo',
@@ -137,9 +138,9 @@ export const nearMePage: LandingPage = {
     heading: 'The nearest dry cleaner is your front door',
     body: 'Book a slot and a valet collects from you, free. Standard turnaround is 3–5 days, with same-day and next-day express options.',
   },
-};
+});
 
-export const gurgaonPage: LandingPage = {
+export const gurgaonPage: LandingPage = liveCopy('gurgaonPage', {
   path: '/best-dry-cleaning-in-gurgaon/',
   name: 'Best Dry Cleaning in Gurgaon',
   metaTitle: 'Best Dry Cleaning in Gurgaon | Hydrocarbon Dry Clean | Vanzoo',
@@ -234,6 +235,6 @@ export const gurgaonPage: LandingPage = {
     heading: 'Premium dry cleaning, collected from your door',
     body: 'Free pickup and delivery across Gurgaon. Standard turnaround is 3–5 days, with same-day and next-day express options.',
   },
-};
+});
 
 export const landingPages = [nearMePage, gurgaonPage] as const;

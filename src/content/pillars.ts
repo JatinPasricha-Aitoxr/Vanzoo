@@ -1,3 +1,4 @@
+import { liveCopy } from '@/cms/liveCopy';
 /**
  * "Why Choose VANZOO?" — the four pillars behind the sticky split-scroll
  * section on the homepage (components/WhyChoosePillars.tsx).
@@ -31,12 +32,12 @@ export type Pillar = {
   points: readonly { icon: PillarPointIcon; heading: string; body: string }[];
 };
 
-export const pillarsIntro = {
+export const pillarsIntro = liveCopy('pillarsIntro', {
   eyebrow: 'Why Choose VANZOO?',
   heading: 'Dry cleaning built on safer science',
-} as const;
+} as const);
 
-export const pillars: readonly Pillar[] = [
+export const pillars: readonly Pillar[] = liveCopy('pillars', [
   {
     id: 'western-technology',
     title: 'Western Technology',
@@ -157,4 +158,4 @@ export const pillars: readonly Pillar[] = [
       },
     ],
   },
-];
+]);

@@ -21,7 +21,8 @@ import { AnnouncementBar } from '@/components/AnnouncementBar';
 import { ANNOUNCE_HEIGHT } from '@/cms/announce';
 import { designCss, getDesign, getSiteConfig } from '@/cms/siteConfig';
 import { getServices } from '@/cms/content';
-import { getFacts, setLiveDesign, setLiveFacts } from '@/cms/facts';
+import { getCopyOverrides, getFacts, setLiveDesign, setLiveFacts } from '@/cms/facts';
+import { setLiveCopy } from '@/cms/liveCopy';
 import './globals.css';
 
 /**
@@ -91,8 +92,9 @@ export const viewport: Viewport = {
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const [design, cfg, services, facts] = await Promise.all([getDesign(), getSiteConfig(), getServices(), getFacts()]);
+  const [design, cfg, services, facts, copy] = await Promise.all([getDesign(), getSiteConfig(), getServices(), getFacts(), getCopyOverrides()]);
   setLiveFacts(facts);
+  setLiveCopy(copy);
   setLiveDesign(design);
   const tokenCss = designCss(design);
   const ann = cfg.announcement;
@@ -100,6 +102,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang="en-IN" style={announce ? ({ '--announce-h': `${ANNOUNCE_HEIGHT}px` } as React.CSSProperties) : undefined} className={`${display.variable} ${sans.variable} ${dPlayfair.variable} ${dLora.variable} ${dCormorant.variable} ${sDmSans.variable} ${sLato.variable} ${sPoppins.variable}`}>
       <head>
+        {Object.keys(copy).length ? (
+          <script dangerouslySetInnerHTML={{ __html: `window.__vzCopy=${JSON.stringify(copy).replace(/</g, '\\u003c')};` }} />
+        ) : null}
         {design['bp-tablet'] || design['bp-mobile'] ? (
           <script dangerouslySetInnerHTML={{ __html: `window.__vzDesign=${JSON.stringify(design).replace(/</g, '\\u003c')};` }} />
         ) : null}

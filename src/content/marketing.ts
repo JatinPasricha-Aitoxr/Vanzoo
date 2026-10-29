@@ -1,3 +1,4 @@
+import { liveCopy } from '@/cms/liveCopy';
 /**
  * Marketing copy, carried over verbatim from vanzoo.in.
  *
@@ -12,7 +13,7 @@
 /* -------------------------------------------------------------------------- */
 
 /** AUTHORED — hero restyle sanctioned by the brief (§3.2, §6). */
-export const homeHero = {
+export const homeHero = liveCopy('homeHero', {
   headline: ['Premium and Luxury Dry Clean', 'and garment care.'],
   subhead:
     'With pickup and delivered to your doorstep — Italian hydrocarbon technology and couture-trained finishing, across Gurgaon.',
@@ -24,18 +25,18 @@ export const homeHero = {
     desktop: '/videos/hero-desktop.mp4',
     mobile: '/videos/hero-mobile.mp4',
   },
-} as const;
+} as const);
 
 /**
  * First-order offer, carried over verbatim from the live site's hero slide
  * ("FLAT 25% OFF ON FIRST ORDER — Use Code: FIRST25"). Remove this object when
  * the promotion ends and the hero chip disappears with it.
  */
-export const heroOffer = {
+export const heroOffer = liveCopy('heroOffer', {
   lead: 'Flat 25% off your first order',
   codeLabel: 'Use code',
   code: 'FIRST25',
-} as const;
+} as const);
 
 /* -------------------------------------------------------------------------- */
 /* Trust strip                                                                */
@@ -46,13 +47,13 @@ export const heroOffer = {
  * publishes no review count or star rating we can verify, so this strip states
  * only capabilities the site itself claims.
  */
-export const trustMarkers = [
+export const trustMarkers = liveCopy('trustMarkers', [
   { label: 'Italian hydrocarbon technology', detail: 'Imported, closed-loop systems' },
   { label: '99% chemical-free finish', detail: 'Solvent recovered and recycled each cycle' },
   { label: 'Free pickup & delivery', detail: 'Across every Gurgaon sector we serve' },
   { label: 'Express turnaround', detail: 'Same-day service, arranged with one call' },
   { label: 'Two Gurgaon stores', detail: 'DLF Phase IV and Sector 67' },
-] as const;
+] as const);
 
 /* -------------------------------------------------------------------------- */
 /* Why you'll love VANZOO — USP carousel                                      */
@@ -66,7 +67,7 @@ export type UspCard = { title: string; body: string; image: string; imageAlt: st
  * 99% solvent recovery / chemical removal, individual assessment and hand
  * finishing, sustainable packaging, free pickup, 3–5 day and express).
  */
-export const uspCards: readonly UspCard[] = [
+export const uspCards: readonly UspCard[] = liveCopy('uspCards', [
   {
     title: 'Italian hydrocarbon technology',
     body: 'Closed-loop hydrocarbon systems replace harsh solvents, dissolving stains while keeping fabrics soft — and recover around 99% of the solvent every cycle. Unlike PERC-based dry cleaning, it is safer for skin and the planet.',
@@ -103,7 +104,7 @@ export const uspCards: readonly UspCard[] = [
     image: '/images/process-delivered-pressed.jpg',
     imageAlt: 'Pressed knitwear hung and ready for Vanzoo doorstep delivery',
   },
-];
+]);
 
 /* -------------------------------------------------------------------------- */
 /* Why Choose VANZOO                                                          */
@@ -212,7 +213,7 @@ export const services: readonly Service[] = [
 export const howItWorksIntro =
   'With VANZOO, premium fabric & accessory care is made simple, sustainable, and seamless.';
 
-export const howItWorksSteps = [
+export const howItWorksSteps = liveCopy('howItWorksSteps', [
   {
     id: 'schedule',
     tab: 'Schedule',
@@ -239,13 +240,13 @@ export const howItWorksSteps = [
     imageAlt:
       'Cream cable-knit sweater finished, pressed and hung ready for Vanzoo doorstep delivery in Gurgaon',
   },
-] as const;
+] as const);
 
 /**
  * The nine-step care process, as the live site publishes it (its homepage
  * timeline and the nine-step process graphic both carry these stages).
  */
-export const processSteps = [
+export const processSteps = liveCopy('processSteps', [
   'Schedule & pickup',
   'Detailed assessment',
   'Stain treatment',
@@ -255,13 +256,13 @@ export const processSteps = [
   'Quality inspection',
   'Secure packaging',
   'Delivery',
-] as const;
+] as const);
 
 /* -------------------------------------------------------------------------- */
 /* Preserving Style — personas                                                */
 /* -------------------------------------------------------------------------- */
 
-export const personas = [
+export const personas = liveCopy('personas', [
   {
     category: 'Business',
     title: 'Corporate Professionals & Executives',
@@ -298,13 +299,13 @@ export const personas = [
     image: '/images/persona-heirlooms.jpg',
     imageAlt: 'Two generations in heritage silk sarees preserved with museum-grade Vanzoo care',
   },
-] as const;
+] as const);
 
 /* -------------------------------------------------------------------------- */
 /* What Makes VANZOO Different                                                */
 /* -------------------------------------------------------------------------- */
 
-export const differentiators = [
+export const differentiators = liveCopy('differentiators', [
   {
     title: 'Expert Care for Luxury Garments',
     body: 'Unmatched attention for high-end fabrics and bespoke clothing.',
@@ -329,7 +330,7 @@ export const differentiators = [
     icon: '/images/icons/convenient-time-saving.png',
     iconAlt: 'Clock and hand icon representing convenient time-saving doorstep service',
   },
-] as const;
+] as const);
 
 /* -------------------------------------------------------------------------- */
 /* Guarantee                                                                  */
@@ -340,20 +341,20 @@ export const differentiators = [
  * already makes on-site (individual assessment, hand finishing, free re-clean
  * is *not* claimed anywhere, so it is not promised here).
  */
-export const guarantee = {
+export const guarantee = liveCopy('guarantee', {
   eyebrow: 'Our promise',
   /** The display line; the statement below carries the substance. */
   headline: 'Hand-finished. Every time.',
   statement:
     'Every piece is assessed individually, cleaned in a closed-loop hydrocarbon system, and hand-finished before it comes back to you. If a garment returns anything less than pristine, tell us — we will make it right.',
   ctaLabel: 'Book a pickup',
-} as const;
+} as const);
 
 /* -------------------------------------------------------------------------- */
 /* App promo                                                                  */
 /* -------------------------------------------------------------------------- */
 
-export const appPromo = {
+export const appPromo = liveCopy('appPromo', {
   heading: 'Luxury Care. Just a Tap Away.',
   body: 'Easily manage your wardrobe with the VANZOO app book pickups, track orders, and ensure top-tier care for your clothes, all from your phone.',
   benefits: [
@@ -365,7 +366,7 @@ export const appPromo = {
   image: '/images/app-phone-mockup.png',
   imageAlt:
     'Vanzoo dry cleaning app shown on a smartphone, used to book pickups and track garment orders',
-} as const;
+} as const);
 
 /* -------------------------------------------------------------------------- */
 /* FAQ                                                                        */
@@ -443,7 +444,7 @@ export const contactTimes = [
 /* About Us                                                                   */
 /* -------------------------------------------------------------------------- */
 
-export const about = {
+export const about = liveCopy('about', {
   heading: 'Where Craft Meets Care',
   intro:
     'Luxury garments aren’t just worn — they’re lived in. VANZOO, a unit of Vaaruni Ventures LLP, elevates wardrobe care to an art form. At VANZOO, we blend couture-level precision with next-gen eco-cleaning. From bespoke suits to designer heels, every item is treated with the respect it deserves.',
@@ -482,14 +483,14 @@ export const about = {
   image: '/images/garment-rail-couture.jpg',
   imageAlt:
     'Rail of couture jackets and blazers awaiting eco-friendly dry cleaning at the Vanzoo Gurgaon atelier',
-} as const;
+} as const);
 
 /* -------------------------------------------------------------------------- */
 /* Membership                                                                 */
 /* -------------------------------------------------------------------------- */
 
 /** Membership Club — tiers and wording taken from the Vanzoo membership poster. */
-export const membership = {
+export const membership = liveCopy('membership', {
   eyebrow: 'Membership Club',
   heading: 'We don’t just clean. We care.',
   intro:
@@ -538,13 +539,13 @@ export const membership = {
   ctaHeading: 'Ready to join the Membership Club?',
   ctaBody:
     'Call or send an enquiry and we’ll set up your credits against your number.',
-} as const;
+} as const);
 
 /* -------------------------------------------------------------------------- */
 /* Hydrocarbon Tech page                                                      */
 /* -------------------------------------------------------------------------- */
 
-export const hydrocarbon = {
+export const hydrocarbon = liveCopy('hydrocarbon', {
   hero: {
     headline: ['Premium Fabric Care, Powered', 'by Safer Science.'],
     subhead:
@@ -738,7 +739,7 @@ export const hydrocarbon = {
         'Hydrocarbon technology marks a shift toward cleaner, more precise garment care. Its refined solvent chemistry and digitally controlled systems allow for deep cleaning with reduced stress on fabrics and lower environmental impact. Modern machines continuously filter and recycle the solvent, minimizing waste and energy use. As research advances, new bio-based hydrocarbon solvents are emerging, offering the same performance with renewable origins. For Vanzoo, this technology represents a future where science and responsibility work in harmony.',
     },
   ] as readonly Faq[],
-} as const;
+} as const);
 
 /* -------------------------------------------------------------------------- */
 /* Photo-brick collage (homepage, used once per §2.3.5)                       */
@@ -790,10 +791,10 @@ export const collage = [
  * banner; the supporting line is AUTHORED to replace the banner's baked-in
  * sub-copy.
  */
-export const weCare = {
+export const weCare = liveCopy('weCare', {
   headline: ['Not just clothes.', 'We care for what matters.'],
   body: 'Designer heels, heirloom saris, the jacket you wear everywhere — everything you trust to us is handled like it matters, because it does.',
   image: '/images/service-shoes-bags-accessories.jpg',
   imageAlt:
     'Cleaned and conditioned leather brogues and a tan leather handbag, cared for by Vanzoo',
-} as const;
+} as const);
