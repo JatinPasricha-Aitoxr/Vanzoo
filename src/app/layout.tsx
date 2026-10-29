@@ -19,6 +19,7 @@ import { GA_ID, GOOGLE_SITE_VERIFICATION, GTM_ID, SITE_URL, site } from '@/lib/s
 import { NavProvider } from '@/components/SiteConfigContext';
 import { designCss, getDesign, getSiteConfig } from '@/cms/siteConfig';
 import { getServices } from '@/cms/content';
+import { getFacts, setLiveFacts } from '@/cms/facts';
 import './globals.css';
 
 /**
@@ -67,11 +68,16 @@ export const viewport: Viewport = {
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const [design, cfg, services] = await Promise.all([getDesign(), getSiteConfig(), getServices()]);
+  const [design, cfg, services, facts] = await Promise.all([getDesign(), getSiteConfig(), getServices(), getFacts()]);
+  setLiveFacts(facts);
   const tokenCss = designCss(design);
   return (
     <html lang="en-IN" className={`${display.variable} ${sans.variable}`}>
       <head>
+        {Object.keys(facts).length ? (
+          // Mirrors the CMS-edited contact facts to the browser before hydration, so client components render the same values as the server.
+          <script dangerouslySetInnerHTML={{ __html: `window.__vzFacts=${JSON.stringify(facts).replace(/</g, '\\u003c')};` }} />
+        ) : null}
         {tokenCss ? <style id="vz-tokens" dangerouslySetInnerHTML={{ __html: tokenCss }} /> : null}
         {GTM_ID ? (
           <Script id="gtm" strategy="beforeInteractive">

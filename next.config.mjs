@@ -81,6 +81,8 @@ const legacyCategories = [
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  // Loads CMS-edited contact details at server start (src/instrumentation.ts).
+  experimental: { instrumentationHook: true },
   poweredByHeader: false,
   // Every internal route is authored with a trailing slash (vanzoo.in parity).
   trailingSlash: true,

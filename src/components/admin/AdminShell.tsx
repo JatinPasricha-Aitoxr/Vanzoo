@@ -10,7 +10,7 @@ const NAV = [
   { group: 'Website Builder', items: [{ href: '/admin/pages', label: 'Pages', icon: '▤' }, { href: '/admin/posts', label: 'Blog posts', icon: '✎' }, { href: '/admin/media', label: 'Media library', icon: '▣' }] },
   { group: 'Content', items: [{ href: '/admin/content/service', label: 'Services', icon: '✦' }, { href: '/admin/content/product', label: 'Garment pages', icon: '◧' }, { href: '/admin/content/area', label: 'Locality pages', icon: '⌖' }, { href: '/admin/content/faq', label: 'FAQs', icon: '?' }, { href: '/admin/content/pricing', label: 'Pricing', icon: '₹', admin: true }] },
   { group: 'SEO', items: [{ href: '/admin/seo', label: 'SEO & redirects', icon: '◎' }] },
-  { group: 'Website Settings', items: [{ href: '/admin/settings', label: 'Site settings', icon: '⚙', admin: true }, { href: '/admin/design', label: 'Design tokens', icon: '◐', admin: true }, { href: '/admin/site', label: 'Header, footer & contact', icon: '☰', admin: true }] },
+  { group: 'Website Settings', items: [{ href: '/admin/settings', label: 'Site settings', icon: '⚙', admin: true }, { href: '/admin/contact', label: 'Contact & locations', icon: '☎', admin: true }, { href: '/admin/design', label: 'Design tokens', icon: '◐', admin: true }, { href: '/admin/site', label: 'Header, footer & contact', icon: '☰', admin: true }] },
   { group: 'System', items: [{ href: '/admin/system', label: 'System & health', icon: '✚' }, { href: '/admin/users', label: 'Users & roles', icon: '☺', admin: true }] },
 ];
 

@@ -22,7 +22,8 @@ import { links, site, stores } from '@/lib/site';
 
 type Params = { params: { slug: string } };
 
-export const dynamicParams = false;
+/** Unknown slugs 404 via notFound(); `true` lets pages regenerate after a CMS edit (with `false` Next 404s them once invalidated). */
+export const dynamicParams = true;
 export const revalidate = 300;
 
 export function generateStaticParams() {

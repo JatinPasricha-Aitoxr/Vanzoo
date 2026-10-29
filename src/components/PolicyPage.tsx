@@ -1,3 +1,4 @@
+import { liveText } from '@/lib/site';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { PageHeader } from '@/components/Hero';
 import { Reveal } from '@/components/ui/Reveal';
@@ -36,7 +37,7 @@ export function PolicyPage({ doc }: { doc: PolicyDoc }) {
                     href={`#${entry.id}`}
                     className="block text-sm leading-snug text-neutral-body transition-colors hover:text-brand"
                   >
-                    {entry.label}
+                    {liveText(entry.label)}
                   </a>
                 </li>
               ))}
@@ -62,7 +63,7 @@ export function PolicyPage({ doc }: { doc: PolicyDoc }) {
               as="div"
               className="prose-vanzoo mt-8 max-w-prose"
               // eslint-disable-next-line react/no-danger
-              dangerouslySetInnerHTML={{ __html: doc.body }}
+              dangerouslySetInnerHTML={{ __html: liveText(doc.body) }}
             />
           </div>
         </div>

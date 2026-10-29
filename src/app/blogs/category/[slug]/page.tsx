@@ -13,7 +13,9 @@ import { breadcrumbSchema, buildMetadata } from '@/lib/seo';
 type Params = { params: { slug: string } };
 
 /** Every category page is generated at build time — no runtime fallback. */
-export const dynamicParams = false;
+/** Categories from CMS posts appear on demand; the page is regenerated when posts change. */
+export const dynamicParams = true;
+export const revalidate = 300;
 
 export function generateStaticParams() {
   return builtInCategories.map((category) => ({ slug: categorySlug(category) }));
