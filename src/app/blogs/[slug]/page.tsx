@@ -1,3 +1,4 @@
+import { DetailTemplate } from '@/cms/override';
 import { withSeo } from '@/cms/withSeo';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -206,6 +207,7 @@ export default async function BlogPostPage({ params }: Params) {
           </Section>
         ) : null}
       </article>
+      <DetailTemplate slot="post" vars={{ title: post.title, category, url: `/blogs/${post.slug}/` }} />
     </>
   );
 }

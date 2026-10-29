@@ -1,3 +1,4 @@
+import { cmsOr } from '@/cms/override';
 import { withSeo } from '@/cms/withSeo';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
@@ -30,7 +31,7 @@ export async function generateMetadata() {
  * links to `/blogs/category/[slug]/`, so each filtered view is its own
  * crawlable, canonical URL rather than a client-side state.
  */
-export default async function BlogIndexPage() {
+async function BlogIndexPage() {
   const posts = await allPosts();
   const categories = categoriesOf(posts);
   return (
@@ -92,3 +93,6 @@ export default async function BlogIndexPage() {
     </>
   );
 }
+
+/** A page published from the builder at /blogs/ replaces this built-in version. */
+export default cmsOr('/blogs/', BlogIndexPage);

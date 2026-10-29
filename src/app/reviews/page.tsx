@@ -1,3 +1,4 @@
+import { cmsOr } from '@/cms/override';
 import { withSeo } from '@/cms/withSeo';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { CtaBanner } from '@/components/CtaBanner';
@@ -19,7 +20,7 @@ export async function generateMetadata() {
 }));
 }
 
-export default function ReviewsPage() {
+function ReviewsPage() {
   return (
     <>
       <JsonLd data={breadcrumbSchema(CRUMBS)} />
@@ -35,3 +36,6 @@ export default function ReviewsPage() {
     </>
   );
 }
+
+/** A page published from the builder at /reviews/ replaces this built-in version. */
+export default cmsOr('/reviews/', ReviewsPage);

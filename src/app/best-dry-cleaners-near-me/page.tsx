@@ -1,3 +1,4 @@
+import { cmsOr } from '@/cms/override';
 import { LandingPageView } from '@/components/LandingPageView';
 import { nearMePage } from '@/content/landing';
 import { withSeo } from '@/cms/withSeo';
@@ -13,6 +14,9 @@ export async function generateMetadata() {
 }));
 }
 
-export default function BestNearMePage() {
+function BestNearMePage() {
   return <LandingPageView page={nearMePage} />;
 }
+
+/** A page published from the builder at /best-dry-cleaners-near-me/ replaces this built-in version. */
+export default cmsOr('/best-dry-cleaners-near-me/', BestNearMePage);

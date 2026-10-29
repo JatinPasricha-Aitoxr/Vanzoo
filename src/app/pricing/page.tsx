@@ -1,3 +1,4 @@
+import { cmsOr } from '@/cms/override';
 import { withSeo } from '@/cms/withSeo';
 import Link from 'next/link';
 import { AreasSection } from '@/components/AreasSection';
@@ -32,7 +33,7 @@ export async function generateMetadata() {
 }));
 }
 
-export default async function PricingPage() {
+async function PricingPage() {
   const [{ couture: coutureCatalog, steam: steamIronCatalog }, products] = await Promise.all([getCatalogs(), getProducts()]);
   const productLinks = productHrefs(products);
   return (
@@ -189,3 +190,6 @@ export default async function PricingPage() {
     </>
   );
 }
+
+/** A page published from the builder at /pricing/ replaces this built-in version. */
+export default cmsOr('/pricing/', PricingPage);

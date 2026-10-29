@@ -1,3 +1,4 @@
+import { cmsOr } from '@/cms/override';
 import { withSeo } from '@/cms/withSeo';
 import Image from 'next/image';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
@@ -25,7 +26,7 @@ const average = reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length;
 const localities = new Set(reviews.map((r) => r.context)).size;
 const services = Array.from(new Set(reviews.map((r) => r.service)));
 
-export default function CustomerStoriesPage() {
+function CustomerStoriesPage() {
   return (
     <>
       <JsonLd data={breadcrumbSchema(CRUMBS)} />
@@ -108,3 +109,6 @@ export default function CustomerStoriesPage() {
     </>
   );
 }
+
+/** A page published from the builder at /customer-stories/ replaces this built-in version. */
+export default cmsOr('/customer-stories/', CustomerStoriesPage);

@@ -109,5 +109,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     return excluded.some((rule) => (rule.endsWith('*') ? path.startsWith(rule.slice(0, -1)) : path === rule || path === rule + '/'));
   };
   const extra = seoSettings.sitemapExtra.map((p) => ({ url: `${SITE_URL}${p}`, changeFrequency: 'monthly' as const, priority: 0.5 }));
-  return [...all, ...extra].filter((e) => !isExcluded(e.url));
+  const seen = new Set<string>();
+  // A builder page that replaces a built-in page shares its address; list each address once.
+  return [...all, ...extra].filter((e) => !isExcluded(e.url) && !seen.has(e.url) && seen.add(e.url));
 }

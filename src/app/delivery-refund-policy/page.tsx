@@ -1,3 +1,4 @@
+import { cmsOr } from '@/cms/override';
 import { withSeo } from '@/cms/withSeo';
 import { JsonLd } from '@/components/JsonLd';
 import { PolicyPage } from '@/components/PolicyPage';
@@ -15,7 +16,7 @@ export async function generateMetadata() {
 }));
 }
 
-export default function DeliveryRefundPolicyPage() {
+function DeliveryRefundPolicyPage() {
   return (
     <>
       <JsonLd data={breadcrumbSchema([{ name: doc.heading, href: doc.route }])} />
@@ -23,3 +24,6 @@ export default function DeliveryRefundPolicyPage() {
     </>
   );
 }
+
+/** A page published from the builder at /delivery-refund-policy/ replaces this built-in version. */
+export default cmsOr('/delivery-refund-policy/', DeliveryRefundPolicyPage);

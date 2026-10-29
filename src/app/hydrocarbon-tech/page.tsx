@@ -1,3 +1,4 @@
+import { cmsOr } from '@/cms/override';
 import { withSeo } from '@/cms/withSeo';
 import { Highlight } from '@/components/ui/Highlight';
 import Image from 'next/image';
@@ -28,7 +29,7 @@ export async function generateMetadata() {
 }));
 }
 
-export default function HydrocarbonTechPage() {
+function HydrocarbonTechPage() {
   return (
     <>
       <JsonLd data={[breadcrumbSchema(CRUMBS), faqSchema(hydrocarbon.faqs)]} />
@@ -265,3 +266,6 @@ export default function HydrocarbonTechPage() {
     </>
   );
 }
+
+/** A page published from the builder at /hydrocarbon-tech/ replaces this built-in version. */
+export default cmsOr('/hydrocarbon-tech/', HydrocarbonTechPage);

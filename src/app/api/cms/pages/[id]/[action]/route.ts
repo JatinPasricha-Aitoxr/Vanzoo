@@ -18,6 +18,8 @@ export async function POST(_req: Request, { params }: { params: { id: string; ac
       await audit(a.session.u, 'page_publish', page.slug);
       revalidatePath(page.slug);
       revalidatePath('/sitemap.xml');
+      // A detail-page template is shown on many pages, so refresh them all.
+      if (page.slug.startsWith('/_t/')) revalidatePath('/', 'layout');
       return NextResponse.json({ ok: true, page: updated });
     }
     if (params.action === 'unpublish') {
@@ -25,6 +27,8 @@ export async function POST(_req: Request, { params }: { params: { id: string; ac
       await audit(a.session.u, 'page_unpublish', page.slug);
       revalidatePath(page.slug);
       revalidatePath('/sitemap.xml');
+      // A detail-page template is shown on many pages, so refresh them all.
+      if (page.slug.startsWith('/_t/')) revalidatePath('/', 'layout');
       return NextResponse.json({ ok: true, page: await getPage(id) });
     }
     if (params.action === 'duplicate') {

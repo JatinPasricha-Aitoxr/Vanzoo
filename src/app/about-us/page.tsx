@@ -1,3 +1,4 @@
+import { cmsOr } from '@/cms/override';
 import { withSeo } from '@/cms/withSeo';
 import { Highlight } from '@/components/ui/Highlight';
 import Image from 'next/image';
@@ -24,7 +25,7 @@ export async function generateMetadata() {
 }));
 }
 
-export default function AboutPage() {
+function AboutPage() {
   return (
     <>
       <JsonLd data={breadcrumbSchema(CRUMBS)} />
@@ -141,3 +142,6 @@ export default function AboutPage() {
     </>
   );
 }
+
+/** A page published from the builder at /about-us/ replaces this built-in version. */
+export default cmsOr('/about-us/', AboutPage);

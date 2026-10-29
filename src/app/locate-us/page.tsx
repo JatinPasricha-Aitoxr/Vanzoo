@@ -1,3 +1,4 @@
+import { cmsOr } from '@/cms/override';
 import { withSeo } from '@/cms/withSeo';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
@@ -22,7 +23,7 @@ export async function generateMetadata() {
 }));
 }
 
-export default function LocateUsPage() {
+function LocateUsPage() {
   return (
     <>
       <JsonLd data={[localBusinessSchema(), breadcrumbSchema(CRUMBS)]} />
@@ -122,3 +123,6 @@ export default function LocateUsPage() {
     </>
   );
 }
+
+/** A page published from the builder at /locate-us/ replaces this built-in version. */
+export default cmsOr('/locate-us/', LocateUsPage);

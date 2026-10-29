@@ -20,6 +20,7 @@ export function generateStaticParams() {
 }
 
 async function load(slug: string[]) {
+  if (slug[0] === '_t') return null; // detail-page templates are fragments, never standalone pages
   return getPublishedBySlug(normSlug(slug.join('/')));
 }
 

@@ -1,3 +1,4 @@
+import { cmsOr } from '@/cms/override';
 import { withSeo } from '@/cms/withSeo';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { EnquiryForm } from '@/components/EnquiryForm';
@@ -22,7 +23,7 @@ export async function generateMetadata() {
 }));
 }
 
-export default async function ContactPage() {
+async function ContactPage() {
   const homeFaqs = await getHomeFaqs();
   return (
     <>
@@ -150,3 +151,6 @@ export default async function ContactPage() {
     </>
   );
 }
+
+/** A page published from the builder at /contact-us/ replaces this built-in version. */
+export default cmsOr('/contact-us/', ContactPage);

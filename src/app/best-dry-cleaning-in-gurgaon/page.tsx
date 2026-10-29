@@ -1,3 +1,4 @@
+import { cmsOr } from '@/cms/override';
 import { LandingPageView } from '@/components/LandingPageView';
 import { gurgaonPage } from '@/content/landing';
 import { withSeo } from '@/cms/withSeo';
@@ -13,6 +14,9 @@ export async function generateMetadata() {
 }));
 }
 
-export default function BestGurgaonPage() {
+function BestGurgaonPage() {
   return <LandingPageView page={gurgaonPage} />;
 }
+
+/** A page published from the builder at /best-dry-cleaning-in-gurgaon/ replaces this built-in version. */
+export default cmsOr('/best-dry-cleaning-in-gurgaon/', BestGurgaonPage);

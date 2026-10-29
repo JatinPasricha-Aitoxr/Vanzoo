@@ -43,6 +43,8 @@ export const normSlug = (raw: string): string => {
 };
 
 /** Slugs that belong to built-in (code) routes and cannot be taken by CMS pages. */
+import { OVERRIDABLE_PAGES } from './pageRoutes';
+
 export const RESERVED_ROOTS = new Set([
   'admin', 'api', 'preview', 'uploads', 'services', 'products', 'blogs', 'areas-we-serve', 'about-us', 'pricing',
   'membership', 'hydrocarbon-tech', 'contact-us', 'locate-us', 'reviews', 'customer-stories', 'privacy-policy',
@@ -51,7 +53,7 @@ export const RESERVED_ROOTS = new Set([
 ]);
 
 export async function listPages(): Promise<PageRow[]> {
-  const rows = await query<RawPage>('SELECT * FROM pages ORDER BY (slug = "/") DESC, title ASC');
+  const rows = await query<RawPage>('SELECT * FROM pages WHERE slug NOT LIKE "/\\_t/%" ORDER BY (slug = "/") DESC, title ASC');
   return rows.map(norm);
 }
 
@@ -97,7 +99,7 @@ export async function listPublishedSlugs(): Promise<{ slug: string; updated_at: 
   if (!dbConfigured()) return [];
   try {
     return await query<{ slug: string; updated_at: string }>(
-      "SELECT slug, updated_at FROM pages WHERE status = 'published' AND slug <> '/' AND JSON_EXTRACT(seo, '$.noindex') IS NOT TRUE",
+      "SELECT slug, updated_at FROM pages WHERE status = 'published' AND slug <> '/' AND slug NOT LIKE '/\\_t/%' AND JSON_EXTRACT(seo, '$.noindex') IS NOT TRUE",
     );
   } catch {
     return [];
@@ -111,10 +113,13 @@ export async function ensureHomePage(): Promise<void> {
   await exec('INSERT INTO pages (slug, title, template, status, seo) VALUES ("/", "Home", "home", "draft", ?)', [JSON.stringify({})]);
 }
 
-export async function createPage(title: string, slug: string): Promise<PageRow> {
+export async function createPage(title: string, slug: string, opts: { allowTemplate?: boolean } = {}): Promise<PageRow> {
   const clean = normSlug(slug);
   const root = clean.split('/')[1] ?? '';
-  if (clean === '/' || RESERVED_ROOTS.has(root)) throw new Error('That address is used by a built-in page. Choose another.');
+  const isTemplate = clean.startsWith('/_t/');
+  const overridable = (OVERRIDABLE_PAGES as readonly string[]).includes(clean);
+  if (isTemplate && !opts.allowTemplate) throw new Error('That address is reserved.');
+  if (!isTemplate && !overridable && (clean === '/' || RESERVED_ROOTS.has(root))) throw new Error('That address is used by a built-in page. Choose another.');
   if (await getPageBySlug(clean)) throw new Error('A page with that address already exists.');
   const res = await exec('INSERT INTO pages (slug, title, status, seo) VALUES (?, ?, "draft", ?)', [clean, title.slice(0, 255), JSON.stringify({})]);
   return (await getPage(res.insertId))!;

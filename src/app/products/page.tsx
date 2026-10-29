@@ -1,3 +1,4 @@
+import { cmsOr } from '@/cms/override';
 import Image from 'next/image';
 import Link from 'next/link';
 import { HydrocarbonBand } from '@/components/HydrocarbonBand';
@@ -18,7 +19,7 @@ export async function generateMetadata() {
   }));
 }
 
-export default async function ProductsIndexPage() {
+async function ProductsIndexPage() {
   const productEntries = await getProducts();
   return (
     <>
@@ -74,3 +75,6 @@ export default async function ProductsIndexPage() {
     </>
   );
 }
+
+/** A page published from the builder at /products/ replaces this built-in version. */
+export default cmsOr('/products/', ProductsIndexPage);

@@ -1,3 +1,4 @@
+import { DetailTemplate } from '@/cms/override';
 import { withSeo } from '@/cms/withSeo';
 import { Highlight } from '@/components/ui/Highlight';
 import Image from 'next/image';
@@ -355,6 +356,7 @@ export default async function AreaPage({ params }: Params) {
           secondary={{ label: 'See our tariffs', href: '/pricing/' }}
         />
       </Section>
+      <DetailTemplate slot="area" vars={{ name: area.name, url: `/areas-we-serve/${area.id}/` }} />
     </>
   );
 }

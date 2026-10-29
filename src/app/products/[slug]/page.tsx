@@ -1,3 +1,4 @@
+import { DetailTemplate } from '@/cms/override';
 import { withSeo } from '@/cms/withSeo';
 import { Highlight } from '@/components/ui/Highlight';
 import Image from 'next/image';
@@ -411,6 +412,7 @@ export default async function ProductDetailPage({ params }: Params) {
           />
         )}
       </Section>
+      <DetailTemplate slot="product" vars={{ title: product.title, url: `/products/${product.id}/` }} />
     </>
   );
 }

@@ -1,3 +1,4 @@
+import { cmsOr } from '@/cms/override';
 import { withSeo } from '@/cms/withSeo';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
@@ -31,7 +32,7 @@ type Group = { heading: string; links: readonly LinkItem[] };
  * the pages themselves render from, so it never drifts out of date. The XML
  * sitemap for crawlers is separate (app/sitemap.ts).
  */
-export default async function SiteMapPage() {
+async function SiteMapPage() {
   const posts = await allPosts();
   const [serviceEntries, productEntries] = await Promise.all([getServices(), getProducts()]);
   const categories = categoriesOf(posts);
@@ -137,3 +138,6 @@ function LinkGroup({ group }: { group: Group }) {
     </section>
   );
 }
+
+/** A page published from the builder at /site-map/ replaces this built-in version. */
+export default cmsOr('/site-map/', SiteMapPage);

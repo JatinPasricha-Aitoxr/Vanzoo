@@ -1,3 +1,4 @@
+import { cmsOr } from '@/cms/override';
 import { withSeo } from '@/cms/withSeo';
 import Link from 'next/link';
 import { AreaCoverageGrid } from '@/components/AreaCoverageGrid';
@@ -21,7 +22,7 @@ export async function generateMetadata() {
 }));
 }
 
-export default function AreasWeServePage() {
+function AreasWeServePage() {
   const totalAreas = areaGroups.reduce((count, group) => count + group.areas.length, 0);
 
   return (
@@ -130,3 +131,6 @@ export default function AreasWeServePage() {
     </>
   );
 }
+
+/** A page published from the builder at /areas-we-serve/ replaces this built-in version. */
+export default cmsOr('/areas-we-serve/', AreasWeServePage);

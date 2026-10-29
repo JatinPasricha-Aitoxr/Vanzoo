@@ -1,3 +1,4 @@
+import { cmsOr } from '@/cms/override';
 import { withSeo } from '@/cms/withSeo';
 import { Highlight } from '@/components/ui/Highlight';
 import Image from 'next/image';
@@ -45,7 +46,7 @@ function MembershipHeroCopy() {
   );
 }
 
-export default function MembershipPage() {
+function MembershipPage() {
   return (
     <>
       <JsonLd data={breadcrumbSchema(CRUMBS)} />
@@ -190,3 +191,6 @@ export default function MembershipPage() {
     </>
   );
 }
+
+/** A page published from the builder at /membership/ replaces this built-in version. */
+export default cmsOr('/membership/', MembershipPage);

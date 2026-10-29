@@ -1,3 +1,4 @@
+import { DetailTemplate } from '@/cms/override';
 import { withSeo } from '@/cms/withSeo';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -232,6 +233,7 @@ export default async function ServiceDetailPage({ params }: Params) {
           secondary={{ label: 'See all services', href: '/services/' }}
         />
       </Section>
+      <DetailTemplate slot="service" vars={{ title: service.title, url: `/services/${service.id}/` }} />
     </>
   );
 }

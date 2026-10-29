@@ -301,7 +301,7 @@ export function Editor({ page: initialPage, initialDoc, revisions: initialRevs }
       <header className="flex flex-wrap items-center gap-2 border-b border-[#d6dedb] bg-white px-3 py-2">
         <a href="/admin" className={btn.ghost} onClick={(e) => dirty && !confirm('You have unsaved changes. Leave anyway?') && e.preventDefault()}>← Dashboard</a>
         <select aria-label="Switch page" className={input + ' !w-48'} value={page.id} onChange={(e) => (!dirty || confirm('Discard unsaved changes?')) && (window.location.href = `/admin/editor/${e.target.value}`)}>
-          {pages.length === 0 ? <option value={page.id}>{page.title}</option> : pages.map((p) => <option key={p.id} value={p.id}>{p.title} ({p.slug})</option>)}
+          {(pages.some((p) => p.id === page.id) ? pages : [page, ...pages]).map((p) => <option key={p.id} value={p.id}>{p.title} ({p.slug})</option>)}
         </select>
         <span className={`rounded-full px-2 py-0.5 text-xs font-semibold ${page.status === 'published' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-900'}`}>
           {page.status === 'published' ? 'Published' : page.slug === '/' ? 'Using built-in layout' : 'Draft'}
