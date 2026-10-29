@@ -83,7 +83,7 @@ export function PersonasSection(p: { eyebrow: string; title: string; intro: stri
   );
 }
 
-export function BlogPreviewSection(p: { eyebrow: string; title: string; count: number }) {
+export function BlogPreviewSection(p: { eyebrow: string; title: string; count: number; posts?: typeof posts }) {
   return (
     <Section tone="surface" aria-labelledby="blog-preview-heading">
       <div className="flex flex-wrap items-end justify-between gap-6">
@@ -93,7 +93,7 @@ export function BlogPreviewSection(p: { eyebrow: string; title: string; count: n
         </Link>
       </div>
       <div className="mt-12">
-        <BlogGrid posts={posts.slice(0, p.count)} />
+        <BlogGrid posts={(p.posts ?? posts).slice(0, p.count)} />
       </div>
     </Section>
   );

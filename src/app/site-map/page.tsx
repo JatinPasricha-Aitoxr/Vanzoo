@@ -5,7 +5,8 @@ import { PageHeader } from '@/components/Hero';
 import { JsonLd } from '@/components/JsonLd';
 import { Section } from '@/components/ui/Section';
 import { areaPageFor } from '@/content/areas';
-import { categories, categorySlug, posts } from '@/content/blog';
+import { categorySlug } from '@/content/blog';
+import { allPosts, categoriesOf } from '@/cms/blogStore';
 import { landingPages } from '@/content/landing';
 import { productEntries } from '@/content/products';
 import { serviceEntries } from '@/content/services';
@@ -31,7 +32,9 @@ type Group = { heading: string; links: readonly LinkItem[] };
  * the pages themselves render from, so it never drifts out of date. The XML
  * sitemap for crawlers is separate (app/sitemap.ts).
  */
-export default function SiteMapPage() {
+export default async function SiteMapPage() {
+  const posts = await allPosts();
+  const categories = categoriesOf(posts);
   const groups: Group[] = [
     {
       heading: 'Main pages',

@@ -11,27 +11,27 @@ import { Section } from '@/components/ui/Section';
 import {
   categorySlug,
   formatPostDate,
-  getPost,
   postImage,
-  posts,
+  posts as builtInPosts,
   primaryCategory,
-  relatedPosts,
   splitBodyForInlineCta,
 } from '@/content/blog';
+import { allPosts, findPost, relatedOf } from '@/cms/blogStore';
 import { blogPostingSchema, breadcrumbSchema, buildMetadata } from '@/lib/seo';
 import { links, SITE_URL } from '@/lib/site';
 
 type Params = { params: { slug: string } };
 
-/** All 73 articles are static; an unknown slug is a 404, not a runtime render. */
-export const dynamicParams = false;
+/** Built-in articles are prebuilt; posts written in the CMS render on first request and are then cached. */
+export const dynamicParams = true;
+export const revalidate = 300;
 
 export function generateStaticParams() {
-  return posts.map((post) => ({ slug: post.slug }));
+  return builtInPosts.map((post) => ({ slug: post.slug }));
 }
 
 export async function generateMetadata({ params }: Params) {
-  const post = getPost(params.slug);
+  const post = await findPost(params.slug);
   if (!post) return {};
   const image = postImage(post);
 
@@ -47,13 +47,13 @@ export async function generateMetadata({ params }: Params) {
   }));
 }
 
-export default function BlogPostPage({ params }: Params) {
-  const post = getPost(params.slug);
+export default async function BlogPostPage({ params }: Params) {
+  const post = await findPost(params.slug);
   if (!post) notFound();
 
   const image = postImage(post);
   const category = primaryCategory(post);
-  const related = relatedPosts(post);
+  const related = relatedOf(await allPosts(), post);
   const split = splitBodyForInlineCta(post.body);
   const url = `${SITE_URL}/blogs/${post.slug}/`;
 

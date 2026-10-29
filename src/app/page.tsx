@@ -3,6 +3,7 @@ import { JsonLd } from '@/components/JsonLd';
 import { RenderDoc } from '@/cms/render';
 import { pageMetadata } from '@/cms/seo';
 import { defaultHomeDoc } from '@/cms/seed';
+import { allPosts } from '@/cms/blogStore';
 import { getPublishedBySlug } from '@/cms/store';
 import { homeFaqs } from '@/content/marketing';
 import { faqSchema, localBusinessSchema } from '@/lib/seo';
@@ -29,7 +30,7 @@ export default async function HomePage() {
   return (
     <>
       <JsonLd data={[localBusinessSchema(), faqSchema(homeFaqs)]} />
-      <RenderDoc doc={doc} />
+      <RenderDoc doc={doc} posts={await allPosts()} />
     </>
   );
 }

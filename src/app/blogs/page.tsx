@@ -5,7 +5,8 @@ import { BlogGrid } from '@/components/BlogCard';
 import { JsonLd } from '@/components/JsonLd';
 import { PageHeader } from '@/components/Hero';
 import { Section } from '@/components/ui/Section';
-import { categories, categorySlug, posts } from '@/content/blog';
+import { categorySlug } from '@/content/blog';
+import { allPosts, categoriesOf } from '@/cms/blogStore';
 import { breadcrumbSchema, buildMetadata } from '@/lib/seo';
 import { SITE_URL } from '@/lib/site';
 
@@ -29,7 +30,9 @@ export async function generateMetadata() {
  * links to `/blogs/category/[slug]/`, so each filtered view is its own
  * crawlable, canonical URL rather than a client-side state.
  */
-export default function BlogIndexPage() {
+export default async function BlogIndexPage() {
+  const posts = await allPosts();
+  const categories = categoriesOf(posts);
   return (
     <>
       <JsonLd

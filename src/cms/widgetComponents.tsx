@@ -22,6 +22,7 @@ import {
   ServicesRowSection,
   VisitStoreSection,
 } from './homeSections';
+import type { Post } from '@/content/blog';
 import type { Block } from './schema';
 
 /**
@@ -29,7 +30,7 @@ import type { Block } from './schema';
  * render on the public (server) page and inside the editor canvas (client).
  */
 type P = Record<string, any>;
-type Renderer = (props: P, ctx: { children?: ReactNode; block: Block }) => ReactNode;
+type Renderer = (props: P, ctx: { children?: ReactNode; block: Block; posts?: Post[] }) => ReactNode;
 
 const SIZE_CLASS: Record<string, string> = {
   'display-xl': 'text-display-xl',
@@ -128,7 +129,7 @@ export const WIDGET_COMPONENTS: Record<string, Renderer> = {
   'brand-band': () => <BrandBand />,
   'we-care': () => <WeCareBanner />,
   areas: () => <AreasSection />,
-  'blog-preview': (p) => <BlogPreviewSection eyebrow={p.eyebrow} title={p.title} count={p.count} />,
+  'blog-preview': (p, ctx) => <BlogPreviewSection eyebrow={p.eyebrow} title={p.title} count={p.count} posts={ctx.posts} />,
   faq: (p) => <FaqSection title={p.title} showMascot={p.showMascot} />,
   enquiry: (p) => <EnquirySection eyebrow={p.eyebrow} title={p.title} />,
   guarantee: () => <GuaranteeSection />,

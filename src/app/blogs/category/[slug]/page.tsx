@@ -6,7 +6,8 @@ import { BlogGrid } from '@/components/BlogCard';
 import { JsonLd } from '@/components/JsonLd';
 import { PageHeader } from '@/components/Hero';
 import { Section } from '@/components/ui/Section';
-import { categories, categoryFromSlug, categorySlug, postsInCategory } from '@/content/blog';
+import { categories as builtInCategories, categorySlug } from '@/content/blog';
+import { allPosts, categoriesOf, inCategory } from '@/cms/blogStore';
 import { breadcrumbSchema, buildMetadata } from '@/lib/seo';
 
 type Params = { params: { slug: string } };
@@ -15,11 +16,11 @@ type Params = { params: { slug: string } };
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return categories.map((category) => ({ slug: categorySlug(category) }));
+  return builtInCategories.map((category) => ({ slug: categorySlug(category) }));
 }
 
 export async function generateMetadata({ params }: Params) {
-  const category = categoryFromSlug(params.slug);
+  const category = categoriesOf(await allPosts()).find((c) => categorySlug(c) === params.slug);
   if (!category) return {};
 
   return withSeo(buildMetadata({
@@ -29,11 +30,13 @@ export async function generateMetadata({ params }: Params) {
   }));
 }
 
-export default function BlogCategoryPage({ params }: Params) {
-  const category = categoryFromSlug(params.slug);
+export default async function BlogCategoryPage({ params }: Params) {
+  const posts = await allPosts();
+  const category = categoriesOf(posts).find((c) => categorySlug(c) === params.slug);
   if (!category) notFound();
 
-  const categoryPosts = postsInCategory(category);
+  const categoryPosts = inCategory(posts, category);
+  const categories = categoriesOf(posts);
   const crumbs = [
     { name: 'Blogs', href: '/blogs/' },
     { name: category, href: `/blogs/category/${params.slug}/` },

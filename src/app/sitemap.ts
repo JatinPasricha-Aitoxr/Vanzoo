@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next';
 import { areaEntries } from '@/content/areas';
-import { categories, categorySlug, posts, postsInCategory } from '@/content/blog';
+import { categorySlug } from '@/content/blog';
+import { allPosts, categoriesOf, inCategory as postsIn } from '@/cms/blogStore';
 import { productEntries } from '@/content/products';
 import { serviceEntries } from '@/content/services';
 import { getGlobalSeo } from '@/cms/seoStore';
@@ -23,6 +24,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     changeFrequency: 'monthly' as const,
     priority: 0.6,
   }));
+  const posts = await allPosts();
+  const categories = categoriesOf(posts);
   const newestPost = posts[0]?.updatedAt ?? new Date().toISOString();
 
   const staticPages: MetadataRoute.Sitemap = [
@@ -74,7 +77,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ];
 
   const categoryPages: MetadataRoute.Sitemap = categories.map((category) => {
-    const inCategory = postsInCategory(category);
+    const inCategory = postsIn(posts, category);
     return {
       url: `${SITE_URL}/blogs/category/${categorySlug(category)}/`,
       lastModified: inCategory[0]?.updatedAt ?? newestPost,

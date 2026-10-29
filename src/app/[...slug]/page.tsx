@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { logNotFound } from '@/cms/seoStore';
+import { allPosts } from '@/cms/blogStore';
 import { RenderDoc } from '@/cms/render';
 import { pageMetadata } from '@/cms/seo';
 import { getPublishedBySlug, normSlug } from '@/cms/store';
@@ -38,5 +39,5 @@ export default async function CmsPage({ params }: { params: { slug: string[] } }
     await logNotFound('/' + params.slug.join('/') + '/', null);
     notFound();
   }
-  return <RenderDoc doc={live.doc} />;
+  return <RenderDoc doc={live.doc} posts={await allPosts()} />;
 }
