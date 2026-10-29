@@ -4,6 +4,7 @@ import { uploadDir } from '@/lib/uploads';
 import { mkdir, access, constants } from 'node:fs/promises';
 import bcrypt from 'bcryptjs';
 import { GA_ID, GOOGLE_SITE_VERIFICATION, GTM_ID } from '@/lib/site';
+import { gscConfigured, gscSite } from '@/cms/gsc';
 
 export const dynamic = 'force-dynamic';
 
@@ -49,6 +50,7 @@ const INTEGRATIONS = [
   { name: 'Google Analytics 4', on: Boolean(GA_ID), detail: GA_ID ? `Measurement ID ${GA_ID} is installed on every page.` : 'No measurement ID set.' },
   { name: 'Google Tag Manager', on: Boolean(GTM_ID), detail: GTM_ID ? `Container ${GTM_ID} is installed.` : 'Not configured (NEXT_PUBLIC_GTM_ID).' },
   { name: 'Search Console verification', on: Boolean(GOOGLE_SITE_VERIFICATION), detail: GOOGLE_SITE_VERIFICATION ? 'Verification tag is published. Impressions and rankings are viewed in Search Console itself — this panel does not show them.' : 'No verification tag set (NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION). Impressions, rankings and Core Web Vitals are not shown here because no integration is connected.' },
+  { name: 'Search Console data (API)', on: gscConfigured(), detail: gscConfigured() ? `Reading ${gscSite()} — see SEO → Search data.` : 'Not connected (GSC_SERVICE_ACCOUNT_JSON or GSC_CLIENT_EMAIL + GSC_PRIVATE_KEY, and GSC_SITE_URL). Until then no search figures are shown.' },
   { name: 'Enquiry email (Resend)', on: Boolean(process.env.RESEND_API_KEY && process.env.ENQUIRY_TO_EMAIL), detail: process.env.RESEND_API_KEY ? 'Configured.' : 'Not configured (RESEND_API_KEY, ENQUIRY_TO_EMAIL).' },
 ];
 
