@@ -12,6 +12,22 @@
 @layer base {
   :root {
     color-scheme: light;
+    /* Design tokens (RGB channels) — Tailwind colours read these; the CMS can override them. */
+    --c-brand: 0 74 64;
+    --c-brand-dark: 0 51 44;
+    --c-brand-light: 230 240 236;
+    --c-brand-ink: 0 26 22;
+    --c-brand-hover: 0 105 90;
+    --c-brand-tint: 244 249 247;
+    --c-gold: 255 177 7;
+    --c-gold-soft: 245 224 176;
+    --c-gold-ink: 122 82 0;
+    --c-ink: 18 24 27;
+    --c-body: 74 85 89;
+    --c-line: 226 232 233;
+    --c-surface: 255 255 255;
+    --c-muted: 246 248 248;
+    --c-success: 46 125 91;
     /* Consumed by the sticky header offset and by scroll-margin on anchors, so
        in-page links never land underneath the header. */
     --header-top: 68px;

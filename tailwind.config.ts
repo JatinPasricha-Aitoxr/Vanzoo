@@ -34,33 +34,33 @@ const config: Config = {
     extend: {
       colors: {
         brand: {
-          DEFAULT: '#004A40',
-          dark: '#00332C',
-          light: '#E6F0EC',
+          DEFAULT: 'rgb(var(--c-brand) / <alpha-value>)',
+          dark: 'rgb(var(--c-brand-dark) / <alpha-value>)',
+          light: 'rgb(var(--c-brand-light) / <alpha-value>)',
           /** Near-black green — footer base and the deepest bands. */
-          ink: '#001A16',
+          ink: 'rgb(var(--c-brand-ink) / <alpha-value>)',
           // Intermediate steps the brand palette doesn't name but hover/border
           // states need. Hover lifts *lighter*: #004A40 is already so dark that
           // darkening it further reads as a disabled state rather than a press.
-          hover: '#00695A',
-          tint: '#F4F9F7',
+          hover: 'rgb(var(--c-brand-hover) / <alpha-value>)',
+          tint: 'rgb(var(--c-brand-tint) / <alpha-value>)',
         },
         accent: {
           /** Decorative only — icons, stars, rules. Never text. */
-          gold: '#FFB107',
+          gold: 'rgb(var(--c-gold) / <alpha-value>)',
           /** Gold text on dark surfaces. */
-          'gold-soft': '#F5E0B0',
+          'gold-soft': 'rgb(var(--c-gold-soft) / <alpha-value>)',
           /** Gold text on light surfaces. */
-          'gold-ink': '#7A5200',
+          'gold-ink': 'rgb(var(--c-gold-ink) / <alpha-value>)',
         },
         neutral: {
-          ink: '#12181B',
-          body: '#4A5559',
-          line: '#E2E8E9',
-          surface: '#FFFFFF',
-          muted: '#F6F8F8',
+          ink: 'rgb(var(--c-ink) / <alpha-value>)',
+          body: 'rgb(var(--c-body) / <alpha-value>)',
+          line: 'rgb(var(--c-line) / <alpha-value>)',
+          surface: 'rgb(var(--c-surface) / <alpha-value>)',
+          muted: 'rgb(var(--c-muted) / <alpha-value>)',
         },
-        success: '#2E7D5B',
+        success: 'rgb(var(--c-success) / <alpha-value>)',
       },
       fontFamily: {
         // Bound in src/app/layout.tsx via next/font — self-hosted, swap-display.

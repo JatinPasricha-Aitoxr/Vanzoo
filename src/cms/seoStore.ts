@@ -37,7 +37,7 @@ export type SeoOverride = {
 
 export const SEO_TAG = 'seo';
 
-async function readSetting<T extends object>(key: string, fallback: T): Promise<T> {
+export async function readSetting<T extends object>(key: string, fallback: T): Promise<T> {
   if (!dbConfigured()) return fallback;
   try {
     const rows = await query<{ v: unknown }>('SELECT v FROM settings WHERE k = ?', [key]);

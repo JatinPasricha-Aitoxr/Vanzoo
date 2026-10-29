@@ -1,7 +1,7 @@
 import { revalidatePath } from 'next/cache';
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
-import { audit, requireSession } from '@/lib/auth';
+import { audit, requireAdmin, requireSession } from '@/lib/auth';
 import { getSettings, saveSettings, storageKind } from '@/lib/settings';
 
 export const runtime = 'nodejs';
@@ -14,7 +14,7 @@ export async function GET() {
 }
 
 export async function PUT(req: Request) {
-  const a = await requireSession();
+  const a = await requireAdmin();
   if ('error' in a) return a.error;
   const body = z.object({ delhiEnabled: z.boolean() }).safeParse(await req.json().catch(() => null));
   if (!body.success) return NextResponse.json({ error: 'Invalid request.' }, { status: 400 });

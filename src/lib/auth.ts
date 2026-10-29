@@ -16,6 +16,15 @@ export async function requireSession(): Promise<{ session: Session } | { error: 
   return { session };
 }
 
+/** Like requireSession, but the user must currently be an admin (checked against the DB, so demotions apply immediately). */
+export async function requireAdmin(): Promise<{ session: Session } | { error: NextResponse }> {
+  const a = await requireSession();
+  if ('error' in a) return a;
+  const rows = await query<{ role: string }>('SELECT role FROM users WHERE username = ? LIMIT 1', [a.session.u]).catch(() => []);
+  if (rows[0]?.role !== 'admin') return { error: NextResponse.json({ error: 'Administrator access required.' }, { status: 403 }) };
+  return a;
+}
+
 /** Constant-time-ish credential check; a missing user still runs one bcrypt compare. */
 export async function checkCredentials(username: string, password: string) {
   const rows = await query<{ id: number; username: string; password_hash: string; role: 'admin' | 'editor' }>(

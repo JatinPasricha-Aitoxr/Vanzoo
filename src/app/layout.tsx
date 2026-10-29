@@ -16,6 +16,8 @@ import { PageVideo } from '@/components/PageVideo';
 import { CartProvider } from '@/lib/cart';
 import { organizationSchema, websiteSchema } from '@/lib/seo';
 import { GA_ID, GOOGLE_SITE_VERIFICATION, GTM_ID, SITE_URL, site } from '@/lib/site';
+import { NavProvider } from '@/components/SiteConfigContext';
+import { designCss, getDesign, getSiteConfig } from '@/cms/siteConfig';
 import './globals.css';
 
 /**
@@ -63,10 +65,13 @@ export const viewport: Viewport = {
   colorScheme: 'light',
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const [design, cfg] = await Promise.all([getDesign(), getSiteConfig()]);
+  const tokenCss = designCss(design);
   return (
     <html lang="en-IN" className={`${display.variable} ${sans.variable}`}>
       <head>
+        {tokenCss ? <style id="vz-tokens" dangerouslySetInnerHTML={{ __html: tokenCss }} /> : null}
         {GTM_ID ? (
           <Script id="gtm" strategy="beforeInteractive">
             {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${GTM_ID}');`}
@@ -97,6 +102,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* The cart wraps the whole tree, not just the tariff pages: the header
             badge and the drawer live outside those routes. */}
         <CityProvider>
+        <NavProvider nav={cfg.nav}>
         <CartProvider>
           <SiteChrome
             before={<Header />}
@@ -105,7 +111,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <PageGallery />
                 <ReviewsBand />
                 <StoresAndReviews />
-                <Footer />
+                <Footer columns={cfg.footerColumns} socials={cfg.social} />
                 <ContactRail />
                 <BookNowButton />
                 <PageVideo />
@@ -116,6 +122,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             {children}
           </SiteChrome>
         </CartProvider>
+        </NavProvider>
         </CityProvider>
       </body>
     </html>

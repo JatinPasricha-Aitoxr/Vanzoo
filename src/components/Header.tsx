@@ -10,7 +10,8 @@ import { CartButton } from './CartButton';
 import { LocationSelect } from './LocationSelect';
 import { SearchBar } from './SearchBar';
 import { serviceEntries } from '@/content/services';
-import { links, navLinks, site } from '@/lib/site';
+import { links, site } from '@/lib/site';
+import { useNav } from './SiteConfigContext';
 import { cn } from '@/lib/cn';
 
 /** The one nav item that carries a dropdown — matched by href, not index, so
@@ -230,6 +231,7 @@ export function Header() {
  * of the effect.
  */
 function DesktopNav({ pathname, solid }: { pathname: string; solid: boolean }) {
+  const navLinks = useNav();
   const listRef = useRef<HTMLUListElement>(null);
   const [pill, setPill] = useState<{ left: number; width: number } | null>(null);
 
@@ -373,6 +375,7 @@ function MobileNav({
   onClose: () => void;
   pathname: string;
 }) {
+  const navLinks = useNav();
   const panelRef = useRef<HTMLDivElement>(null);
 
   // Escape closes, and focus is trapped inside the overlay while it is open.

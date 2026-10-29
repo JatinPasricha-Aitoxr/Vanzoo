@@ -1,7 +1,7 @@
 import { revalidatePath, revalidateTag } from 'next/cache';
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
-import { audit, requireSession } from '@/lib/auth';
+import { audit, requireAdmin, requireSession } from '@/lib/auth';
 import { DEFAULT_GLOBAL_SEO, SEO_TAG, writeSetting, type GlobalSeo } from '@/cms/seoStore';
 import { dbConfigured, parseJson, query } from '@/lib/db';
 
@@ -29,7 +29,7 @@ const Body = z.object({
 });
 
 export async function PUT(req: Request) {
-  const a = await requireSession();
+  const a = await requireAdmin();
   if ('error' in a) return a.error;
   const b = Body.safeParse(await req.json().catch(() => null));
   if (!b.success) return NextResponse.json({ error: b.error.issues[0]?.message ?? 'Invalid settings.' }, { status: 400 });

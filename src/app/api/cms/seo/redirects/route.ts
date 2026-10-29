@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
-import { audit, requireSession } from '@/lib/auth';
+import { audit, requireAdmin, requireSession } from '@/lib/auth';
 import { exec } from '@/lib/db';
 import { listNotFound, listRedirects, validateRedirect } from '@/cms/seoStore';
 
@@ -23,7 +23,7 @@ const Body = z.object({
 });
 
 export async function POST(req: Request) {
-  const a = await requireSession();
+  const a = await requireAdmin();
   if ('error' in a) return a.error;
   const b = Body.safeParse(await req.json().catch(() => null));
   if (!b.success) return NextResponse.json({ error: 'Invalid request.' }, { status: 400 });
@@ -41,7 +41,7 @@ export async function POST(req: Request) {
 }
 
 export async function DELETE(req: Request) {
-  const a = await requireSession();
+  const a = await requireAdmin();
   if ('error' in a) return a.error;
   const { id, clearNotFound } = (await req.json().catch(() => ({}))) as { id?: number; clearNotFound?: string };
   if (id) await exec('DELETE FROM redirects WHERE id = ?', [id]);

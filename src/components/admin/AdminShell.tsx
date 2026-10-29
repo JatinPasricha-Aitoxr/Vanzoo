@@ -9,12 +9,12 @@ const NAV = [
   { group: 'Overview', items: [{ href: '/admin', label: 'Dashboard', icon: '▦' }] },
   { group: 'Website Builder', items: [{ href: '/admin/pages', label: 'Pages', icon: '▤' }, { href: '/admin/media', label: 'Media library', icon: '▣' }] },
   { group: 'SEO', items: [{ href: '/admin/seo', label: 'SEO & redirects', icon: '◎' }] },
-  { group: 'Website Settings', items: [{ href: '/admin/settings', label: 'Site settings', icon: '⚙' }] },
-  { group: 'System', items: [{ href: '/admin/system', label: 'System & health', icon: '✚' }] },
+  { group: 'Website Settings', items: [{ href: '/admin/settings', label: 'Site settings', icon: '⚙', admin: true }, { href: '/admin/design', label: 'Design tokens', icon: '◐', admin: true }, { href: '/admin/site', label: 'Header, footer & contact', icon: '☰', admin: true }] },
+  { group: 'System', items: [{ href: '/admin/system', label: 'System & health', icon: '✚' }, { href: '/admin/users', label: 'Users & roles', icon: '☺', admin: true }] },
 ];
 
 /** Collapsible WordPress-style sidebar around every non-editor admin screen. */
-export function AdminShell({ user, children }: { user: string; children: React.ReactNode }) {
+export function AdminShell({ user, role = 'admin', children }: { user: string; role?: 'admin' | 'editor'; children: React.ReactNode }) {
   const path = usePathname();
   const [collapsed, setCollapsed] = useState(false);
 
@@ -31,7 +31,7 @@ export function AdminShell({ user, children }: { user: string; children: React.R
           <button type="button" onClick={() => setCollapsed((c) => !c)} className="rounded p-1.5 hover:bg-white/10" aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'} aria-expanded={!collapsed}>{collapsed ? '»' : '«'}</button>
         </div>
         <nav className="flex-1 overflow-y-auto px-2">
-          {NAV.map((g) => (
+          {NAV.map((g) => ({ ...g, items: g.items.filter((i) => role === 'admin' || !('admin' in i && i.admin)) })).filter((g) => g.items.length).map((g) => (
             <div key={g.group} className="mb-4">
               {!collapsed ? <p className="px-3 pb-1 text-[11px] font-semibold uppercase tracking-wider text-white/50">{g.group}</p> : null}
               {g.items.map((i) => {

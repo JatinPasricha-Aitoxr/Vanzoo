@@ -15,7 +15,7 @@ import {
  * Mega-footer (§2.3.9). Columns come from `footerColumns` in site.ts, so adding
  * a link is a data edit rather than a markup change.
  */
-export function Footer() {
+export function Footer({ columns = footerColumns, socials = socialLinks }: { columns?: ReadonlyArray<{ heading: string; links: ReadonlyArray<{ label: string; href: string }> }>; socials?: ReadonlyArray<{ label: string; href: string }> } = {}) {
   return (
     <footer className="band-dark text-white">
       {/* Extra bottom padding on small screens clears the fixed "Book Pickup"
@@ -57,7 +57,7 @@ export function Footer() {
             </ul>
 
             <ul className="mt-6 flex items-center gap-3">
-              {socialLinks.map((social) => (
+              {socials.map((social) => (
                 <li key={social.label}>
                   <a
                     href={social.href}
@@ -73,7 +73,7 @@ export function Footer() {
             </ul>
           </div>
 
-          {footerColumns.map((column) => (
+          {columns.map((column) => (
             <nav key={column.heading} aria-label={column.heading}>
               <h2 className="font-display text-sm font-semibold uppercase tracking-[0.14em] text-accent-gold-soft">
                 {column.heading}
