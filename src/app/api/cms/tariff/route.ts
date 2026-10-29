@@ -61,6 +61,9 @@ export async function PUT(req: Request) {
   await exec('INSERT INTO cms_content (type, k, data, updated_by) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE data = VALUES(data), updated_by = VALUES(updated_by)', ['tariff', b.data.catalog, JSON.stringify(data), a.session.u]);
   revalidateTag(CONTENT_TAG);
   revalidatePath('/', 'layout');
+  // Route handlers aren't covered by the layout revalidation above.
+  revalidatePath('/sitemap.xml');
+  revalidatePath('/api/search-index');
   await audit(a.session.u, 'tariff_save', b.data.catalog, { changed: Object.keys(rows).length, added: b.data.added.length });
   return NextResponse.json({ ok: true });
 }
@@ -73,6 +76,9 @@ export async function DELETE(req: Request) {
   await exec('DELETE FROM cms_content WHERE type = ? AND k = ?', ['tariff', b.data.catalog]);
   revalidateTag(CONTENT_TAG);
   revalidatePath('/', 'layout');
+  // Route handlers aren't covered by the layout revalidation above.
+  revalidatePath('/sitemap.xml');
+  revalidatePath('/api/search-index');
   await audit(a.session.u, 'tariff_reset', b.data.catalog);
   return NextResponse.json({ ok: true });
 }

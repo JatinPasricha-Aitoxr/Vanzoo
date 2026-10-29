@@ -5,7 +5,7 @@ import { formatPrice } from '@/content/pricing';
 import { navLinks } from '@/lib/site';
 
 /** Header-search index: pages, services and every tariff row, including editor changes. Loaded on first open. */
-export const revalidate = 300;
+export const dynamic = 'force-dynamic';
 
 export async function GET() {
   const [services, catalogs, cfg] = await Promise.all([getServices(), getCatalogs(), getSiteConfig()]);

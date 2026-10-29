@@ -127,6 +127,9 @@ export async function PUT(req: Request) {
   await exec('INSERT INTO cms_content (type, k, data, updated_by) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE data = VALUES(data), updated_by = VALUES(updated_by)', [type, key, JSON.stringify(data), a.session.u]);
   revalidateTag(CONTENT_TAG);
   revalidatePath('/', 'layout');
+  // Route handlers aren't covered by the layout revalidation above.
+  revalidatePath('/sitemap.xml');
+  revalidatePath('/api/search-index');
   await audit(a.session.u, 'content_save', `${type}/${key}`);
   return NextResponse.json({ ok: true });
 }
@@ -139,6 +142,9 @@ export async function DELETE(req: Request) {
   await exec('DELETE FROM cms_content WHERE type = ? AND k = ?', [b.data.type, b.data.key]);
   revalidateTag(CONTENT_TAG);
   revalidatePath('/', 'layout');
+  // Route handlers aren't covered by the layout revalidation above.
+  revalidatePath('/sitemap.xml');
+  revalidatePath('/api/search-index');
   await audit(a.session.u, 'content_revert', `${b.data.type}/${b.data.key}`);
   return NextResponse.json({ ok: true });
 }

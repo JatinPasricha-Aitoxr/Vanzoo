@@ -7,6 +7,9 @@ import { getGlobalSeo } from '@/cms/seoStore';
 import { listPublishedSlugs } from '@/cms/store';
 import { SITE_URL } from '@/lib/site';
 
+/** Built per request so edits in the CMS (pages, posts, hidden items, SEO settings) show up immediately. */
+export const dynamic = 'force-dynamic';
+
 /**
  * Sitemap covering every indexable route: the marketing pages, the blog index,
  * each category view and all 73 articles.

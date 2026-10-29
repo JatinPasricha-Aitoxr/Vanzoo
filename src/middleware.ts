@@ -4,13 +4,20 @@ import { SESSION_COOKIE, internalToken, verifySession } from '@/lib/session';
 /** Redirect table cached in the middleware process for 30 seconds. */
 let redirectCache: { at: number; map: Record<string, { to: string; code: number }> } = { at: 0, map: {} };
 
+/** Internal calls always go to this server on loopback, never to a host taken from the request's Host header. */
+const internalOrigin = () => `http://127.0.0.1:${process.env.PORT || 3000}`;
+
+const validRedirect = (v: unknown): v is { to: string; code: number } =>
+  typeof v === 'object' && v !== null && typeof (v as { to?: unknown }).to === 'string' && /^(\/(?!\/)|https?:\/\/)[^\s]*$/.test((v as { to: string }).to) && typeof (v as { code?: unknown }).code === 'number';
+
 async function redirectFor(req: NextRequest, path: string) {
   if (!process.env.MYSQL_URL && !process.env.MYSQL_USER) return null;
   if (Date.now() - redirectCache.at > 30_000) {
     try {
       const token = await internalToken();
-      const r = await fetch(new URL('/api/internal/redirects', req.nextUrl.origin), { headers: { 'x-vz-internal': token }, cache: 'no-store' });
-      redirectCache = { at: Date.now(), map: r.ok ? await r.json() : {} };
+      const r = await fetch(new URL('/api/internal/redirects', internalOrigin()), { headers: { 'x-vz-internal': token }, cache: 'no-store' });
+      const raw = r.ok ? ((await r.json()) as Record<string, unknown>) : {};
+      redirectCache = { at: Date.now(), map: Object.fromEntries(Object.entries(raw).filter(([, v]) => validRedirect(v))) as typeof redirectCache.map };
     } catch {
       redirectCache = { at: Date.now(), map: redirectCache.map };
     }
@@ -49,7 +56,7 @@ export async function middleware(req: NextRequest) {
       const to = hit.to.startsWith('http') ? new URL(hit.to) : new URL(hit.to, req.nextUrl.origin);
       if (!hit.to.startsWith('http')) to.search = req.nextUrl.search;
       void internalToken().then((t) =>
-        fetch(new URL('/api/internal/redirect-hit', req.nextUrl.origin), { method: 'POST', headers: { 'x-vz-internal': t, 'content-type': 'application/json' }, body: JSON.stringify({ source: path }) }).catch(() => {}),
+        fetch(new URL('/api/internal/redirect-hit', internalOrigin()), { method: 'POST', headers: { 'x-vz-internal': t, 'content-type': 'application/json' }, body: JSON.stringify({ source: path }) }).catch(() => {}),
       );
       return NextResponse.redirect(to, hit.code === 302 ? 307 : 308);
     }

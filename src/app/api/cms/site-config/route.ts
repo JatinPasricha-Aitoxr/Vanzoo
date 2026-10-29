@@ -51,6 +51,9 @@ export async function PUT(req: Request) {
   await writeSetting('siteconfig', b.data);
   revalidateTag(SITECFG_TAG);
   revalidatePath('/', 'layout');
+  // Route handlers aren't covered by the layout revalidation above.
+  revalidatePath('/sitemap.xml');
+  revalidatePath('/api/search-index');
   await audit(a.session.u, 'siteconfig_update');
   return NextResponse.json({ ok: true });
 }

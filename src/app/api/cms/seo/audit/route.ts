@@ -22,7 +22,7 @@ export async function GET() {
 export async function POST(req: Request) {
   const a = await requireSession();
   if ('error' in a) return a.error;
-  const port = Number(new URL(req.url).port) || Number(process.env.PORT) || 3000;
+  const port = Number(process.env.PORT) || 3000; // never taken from the request, whose Host header the caller controls
   void runAudit(port);
   return NextResponse.json({ ok: true });
 }

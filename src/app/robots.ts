@@ -2,6 +2,9 @@ import type { MetadataRoute } from 'next';
 import { getGlobalSeo } from '@/cms/seoStore';
 import { SITE_URL } from '@/lib/site';
 
+/** Built per request so edits in the CMS (pages, posts, hidden items, SEO settings) show up immediately. */
+export const dynamic = 'force-dynamic';
+
 export default async function robots(): Promise<MetadataRoute.Robots> {
   const g = await getGlobalSeo();
   const disallow = ['/api/', '/app/', '/admin/', '/preview/'];

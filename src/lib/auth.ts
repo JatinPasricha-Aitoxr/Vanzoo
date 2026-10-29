@@ -6,7 +6,11 @@ import { SESSION_COOKIE, SESSION_TTL_SECONDS, signSession, verifySession, type S
 
 /** The signed-in user for this request, or null. */
 export async function getSession(): Promise<Session | null> {
-  return verifySession(cookies().get(SESSION_COOKIE)?.value);
+  const session = await verifySession(cookies().get(SESSION_COOKIE)?.value);
+  if (!session) return null;
+  // A valid signature is not enough: the account must still exist, so deleting a user ends their session at once.
+  const rows = await query<{ id: number }>('SELECT id FROM users WHERE username = ? LIMIT 1', [session.u]).catch(() => null);
+  return rows && rows.length > 0 ? session : null;
 }
 
 /** For API handlers: returns the session or a 401 response. */
