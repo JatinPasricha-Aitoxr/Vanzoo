@@ -302,7 +302,7 @@ export function Editor({ page: initialPage, initialDoc, revisions: initialRevs }
               <div className="p-3">
                 <input className={input} placeholder="Search widgets…" value={search} onChange={(e) => setSearch(e.target.value)} aria-label="Search widgets" />
                 <p className="mt-2 text-xs text-[#6b7a75]">Drag onto the page, or click to add after the selected item.</p>
-                {(['Basic', 'Layout', 'Vanzoo'] as const).map((cat) => {
+                {(['Basic', 'Layout', 'Marketing', 'Vanzoo'] as const).map((cat) => {
                   const list = widgets.filter((w) => w.category === cat);
                   return list.length ? (
                     <div key={cat} className="mt-4">

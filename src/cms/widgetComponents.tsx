@@ -23,6 +23,7 @@ import {
   VisitStoreSection,
 } from './homeSections';
 import type { Post } from '@/content/blog';
+import { Cta, ContactInfo, FaqCustom, FeatureGrid, PriceList, RichText, Testimonials, Video } from './marketingWidgets';
 import type { Block } from './schema';
 
 /**
@@ -134,4 +135,12 @@ export const WIDGET_COMPONENTS: Record<string, Renderer> = {
   enquiry: (p) => <EnquirySection eyebrow={p.eyebrow} title={p.title} />,
   guarantee: () => <GuaranteeSection />,
   'app-promo': () => <AppPromoSection />,
+  'faq-custom': (p) => <FaqCustom {...p} />,
+  testimonials: (p) => <Testimonials {...p} />,
+  cta: (p) => <Cta {...p} />,
+  'feature-grid': (p) => <FeatureGrid {...p} />,
+  'price-list': (p) => <PriceList {...p} />,
+  'rich-text': (p) => <RichText {...p} />,
+  video: (p) => <Video {...p} />,
+  'contact-info': (p) => <ContactInfo {...p} />,
 };

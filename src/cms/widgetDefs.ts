@@ -1,12 +1,13 @@
 import { z } from 'zod';
 import type { Block } from './schema';
+import { sanitizeHtml } from './sanitize';
 
 /**
  * Widget catalogue — pure data (no React), shared by the editor UI, the save
  * validator and the renderer. Each widget declares its props schema, defaults
  * and the fields the inspector shows.
  */
-export type FieldType = 'text' | 'textarea' | 'select' | 'number' | 'checkbox' | 'image' | 'link';
+export type FieldType = 'text' | 'textarea' | 'select' | 'number' | 'checkbox' | 'image' | 'link' | 'list';
 export type Field = {
   key: string;
   label: string;
@@ -14,11 +15,15 @@ export type Field = {
   options?: { value: string; label: string }[];
   hint?: string;
   placeholder?: string;
+  /** For `list` fields: the fields of each repeated item, and its limits. */
+  itemFields?: Field[];
+  itemLabel?: string;
+  max?: number;
 };
 export type WidgetDef = {
   type: string;
   label: string;
-  category: 'Basic' | 'Layout' | 'Vanzoo';
+  category: 'Basic' | 'Layout' | 'Marketing' | 'Vanzoo';
   description: string;
   /** Can hold child blocks. */
   container?: boolean;
@@ -298,6 +303,107 @@ export const WIDGETS: WidgetDef[] = [
       { key: 'title', label: 'Heading', type: 'text' },
       { key: 'count', label: 'How many posts', type: 'number' },
     ],
+  },
+
+  // ----- Marketing -----
+  {
+    type: 'faq-custom',
+    label: 'FAQ (your questions)',
+    category: 'Marketing',
+    description: 'Accordion with questions you write. Adds FAQ structured data from the visible answers.',
+    propsSchema: z.object({ title: text(160).default('Frequently asked questions'), items: z.array(z.object({ question: text(200), answer: text(2000) })).max(30).default([]) }),
+    defaults: () => ({ title: 'Frequently asked questions', items: [{ question: 'Your first question?', answer: 'Write the answer here.' }] }),
+    fields: [
+      { key: 'title', label: 'Heading', type: 'text' },
+      { key: 'items', label: 'Questions', type: 'list', itemLabel: 'Question', max: 30, itemFields: [{ key: 'question', label: 'Question', type: 'text' }, { key: 'answer', label: 'Answer', type: 'textarea' }] },
+    ],
+  },
+  {
+    type: 'testimonials',
+    label: 'Customer quotes',
+    category: 'Marketing',
+    description: 'Quotes from real customers you have permission to publish. No star ratings are generated.',
+    propsSchema: z.object({ title: text(160).default('What customers say'), items: z.array(z.object({ quote: text(600), name: text(80), detail: text(120).default('') })).max(12).default([]) }),
+    defaults: () => ({ title: 'What customers say', items: [] }),
+    fields: [
+      { key: 'title', label: 'Heading', type: 'text' },
+      { key: 'items', label: 'Quotes', type: 'list', itemLabel: 'Quote', max: 12, itemFields: [{ key: 'quote', label: 'Quote', type: 'textarea' }, { key: 'name', label: 'Customer name', type: 'text' }, { key: 'detail', label: 'Detail (e.g. area)', type: 'text' }] },
+    ],
+    // Intentionally empty by default so nothing invented is ever published.
+  },
+  {
+    type: 'cta',
+    label: 'Call to action',
+    category: 'Marketing',
+    description: 'A banner with a heading, a line of text and one button.',
+    propsSchema: z.object({ heading: text(160).default('Ready to hand over the fabric care?'), body: text(300).default(''), label: text(40).default('Book Pickup'), href: href.default('/contact-us/'), tone: z.enum(['dark', 'light']).default('dark') }),
+    defaults: () => ({ heading: 'Ready to hand over the fabric care?', body: 'Free pickup and delivery across Gurgaon.', label: 'Book Pickup', href: '/contact-us/', tone: 'dark' }),
+    fields: [
+      { key: 'heading', label: 'Heading', type: 'text' },
+      { key: 'body', label: 'Text', type: 'textarea' },
+      { key: 'label', label: 'Button text', type: 'text' },
+      { key: 'href', label: 'Button link', type: 'link' },
+      { key: 'tone', label: 'Look', type: 'select', options: opts(['dark', 'Dark green'], ['light', 'Light']) },
+    ],
+  },
+  {
+    type: 'feature-grid',
+    label: 'Feature grid',
+    category: 'Marketing',
+    description: 'Short benefit cards in 2, 3 or 4 columns.',
+    propsSchema: z.object({ title: text(160).default(''), columns: z.enum(['2', '3', '4']).default('3'), items: z.array(z.object({ title: text(100), body: text(400) })).max(12).default([]) }),
+    defaults: () => ({ title: 'Why Vanzoo', columns: '3', items: [{ title: 'Benefit one', body: 'Say what the customer gets.' }, { title: 'Benefit two', body: 'Keep it concrete and true.' }, { title: 'Benefit three', body: 'One or two sentences.' }] }),
+    fields: [
+      { key: 'title', label: 'Heading', type: 'text' },
+      { key: 'columns', label: 'Columns', type: 'select', options: opts(['2', '2'], ['3', '3'], ['4', '4']) },
+      { key: 'items', label: 'Cards', type: 'list', itemLabel: 'Card', max: 12, itemFields: [{ key: 'title', label: 'Title', type: 'text' }, { key: 'body', label: 'Text', type: 'textarea' }] },
+    ],
+  },
+  {
+    type: 'price-list',
+    label: 'Price list',
+    category: 'Marketing',
+    description: 'A simple table of items and the prices you enter. Nothing is calculated or invented.',
+    propsSchema: z.object({ title: text(160).default(''), note: text(300).default(''), items: z.array(z.object({ name: text(120), price: text(40), detail: text(160).default('') })).max(60).default([]) }),
+    defaults: () => ({ title: 'Prices', note: 'Prices start from the amounts shown. GST extra.', items: [] }),
+    fields: [
+      { key: 'title', label: 'Heading', type: 'text' },
+      { key: 'note', label: 'Note under the table', type: 'text' },
+      { key: 'items', label: 'Rows', type: 'list', itemLabel: 'Row', max: 60, itemFields: [{ key: 'name', label: 'Item', type: 'text' }, { key: 'price', label: 'Price (e.g. ₹250)', type: 'text' }, { key: 'detail', label: 'Detail', type: 'text' }] },
+    ],
+  },
+  {
+    type: 'rich-text',
+    label: 'Rich text',
+    category: 'Marketing',
+    description: 'Formatted text (headings, lists, links). Unsafe HTML is stripped automatically.',
+    propsSchema: z.object({ html: z.string().max(60000).transform(sanitizeHtml).default('<p>Write your text here.</p>'), narrow: z.boolean().default(true) }),
+    defaults: () => ({ html: '<h2>Heading</h2><p>Write your text here.</p>', narrow: true }),
+    fields: [
+      { key: 'html', label: 'Content (HTML: h2–h4, p, ul, ol, a, strong, em, img)', type: 'textarea' },
+      { key: 'narrow', label: 'Narrow reading width', type: 'checkbox' },
+    ],
+  },
+  {
+    type: 'video',
+    label: 'YouTube video',
+    category: 'Marketing',
+    description: 'Privacy-friendly YouTube embed (youtube-nocookie).',
+    propsSchema: z.object({ url: text(300).default(''), title: text(160).default('Video') }),
+    defaults: () => ({ url: '', title: 'Video' }),
+    fields: [
+      { key: 'url', label: 'YouTube address', type: 'text', placeholder: 'https://www.youtube.com/watch?v=…' },
+      { key: 'title', label: 'Title (for screen readers)', type: 'text' },
+    ],
+  },
+  {
+    type: 'contact-info',
+    label: 'Contact details',
+    category: 'Marketing',
+    description: 'Phone, email and store address taken from the site’s verified business details.',
+    propsSchema: z.object({ title: text(160).default('Contact us') }),
+    defaults: () => ({ title: 'Contact us' }),
+    fields: [{ key: 'title', label: 'Heading', type: 'text' }],
   },
   {
     type: 'faq',

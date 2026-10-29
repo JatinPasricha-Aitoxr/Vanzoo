@@ -97,7 +97,34 @@ function FieldInput({ field, value, onChange }: { field: Field; value: unknown; 
           {picking ? <MediaPickerModal onClose={() => setPicking(false)} onPick={(m) => onChange(m.url)} /> : null}
         </div>
       ) : null}
+      {field.type === 'list' ? <ListField field={field} value={value} onChange={onChange} /> : null}
       {field.hint ? <p className="mt-1 text-xs text-[#6b7a75]">{field.hint}</p> : null}
+    </div>
+  );
+}
+
+/** Repeater: an ordered list of small records (FAQ entries, quotes, cards, price rows). */
+function ListField({ field, value, onChange }: { field: Field; value: unknown; onChange: (v: unknown) => void }) {
+  const rows = (Array.isArray(value) ? value : []) as Record<string, unknown>[];
+  const update = (next: Record<string, unknown>[]) => onChange(next);
+  const move = (i: number, d: number) => { const n = [...rows]; const j = i + d; if (j < 0 || j >= n.length) return; [n[i], n[j]] = [n[j], n[i]]; update(n); };
+  const blank = Object.fromEntries((field.itemFields ?? []).map((f) => [f.key, '']));
+  return (
+    <div className="space-y-3">
+      {rows.map((row, i) => (
+        <fieldset key={i} className="space-y-2 rounded-lg border border-[#e0e8e5] bg-[#f9fbfa] p-3">
+          <legend className="px-1 text-xs font-semibold text-[#51635d]">{field.itemLabel ?? 'Item'} {i + 1}</legend>
+          {(field.itemFields ?? []).map((f) => (
+            <FieldInput key={f.key} field={{ ...f, key: `${field.key}-${i}-${f.key}` }} value={row[f.key]} onChange={(v) => update(rows.map((r, k) => (k === i ? { ...r, [f.key]: v } : r)))} />
+          ))}
+          <div className="flex gap-1">
+            <button type="button" className={btn.ghost + ' !px-2 !py-1 text-xs'} aria-label="Move up" onClick={() => move(i, -1)}>↑</button>
+            <button type="button" className={btn.ghost + ' !px-2 !py-1 text-xs'} aria-label="Move down" onClick={() => move(i, 1)}>↓</button>
+            <button type="button" className={btn.danger + ' !px-2 !py-1 text-xs'} onClick={() => update(rows.filter((_, k) => k !== i))}>Remove</button>
+          </div>
+        </fieldset>
+      ))}
+      {rows.length < (field.max ?? 20) ? <button type="button" className={btn.ghost + ' w-full'} onClick={() => update([...rows, { ...blank }])}>+ Add {(field.itemLabel ?? 'item').toLowerCase()}</button> : null}
     </div>
   );
 }
