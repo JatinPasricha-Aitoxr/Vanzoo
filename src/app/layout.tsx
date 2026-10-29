@@ -18,6 +18,7 @@ import { organizationSchema, websiteSchema } from '@/lib/seo';
 import { GA_ID, GOOGLE_SITE_VERIFICATION, GTM_ID, SITE_URL, site } from '@/lib/site';
 import { NavProvider } from '@/components/SiteConfigContext';
 import { designCss, getDesign, getSiteConfig } from '@/cms/siteConfig';
+import { getServices } from '@/cms/content';
 import './globals.css';
 
 /**
@@ -66,7 +67,7 @@ export const viewport: Viewport = {
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const [design, cfg] = await Promise.all([getDesign(), getSiteConfig()]);
+  const [design, cfg, services] = await Promise.all([getDesign(), getSiteConfig(), getServices()]);
   const tokenCss = designCss(design);
   return (
     <html lang="en-IN" className={`${display.variable} ${sans.variable}`}>
@@ -102,7 +103,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         {/* The cart wraps the whole tree, not just the tariff pages: the header
             badge and the drawer live outside those routes. */}
         <CityProvider>
-        <NavProvider nav={cfg.nav}>
+        <NavProvider nav={cfg.nav} services={services.map((s) => ({ id: s.id, title: s.title }))}>
         <CartProvider>
           <SiteChrome
             before={<Header />}

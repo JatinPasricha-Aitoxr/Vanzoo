@@ -9,13 +9,9 @@ import { WhatsAppPrice } from '@/components/WhatsAppPrice';
 import { Section, SectionHeading } from '@/components/ui/Section';
 import { TariffGrid } from '@/components/TariffGrid';
 import { TariffSearchProvider } from '@/components/TariffSearchContext';
-import {
-  additionalOptions,
-  coutureCatalog,
-  steamIronCatalog,
-  tariffIntro,
-  tariffNote,
-} from '@/content/pricing';
+import { getCatalogs, getProducts } from '@/cms/content';
+import { productHrefs } from '@/cms/contentApply';
+import { additionalOptions, tariffIntro, tariffNote } from '@/content/pricing';
 import { breadcrumbSchema, buildMetadata } from '@/lib/seo';
 import { site } from '@/lib/site';
 
@@ -36,7 +32,9 @@ export async function generateMetadata() {
 }));
 }
 
-export default function PricingPage() {
+export default async function PricingPage() {
+  const [{ couture: coutureCatalog, steam: steamIronCatalog }, products] = await Promise.all([getCatalogs(), getProducts()]);
+  const productLinks = productHrefs(products);
   return (
     <>
       <JsonLd data={breadcrumbSchema(CRUMBS)} />
@@ -94,7 +92,7 @@ export default function PricingPage() {
           intro="Full cleaning and finishing — for garments, ethnic wear, leather, footwear, carpets, blankets, quilts and home textiles."
         />
         <div className="mt-10">
-          <TariffGrid catalog={coutureCatalog} searchable />
+          <TariffGrid catalog={coutureCatalog} searchable productLinks={productLinks} />
         </div>
       </Section>
 
@@ -106,7 +104,7 @@ export default function PricingPage() {
           intro="Pressing only — for garments that are already clean and simply need a professional finish."
         />
         <div className="mt-10">
-          <TariffGrid catalog={steamIronCatalog} />
+          <TariffGrid catalog={steamIronCatalog} productLinks={productLinks} />
         </div>
       </Section>
 

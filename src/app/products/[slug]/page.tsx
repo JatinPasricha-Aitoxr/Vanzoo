@@ -16,7 +16,8 @@ import { ProductBuyBox } from '@/components/ProductBuyBox';
 import { Reveal } from '@/components/ui/Reveal';
 import { Section, SectionHeading } from '@/components/ui/Section';
 import { lineId } from '@/content/pricing';
-import { getProduct, productEntries, tariffRowFor } from '@/content/products';
+import { getCatalogs, getProduct, rowFor } from '@/cms/content';
+import { productEntries } from '@/content/products';
 import { getProductCareContent } from '@/content/productCare';
 import { breadcrumbSchema, buildMetadata, faqSchema, productSchema } from '@/lib/seo';
 import { links } from '@/lib/site';
@@ -24,15 +25,16 @@ import { SITE_URL } from '@/lib/site';
 
 type Params = { params: { slug: string } };
 
-/** The one product shipped so far is static; an unknown slug is a 404. */
-export const dynamicParams = false;
+/** Built-in products are prebuilt; products added in the CMS render on first request, then are cached. */
+export const dynamicParams = true;
+export const revalidate = 300;
 
 export function generateStaticParams() {
   return productEntries.map((product) => ({ slug: product.id }));
 }
 
 export async function generateMetadata({ params }: Params) {
-  const product = getProduct(params.slug);
+  const product = await getProduct(params.slug);
   if (!product) return {};
   const care = getProductCareContent(product.id);
 
@@ -45,9 +47,10 @@ export async function generateMetadata({ params }: Params) {
   }));
 }
 
-export default function ProductDetailPage({ params }: Params) {
-  const product = getProduct(params.slug);
+export default async function ProductDetailPage({ params }: Params) {
+  const [product, catalogs] = await Promise.all([getProduct(params.slug), getCatalogs()]);
   if (!product) notFound();
+  const rows = product.services.map((option) => rowFor(catalogs, option));
   const care = getProductCareContent(product.id);
 
   const crumbs = [
@@ -64,8 +67,8 @@ export default function ProductDetailPage({ params }: Params) {
             title: product.title,
             description: product.intro,
             image: product.heroImage,
-            offers: product.services.map((option) => {
-              const row = tariffRowFor(option);
+            offers: product.services.map((option, i) => {
+              const row = rows[i];
               return {
                 name: option.label,
                 price: row.amount,
@@ -114,7 +117,7 @@ export default function ProductDetailPage({ params }: Params) {
 
       {/* Product photo + variant picker — existing cart/service selection, untouched */}
       <Section tone="surface" aria-labelledby="product-options-heading">
-        <ProductBuyBox product={product} />
+        <ProductBuyBox product={product} rows={rows} />
       </Section>
 
       {care ? (

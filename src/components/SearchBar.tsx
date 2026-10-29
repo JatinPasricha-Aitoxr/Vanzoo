@@ -3,40 +3,10 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
-import { coutureCatalog, formatPrice, steamIronCatalog } from '@/content/pricing';
-import { serviceEntries } from '@/content/services';
-import { navLinks } from '@/lib/site';
 import { cn } from '@/lib/cn';
 
 type SearchItem = { label: string; href: string; group: string; price?: string };
 
-const PAGE_ITEMS: SearchItem[] = navLinks.map((link) => ({
-  label: link.label,
-  href: link.href,
-  group: 'Pages',
-}));
-
-const SERVICE_ITEMS: SearchItem[] = serviceEntries.map((service) => ({
-  label: service.title,
-  href: `/services/${service.id}/`,
-  group: 'Services',
-}));
-
-/** Every priced tariff row from both catalogues — so searching a garment name
- *  ("shirt") surfaces its category and price, not just the service it lives
- *  under. Links to that category's own anchor on the pricing page. */
-const PRODUCT_ITEMS: SearchItem[] = [coutureCatalog, steamIronCatalog].flatMap((catalog) =>
-  catalog.groups.flatMap((group) =>
-    group.rows.map((row) => ({
-      label: row.item,
-      href: `/pricing/#${group.id}`,
-      group: `${group.label} · ${catalog.label}`,
-      price: formatPrice(row),
-    })),
-  ),
-);
-
-const SEARCH_INDEX: readonly SearchItem[] = [...PAGE_ITEMS, ...SERVICE_ITEMS, ...PRODUCT_ITEMS];
 
 /**
  * Header search — a lightweight client-side lookup over the site's own pages,
@@ -53,9 +23,17 @@ export function SearchBar({ solid, wide = false }: { solid: boolean; wide?: bool
   const inputRef = useRef<HTMLInputElement>(null);
   const rootRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
+  const [index, setIndex] = useState<readonly SearchItem[]>([]);
+  const loaded = useRef(false);
 
   useEffect(() => {
-    if (open) inputRef.current?.focus();
+    if (!open) return;
+    inputRef.current?.focus();
+    // The index (pages, services, every tariff row) is fetched once, on first open.
+    if (!loaded.current) {
+      loaded.current = true;
+      fetch('/api/search-index/').then((r) => r.json()).then((d: { items: SearchItem[] }) => setIndex(d.items)).catch(() => { loaded.current = false; });
+    }
   }, [open]);
 
   useEffect(() => {
@@ -84,7 +62,7 @@ export function SearchBar({ solid, wide = false }: { solid: boolean; wide?: bool
   // Names that start with the query rank above ones that merely contain it
   // (searching "shirt" should lead with "Shirt", not bury it under "T-shirt").
   const results = trimmed
-    ? SEARCH_INDEX.filter((item) => item.label.toLowerCase().includes(trimmed))
+    ? index.filter((item) => item.label.toLowerCase().includes(trimmed))
         .sort(
           (a, b) =>
             Number(!a.label.toLowerCase().startsWith(trimmed)) -

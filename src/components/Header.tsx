@@ -9,9 +9,8 @@ import { WhatsAppIcon } from './BookNowButton';
 import { CartButton } from './CartButton';
 import { LocationSelect } from './LocationSelect';
 import { SearchBar } from './SearchBar';
-import { serviceEntries } from '@/content/services';
 import { links, site } from '@/lib/site';
-import { useNav } from './SiteConfigContext';
+import { useNav, useServiceLinks } from './SiteConfigContext';
 import { cn } from '@/lib/cn';
 
 /** The one nav item that carries a dropdown — matched by href, not index, so
@@ -232,6 +231,7 @@ export function Header() {
  */
 function DesktopNav({ pathname, solid }: { pathname: string; solid: boolean }) {
   const navLinks = useNav();
+  const serviceEntries = useServiceLinks();
   const listRef = useRef<HTMLUListElement>(null);
   const [pill, setPill] = useState<{ left: number; width: number } | null>(null);
 
@@ -337,6 +337,7 @@ function DesktopNav({ pathname, solid }: { pathname: string; solid: boolean }) {
  * open.
  */
 function ServicesDropdown() {
+  const serviceEntries = useServiceLinks();
   return (
     <div className="invisible absolute left-0 top-full z-30 pt-3 opacity-0 transition-[opacity,visibility] duration-200 ease-entrance group-hover/services:visible group-hover/services:opacity-100 group-focus-within/services:visible group-focus-within/services:opacity-100">
       <div className="w-[34rem] max-w-[calc(100vw-2.5rem)] rounded-card border border-neutral-line bg-white p-5 shadow-lift-hover">
@@ -376,6 +377,7 @@ function MobileNav({
   pathname: string;
 }) {
   const navLinks = useNav();
+  const serviceEntries = useServiceLinks();
   const panelRef = useRef<HTMLDivElement>(null);
 
   // Escape closes, and focus is trapped inside the overlay while it is open.

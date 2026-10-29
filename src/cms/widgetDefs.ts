@@ -7,7 +7,7 @@ import { sanitizeHtml } from './sanitize';
  * validator and the renderer. Each widget declares its props schema, defaults
  * and the fields the inspector shows.
  */
-export type FieldType = 'text' | 'textarea' | 'select' | 'number' | 'checkbox' | 'image' | 'link' | 'list';
+export type FieldType = 'text' | 'textarea' | 'select' | 'number' | 'checkbox' | 'image' | 'link' | 'list' | 'lines';
 export type Field = {
   key: string;
   label: string;

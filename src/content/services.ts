@@ -54,7 +54,7 @@ export type ServiceEntry = {
   heroImage?: string;
   heroImageAlt?: string;
   /** "Starting from ₹x" line; null for services without a per-item tariff. */
-  from: { amount: number; note?: string } | null;
+  from: { amount: number; note?: string; /** Tariff row this amount mirrors — lets the CMS keep it in step with edited prices. */ ref?: readonly [catalogId: 'couture' | 'steam-iron', groupId: string, item: string] } | null;
   /** Price line for services with no per-item tariff (from === null). */
   priceLine?: string;
   /** Where "View tariffs" goes — tariff page, with a group anchor when one fits. */
@@ -102,7 +102,7 @@ export const serviceEntries: readonly ServiceEntry[] = [
       'Bespoke two-piece suit and evening dress hanging after couture dry cleaning at Vanzoo Gurgaon',
     heroImage: '/images/garment-rail-couture.jpg',
     heroImageAlt: 'Rail of pastel couture blazers cleaned and pressed at the Vanzoo Gurgaon atelier',
-    from: { amount: amountOf(coutureCatalog, 'mens-garments', 'Men Suit 2 Pcs') },
+    from: { amount: amountOf(coutureCatalog, 'mens-garments', 'Men Suit 2 Pcs'), ref: ['couture', 'mens-garments', 'Men Suit 2 Pcs'] },
     tariffHref: '/pricing/#mens-garments',
     tariffLabel: 'View couture tariffs',
     tariffPreview: { catalogId: 'couture', groupId: 'mens-garments' },
@@ -128,7 +128,7 @@ export const serviceEntries: readonly ServiceEntry[] = [
     image: '/images/vanzoo/service-silk-wool.jpg',
     imageAlt:
       'Folded silk and knitted wool fabrics against a deep green backdrop',
-    from: { amount: amountOf(coutureCatalog, 'casual-outerwear', 'Sweater Full Sleeves') },
+    from: { amount: amountOf(coutureCatalog, 'casual-outerwear', 'Sweater Full Sleeves'), ref: ['couture', 'casual-outerwear', 'Sweater Full Sleeves'] },
     tariffHref: '/pricing/#casual-outerwear',
     tariffLabel: 'View couture tariffs',
     tariffPreview: { catalogId: 'couture', groupId: 'casual-outerwear' },
@@ -156,7 +156,7 @@ export const serviceEntries: readonly ServiceEntry[] = [
     imagePosition: '55% 50%',
     imageAlt:
       'Silk sarees, a lehenga and a sherwani styled on the Vanzoo premium organic dryclean display',
-    from: { amount: amountOf(coutureCatalog, 'traditional-ethnic', 'Kurta') },
+    from: { amount: amountOf(coutureCatalog, 'traditional-ethnic', 'Kurta'), ref: ['couture', 'traditional-ethnic', 'Kurta'] },
     tariffHref: '/pricing/#traditional-ethnic',
     tariffLabel: 'View ethnic wear tariffs',
     tariffPreview: { catalogId: 'couture', groupId: 'traditional-ethnic' },
@@ -184,7 +184,7 @@ export const serviceEntries: readonly ServiceEntry[] = [
     imagePosition: '62% 50%',
     imageAlt:
       'Cleaned sneakers, loafers and boots with shoe-care products on a Vanzoo display',
-    from: { amount: amountOf(coutureCatalog, 'footwear', 'Sports Shoes') },
+    from: { amount: amountOf(coutureCatalog, 'footwear', 'Sports Shoes'), ref: ['couture', 'footwear', 'Sports Shoes'] },
     tariffHref: '/pricing/#footwear',
     tariffLabel: 'View footwear tariffs',
     tariffPreview: { catalogId: 'couture', groupId: 'footwear' },
@@ -210,7 +210,7 @@ export const serviceEntries: readonly ServiceEntry[] = [
     image: '/images/service-shoes-bags-accessories.jpg',
     imageAlt:
       'Leather brogues and a tan leather handbag cleaned and conditioned by Vanzoo luxury accessory care',
-    from: { amount: amountOf(coutureCatalog, 'accessories', 'Leather Handbag') },
+    from: { amount: amountOf(coutureCatalog, 'accessories', 'Leather Handbag'), ref: ['couture', 'accessories', 'Leather Handbag'] },
     tariffHref: '/pricing/#accessories',
     tariffLabel: 'View accessory tariffs',
     tariffPreview: { catalogId: 'couture', groupId: 'accessories' },
@@ -236,7 +236,7 @@ export const serviceEntries: readonly ServiceEntry[] = [
     imagePosition: '55% 50%',
     imageAlt:
       'Soft toys and a baby stroller cared for by Vanzoo, styled in the Vanzoo store',
-    from: { amount: amountOf(coutureCatalog, 'accessories', 'Soft Toy') },
+    from: { amount: amountOf(coutureCatalog, 'accessories', 'Soft Toy'), ref: ['couture', 'accessories', 'Soft Toy'] },
     tariffHref: '/pricing/#accessories',
     tariffLabel: 'View accessory tariffs',
     tariffPreview: { catalogId: 'couture', groupId: 'accessories' },
@@ -263,7 +263,7 @@ export const serviceEntries: readonly ServiceEntry[] = [
     imageAlt:
       'Vanzoo team member vacuum-cleaning floor-length green curtains in a living room',
     from: {
-      amount: amountOf(coutureCatalog, 'home-textiles', 'Curtain (per panel)'),
+      amount: amountOf(coutureCatalog, 'home-textiles', 'Curtain (per panel)'), ref: ['couture', 'home-textiles', 'Curtain (per panel)'],
       note: 'per panel',
     },
     tariffHref: '/pricing/#home-textiles',
@@ -290,7 +290,7 @@ export const serviceEntries: readonly ServiceEntry[] = [
     imageAlt:
       'A rolled and a laid-out handknotted carpet, cleaned by Vanzoo',
     from: {
-      amount: amountOf(coutureCatalog, 'home-textiles', 'Carpet (per Sqft)'),
+      amount: amountOf(coutureCatalog, 'home-textiles', 'Carpet (per Sqft)'), ref: ['couture', 'home-textiles', 'Carpet (per Sqft)'],
       note: 'per sqft',
     },
     tariffHref: '/pricing/#home-textiles',
@@ -317,7 +317,7 @@ export const serviceEntries: readonly ServiceEntry[] = [
     imagePosition: '55% 50%',
     imageAlt:
       'Blankets and bed linen in Vanzoo green packaging beside a folded throw',
-    from: { amount: amountOf(coutureCatalog, 'home-textiles', 'Single Bedsheet') },
+    from: { amount: amountOf(coutureCatalog, 'home-textiles', 'Single Bedsheet'), ref: ['couture', 'home-textiles', 'Single Bedsheet'] },
     tariffHref: '/pricing/#home-textiles',
     tariffLabel: 'View blanket, quilt & home textile tariffs',
     tariffPreview: { catalogId: 'couture', groupId: 'home-textiles' },
@@ -341,7 +341,7 @@ export const serviceEntries: readonly ServiceEntry[] = [
     image: '/images/vanzoo/service-steam-iron.jpg',
     imageAlt:
       'Vanzoo team member steam-ironing a shirt at the Vanzoo pressing station',
-    from: { amount: amountOf(steamIronCatalog, 'everyday-wear', 'Jeans') },
+    from: { amount: amountOf(steamIronCatalog, 'everyday-wear', 'Jeans'), ref: ['steam-iron', 'everyday-wear', 'Jeans'] },
     tariffHref: '/pricing/#steam-iron-tariffs',
     tariffLabel: 'View steam iron tariffs',
     tariffPreview: { catalogId: 'steam' },

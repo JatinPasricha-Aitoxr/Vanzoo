@@ -8,8 +8,7 @@ import { areaPageFor } from '@/content/areas';
 import { categorySlug } from '@/content/blog';
 import { allPosts, categoriesOf } from '@/cms/blogStore';
 import { landingPages } from '@/content/landing';
-import { productEntries } from '@/content/products';
-import { serviceEntries } from '@/content/services';
+import { getProducts, getServices } from '@/cms/content';
 import { breadcrumbSchema, buildMetadata } from '@/lib/seo';
 import { areaGroups } from '@/lib/site';
 
@@ -34,6 +33,7 @@ type Group = { heading: string; links: readonly LinkItem[] };
  */
 export default async function SiteMapPage() {
   const posts = await allPosts();
+  const [serviceEntries, productEntries] = await Promise.all([getServices(), getProducts()]);
   const categories = categoriesOf(posts);
   const groups: Group[] = [
     {

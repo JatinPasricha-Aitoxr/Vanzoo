@@ -13,27 +13,25 @@ import { VanzooProcess } from '@/components/VanzooProcess';
 import { TariffGrid } from '@/components/TariffGrid';
 import { RevealGroup, Reveal } from '@/components/ui/Reveal';
 import { Section, SectionHeading } from '@/components/ui/Section';
-import { coutureCatalog, steamIronCatalog, type TariffCatalog } from '@/content/pricing';
-import {
-  getService,
-  relatedServices,
-  serviceEntries,
-  type ServiceEntry,
-} from '@/content/services';
+import { getCatalogs, getProducts, getService, getServices, relatedOfServices } from '@/cms/content';
+import { productHrefs, type Catalogs } from '@/cms/contentApply';
+import type { TariffCatalog } from '@/content/pricing';
+import { serviceEntries, type ServiceEntry } from '@/content/services';
 import { breadcrumbSchema, buildMetadata, serviceSchema } from '@/lib/seo';
 import { links } from '@/lib/site';
 
 type Params = { params: { slug: string } };
 
-/** All twelve services are static; an unknown slug is a 404, not a runtime render. */
-export const dynamicParams = false;
+/** Built-in services are prebuilt; services added in the CMS render on first request, then are cached. */
+export const dynamicParams = true;
+export const revalidate = 300;
 
 export function generateStaticParams() {
   return serviceEntries.map((service) => ({ slug: service.id }));
 }
 
 export async function generateMetadata({ params }: Params) {
-  const service = getService(params.slug);
+  const service = await getService(params.slug);
   if (!service) return {};
 
   return withSeo(buildMetadata({
@@ -48,23 +46,23 @@ export async function generateMetadata({ params }: Params) {
 /** Narrows a full tariff catalogue to the one group (or all groups) a service
  *  wants to preview, so the same TariffGrid the tariff pages use — full "Add to
  *  Cart" cards included — can render just the rows relevant here. */
-function previewCatalog(preview: NonNullable<ServiceEntry['tariffPreview']>): TariffCatalog {
-  const source = preview.catalogId === 'couture' ? coutureCatalog : steamIronCatalog;
+function previewCatalog(preview: NonNullable<ServiceEntry['tariffPreview']>, catalogs: Catalogs): TariffCatalog {
+  const source = preview.catalogId === 'couture' ? catalogs.couture : catalogs.steam;
   if (!preview.groupId) return source;
   const groups = source.groups.filter((group) => group.id === preview.groupId);
   return { ...source, groups };
 }
 
-export default function ServiceDetailPage({ params }: Params) {
-  const service = getService(params.slug);
+export default async function ServiceDetailPage({ params }: Params) {
+  const [service, services, catalogs, products] = await Promise.all([getService(params.slug), getServices(), getCatalogs(), getProducts()]);
   if (!service) notFound();
 
   const crumbs = [
     { name: 'Services', href: '/services/' },
     { name: service.title, href: `/services/${service.id}/` },
   ];
-  const related = relatedServices(service);
-  const tariffTable = service.tariffPreview ? previewCatalog(service.tariffPreview) : null;
+  const related = relatedOfServices(services, service);
+  const tariffTable = service.tariffPreview ? previewCatalog(service.tariffPreview, catalogs) : null;
 
   return (
     <>
@@ -169,7 +167,7 @@ export default function ServiceDetailPage({ params }: Params) {
             intro="Add what you need to your cart and send us the list — we'll confirm the quote and collect from your door, free, anywhere in Gurgaon."
           />
           <div className="mt-10">
-            <TariffGrid catalog={tariffTable} />
+            <TariffGrid catalog={tariffTable} productLinks={productHrefs(products)} />
           </div>
           <p className="mt-10 text-sm text-neutral-body">
             Looking for the complete list? See the{' '}

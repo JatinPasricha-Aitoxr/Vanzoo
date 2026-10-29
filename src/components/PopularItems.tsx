@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { formatPrice } from '@/content/pricing';
-import { getProduct, tariffRowFor } from '@/content/products';
+import { getCatalogs, getProducts, rowFor } from '@/cms/content';
 import { RevealGroup } from './ui/Reveal';
 
 /**
@@ -9,13 +9,14 @@ import { RevealGroup } from './ui/Reveal';
  * product page. Shared by the locality pages and the "best dry cleaning"
  * landing pages.
  */
-export function PopularItems({ productIds }: { productIds: readonly string[] }) {
-  const products = productIds.flatMap((id) => getProduct(id) ?? []);
+export async function PopularItems({ productIds }: { productIds: readonly string[] }) {
+  const [all, catalogs] = await Promise.all([getProducts(), getCatalogs()]);
+  const products = productIds.flatMap((id) => all.find((p) => p.id === id) ?? []);
 
   return (
     <RevealGroup as="ul" step={60} className="grid grid-cols-2 gap-5 md:grid-cols-3 lg:grid-cols-6">
       {products.map((product) => {
-        const row = tariffRowFor(product.services[0]);
+        const row = rowFor(catalogs, product.services[0]);
         return (
           <li key={product.id}>
             <Link

@@ -13,7 +13,8 @@ import { VanzooProcess } from '@/components/VanzooProcess';
 import { ServiceCard } from '@/components/ServiceCard';
 import { Reveal, RevealGroup } from '@/components/ui/Reveal';
 import { Section, SectionHeading } from '@/components/ui/Section';
-import { areaEntries, areaPageFor, getArea } from '@/content/areas';
+import { getArea } from '@/cms/content';
+import { areaEntries, areaPageFor } from '@/content/areas';
 import { sharedProcess } from '@/content/productCare';
 import { getService } from '@/content/services';
 import { breadcrumbSchema, buildMetadata, faqSchema, localBusinessSchema } from '@/lib/seo';
@@ -22,13 +23,14 @@ import { links, site, stores } from '@/lib/site';
 type Params = { params: { slug: string } };
 
 export const dynamicParams = false;
+export const revalidate = 300;
 
 export function generateStaticParams() {
   return areaEntries.map((area) => ({ slug: area.id }));
 }
 
 export async function generateMetadata({ params }: Params) {
-  const area = getArea(params.slug);
+  const area = await getArea(params.slug);
   if (!area) return {};
   return withSeo(buildMetadata({
     title: area.metaTitle,
@@ -39,8 +41,8 @@ export async function generateMetadata({ params }: Params) {
   }));
 }
 
-export default function AreaPage({ params }: Params) {
-  const area = getArea(params.slug);
+export default async function AreaPage({ params }: Params) {
+  const area = await getArea(params.slug);
   if (!area) notFound();
 
   const crumbs = [

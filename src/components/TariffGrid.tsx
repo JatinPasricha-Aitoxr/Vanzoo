@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useRef, useState } from 'react';
+import { createContext, useContext, useEffect, useRef, useState } from 'react';
 import { useTariffSearch } from './TariffSearchContext';
 import { WhatsAppPrice } from './WhatsAppPrice';
 import { matchesQuery } from '@/lib/tariffSearch';
@@ -13,7 +13,6 @@ import {
   type TariffGroup,
   type TariffRow, formatPrice,
 } from '@/content/pricing';
-import { productForTariffRow } from '@/content/products';
 import { useCart } from '@/lib/cart';
 import { cn } from '@/lib/cn';
 
@@ -33,7 +32,18 @@ import { cn } from '@/lib/cn';
  * just that service's rows, and a one-chip nav with nothing to switch between
  * is clutter, not navigation.
  */
-export function TariffGrid({ catalog, searchable = false }: { catalog: TariffCatalog; searchable?: boolean }) {
+/** Garment page links (`catalogId|groupId|item` → href), supplied by the server page. */
+const ProductLinks = createContext<Record<string, string>>({});
+
+export function TariffGrid({ catalog, searchable = false, productLinks = {} }: { catalog: TariffCatalog; searchable?: boolean; productLinks?: Record<string, string> }) {
+  return (
+    <ProductLinks.Provider value={productLinks}>
+      <TariffGridInner catalog={catalog} searchable={searchable} />
+    </ProductLinks.Provider>
+  );
+}
+
+function TariffGridInner({ catalog, searchable = false }: { catalog: TariffCatalog; searchable?: boolean }) {
   const showNav = catalog.groups.length > 1;
   const shared = useTariffSearch();
   const [localQuery, setLocalQuery] = useState('');
@@ -209,8 +219,7 @@ function TariffCard({
   const { add, setQuantity, lines } = useCart();
   const id = lineId(catalog.id, groupId, row.item);
   const inCart = lines.find((line) => line.id === id)?.quantity ?? 0;
-  const product = productForTariffRow(catalog.id, groupId, row.item);
-  const productHref = product ? `/products/${product.id}/` : undefined;
+  const productHref = useContext(ProductLinks)[`${catalog.id}|${groupId}|${row.item}`];
 
   return (
     <Reveal

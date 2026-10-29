@@ -23,6 +23,8 @@ import {
   VisitStoreSection,
 } from './homeSections';
 import type { Post } from '@/content/blog';
+import type { Faq } from '@/content/marketing';
+import type { ServiceEntry } from '@/content/services';
 import { Cta, ContactInfo, FaqCustom, FeatureGrid, PriceList, RichText, Testimonials, Video } from './marketingWidgets';
 import type { Block } from './schema';
 
@@ -31,7 +33,7 @@ import type { Block } from './schema';
  * render on the public (server) page and inside the editor canvas (client).
  */
 type P = Record<string, any>;
-type Renderer = (props: P, ctx: { children?: ReactNode; block: Block; posts?: Post[] }) => ReactNode;
+type Renderer = (props: P, ctx: { children?: ReactNode; block: Block; posts?: Post[]; services?: readonly ServiceEntry[]; faqs?: readonly Faq[] }) => ReactNode;
 
 const SIZE_CLASS: Record<string, string> = {
   'display-xl': 'text-display-xl',
@@ -123,7 +125,7 @@ export const WIDGET_COMPONENTS: Record<string, Renderer> = {
   ),
   'trust-strip': () => <TrustStrip />,
   'why-choose': () => <WhyChoosePillars />,
-  'services-row': (p) => <ServicesRowSection eyebrow={p.eyebrow} title={p.title} intro={p.intro} />,
+  'services-row': (p, ctx) => <ServicesRowSection eyebrow={p.eyebrow} title={p.title} intro={p.intro} services={ctx.services} />,
   'visit-store': (p) => <VisitStoreSection {...(p as Parameters<typeof VisitStoreSection>[0])} />,
   process: (p) => <VanzooProcess id="how-it-works" eyebrow={p.eyebrow} heading={p.heading} intro={p.intro} />,
   personas: (p) => <PersonasSection eyebrow={p.eyebrow} title={p.title} intro={p.intro} />,
@@ -131,7 +133,7 @@ export const WIDGET_COMPONENTS: Record<string, Renderer> = {
   'we-care': () => <WeCareBanner />,
   areas: () => <AreasSection />,
   'blog-preview': (p, ctx) => <BlogPreviewSection eyebrow={p.eyebrow} title={p.title} count={p.count} posts={ctx.posts} />,
-  faq: (p) => <FaqSection title={p.title} showMascot={p.showMascot} />,
+  faq: (p, ctx) => <FaqSection title={p.title} showMascot={p.showMascot} faqs={ctx.faqs} />,
   enquiry: (p) => <EnquirySection eyebrow={p.eyebrow} title={p.title} />,
   guarantee: () => <GuaranteeSection />,
   'app-promo': () => <AppPromoSection />,

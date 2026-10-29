@@ -66,7 +66,7 @@ export function Inspector({ block, device, onChange, onDelete, onDuplicate, onSa
   );
 }
 
-function FieldInput({ field, value, onChange }: { field: Field; value: unknown; onChange: (v: unknown) => void }) {
+export function FieldInput({ field, value, onChange }: { field: Field; value: unknown; onChange: (v: unknown) => void }) {
   const [picking, setPicking] = useState(false);
   const id = `f-${field.key}`;
   const v = value ?? '';
@@ -99,6 +99,7 @@ function FieldInput({ field, value, onChange }: { field: Field; value: unknown; 
           {picking ? <MediaPickerModal onClose={() => setPicking(false)} onPick={(m) => onChange(m.url)} /> : null}
         </div>
       ) : null}
+      {field.type === 'lines' ? <textarea id={id} rows={5} className={input} value={Array.isArray(value) ? (value as string[]).join('\n') : ''} onChange={(e) => onChange(e.target.value.split('\n'))} /> : null}
       {field.type === 'list' ? <ListField field={field} value={value} onChange={onChange} /> : null}
       {field.hint ? <p className="mt-1 text-xs text-[#6b7a75]">{field.hint}</p> : null}
     </div>

@@ -5,8 +5,8 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { WhatsAppPrice } from './WhatsAppPrice';
 import { Reveal } from './ui/Reveal';
-import { formatPrice, lineId } from '@/content/pricing';
-import { tariffRowFor, type ProductEntry } from '@/content/products';
+import { formatPrice, lineId, type TariffRow } from '@/content/pricing';
+import type { ProductEntry } from '@/content/products';
 import { useCart } from '@/lib/cart';
 import { cn } from '@/lib/cn';
 
@@ -22,13 +22,13 @@ import { cn } from '@/lib/cn';
  * TariffGrid, so a variant added here and the same row added from /pricing/
  * collapse into one cart line instead of duplicating it.
  */
-export function ProductBuyBox({ product }: { product: ProductEntry }) {
+export function ProductBuyBox({ product, rows }: { product: ProductEntry; rows: readonly TariffRow[] }) {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const { add, setQuantity, lines } = useCart();
 
   const options = product.services;
   const selected = options[selectedIndex];
-  const row = tariffRowFor(selected);
+  const row = rows[selectedIndex];
   const id = lineId(selected.catalogId, selected.groupId, selected.item);
   const inCart = lines.find((line) => line.id === id)?.quantity ?? 0;
 

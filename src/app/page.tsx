@@ -4,8 +4,8 @@ import { RenderDoc } from '@/cms/render';
 import { pageMetadata } from '@/cms/seo';
 import { defaultHomeDoc } from '@/cms/seed';
 import { allPosts } from '@/cms/blogStore';
+import { getHomeFaqs, getServices } from '@/cms/content';
 import { getPublishedBySlug } from '@/cms/store';
-import { homeFaqs } from '@/content/marketing';
 import { faqSchema, localBusinessSchema } from '@/lib/seo';
 
 /** Published edits revalidate immediately on publish; this is a safety net. */
@@ -26,11 +26,12 @@ export default async function HomePage() {
   // The layout published from the page builder, or the built-in default if none.
   const live = await getPublishedBySlug('/');
   const doc = live?.doc ?? defaultHomeDoc();
+  const [posts, services, homeFaqs] = await Promise.all([allPosts(), getServices(), getHomeFaqs()]);
 
   return (
     <>
       <JsonLd data={[localBusinessSchema(), faqSchema(homeFaqs)]} />
-      <RenderDoc doc={doc} posts={await allPosts()} />
+      <RenderDoc doc={doc} posts={posts} services={services} faqs={homeFaqs} />
     </>
   );
 }

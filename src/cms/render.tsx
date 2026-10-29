@@ -2,6 +2,8 @@ import type { ReactNode } from 'react';
 import { cn } from '@/lib/cn';
 import { blockClass, docCss } from './css';
 import type { Post } from '@/content/blog';
+import type { Faq } from '@/content/marketing';
+import type { ServiceEntry } from '@/content/services';
 import type { Block, Doc } from './schema';
 import { WIDGET_COMPONENTS } from './widgetComponents';
 import { WIDGET_MAP } from './widgetDefs';
@@ -12,7 +14,7 @@ export type WrapFn = (block: Block, node: ReactNode) => ReactNode;
  * Renders a block tree through the approved widget components. `wrap` lets the
  * editor canvas add selection/drag affordances without changing public output.
  */
-export type RenderData = { posts?: Post[] };
+export type RenderData = { posts?: Post[]; services?: readonly ServiceEntry[]; faqs?: readonly Faq[] };
 
 export function renderBlocks(blocks: Block[], wrap?: WrapFn, data: RenderData = {}): ReactNode {
   return blocks.map((block) => {
@@ -30,7 +32,7 @@ export function renderBlocks(blocks: Block[], wrap?: WrapFn, data: RenderData = 
         className={cn(blockClass(block.id), block.className)}
         aria-label={block.ariaLabel || undefined}
       >
-        {render(props, { children, block, posts: data.posts })}
+        {render(props, { children, block, ...data })}
       </div>
     );
     return wrap ? wrap(block, node) : node;
@@ -38,12 +40,12 @@ export function renderBlocks(blocks: Block[], wrap?: WrapFn, data: RenderData = 
 }
 
 /** CSS (scoped per block) + rendered blocks. */
-export function RenderDoc({ doc, wrap, posts }: { doc: Doc; wrap?: WrapFn; posts?: Post[] }) {
+export function RenderDoc({ doc, wrap, posts, services, faqs }: { doc: Doc; wrap?: WrapFn; posts?: Post[]; services?: readonly ServiceEntry[]; faqs?: readonly Faq[] }) {
   const css = docCss(doc.blocks);
   return (
     <>
       {css ? <style dangerouslySetInnerHTML={{ __html: css }} /> : null}
-      {renderBlocks(doc.blocks, wrap, { posts })}
+      {renderBlocks(doc.blocks, wrap, { posts, services, faqs })}
     </>
   );
 }

@@ -2,8 +2,7 @@ import type { MetadataRoute } from 'next';
 import { areaEntries } from '@/content/areas';
 import { categorySlug } from '@/content/blog';
 import { allPosts, categoriesOf, inCategory as postsIn } from '@/cms/blogStore';
-import { productEntries } from '@/content/products';
-import { serviceEntries } from '@/content/services';
+import { getProducts, getServices } from '@/cms/content';
 import { getGlobalSeo } from '@/cms/seoStore';
 import { listPublishedSlugs } from '@/cms/store';
 import { SITE_URL } from '@/lib/site';
@@ -25,6 +24,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.6,
   }));
   const posts = await allPosts();
+  const [serviceEntries, productEntries] = await Promise.all([getServices(), getProducts()]);
   const categories = categoriesOf(posts);
   const newestPost = posts[0]?.updatedAt ?? new Date().toISOString();
 

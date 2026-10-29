@@ -13,7 +13,8 @@ import { ServiceCard } from '@/components/ServiceCard';
 import { RevealGroup, Reveal } from '@/components/ui/Reveal';
 import { Section, SectionHeading } from '@/components/ui/Section';
 import { hydrocarbon } from '@/content/marketing';
-import { serviceEntries, servicesIntro } from '@/content/services';
+import { getServices } from '@/cms/content';
+import { servicesIntro } from '@/content/services';
 import { breadcrumbSchema, buildMetadata, localBusinessSchema } from '@/lib/seo';
 
 const CRUMBS = [{ name: 'Services', href: '/services/' }];
@@ -29,7 +30,8 @@ export async function generateMetadata() {
 }));
 }
 
-export default function ServicesPage() {
+export default async function ServicesPage() {
+  const serviceEntries = await getServices();
   return (
     <>
       <JsonLd data={[localBusinessSchema(), breadcrumbSchema(CRUMBS)]} />

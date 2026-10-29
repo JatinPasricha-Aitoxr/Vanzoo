@@ -13,23 +13,25 @@ import { ServiceRow } from '@/components/ServiceRow';
 import { Highlight } from '@/components/ui/Highlight';
 import { Section, SectionHeading } from '@/components/ui/Section';
 import { posts } from '@/content/blog';
-import { enquiryIntro, faqIntro, heroOffer, homeFaqs } from '@/content/marketing';
+import { enquiryIntro, faqIntro, heroOffer, homeFaqs, type Faq } from '@/content/marketing';
 import { serviceEntries } from '@/content/services';
 import { links, site } from '@/lib/site';
 
 /** The homepage sections that were inline in app/page.tsx, now parameterised so the editor can change their text. */
 
-const homeServices = serviceEntries.map((entry, i) => ({
-  number: String(i + 1).padStart(2, '0'),
-  title: entry.title,
-  body: entry.body,
-  image: entry.image,
-  imageAlt: entry.imageAlt,
-  imagePosition: entry.imagePosition,
-  learnMore: { href: `/services/${entry.id}/`, label: 'Learn more' },
-}));
+const toCards = (list: readonly (typeof serviceEntries)[number][]) =>
+  list.map((entry, i) => ({
+    number: String(i + 1).padStart(2, '0'),
+    title: entry.title,
+    body: entry.body,
+    image: entry.image,
+    imageAlt: entry.imageAlt,
+    imagePosition: entry.imagePosition,
+    learnMore: { href: `/services/${entry.id}/`, label: 'Learn more' },
+  }));
 
-export function ServicesRowSection(p: { eyebrow: string; title: string; intro: string }) {
+export function ServicesRowSection(p: { eyebrow: string; title: string; intro: string; services?: readonly (typeof serviceEntries)[number][] }) {
+  const homeServices = toCards(p.services ?? serviceEntries);
   return (
     <Section tone="muted" id="services" aria-labelledby="services-heading">
       <SectionHeading id="services-heading" eyebrow={p.eyebrow} title={p.title} intro={p.intro} />
@@ -99,7 +101,7 @@ export function BlogPreviewSection(p: { eyebrow: string; title: string; count: n
   );
 }
 
-export function FaqSection(p: { title: string; showMascot: boolean }) {
+export function FaqSection(p: { title: string; showMascot: boolean; faqs?: readonly Faq[] }) {
   return (
     <Section tone="muted" id="faq" aria-labelledby="faq-heading" className="relative">
       {p.showMascot ? (
@@ -107,7 +109,7 @@ export function FaqSection(p: { title: string; showMascot: boolean }) {
       ) : null}
       <SectionHeading id="faq-heading" title={p.title} intro={faqIntro} align="center" className="mx-auto" />
       <div className="mt-12">
-        <FAQAccordion faqs={homeFaqs} groupName="home-faq" />
+        <FAQAccordion faqs={p.faqs ?? homeFaqs} groupName="home-faq" />
       </div>
     </Section>
   );

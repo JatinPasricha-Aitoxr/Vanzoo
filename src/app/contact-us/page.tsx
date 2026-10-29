@@ -6,7 +6,8 @@ import { JsonLd } from '@/components/JsonLd';
 import { PageHeader } from '@/components/Hero';
 import { Reveal } from '@/components/ui/Reveal';
 import { Section, SectionHeading } from '@/components/ui/Section';
-import { enquiryIntro, faqIntro, homeFaqs } from '@/content/marketing';
+import { getHomeFaqs } from '@/cms/content';
+import { enquiryIntro, faqIntro } from '@/content/marketing';
 import { breadcrumbSchema, buildMetadata, localBusinessSchema } from '@/lib/seo';
 import { primaryStore, site, socialLinks, stores } from '@/lib/site';
 
@@ -21,7 +22,8 @@ export async function generateMetadata() {
 }));
 }
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const homeFaqs = await getHomeFaqs();
   return (
     <>
       <JsonLd data={[localBusinessSchema(), breadcrumbSchema(CRUMBS)]} />

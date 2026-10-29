@@ -4,7 +4,8 @@ import { HydrocarbonBand } from '@/components/HydrocarbonBand';
 import { PageHeader } from '@/components/Hero';
 import { RevealGroup } from '@/components/ui/Reveal';
 import { Section } from '@/components/ui/Section';
-import { productEntries, productsIntro } from '@/content/products';
+import { getProducts } from '@/cms/content';
+import { productsIntro } from '@/content/products';
 import { withSeo } from '@/cms/withSeo';
 import { buildMetadata } from '@/lib/seo';
 
@@ -17,7 +18,8 @@ export async function generateMetadata() {
   }));
 }
 
-export default function ProductsIndexPage() {
+export default async function ProductsIndexPage() {
+  const productEntries = await getProducts();
   return (
     <>
       <PageHeader seoH1="Best & Premium Garment Dry Cleaning in Gurgaon" eyebrow="Products" title="Shop by garment" intro={productsIntro} />
