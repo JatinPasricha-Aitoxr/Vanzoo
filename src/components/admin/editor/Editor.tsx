@@ -248,6 +248,46 @@ export function Editor({ page: initialPage, initialDoc, revisions: initialRevs }
     };
   }, [save, undo, redo, duplicateSelected, copySelected, paste, deleteSelected, dirty]);
 
+  // ---- Saved sections & page templates (copies stored in the database) ----
+  type Saved = { id: number; kind: 'section' | 'page'; name: string; doc: Doc };
+  const [saved, setSaved] = useState<Saved[]>([]);
+  const loadSaved = useCallback(() => { api<{ items: Saved[] }>('/api/cms/saved').then((r) => r.items && setSaved(r.items)); }, []);
+  useEffect(() => { loadSaved(); }, [loadSaved]);
+  const saveSection = () => {
+    const b = selectedId ? findBlock(docRef.current.blocks, selectedId) : null;
+    if (!b) return;
+    const name = prompt('Name this section (e.g. “Winter offer banner”):', WIDGET_MAP[b.type]?.label ?? '');
+    if (!name) return;
+    api('/api/cms/saved', { method: 'POST', json: { kind: 'section', name, blocks: [b] } }).then((r) => { setStatus(r.error ? { tone: 'err', text: r.error } : { tone: 'ok', text: `Saved “${name}” to your sections.` }); loadSaved(); });
+  };
+  const savePageTemplate = () => {
+    if (!docRef.current.blocks.length) return setStatus({ tone: 'err', text: 'The page is empty — nothing to save.' });
+    const name = prompt('Name this page template:', page.title);
+    if (!name) return;
+    api('/api/cms/saved', { method: 'POST', json: { kind: 'page', name, blocks: docRef.current.blocks } }).then((r) => { setStatus(r.error ? { tone: 'err', text: r.error } : { tone: 'ok', text: `Saved the template “${name}”.` }); loadSaved(); });
+  };
+  const insertSaved = (s: Saved) => {
+    if (s.kind === 'page') {
+      if (docRef.current.blocks.length && !confirm(`Replace everything on this page with the “${s.name}” template? You can undo with Ctrl/⌘+Z.`)) return;
+      commit({ ...docRef.current, blocks: s.doc.blocks.map(cloneWithNewIds) });
+      setSelectedId(null);
+      return;
+    }
+    const sel = selectedId ? findBlock(docRef.current.blocks, selectedId) : null;
+    const inside = sel && WIDGET_MAP[sel.type]?.container;
+    let d = docRef.current;
+    let last: Block | null = null;
+    for (const b of s.doc.blocks) {
+      const copy = cloneWithNewIds(b);
+      if (!canPlace(d, copy, sel ? sel.id : null, inside ? 'inside' : 'after')) return setStatus({ tone: 'err', text: 'That section cannot be placed there.' });
+      d = insertBlock(d, copy, last ? last.id : sel ? sel.id : null, last ? 'after' : inside ? 'inside' : 'after');
+      last = copy;
+    }
+    commit(d);
+    if (last) setSelectedId(last.id);
+  };
+  const deleteSaved = (s: Saved) => { if (confirm(`Delete “${s.name}”? Pages already using it are not affected.`)) api('/api/cms/saved', { method: 'DELETE', json: { id: s.id } }).then(loadSaved); };
+
   const widgets = useMemo(() => WIDGETS.filter((w) => `${w.label} ${w.description} ${w.category}`.toLowerCase().includes(search.toLowerCase())), [search]);
   const addClick = (type: string) => {
     const sel = selectedId ? findBlock(doc.blocks, selectedId) : null;
@@ -302,6 +342,22 @@ export function Editor({ page: initialPage, initialDoc, revisions: initialRevs }
               <div className="p-3">
                 <input className={input} placeholder="Search widgets…" value={search} onChange={(e) => setSearch(e.target.value)} aria-label="Search widgets" />
                 <p className="mt-2 text-xs text-[#6b7a75]">Drag onto the page, or click to add after the selected item.</p>
+                <div className="mt-4">
+                  <h3 className="mb-1.5 text-xs font-bold uppercase tracking-wide text-[#51635d]">My sections &amp; templates</h3>
+                  {saved.length === 0 ? <p className="text-xs text-[#6b7a75]">Select a section on the page and choose “Save as section” to reuse it anywhere.</p> : (
+                    <ul className="space-y-1.5">
+                      {saved.map((s) => (
+                        <li key={s.id} className="flex items-center gap-1">
+                          <button type="button" onClick={() => insertSaved(s)} title={s.kind === 'page' ? 'Replace this page with the template' : 'Insert a copy of this section'} className="flex-1 truncate rounded-lg border border-[#d6dedb] bg-white px-2 py-2 text-left text-xs font-medium hover:border-[#0A5C4B] hover:bg-[#eef6f3]">
+                            <span className="mr-1.5 rounded bg-[#e6efec] px-1 py-0.5 text-[10px] font-bold uppercase text-[#0A5C4B]">{s.kind === 'page' ? 'Page' : 'Section'}</span>{s.name}
+                          </button>
+                          <button type="button" aria-label={`Delete ${s.name}`} onClick={() => deleteSaved(s)} className="rounded px-1.5 py-1 text-xs text-red-700 hover:bg-red-50">✕</button>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                  <button type="button" className={btn.ghost + ' mt-2 w-full !py-1.5 text-xs'} onClick={savePageTemplate}>Save this page as a template</button>
+                </div>
                 {(['Basic', 'Layout', 'Marketing', 'Vanzoo'] as const).map((cat) => {
                   const list = widgets.filter((w) => w.category === cat);
                   return list.length ? (
@@ -340,7 +396,7 @@ export function Editor({ page: initialPage, initialDoc, revisions: initialRevs }
         {/* Right panel */}
         <aside className="w-80 shrink-0 border-l border-[#d6dedb] bg-white" aria-label="Properties">
           {selected ? (
-            <Inspector key={selected.id} block={selected} device={device} onChange={updateBlock} onDelete={deleteSelected} onDuplicate={duplicateSelected} />
+            <Inspector key={selected.id} block={selected} device={device} onChange={updateBlock} onDelete={deleteSelected} onDuplicate={duplicateSelected} onSaveSection={saveSection} />
           ) : (
             <div className="p-5 text-sm text-[#51635d]">
               <h2 className="mb-2 text-base font-semibold text-neutral-ink">Nothing selected</h2>

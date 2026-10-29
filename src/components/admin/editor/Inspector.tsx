@@ -12,12 +12,13 @@ type Props = {
   onChange: (next: Block) => void;
   onDelete: () => void;
   onDuplicate: () => void;
+  onSaveSection?: () => void;
 };
 
 const label = 'mb-1 block text-xs font-semibold text-[#51635d]';
 
 /** Right-hand properties panel: Content, Style (per device) and Advanced. */
-export function Inspector({ block, device, onChange, onDelete, onDuplicate }: Props) {
+export function Inspector({ block, device, onChange, onDelete, onDuplicate, onSaveSection }: Props) {
   const [tab, setTab] = useState<'content' | 'style' | 'advanced'>('content');
   const def = WIDGET_MAP[block.type];
 
@@ -39,6 +40,7 @@ export function Inspector({ block, device, onChange, onDelete, onDuplicate }: Pr
         <h2 className="text-base font-semibold">{def?.label ?? block.type}</h2>
         <div className="mt-2 flex gap-2">
           <button type="button" className={btn.ghost + ' !px-2 !py-1 text-xs'} onClick={onDuplicate}>Duplicate</button>
+          {onSaveSection ? <button type="button" className={btn.ghost + ' !px-2 !py-1 text-xs'} onClick={onSaveSection}>Save as section</button> : null}
           <button type="button" className={btn.danger + ' !px-2 !py-1 text-xs'} onClick={onDelete}>Delete</button>
         </div>
       </div>
